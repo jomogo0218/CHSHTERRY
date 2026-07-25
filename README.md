@@ -1,6 +1,6 @@
-# 嘉華中學足球無人機俱樂部 · 選型手冊
+# 嘉華中學足球無人機俱樂部 · 配備手冊
 
-FAI F9A-B（20／22cm）備賽選型總覽。
+FAI F9A-B（20／22cm）備賽配備總覽。
 
 **線上版：** https://jomogo0218.github.io/Drone-Soccer/
 
