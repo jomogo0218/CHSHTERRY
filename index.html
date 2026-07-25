@@ -6,20 +6,38 @@
 <title>嘉華中學足球無人機俱樂部 · 選型手冊 · FAI F9A-B</title>
 <style>
   :root{
-    --bg:#0f1115; --card:#191d25; --card2:#12151b;
-    --text:#f3f5f9; --muted:#98a2b3; --line:#2b313d;
-    --accent:#4db3ef; --ok:#5cd6a0; --warn:#ffbe5c; --bad:#ff8b8b;
+    --bg:#0a1220; --card:rgba(18,28,42,.88); --card2:rgba(10,18,30,.92);
+    --text:#f3f5f9; --muted:#9eb0c4; --line:rgba(90,120,160,.28);
+    --accent:#4db3ef; --gold:#f0a43a; --ok:#5cd6a0; --warn:#ffbe5c; --bad:#ff8b8b;
     --header-h:120px;
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
   body{
-    margin:0; background:var(--bg); color:var(--text);
+    margin:0; color:var(--text);
     font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
     font-size:18px; line-height:1.6;
     -webkit-font-smoothing:antialiased;
+    background:
+      radial-gradient(ellipse 90% 55% at 85% -5%, rgba(77,179,239,.22), transparent 58%),
+      radial-gradient(ellipse 55% 40% at 8% 12%, rgba(240,164,58,.10), transparent 52%),
+      radial-gradient(ellipse 70% 50% at 50% 100%, rgba(20,60,110,.35), transparent 60%),
+      linear-gradient(180deg, #07101c 0%, #0a1220 38%, #0c1422 100%);
+    background-attachment:fixed;
+    min-height:100vh;
   }
-  .wrap{max-width:1160px;margin:0 auto;padding:0 24px 88px}
+  .bg-logo{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background:
+      url("assets/brand/chia-hwa-drone-team.png") center 12% / min(78vw,720px) no-repeat;
+    opacity:.11;
+    filter:saturate(1.15) contrast(1.05);
+  }
+  .bg-logo::after{
+    content:""; position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(7,16,28,.15) 0%, rgba(7,16,28,.55) 42%, rgba(7,16,28,.92) 100%);
+  }
+  .wrap{position:relative;z-index:1;max-width:1160px;margin:0 auto;padding:0 24px 88px}
   .skip-link{
     position:fixed;left:16px;top:-80px;z-index:100;
     padding:9px 14px;border-radius:8px;background:var(--text);color:var(--bg);
@@ -29,23 +47,43 @@
 
   header{
     position:sticky;top:0;z-index:20;
-    background:rgba(15,17,21,.92);
+    background:rgba(7,16,28,.78);
     border-bottom:1px solid var(--line);
     padding:12px 0 0;
-    backdrop-filter:blur(16px) saturate(1.2);
-    box-shadow:0 8px 28px rgba(0,0,0,.22);
+    backdrop-filter:blur(18px) saturate(1.25);
+    box-shadow:0 8px 28px rgba(0,0,0,.28);
   }
   header .wrap{padding-bottom:0}
   .brand{
     display:flex;align-items:center;gap:12px;margin-bottom:10px;min-width:0;
   }
   .brand img{
-    flex:0 0 auto;height:52px;width:auto;display:block;
-    filter:drop-shadow(0 2px 8px rgba(0,0,0,.35));
+    flex:0 0 auto;height:56px;width:auto;display:block;
+    filter:drop-shadow(0 4px 14px rgba(0,0,0,.45));
   }
   .brand .brand-text{min-width:0;display:flex;flex-direction:column;gap:2px}
   .brand strong{font-size:17px;letter-spacing:.02em;line-height:1.25}
   .brand span{font-size:13px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+  .hero-brand{
+    display:grid;grid-template-columns:1fr;gap:22px;align-items:center;
+    margin:28px 0 8px;padding:22px 0 8px;
+  }
+  @media(min-width:760px){
+    .hero-brand{grid-template-columns:minmax(180px,280px) 1fr;gap:36px;margin-top:36px}
+  }
+  .hero-brand .crest{
+    margin:0 auto;width:min(72vw,280px);
+    filter:drop-shadow(0 12px 36px rgba(0,0,0,.45));
+    animation:crest-in .7s ease-out both;
+  }
+  @keyframes crest-in{from{opacity:0;transform:translateY(10px) scale(.96)}to{opacity:1;transform:none}}
+  .hero-brand .eyebrow{
+    margin:0 0 8px;font-size:14px;font-weight:800;letter-spacing:.08em;
+    color:var(--accent);text-transform:uppercase;
+  }
+  .hero-brand h1{margin:0 0 12px}
+  .hero-brand .lead{margin-bottom:0}
   header nav{
     display:flex;gap:7px;overflow-x:auto;padding-bottom:11px;
     scrollbar-width:none;overscroll-behavior-inline:contain;
@@ -245,9 +283,12 @@
     .wrap{padding-left:14px;padding-right:14px;padding-bottom:72px}
     header{padding-top:9px}
     .brand{gap:10px;margin-bottom:8px}
-    .brand img{height:42px}
+    .brand img{height:46px}
     .brand strong{font-size:14px}
     .brand span{font-size:11px;white-space:normal;line-height:1.35}
+    .hero-brand{margin-top:18px;padding-top:12px;gap:14px}
+    .hero-brand .crest{width:min(58vw,210px)}
+    .bg-logo{opacity:.09;background-size:min(92vw,420px);background-position:center 8%}
     header nav{gap:6px;padding-bottom:9px}
     header nav button{padding:6px 12px;font-size:13px}
     h1{margin-top:30px;font-size:30px}
@@ -277,11 +318,13 @@
 
   @media(prefers-reduced-motion:reduce){
     *,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}
+    .hero-brand .crest{animation:none}
   }
 </style>
 </head>
 <body>
 
+<div class="bg-logo" aria-hidden="true"></div>
 <a class="skip-link" href="#home">跳至主要內容</a>
 <header>
   <div class="wrap">
@@ -309,8 +352,14 @@
 
 <!-- ============ 總覽 ============ -->
 <section id="home" class="on">
-  <h1>嘉華中學足球無人機選型總覽</h1>
-  <p class="lead">嘉華中學足球無人機俱樂部備賽手冊：選型 → 組裝秤重 → LED／飛控 → 檢錄上場。數字來自原廠測功與 FAI 2026 規則。</p>
+  <div class="hero-brand">
+    <img class="crest" src="assets/brand/chia-hwa-drone-team.png" alt="嘉華中學足球無人機俱樂部 logo" width="1024" height="558" />
+    <div>
+      <p class="eyebrow">CHIA HWA SENIOR HIGH · DRONE TEAM</p>
+      <h1>嘉華中學足球無人機選型總覽</h1>
+      <p class="lead">嘉華中學足球無人機俱樂部備賽手冊：選型 → 組裝秤重 → LED／飛控 → 檢錄上場。數字來自原廠測功與 FAI 2026 規則。</p>
+    </div>
+  </div>
 
   <div class="note info">
     <b>一句話結論：</b>攻擊用 <b>火神 VCI 1507</b> 或 DYH1408 ＋ <b>4S 高 C</b>（本隊有 OVONIC 960／1060、Tattu 球機 1100、Tattu V5 850）；
