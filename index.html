@@ -30,7 +30,7 @@
   .bg-logo{
     position:fixed; inset:0; z-index:0; pointer-events:none;
     background:
-      url("assets/brand/chia-hwa-drone-team.png?v=5") center 10% / auto min(62vh,560px) no-repeat;
+      url("assets/brand/chia-hwa-drone-team.png?v=6") center 10% / min(78vw,720px) auto no-repeat;
     opacity:.12;
     filter:saturate(1.2) contrast(1.08);
   }
@@ -59,7 +59,7 @@
     display:flex;align-items:center;gap:12px;margin-bottom:10px;min-width:0;
   }
   .brand img{
-    flex:0 0 auto;width:56px;height:56px;display:block;
+    flex:0 0 auto;width:64px;height:36px;display:block;
     object-fit:contain;object-position:center;
     filter:drop-shadow(0 4px 14px rgba(0,0,0,.45));
   }
@@ -73,14 +73,14 @@
   }
   @media(min-width:760px){
     .hero-brand{
-      grid-template-columns:minmax(220px,300px) 1fr;gap:36px;margin-top:36px;
+      grid-template-columns:minmax(260px,420px) 1fr;gap:36px;margin-top:36px;
       justify-items:stretch;
     }
-    .hero-brand .crest-wrap{justify-self:center}
+    .hero-brand .crest-wrap{justify-self:center;width:100%}
   }
   .hero-brand .crest-wrap{
-    width:min(72vw,280px);max-width:100%;
-    aspect-ratio:1 / 1;
+    width:min(88vw,420px);max-width:100%;
+    aspect-ratio:1024 / 559;
     display:grid;place-items:center;
   }
   .hero-brand .crest{
@@ -296,12 +296,12 @@
     .wrap{padding-left:14px;padding-right:14px;padding-bottom:72px}
     header{padding-top:9px}
     .brand{gap:10px;margin-bottom:8px}
-    .brand img{width:46px;height:46px}
+    .brand img{width:52px;height:28px}
     .brand strong{font-size:14px}
     .brand span{font-size:11px;white-space:normal;line-height:1.35}
     .hero-brand{margin-top:18px;padding-top:12px;gap:14px}
-    .hero-brand .crest-wrap{width:min(70vw,240px)}
-    .bg-logo{opacity:.09;background-size:auto min(48vh,360px);background-position:center 6%}
+    .hero-brand .crest-wrap{width:min(92vw,360px)}
+    .bg-logo{opacity:.09;background-size:min(92vw,420px) auto;background-position:center 8%}
     header nav{gap:6px;padding-bottom:9px}
     header nav button{padding:6px 12px;font-size:13px}
     h1{margin-top:30px;font-size:30px}
@@ -342,7 +342,7 @@
 <header>
   <div class="wrap">
     <div class="brand">
-      <img src="assets/brand/chia-hwa-drone-team.png?v=5" alt="嘉華中學足球無人機俱樂部 DRONE TEAM" width="523" height="504" />
+      <img src="assets/brand/chia-hwa-drone-team.png?v=6" alt="嘉華中學足球無人機俱樂部 DRONE TEAM" width="1024" height="559" />
       <div class="brand-text">
         <strong>嘉華中學足球無人機俱樂部 · 選型手冊</strong>
         <span>FAI F9A-B · 20／22cm · ≤300g · ≤4S／17V · 槳 ≤76mm</span>
@@ -367,7 +367,7 @@
 <section id="home" class="on">
   <div class="hero-brand">
     <div class="crest-wrap">
-      <img class="crest" src="assets/brand/chia-hwa-drone-team.png?v=5" alt="嘉華中學足球無人機俱樂部 logo" width="523" height="504" />
+      <img class="crest" src="assets/brand/chia-hwa-drone-team.png?v=6" alt="嘉華中學足球無人機俱樂部 logo" width="1024" height="559" />
     </div>
     <div>
       <p class="eyebrow">CHIA HWA SENIOR HIGH · DRONE TEAM</p>
