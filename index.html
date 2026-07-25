@@ -1,0 +1,2012 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>足球無人機選型總覽 · FAI F9A-B（20／22cm）</title>
+<style>
+  :root{
+    --bg:#0f1115; --card:#191d25; --card2:#12151b;
+    --text:#f3f5f9; --muted:#98a2b3; --line:#2b313d;
+    --accent:#6ea8fe; --ok:#5cd6a0; --warn:#ffbe5c; --bad:#ff8b8b;
+    --header-h:112px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+    font-size:18px; line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1160px;margin:0 auto;padding:0 24px 88px}
+  .skip-link{
+    position:fixed;left:16px;top:-80px;z-index:100;
+    padding:9px 14px;border-radius:8px;background:var(--text);color:var(--bg);
+    font-size:14px;font-weight:800;transition:top .2s;
+  }
+  .skip-link:focus{top:12px}
+
+  header{
+    position:sticky;top:0;z-index:20;
+    background:rgba(15,17,21,.92);
+    border-bottom:1px solid var(--line);
+    padding:12px 0 0;
+    backdrop-filter:blur(16px) saturate(1.2);
+    box-shadow:0 8px 28px rgba(0,0,0,.22);
+  }
+  header .wrap{padding-bottom:0}
+  .brand{display:flex;align-items:baseline;gap:12px;margin-bottom:9px;white-space:nowrap}
+  .brand strong{font-size:17px;letter-spacing:.02em}
+  .brand span{font-size:13px;color:var(--muted);overflow:hidden;text-overflow:ellipsis}
+  header nav{
+    display:flex;gap:7px;overflow-x:auto;padding-bottom:11px;
+    scrollbar-width:none;overscroll-behavior-inline:contain;
+  }
+  header nav::-webkit-scrollbar{display:none}
+  header nav button{
+    flex:0 0 auto; cursor:pointer;
+    background:transparent;color:var(--muted);
+    border:1px solid var(--line); border-radius:999px;
+    padding:7px 15px;font-size:14px;font-weight:700;
+    font-family:inherit;transition:background .18s,color .18s,border-color .18s,transform .18s;
+  }
+  header nav button:hover{color:var(--text);border-color:#4a5568;transform:translateY(-1px)}
+  header nav button.on{background:var(--accent);color:#07111f;border-color:var(--accent)}
+  #page-progress{
+    position:absolute;left:0;bottom:-1px;width:0;height:2px;
+    background:var(--accent);transition:width .08s linear;pointer-events:none;
+  }
+
+  h1{font-size:clamp(30px,4vw,42px);line-height:1.15;margin:42px 0 12px;letter-spacing:-.025em}
+  h2{font-size:24px;line-height:1.3;margin:48px 0 16px;padding-bottom:9px;border-bottom:1px solid var(--line);scroll-margin-top:var(--header-h)}
+  h2::before{content:"";display:inline-block;width:4px;height:.85em;margin-right:9px;border-radius:3px;background:var(--accent);vertical-align:-.05em}
+  h3{font-size:20px;margin:30px 0 11px;scroll-margin-top:var(--header-h)}
+  .lead{font-size:19px;color:var(--muted);margin:0 0 8px}
+  p{margin:0 0 12px}
+  section{display:none}
+  section.on{display:block;animation:section-in .22s ease-out}
+  @keyframes section-in{from{opacity:.4;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+  .cards{display:grid;grid-template-columns:1fr;gap:16px;margin:20px 0}
+  @media(min-width:760px){
+    .cards.c2{grid-template-columns:1fr 1fr}
+    .cards.c3{grid-template-columns:repeat(3,1fr)}
+  }
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;
+    transition:border-color .2s,transform .2s,background .2s;
+  }
+  .card:hover{border-color:#3b4555;background:#1b2029}
+  .card h4{margin:0 0 10px;font-size:20px}
+  .card p{font-size:17px;color:var(--muted);margin:0}
+  .card p.solid{color:var(--text)}
+
+  .hero{border-left:3px solid var(--accent)}
+  .tag{display:inline-block;font-size:14px;font-weight:700;color:var(--accent);letter-spacing:.03em;margin-bottom:8px}
+
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}
+  .stat{background:var(--card2);border:1px solid rgba(255,255,255,.035);border-radius:10px;padding:12px 8px;text-align:center}
+  .stat b{display:block;font-size:24px;line-height:1.2;font-variant-numeric:tabular-nums;font-weight:800}
+  .stat span{color:var(--muted);font-size:15px}
+
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:18px}
+  th,td{padding:12px;border-bottom:1px solid var(--line);text-align:left}
+  th{color:#c2cad6;font-size:15px;font-weight:700;white-space:nowrap;background:var(--card2)}
+  td.n,th.n{
+    text-align:right;
+    font-variant-numeric:tabular-nums;
+    font-size:19px;
+    font-weight:700;
+    letter-spacing:.01em;
+  }
+  th.n{font-size:16px;font-weight:600}
+  tbody tr:nth-child(odd){background:rgba(255,255,255,.018)}
+  tbody tr:hover{background:rgba(110,168,254,.055)}
+  .wide{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin:14px 0}
+  .wide table{margin:0}
+  .wide th{position:sticky;top:0;z-index:1}
+  code{font-size:16px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+
+  .note{border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:18px 0;font-size:17px;background:var(--card)}
+  .note.info{border-left:3px solid var(--accent)}
+  .note.warn{border-left:3px solid var(--warn)}
+  .note.bad{border-left:3px solid var(--bad)}
+  .note b{color:var(--text)}
+
+  .ok{color:var(--ok);font-weight:700}
+  .no{color:var(--bad);font-weight:700}
+  .muted{color:var(--muted)}
+  small{font-size:15px;color:var(--muted);display:block;margin-top:6px}
+
+  .prod{display:flex;flex-direction:column;gap:10px;margin:20px 0}
+  .prod .card{
+    display:flex;flex-direction:row;align-items:stretch;gap:0;
+    padding:0;overflow:hidden;
+  }
+  .prod .card > a.thumb,
+  .prod .card > img{
+    flex:0 0 88px;width:88px;height:88px;align-self:center;margin:12px 0 12px 12px;
+    object-fit:contain;background:#fff;border-radius:8px;border:1px solid var(--line);
+  }
+  .prod .card > a.thumb{display:block;overflow:hidden}
+  .prod .card > a.thumb img{width:100%;height:100%;object-fit:contain;display:block;background:#fff}
+  .prod .body{flex:1;min-width:0;padding:12px 16px 12px 14px}
+  .prod .body h4{font-size:18px;margin:0 0 6px;line-height:1.3}
+  .prod .stats{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:8px 0}
+  .prod .stat{padding:8px 4px}
+  .prod .stat b{font-size:22px}
+  .prod .stat span{font-size:14px}
+  .prod .body p{font-size:17px;margin:0}
+  @media(max-width:520px){
+    .prod .card > a.thumb,
+    .prod .card > img{flex-basis:72px;width:72px;height:72px;margin:10px 0 10px 10px}
+    .prod .stats{grid-template-columns:repeat(2,1fr)}
+  }
+  /* 小尺寸規格圖縮圖 */
+  .figs{display:flex;flex-wrap:wrap;gap:14px;margin:16px 0}
+  .fig{width:150px}
+  .fig a{display:block;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#fff}
+  .fig img{width:100%;height:110px;object-fit:contain;display:block;background:#fff}
+  .fig span{display:block;margin-top:6px;font-size:13px;color:var(--muted);text-align:center}
+
+  a{color:var(--accent);text-decoration:none;font-weight:650;text-underline-offset:3px}
+  a:hover{text-decoration:underline}
+  :focus-visible{outline:3px solid rgba(110,168,254,.55);outline-offset:3px}
+  ul{margin:0 0 12px;padding-left:22px}
+  li{margin-bottom:8px}
+  .bar{height:10px;background:var(--card2);border-radius:5px;overflow:hidden;margin-top:6px}
+  .bar i{display:block;height:100%;background:var(--accent)}
+  .bars-peak{display:flex;flex-direction:column;gap:10px;margin:8px 0 4px}
+  .bars-peak .row{display:grid;grid-template-columns:minmax(120px,1.1fr) minmax(0,2.2fr) 72px;gap:10px;align-items:center}
+  .bars-peak .lab{font-size:14px;font-weight:600;line-height:1.25}
+  .bars-peak .lab span{display:block;font-size:12px;font-weight:500;color:var(--muted)}
+  .bars-peak .track{height:18px;background:var(--card2);border-radius:6px;overflow:hidden}
+  .bars-peak .track i{display:block;height:100%;border-radius:6px;background:var(--accent)}
+  .bars-peak .track i.dim{opacity:.55}
+  .bars-peak .val{font-variant-numeric:tabular-nums;font-weight:700;text-align:right;font-size:15px}
+  .chart-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:8px 0}
+  .chart-wrap svg{display:block;min-width:560px;width:100%;height:auto}
+  .chart-legend{display:flex;flex-wrap:wrap;gap:10px 16px;margin:8px 0 0;font-size:13px}
+  .chart-legend span{display:inline-flex;align-items:center;gap:6px;font-weight:600}
+  .chart-legend i{width:14px;height:3px;border-radius:2px;background:currentColor}
+
+  /* 本章目錄 */
+  .toc{
+    display:flex;flex-wrap:wrap;gap:8px;
+    position:sticky;top:101px;z-index:8;
+    margin:16px 0 26px;padding:11px 14px;
+    background:var(--card);border:1px solid var(--line);border-radius:10px;
+    box-shadow:0 6px 20px rgba(0,0,0,.16);
+  }
+  .toc-label{display:flex;align-items:center;font-size:12px;font-weight:800;color:var(--muted);letter-spacing:.04em;margin-right:2px}
+  .toc a,.toc button.go{
+    display:inline-block;font-size:14px;font-weight:600;
+    padding:6px 12px;border-radius:999px;
+    border:1px solid var(--line);background:var(--card2);
+    color:var(--text);text-decoration:none;cursor:pointer;font-family:inherit;
+  }
+  .toc a:hover,.toc button.go:hover{border-color:var(--accent);color:var(--accent);text-decoration:none}
+
+  /* 備賽時間軸 */
+  .phases{display:grid;grid-template-columns:1fr;gap:12px;margin:20px 0;counter-reset:phase}
+  @media(min-width:760px){.phases{grid-template-columns:1fr 1fr}}
+  .phase{
+    position:relative;background:var(--card);border:1px solid var(--line);
+    border-radius:12px;padding:18px 18px 18px 56px;
+  }
+  .phase::before{
+    counter-increment:phase;content:counter(phase);
+    position:absolute;left:16px;top:18px;
+    width:28px;height:28px;border-radius:50%;
+    background:var(--accent);color:#0f1115;
+    font-size:14px;font-weight:800;line-height:28px;text-align:center;
+  }
+  .phase h4{margin:0 0 8px;font-size:18px}
+  .phase p{margin:0 0 10px;font-size:15px;color:var(--muted)}
+  .phase .links{display:flex;flex-wrap:wrap;gap:6px}
+  .phase .links button.go{
+    font-size:13px;padding:5px 10px;border-radius:999px;
+    border:1px solid var(--line);background:transparent;
+    color:var(--accent);cursor:pointer;font-family:inherit;font-weight:600;
+  }
+  .phase .links button.go:hover{border-color:var(--accent);background:rgba(110,168,254,.12)}
+
+  .dir .card button.go{
+    margin-top:12px;display:inline-block;
+    font-size:14px;font-weight:700;padding:8px 14px;border-radius:8px;
+    border:1px solid var(--accent);background:transparent;
+    color:var(--accent);cursor:pointer;font-family:inherit;
+  }
+  .dir .card button.go:hover{background:rgba(110,168,254,.12)}
+  .dir ul{margin:8px 0 0;padding-left:18px;font-size:15px;color:var(--muted)}
+  .dir li{margin-bottom:4px}
+  pre{background:#0f172a;color:#e2e8f0;padding:12px;border-radius:8px;overflow:auto;font-size:13px}
+  #back-top{
+    position:fixed;right:20px;bottom:20px;z-index:15;
+    width:44px;height:44px;border-radius:50%;border:1px solid var(--line);
+    background:var(--card);color:var(--text);font:800 20px/1 system-ui;
+    cursor:pointer;opacity:0;transform:translateY(12px);pointer-events:none;
+    transition:opacity .2s,transform .2s,border-color .2s;
+  }
+  #back-top.show{opacity:1;transform:none;pointer-events:auto}
+  #back-top:hover{border-color:var(--accent);color:var(--accent)}
+
+  @media(max-width:680px){
+    :root{--header-h:104px}
+    body{font-size:16px;line-height:1.58}
+    .wrap{padding-left:14px;padding-right:14px;padding-bottom:72px}
+    header{padding-top:9px}
+    .brand{display:block;margin-bottom:7px}
+    .brand strong{display:block;font-size:15px}
+    .brand span{display:block;font-size:11px}
+    header nav{gap:6px;padding-bottom:9px}
+    header nav button{padding:6px 12px;font-size:13px}
+    h1{margin-top:30px;font-size:30px}
+    h2{margin-top:38px;font-size:21px}
+    h3{font-size:18px}
+    .lead{font-size:16px}
+    .card{padding:16px;border-radius:12px}
+    .card:hover{transform:none}
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .stat b{font-size:21px}
+    .note{padding:14px;font-size:15px}
+    .toc{position:static;padding:10px;gap:6px;box-shadow:none}
+    .toc-label{width:100%}
+    .toc a,.toc button.go{font-size:12px;padding:5px 9px}
+    table{font-size:14px}
+    th,td{padding:9px 10px;min-width:82px}
+    td.n,th.n{font-size:15px}
+    .bars-peak .row{grid-template-columns:minmax(92px,1.15fr) minmax(70px,1.6fr) 55px;gap:7px}
+    .bars-peak .lab{font-size:12px}
+    .bars-peak .val{font-size:13px}
+    .chart-wrap svg{min-width:520px}
+    .figs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    .fig{width:auto}
+    .fig img{height:120px}
+    #back-top{right:14px;bottom:14px;width:40px;height:40px}
+  }
+
+  @media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}
+  }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#home">跳至主要內容</a>
+<header>
+  <div class="wrap">
+    <div class="brand">
+      <strong>足球無人機選型手冊</strong>
+      <span>FAI F9A-B · 20／22cm · ≤300g · ≤4S／17V · 槳 ≤76mm</span>
+    </div>
+    <nav aria-label="主要分頁">
+      <button class="on" data-go="home" aria-pressed="true">總覽</button>
+      <button data-go="motor" aria-pressed="false">馬達</button>
+      <button data-go="batt" aria-pressed="false">電池</button>
+      <button data-go="prop" aria-pressed="false">螺旋槳</button>
+      <button data-go="build" aria-pressed="false">組裝重量</button>
+      <button data-go="led" aria-pressed="false">LED／飛控</button>
+      <button data-go="rule" aria-pressed="false">規則檢錄</button>
+    </nav>
+    <div id="page-progress" aria-hidden="true"></div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- ============ 總覽 ============ -->
+<section id="home" class="on">
+  <h1>足球無人機選型總覽</h1>
+  <p class="lead">依備賽順序規劃：選型 → 組裝秤重 → LED／飛控 → 檢錄上場。數字來自原廠測功與 FAI 2026 規則。</p>
+
+  <div class="note info">
+    <b>一句話結論：</b>攻擊用 <b>火神 VCI 1507</b> 或 DYH1408 ＋ <b>4S 高 C</b>（本隊有 OVONIC 960／1060、Tattu 球機 1100、Tattu V5 850）；
+    防禦用 火神 VCI 1408 ＋ 4S 高 C；壓重用 1404.5＋3S。槳統一 <b>2828-3</b>。
+    LED 只裝 <b>22 顆</b>（主 16＋尾 6）；飛控三款 AIO（<b>Oxbot Flow AIO45</b>／RATE F4／HAKRC F411，孔距不同要注意）；檢錄本場 <b>5 球／9 電</b>。1060 上機前必實秤。
+  </div>
+
+  <h2 id="home-plan">備賽四階段規劃</h2>
+  <div class="phases">
+    <div class="phase">
+      <h4>選型</h4>
+      <p>定攻擊／防禦馬達、高 C 電池、合規槳與孔距（Φ12／Φ9／9×9 不可混）。</p>
+      <div class="links">
+        <button type="button" class="go" data-go="motor">馬達</button>
+        <button type="button" class="go" data-go="batt">電池</button>
+        <button type="button" class="go" data-go="prop">螺旋槳</button>
+      </div>
+    </div>
+    <div class="phase">
+      <h4>組裝與秤重</h4>
+      <p>目標 285–295g（上限 300g）；統一槳；實秤含比賽電池與全部固定件。</p>
+      <div class="links">
+        <button type="button" class="go" data-go="build">組裝重量</button>
+        <button type="button" class="go" data-go="build" data-anchor="build-weight">300g 預算</button>
+      </div>
+    </div>
+    <div class="phase">
+      <h4>飛控與 LED</h4>
+      <p>三款 AIO（Oxbot／RATE／HAKRC）；隊色紅／藍、射手尾燈對方色、亮度約 40%、低壓紅閃。</p>
+      <div class="links">
+        <button type="button" class="go" data-go="led">LED／飛控</button>
+        <button type="button" class="go" data-go="led" data-anchor="led-fc">本隊飛控</button>
+      </div>
+    </div>
+    <div class="phase">
+      <h4>檢錄與上場</h4>
+      <p>本場 5 球 9 電；單芯 ≤4.25V；set 間換電；賽中可抽查。</p>
+      <div class="links">
+        <button type="button" class="go" data-go="rule">規則檢錄</button>
+        <button type="button" class="go" data-go="rule" data-anchor="rule-process">檢錄表</button>
+      </div>
+    </div>
+  </div>
+
+  <h2 id="home-dir">全站目錄</h2>
+  <div class="cards c3 dir">
+    <div class="card">
+      <span class="tag">動力</span>
+      <h4>馬達</h4>
+      <ul>
+        <li>推力統計圖表</li>
+        <li>攻擊／防禦排序</li>
+        <li>完整對照表</li>
+      </ul>
+      <button type="button" class="go" data-go="motor" data-anchor="motor-charts">開啟推力圖表</button>
+    </div>
+    <div class="card">
+      <span class="tag">電源</span>
+      <h4>電池</h4>
+      <ul>
+        <li>3S／4S 電壓表</li>
+        <li>過放防範</li>
+        <li>高 C 與換電</li>
+      </ul>
+      <button type="button" class="go" data-go="batt">開啟電池</button>
+    </div>
+    <div class="card">
+      <span class="tag">推進</span>
+      <h4>螺旋槳</h4>
+      <ul>
+        <li>≤76mm 合規表</li>
+        <li>2828-3 主力</li>
+        <li>GF vs HQ 實測</li>
+      </ul>
+      <button type="button" class="go" data-go="prop">開啟螺旋槳</button>
+    </div>
+    <div class="card">
+      <span class="tag">整機</span>
+      <h4>組裝重量</h4>
+      <ul>
+        <li>賽前檢查清單</li>
+        <li>三種隊伍配置</li>
+        <li>3 分鐘續航／300g</li>
+      </ul>
+      <button type="button" class="go" data-go="build">開啟組裝重量</button>
+    </div>
+    <div class="card">
+      <span class="tag">飛控</span>
+      <h4>LED／飛控</h4>
+      <ul>
+        <li>三款 AIO 接線與差異</li>
+        <li>顏色與換射手</li>
+        <li>22 顆耗電＋低壓紅閃</li>
+      </ul>
+      <button type="button" class="go" data-go="led">開啟 LED／飛控</button>
+    </div>
+    <div class="card">
+      <span class="tag">賽事</span>
+      <h4>規則檢錄</h4>
+      <ul>
+        <li>F9A-B 規格</li>
+        <li>5 球 9 電檢錄</li>
+        <li>馬達合規表</li>
+      </ul>
+      <button type="button" class="go" data-go="rule">開啟規則檢錄</button>
+    </div>
+  </div>
+
+  <h2 id="home-picks">快速選型</h2>
+  <div class="cards c3">
+    <div class="card hero">
+      <span class="tag">攻擊首選</span>
+      <h4>火神 VCI 1507 4000KV</h4>
+      <p class="solid">651g · 24.6A · 15.0g</p>
+      <p>同槳級推力最高。注意最吃電。</p>
+    </div>
+    <div class="card hero">
+      <span class="tag">攻防通用</span>
+      <h4>火神 VCI 1408 3900KV</h4>
+      <p class="solid">574g · 20.4A · 13.6g</p>
+      <p>最均衡，重量最省的 1408 級。</p>
+    </div>
+    <div class="card hero">
+      <span class="tag">電池首選</span>
+      <h4>Tattu R-Line V5 850</h4>
+      <p class="solid">4S · 150C · 100g</p>
+      <p>約 128A；配 1507 幾乎必要。</p>
+    </div>
+  </div>
+
+  <div class="note info">
+    <b>品牌註記：</b>「火神 VCI」＝火神 VCI；「T-HOBBY／THOBBY」＝T-MOTOR（虎丘）FPV 線，本頁 DYH1408 屬此線。
+  </div>
+
+  <h2 id="home-compare">主力馬達一眼比較</h2>
+  <div class="wide">
+  <table>
+    <thead><tr>
+      <th>馬達</th><th class="n">滿油門推力</th><th class="n">電流</th>
+      <th class="n">力效</th><th class="n">單顆重</th><th class="n">測試電壓</th><th>定位</th>
+    </tr></thead>
+    <tbody>
+      <tr><td><b>火神 VCI 1507 4000KV</b></td><td class="n">651 g</td><td class="n">24.6 A</td><td class="n">1.65</td><td class="n">15.0 g</td><td class="n">16 V</td><td>攻擊／硬頂</td></tr>
+      <tr><td><b>T-HOBBY DYH1408 3988KV</b></td><td class="n">600 g</td><td class="n">20.8 A</td><td class="n">1.76</td><td class="n">15 g</td><td class="n">16.4 V</td><td>攻擊</td></tr>
+      <tr><td><b>火神 VCI 1408 3900KV</b></td><td class="n">574 g</td><td class="n">20.4 A</td><td class="n">1.76</td><td class="n">13.6 g</td><td class="n">16 V</td><td>攻防通用</td></tr>
+      <tr><td>T-HOBBY P1604 3800KV</td><td class="n">514 g*</td><td class="n">16.8 A*</td><td class="n">1.85*</td><td class="n">11.6 g</td><td class="n">16.5 V</td><td>輕攻／中防 · 9×9</td></tr>
+      <tr><td><b>LANNRC 1404 4600KV</b></td><td class="n">398 g†</td><td class="n">15.0 A†</td><td class="n">1.66†</td><td class="n">10.0 g</td><td class="n">16 V</td><td>輕防 · Φ9 · 4S 候選</td></tr>
+      <tr><td>火神 VCI 1404.5 4600KV</td><td class="n">350 g</td><td class="n">15.6 A</td><td class="n">1.87</td><td class="n">9.2 g</td><td class="n">12 V</td><td>輕量防禦</td></tr>
+      <tr><td>火神 VCI 1404 4500KV</td><td class="n">325 g</td><td class="n">14.2 A</td><td class="n">1.91</td><td class="n">8.62 g</td><td class="n">12 V</td><td>最輕、最省</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <small>除註記外，測功皆為 GF2828-3。4S 約 16V；1404 級 VCI 為 3S／12V。*P1604 原廠為 GF3520-3（違規）；†LANNRC 原廠為 GF4024（違規）。實戰換 2828-3 後推力／電流會下降。</small>
+
+  <h2 id="home-bars">推力視覺對照（GF2828-3）</h2>
+  <div class="card">
+    <div class="bars-peak">
+      <div class="row"><div class="lab">火神 VCI 1507<span>4S · 同槳基準</span></div><div class="track"><i style="width:100%"></i></div><div class="val">651g</div></div>
+      <div class="row"><div class="lab">DYH1408<span>4S</span></div><div class="track"><i style="width:92.2%"></i></div><div class="val">600g</div></div>
+      <div class="row"><div class="lab">火神 VCI 1408<span>4S</span></div><div class="track"><i style="width:88.2%"></i></div><div class="val">574g</div></div>
+      <div class="row"><div class="lab">T-HOBBY P1604<span>4S · 3520 槳*</span></div><div class="track"><i class="dim" style="width:79%"></i></div><div class="val">514g*</div></div>
+      <div class="row"><div class="lab">LANNRC 1404<span>4S · 4024 槳†</span></div><div class="track"><i class="dim" style="width:61%"></i></div><div class="val">398g†</div></div>
+      <div class="row"><div class="lab">火神 VCI 1404.5<span>3S</span></div><div class="track"><i style="width:53.8%"></i></div><div class="val">350g</div></div>
+      <div class="row"><div class="lab">火神 VCI 1404<span>3S</span></div><div class="track"><i style="width:49.9%"></i></div><div class="val">325g</div></div>
+    </div>
+    <small>條長＝相對 火神 VCI 1507。*P1604／†LANNRC 非同槳條件，僅供潛力參考。完整油門曲線見「馬達 → 推力統計圖表」。</small>
+    <p style="margin:10px 0 0"><button type="button" class="go" data-go="motor" data-anchor="motor-charts">開啟完整推力統計圖表</button></p>
+  </div>
+</section>
+
+<!-- ============ 馬達 ============ -->
+<section id="motor">
+  <h1>馬達</h1>
+  <p class="lead">攻擊看峰值推力與中高油門爬升；防禦看電流、重量與長局續航。</p>
+  <nav class="toc" aria-label="馬達本章目錄">
+    <span class="toc-label">本章目錄</span>
+    <a href="#motor-charts">推力統計圖表</a>
+    <a href="#motor-figs">規格圖</a>
+    <a href="#motor-attack">攻擊排序</a>
+    <a href="#motor-defense">防禦排序</a>
+    <a href="#motor-table">完整對照</a>
+  </nav>
+
+  <h2 id="motor-charts">推力統計圖表</h2>
+  <p class="lead" style="margin-top:0">原廠測功整理：峰值條圖一眼比高低；油門曲線看中段爬升（足球機常用 60–80%）。除註記外皆為 <b>GF2828-3</b>。</p>
+
+  <h3>滿油門推力峰值</h3>
+  <div class="card">
+    <div class="bars-peak">
+      <div class="row"><div class="lab">火神 VCI 1507 4000KV<span>4S · 16V · 同槳基準</span></div><div class="track"><i style="width:100%"></i></div><div class="val">651g</div></div>
+      <div class="row"><div class="lab">T-HOBBY DYH1408 3988KV<span>4S · 16.4V</span></div><div class="track"><i style="width:92.2%"></i></div><div class="val">600g</div></div>
+      <div class="row"><div class="lab">火神 VCI 1408 3900KV<span>4S · 16V</span></div><div class="track"><i style="width:88.2%"></i></div><div class="val">574g</div></div>
+      <div class="row"><div class="lab">T-HOBBY P1604 3800KV<span>4S · GF3520-3*</span></div><div class="track"><i class="dim" style="width:79%"></i></div><div class="val">514g*</div></div>
+      <div class="row"><div class="lab">LANNRC 1404 4600KV<span>4S · GF4024†</span></div><div class="track"><i class="dim" style="width:61%"></i></div><div class="val">398g†</div></div>
+      <div class="row"><div class="lab">火神 VCI 1404.5 4600KV<span>3S · 12V</span></div><div class="track"><i style="width:53.8%"></i></div><div class="val">350g</div></div>
+      <div class="row"><div class="lab">火神 VCI 1404 4500KV<span>3S · 12V</span></div><div class="track"><i style="width:49.9%"></i></div><div class="val">325g</div></div>
+    </div>
+    <small>*P1604／†LANNRC 原廠測功槳 &gt;76mm（違規），換 2828-3 後數字會降；條長半透明僅供潛力參考。</small>
+  </div>
+
+  <h3>油門－推力曲線（主力五顆）</h3>
+  <div class="card">
+    <div class="chart-wrap" role="img" aria-label="油門百分比對推力克數折線圖：1507、DYH1408、1408、1404.5、1404">
+      <svg viewBox="0 0 640 360" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,sans-serif">
+        <rect x="0" y="0" width="640" height="360" fill="#fff"/>
+        <!-- grid -->
+        <g stroke="#e5e7eb" stroke-width="1">
+          <line x1="70" y1="40" x2="70" y2="300"/><line x1="70" y1="300" x2="600" y2="300"/>
+          <line x1="70" y1="235" x2="600" y2="235"/><line x1="70" y1="170" x2="600" y2="170"/>
+          <line x1="70" y1="105" x2="600" y2="105"/><line x1="70" y1="40" x2="600" y2="40"/>
+          <line x1="145.7" y1="40" x2="145.7" y2="300"/><line x1="221.4" y1="40" x2="221.4" y2="300"/>
+          <line x1="297.1" y1="40" x2="297.1" y2="300"/><line x1="372.9" y1="40" x2="372.9" y2="300"/>
+          <line x1="448.6" y1="40" x2="448.6" y2="300"/><line x1="524.3" y1="40" x2="524.3" y2="300"/>
+          <line x1="600" y1="40" x2="600" y2="300"/>
+        </g>
+        <!-- y labels: 0–650 -->
+        <g fill="#6b7280" font-size="12" text-anchor="end">
+          <text x="62" y="304">0</text>
+          <text x="62" y="239">162</text>
+          <text x="62" y="174">325</text>
+          <text x="62" y="109">488</text>
+          <text x="62" y="44">650</text>
+        </g>
+        <text x="24" y="175" fill="#6b7280" font-size="12" transform="rotate(-90 24 175)">推力 (g)</text>
+        <!-- x labels: 30–100 -->
+        <g fill="#6b7280" font-size="12" text-anchor="middle">
+          <text x="70" y="320">30%</text>
+          <text x="145.7" y="320">40%</text>
+          <text x="221.4" y="320">50%</text>
+          <text x="297.1" y="320">60%</text>
+          <text x="372.9" y="320">70%</text>
+          <text x="448.6" y="320">80%</text>
+          <text x="524.3" y="320">90%</text>
+          <text x="600" y="320">100%</text>
+        </g>
+        <text x="335" y="348" fill="#6b7280" font-size="12" text-anchor="middle">油門 (%)</text>
+        <!-- helper: x = 70 + (pct-30)/70 * 530; y = 300 - thrust/650 * 260 -->
+        <!-- 1507: 73,132,218,295,380,436,525,651 -->
+        <polyline fill="none" stroke="#dc2626" stroke-width="2.5"
+          points="70,270.8 145.7,247.2 221.4,212.8 297.1,182.0 372.9,148.0 448.6,125.6 524.3,90.0 600,39.6"/>
+        <!-- DYH: 89,153,219,294,369,455,531,600 -->
+        <polyline fill="none" stroke="#ea580c" stroke-width="2.5"
+          points="70,264.4 145.7,238.8 221.4,212.4 297.1,182.4 372.9,152.4 448.6,118.0 524.3,87.6 600,60.0"/>
+        <!-- 1408: 60,117,158,267,306,405,454,574 -->
+        <polyline fill="none" stroke="#2563eb" stroke-width="2.5"
+          points="70,276.0 145.7,253.2 221.4,236.8 297.1,193.2 372.9,177.6 448.6,138.0 524.3,118.4 600,70.4"/>
+        <!-- 1404.5: 52,81,122,158,210,255,310,350 -->
+        <polyline fill="none" stroke="#059669" stroke-width="2.5"
+          points="70,279.2 145.7,267.6 221.4,251.2 297.1,236.8 372.9,216.0 448.6,198.0 524.3,176.0 600,160.0"/>
+        <!-- 1404: 49,82,132,162,204,233,274,325 -->
+        <polyline fill="none" stroke="#7c3aed" stroke-width="2.5"
+          points="70,280.4 145.7,267.2 221.4,247.2 297.1,235.2 372.9,218.4 448.6,206.8 524.3,190.4 600,170.0"/>
+        <!-- end dots -->
+        <circle cx="600" cy="39.6" r="3.5" fill="#dc2626"/>
+        <circle cx="600" cy="60.0" r="3.5" fill="#ea580c"/>
+        <circle cx="600" cy="70.4" r="3.5" fill="#2563eb"/>
+        <circle cx="600" cy="160.0" r="3.5" fill="#059669"/>
+        <circle cx="600" cy="170.0" r="3.5" fill="#7c3aed"/>
+      </svg>
+    </div>
+    <div class="chart-legend">
+      <span style="color:#dc2626"><i></i>VCI 1507 · 4S</span>
+      <span style="color:#ea580c"><i></i>DYH1408 · 4S</span>
+      <span style="color:#2563eb"><i></i>VCI 1408 · 4S</span>
+      <span style="color:#059669"><i></i>VCI 1404.5 · 3S</span>
+      <span style="color:#7c3aed"><i></i>VCI 1404 · 3S</span>
+    </div>
+    <small>資料來源：各馬達原廠 GF2828-3 測功表。3S 曲線電壓較低，不可與 4S 直接當「同條件」比絕對推力，但可看檔位落差。</small>
+  </div>
+
+  <h3>滿油門電流對照（吃電程度）</h3>
+  <div class="card">
+    <div class="bars-peak">
+      <div class="row"><div class="lab">火神 VCI 1507<span>4S · GF2828-3</span></div><div class="track"><i style="width:100%;background:#b91c1c"></i></div><div class="val">24.6A</div></div>
+      <div class="row"><div class="lab">DYH1408<span>4S</span></div><div class="track"><i style="width:84.6%;background:#c2410c"></i></div><div class="val">20.8A</div></div>
+      <div class="row"><div class="lab">火神 VCI 1408<span>4S</span></div><div class="track"><i style="width:82.9%;background:#1d4ed8"></i></div><div class="val">20.4A</div></div>
+      <div class="row"><div class="lab">LANNRC 1404<span>4S · 4024†</span></div><div class="track"><i class="dim" style="width:61%;background:#64748b"></i></div><div class="val">15.0A†</div></div>
+      <div class="row"><div class="lab">火神 VCI 1404.5<span>3S</span></div><div class="track"><i style="width:63.4%;background:#047857"></i></div><div class="val">15.6A</div></div>
+      <div class="row"><div class="lab">火神 VCI 1404<span>3S</span></div><div class="track"><i style="width:57.7%;background:#6d28d9"></i></div><div class="val">14.2A</div></div>
+    </div>
+    <div class="note info" style="margin-top:12px;margin-bottom:0">
+      <b>怎麼讀：</b>攻擊機看峰值推力＋60–70% 中段；防禦機看電流與重量。
+      1507 推力第一但最吃電 → 射手／短時硬頂；1408 較均衡；1404 級適合壓重防禦。
+    </div>
+  </div>
+
+  <h2 id="motor-figs">原廠規格／工程圖</h2>
+  <div class="figs">
+    <div class="fig"><a href="assets/motors/vci1507.jpg" target="_blank" rel="noopener"><img src="assets/motors/vci1507.jpg" alt="火神 VCI 1507 規格與測功表"></a><span>火神 VCI 1507</span></div>
+    <div class="fig"><a href="assets/motors/dyh1408.jpg" target="_blank" rel="noopener"><img src="assets/motors/dyh1408.jpg" alt="T-HOBBY DYH1408 規格表"></a><span>DYH1408</span></div>
+    <div class="fig"><a href="assets/motors/vci1408.jpg" target="_blank" rel="noopener"><img src="assets/motors/vci1408.jpg" alt="火神 VCI 1408 工程圖與規格"></a><span>火神 VCI 1408</span></div>
+    <div class="fig"><a href="assets/motors/vci1404-5.png" target="_blank" rel="noopener"><img src="assets/motors/vci1404-5.png" alt="火神 VCI 1404.5 工程圖與規格"></a><span>火神 VCI 1404.5</span></div>
+    <div class="fig"><a href="assets/motors/vci1404.jpg" target="_blank" rel="noopener"><img src="assets/motors/vci1404.jpg" alt="火神 VCI 1404 工程圖與規格"></a><span>火神 VCI 1404</span></div>
+    <div class="fig"><a href="assets/motors/lannrc-1404-4600.png" target="_blank" rel="noopener"><img src="assets/motors/lannrc-1404-4600.png" alt="LANNRC 1404 4600KV 規格與測功表"></a><span>LANNRC 1404 4600KV</span></div>
+    <div class="fig"><a href="assets/motors/p1604.jpg" target="_blank" rel="noopener"><img src="assets/motors/p1604.jpg" alt="P1604 工程圖"></a><span>P1604</span></div>
+    <div class="fig"><a href="assets/motors/sirius1505.jpg" target="_blank" rel="noopener"><img src="assets/motors/sirius1505.jpg" alt="SIRIUS 1505 系列規格"></a><span>SIRIUS 1505</span></div>
+  </div>
+  <small>縮圖為原廠規格／工程圖，點擊可放大看孔距與測功數據。</small>
+
+  <h2 id="motor-attack">攻擊排序</h2>
+  <div class="cards c2">
+    <div class="card hero">
+      <span class="tag">#1</span>
+      <h4>火神 VCI 1507 4000KV</h4>
+      <div class="stats">
+        <div class="stat"><b>651g</b><span>推力</span></div>
+        <div class="stat"><b>24.6A</b><span>電流</span></div>
+        <div class="stat"><b>295g</b><span>60%推力</span></div>
+        <div class="stat"><b>15.0g</b><span>含線重</span></div>
+      </div>
+      <p><b class="ok">優</b> 同槳級推力最高（比 DYH 多約 51g）；中段也最強（60%＝295g、70%＝380g）；定子 Ø15×7.2、內阻僅 70mΩ；孔距 Φ12 與 DYH 同規。</p>
+      <p style="margin-top:8px"><b class="no">缺</b> 電流最高 24.6A（四軸爆發可近 100A）；力效略低；靜態掃測後 117°C；須配 ≥120–150C 電池與 ESC≥30A。</p>
+    </div>
+    <div class="card">
+      <span class="tag">#2</span>
+      <h4>T-HOBBY（THOBBY）DYH1408 3988KV</h4>
+      <div class="stats">
+        <div class="stat"><b>600g</b><span>推力</span></div>
+        <div class="stat"><b>20.8A</b><span>電流</span></div>
+        <div class="stat"><b>294g</b><span>60%推力</span></div>
+        <div class="stat"><b>15g</b><span>含線重</span></div>
+      </div>
+      <p><b class="ok">優</b> 仍很強；電流比 1507 省約 4A；80%×10s 僅 35°C（測法不同，僅供參考）。</p>
+      <p style="margin-top:8px"><b class="no">缺</b> 峰值低於 1507；機身最長 20.1mm。</p>
+    </div>
+  </div>
+
+  <div class="cards c2" style="margin-top:16px">
+    <div class="card">
+      <span class="tag">#3</span>
+      <h4>火神 VCI 1408 3900KV</h4>
+      <div class="stats">
+        <div class="stat"><b>574g</b><span>推力</span></div>
+        <div class="stat"><b>20.4A</b><span>電流</span></div>
+        <div class="stat"><b>267g</b><span>60%推力</span></div>
+        <div class="stat"><b>13.6g</b><span>含線重</span></div>
+      </div>
+      <p><b class="ok">優</b> 最輕的高推力選項；規格完整。</p>
+      <p style="margin-top:8px"><b class="no">缺</b> 峰值低於 1507／DYH。</p>
+    </div>
+    <div class="card">
+      <span class="tag">#4 輕攻備選</span>
+      <h4>T-HOBBY P1604 3800KV</h4>
+      <div class="stats">
+        <div class="stat"><b>514g*</b><span>推力</span></div>
+        <div class="stat"><b>16.8A*</b><span>電流</span></div>
+        <div class="stat"><b>11.6g</b><span>含線重</span></div>
+        <div class="stat"><b>9×9</b><span>孔距</span></div>
+      </div>
+      <p><b class="ok">優</b> T-MOTOR PACER 線（與 DYH 同品牌族）；比 1408 輕約 2g／顆；電流明顯較低；孔距 <b>9×9mm</b>。官網推薦 2.5–4″ 槳。</p>
+      <p style="margin-top:8px"><b class="no">缺</b> 原廠測功槳 GF3520-3（89mm）<span class="no">比賽違規</span>；換 2828-3 後推力會下降，尚無同槳對照。
+      <b>勿買 2850KV（6S）</b>——電壓違規。勿與 Φ12／Φ9 機架混用。</p>
+    </div>
+  </div>
+
+  <h2 id="motor-defense">防禦排序</h2>
+  <div class="cards c2">
+    <div class="card hero">
+      <span class="tag">#1 硬防</span>
+      <h4>火神 VCI 1408 3900KV</h4>
+      <p class="solid">攻防均衡，力效 1.76–1.78，四顆約 54g</p>
+      <p>要能硬頂又不想換最吃電的 1507 時的最佳解。</p>
+    </div>
+    <div class="card hero">
+      <span class="tag">#1 輕防</span>
+      <h4>火神 VCI 1404.5 4600KV</h4>
+      <div class="stats">
+        <div class="stat"><b>350g</b><span>推力</span></div>
+        <div class="stat"><b>15.6A</b><span>電流</span></div>
+        <div class="stat"><b>9.2g</b><span>含線重</span></div>
+        <div class="stat"><b>1.87</b><span>力效</span></div>
+      </div>
+      <p><b class="ok">優</b> 只有 9.2g，四顆 36.8g，比 1408 省 17g；電流低、續航好。</p>
+      <p style="margin-top:8px"><b class="no">缺</b> 推力僅 1408 的 6 成；原廠只給 3S 測功。</p>
+    </div>
+  </div>
+
+  <div class="cards c2" style="margin-top:16px">
+    <div class="card">
+      <span class="tag">#2 輕防 · 4S 候選</span>
+      <h4>LANNRC 1404 4600KV</h4>
+      <div class="stats">
+        <div class="stat"><b>398g*</b><span>推力</span></div>
+        <div class="stat"><b>15.0A*</b><span>電流</span></div>
+        <div class="stat"><b>10.0g</b><span>重量</span></div>
+        <div class="stat"><b>Φ9</b><span>孔距</span></div>
+      </div>
+      <p><b class="ok">優</b> 10g、2–4S、內阻 142mΩ、滿載 1 分鐘僅 65°C；與 VCI 1404／1404.5 同系 Φ9，可互換機架。
+        想用 4S 又不想上 1408 重量時可考慮。</p>
+      <p style="margin-top:8px"><b class="no">缺</b> 原廠測功槳若為 <b>GF4024</b>（&gt;76mm）則<span class="no">比賽違規</span>；換 2828-3 後推力／電流會下降。
+        同槳合法數據尚缺；暫勿直接跟 VCI 1404.5（2828／3S＝350g）比峰值。
+        入庫以原廠圖為準：<b>4600KV、10g、15A／240W、142mΩ、2–4S</b>（賣場另寫 17.99A 者不採用）。</p>
+    </div>
+    <div class="card">
+      <span class="tag">#3 中防／輕攻</span>
+      <h4>T-HOBBY P1604 3800KV</h4>
+      <p class="solid">11.6g · 4S · 孔距 9×9mm · 原廠峰值約 514g／16.8A*</p>
+      <p>T-MOTOR PACER；要省重又不想用 3S 1404 級時可考慮。須確認機架是 9×9，不是 Φ12／Φ9。<b>勿買 2850KV（6S）</b>。</p>
+      <p class="muted" style="margin-top:8px">*測功槳 3520 違規；實戰 2828 數據待補。官網推薦槳 2.5–4″。</p>
+    </div>
+  </div>
+
+  <div class="cards c2" style="margin-top:16px">
+    <div class="card">
+      <span class="tag">備註</span>
+      <h4>孔距三系不要混</h4>
+      <p class="solid">Φ12：1507／DYH／1408／SIRIUS1505<br>Φ9：VCI 1404／1404.5／<b>LANNRC 1404</b><br>9×9：P1604／GTS</p>
+      <p>碳板孔位不相容，硬鎖會歪、震、裂板。</p>
+    </div>
+    <div class="card">
+      <span class="tag">對照</span>
+      <h4>1404 級誰當輕防？</h4>
+      <p class="solid">有合規槳測功：優先 <b>VCI 1404.5</b>（350g／3S／2828）<br>
+        已有 LANNRC、想跑 4S：先實測 2828 再定<br>
+        最輕省電：VCI 1404 4500KV</p>
+    </div>
+  </div>
+
+  <div class="note warn" style="margin-top:16px">
+    <b>1507 當防禦？</b>推力夠硬頂，但 24.6A 長局耗電快，較適合「射手（攻擊手）」或「短時硬防」，
+    不適合整場低油門控場。硬防長局仍優先 火神 VCI 1408。
+  </div>
+
+  <h2 id="motor-table">完整規格對照</h2>
+  <div class="wide">
+  <table>
+    <thead><tr>
+      <th>馬達</th><th class="n">KV</th><th>定子</th><th class="n">內阻</th>
+      <th class="n">含線重</th><th class="n">外形</th><th>孔距</th><th class="n">推力</th>
+    </tr></thead>
+    <tbody>
+      <tr><td><b>火神 VCI 1507</b></td><td class="n">4000</td><td>15×7.2 · 12S14P</td><td class="n">70 mΩ</td><td class="n">15.03 g</td><td class="n">Ø19×16.2</td><td>Φ12 4-M2</td><td class="n">651 g</td></tr>
+      <tr><td>T-HOBBY（THOBBY）DYH1408</td><td class="n">3988</td><td>14×8 · 9N12P</td><td class="n">90 mΩ</td><td class="n">15 g</td><td class="n">Ø17.9×20.1</td><td>Φ12 4-M2</td><td class="n">600 g</td></tr>
+      <tr><td>火神 VCI 1408</td><td class="n">3900</td><td>14×8 · 9S12P</td><td class="n">90 mΩ</td><td class="n">13.6 g</td><td class="n">Ø17.6×16</td><td>Φ12 4-M2</td><td class="n">574 g</td></tr>
+      <tr><td>T-HOBBY P1604</td><td class="n">3800</td><td>12N14P</td><td class="muted">—</td><td class="n">11.6 g</td><td class="n">Ø20.8×15.5</td><td><b>9×9</b> 4-M2</td><td class="n">514 g*</td></tr>
+      <tr><td><b>LANNRC 1404</b></td><td class="n">4600</td><td>14×4 · 9N12P</td><td class="n">142 mΩ</td><td class="n">10.0 g</td><td class="n">Ø19.3×14.8</td><td>Φ9 4-M2</td><td class="n">398 g†</td></tr>
+      <tr><td>火神 VCI 1404.5</td><td class="n">4600</td><td>14×4.5</td><td class="n">120 mΩ</td><td class="n">9.2 g</td><td class="n">Ø17.6×12.5</td><td>Φ9 4-M2</td><td class="n">350 g</td></tr>
+      <tr><td>火神 VCI 1404</td><td class="n">4500</td><td>14×4</td><td class="n">150 mΩ</td><td class="n">8.62 g</td><td class="n">Ø17.9×11.9</td><td>Φ9 4-M2</td><td class="n">325 g</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <small>*P1604 推力為 GF3520-3＠4S；†LANNRC 為 GF4024＠16V／4S。兩者槳徑皆 &gt;76mm，比賽須改 ≤76mm，數字會變低。</small>
+
+  <div class="note warn">
+    <b>機架相容性（三系不相容）：</b>
+    <b>Φ12 4-M2</b>＝DYH1408／火神 VCI 1408／1507／SIRIUS 1505；
+    <b>Φ9 4-M2</b>＝火神 VCI 1404／1404.5／<b>LANNRC 1404</b>；
+    <b>9×9mm 4-M2</b>＝P1604／GTS V3。
+    Φ12、Φ9、9×9 <span class="no">彼此不相容</span>，換馬達前先確認機架孔位。
+  </div>
+
+  <div class="note info">
+    <b>資料狀態：</b>選型主力含火神 VCI 1507／DYH1408／1408／1404／1404.5、<b>LANNRC 1404 4600KV</b>、<b>P1604 3800KV</b>、SIRIUS 1505、
+    GEMFAN 2820／2826／2828、高 C 電池。SIRIUS 1404 不納入候選（同級有更好的 火神 VCI 1404.5）。
+    LANNRC／P1604 尚缺合規槳（2828-3）測功。
+    <b>P1604 官網確認：</b>T-HOBBY PACER；球機只買 <b>3800KV／4S</b>（2850KV＝6S 違規）；測功數字與官網一致。
+  </div>
+</section>
+
+<!-- ============ 電池 ============ -->
+<section id="batt">
+  <h1>電池</h1>
+  <p class="lead">預算約 100g，一定要高 C。3S／4S 都可用，但用途不同。</p>
+  <nav class="toc" aria-label="電池本章目錄">
+    <span class="toc-label">本章目錄</span>
+    <a href="#batt-voltage">3S／4S 電壓表</a>
+    <a href="#batt-over">過放風險</a>
+    <a href="#batt-owned">本隊已購</a>
+    <a href="#batt-4s">4S 首選</a>
+    <a href="#batt-3s">3S 備選</a>
+  </nav>
+
+  <div class="note warn">
+    <b>為什麼一定要高 C：</b>1408 級滿載約 20A／顆；<b>1507 滿載 24.6A／顆</b> → 四軸爆發可到 <b>80–100A</b>。
+    公式 <b>持續電流 ≈ 容量(Ah) × C</b>：850mAh×95C ≈ 81A 對 1507 <span class="no">偏緊</span>；
+    850mAh×150C ≈ 128A 才夠。配 1507 請直接上 <b>V5 150C 或 GNB 120C</b>，不要用 650／750 低容量。
+  </div>
+
+  <h2 id="batt-voltage">3S／4S 電壓表（飛控／檢錄用）</h2>
+  <p>單位為單芯與整包。FAI 比賽滿電單芯上限 <b>4.25 V</b>（LiHV 不可充到 4.35V 上場）。</p>
+  <div class="wide">
+  <table>
+    <thead>
+      <tr>
+        <th>項目</th>
+        <th class="n">單芯</th>
+        <th class="n">3S 整包</th>
+        <th class="n">4S 整包</th>
+        <th>用途</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><b>最高（滿電／檢錄）</b></td><td class="n">4.25 V</td><td class="n">12.75 V</td><td class="n">17.00 V</td><td>FAI 上限；超過違規</td></tr>
+      <tr><td>標稱（休息電壓約）</td><td class="n">3.70–3.80 V</td><td class="n">11.1–11.4 V</td><td class="n">14.8–15.2 V</td><td>規格標示常用</td></tr>
+      <tr><td><b>警告 Warning（建議）</b></td><td class="n">3.50–3.60 V</td><td class="n">10.5–10.8 V</td><td class="n">14.0–14.4 V</td><td>LED 紅閃提醒減油／換電</td></tr>
+      <tr><td><b>最低 Minimum（建議）</b></td><td class="n">3.30 V</td><td class="n">9.90 V</td><td class="n">13.20 V</td><td>再低易過放；落地換電</td></tr>
+      <tr><td>儲存</td><td class="n">3.80–3.85 V</td><td class="n">11.4–11.55 V</td><td class="n">15.2–15.4 V</td><td>賽後／長期存放</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <small>Betaflight CLI 單位常為 0.1V：例 <code>vbat_warning_cell_voltage = 35</code>（＝3.5V／芯）、<code>vbat_min_cell_voltage = 33</code>。猛加油瞬間壓降可能短暫紅閃屬正常。</small>
+
+  <h2 id="batt-over">電池過放（學生最常毀電的原因）</h2>
+  <div class="note bad">
+    <b>過放＝電壓被拉太低還繼續飛。</b>
+    損害通常不可逆——不是「充飽就好」。檢錄只有 9 顆電，一顆打穿就少一顆；硬撐會讓整隊電池陸續報廢。
+  </div>
+
+  <h3>多少伏特要提醒？（請背這張表）</h3>
+  <p>以落地後休息 <b>1–2 分鐘</b>再量的電壓為準（飛行中猛油會暫時更低，那叫壓降）。單位：單芯／整包。</p>
+  <div class="wide">
+  <table>
+    <thead>
+      <tr>
+        <th>等級</th>
+        <th class="n">單芯</th>
+        <th class="n">3S</th>
+        <th class="n">4S</th>
+        <th>學生要做什麼</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b class="ok">安全區</b></td>
+        <td class="n">≥ 3.60 V</td>
+        <td class="n">≥ 10.8 V</td>
+        <td class="n">≥ 14.4 V</td>
+        <td>可正常飛；set 結束仍建議換電輪替</td>
+      </tr>
+      <tr>
+        <td><b style="color:var(--warn)">警告區（開始提醒）</b></td>
+        <td class="n"><b>3.50–3.59 V</b></td>
+        <td class="n"><b>10.5–10.77 V</b></td>
+        <td class="n"><b>14.0–14.36 V</b></td>
+        <td>LED 應紅閃；<b>減油、少硬頂</b>；能落地就換。飛控 Warning 建議設 <b>3.50–3.55 V／芯</b></td>
+      </tr>
+      <tr>
+        <td><b class="no">危險區（立刻停）</b></td>
+        <td class="n"><b>≤ 3.30 V</b></td>
+        <td class="n"><b>≤ 9.9 V</b></td>
+        <td class="n"><b>≤ 13.2 V</b></td>
+        <td><b>立刻落地、換電</b>；這顆本場勿再上場。飛控 Min 建議 <b>3.30 V／芯</b></td>
+      </tr>
+      <tr>
+        <td><b class="no">報廢邊緣</b></td>
+        <td class="n"><b>≤ 3.00 V</b></td>
+        <td class="n"><b>≤ 9.0 V</b></td>
+        <td class="n"><b>≤ 12.0 V</b></td>
+        <td>極可能已傷芯；檢查鼓包；充電器拒充就淘汰。<b>禁止再飛</b></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note warn" style="margin-top:10px">
+    <b>一句話給學生：</b>4S 落地休息後若低於 <b>14.0 V</b> 就要小心；低於 <b>13.2 V</b> ＝這顆打太深，立刻換下來；低於 <b>12.0 V</b> ＝當壞電處理。
+    3S 對應：小心 <b>10.5 V</b>、停飛 <b>9.9 V</b>、報廢邊緣 <b>9.0 V</b>。
+  </div>
+
+  <h3>會發生什麼</h3>
+  <div class="wide">
+  <table>
+    <thead><tr><th>現象</th><th>對比賽／電池的影響</th></tr></thead>
+    <tbody>
+      <tr><td>休息後單芯常在 <b>3.3 V</b> 上下</td><td>化學損傷開始；容量變小、內阻變大、下次更容易壓降</td></tr>
+      <tr><td>單芯到約 <b>3.0 V</b> 以下還在飛</td><td>高風險鼓包、永久報廢；部分充電器拒絕充電</td></tr>
+      <tr><td>一芯明顯比其他低（不平衡）</td><td>整包更易過放；平衡充；嚴重則報廢</td></tr>
+      <tr><td>飛行中突然沒力、重開機、失控落地</td><td>欠壓＋高電流；當場失分，也可能燒 ESC／接頭</td></tr>
+      <tr><td>鼓包、發燙、異味</td><td><b>立即停用</b>；隔離冷卻，勿繼續充放電</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>為什麼足球機特別容易過放</h3>
+  <ul>
+    <li><b>850mAh 很小</b>：對抗局平均十數安培，理論續航本來就卡在 3 分鐘邊緣。</li>
+    <li><b>1507／1408 電流大</b>：猛頂瞬間壓降劇烈，燈號會比「靜止電壓」更早警告。</li>
+    <li><b>看不見遙控電壓</b>：只能靠 LED 紅閃——沒開警告＝不知道在過放。</li>
+    <li><b>捨不得換電</b>：9 顆電若不輪替，同一顆連打多 set 最容易打穿。</li>
+  </ul>
+
+  <h3>防過放規則（請背）</h3>
+  <div class="wide">
+  <table>
+    <thead><tr><th>時機</th><th>學生要做的</th><th>底線</th></tr></thead>
+    <tbody>
+      <tr><td><b>賽前飛控</b></td><td>Warning <b>3.50–3.55V／芯</b>、Min <b>3.30V／芯</b>＋LED <b>W</b> 覆蓋</td><td>沒紅閃＝不上場</td></tr>
+      <tr><td><b>飛行中</b></td><td>紅閃一直閃 → 減油、回邊、落地換電；不要為搶球硬撐</td><td>紅閃＝進入警告區</td></tr>
+      <tr><td><b>每個 set 結束</b></td><td><b>強制換電</b>（尤其攻擊機）；量休息電壓寫進編號本</td><td>同一顆不連打 2 set</td></tr>
+      <tr><td><b>落地量電壓</b></td><td>休息 1–2 分；4S 目標仍 ≥14.4V；&lt;14.0 小心；&lt;13.2 本場淘汰該顆</td><td>用上面色階表判定</td></tr>
+      <tr><td><b>充電</b></td><td>涼了再平衡充；鼓包／拒充就淘汰</td><td>熱充加重損傷</td></tr>
+      <tr><td><b>收納</b></td><td>賽後儲存 3.80–3.85V／芯；禁止空包裝隔夜</td><td>空包裝＝慢性過放</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="note warn">
+    <b>與「瞬間壓降」分辨：</b>猛加油紅閃一下、鬆油就恢復＝正常。
+    <b>一直紅閃、落地休息後仍落在警告／危險區</b>＝真的打太深，換電並檢查鼓包。
+  </div>
+  <div class="note info">
+    低壓紅閃 CLI 見
+    <button type="button" class="go" data-go="led" data-anchor="led-lowbat" style="margin-left:4px;font-size:14px;padding:4px 10px;border-radius:999px;border:1px solid var(--accent);background:transparent;color:var(--accent);cursor:pointer;font-family:inherit;font-weight:700">LED／飛控 · 低壓紅閃</button>。
+  </div>
+
+  <h2 id="batt-owned">本隊已購電池</h2>
+  <div class="note info" style="margin-top:0">
+    含先前選型的 <b>Tattu／GNB 等高 C 包</b>、新購入的 <b>OVONIC 歐牌・球機電池</b>（960／1060），以及 <b>格氏／Tattu 200／220mm 足球機專用 1100mAh 4S</b>。
+    OVONIC 商品標題若另有紅標 1550／綠標 Pro 850，那是 5 吋穿越機系列，勿與球機包搞混。
+  </div>
+  <div class="wide">
+  <table>
+    <thead>
+      <tr>
+        <th>型號</th>
+        <th class="n">容量</th>
+        <th class="n">C</th>
+        <th class="n">持續電流粗估</th>
+        <th class="n">重量</th>
+        <th>接頭</th>
+        <th>學生怎麼用</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>OVONIC 球機電池 4S1P</b></td>
+        <td class="n"><b>960</b></td>
+        <td class="n"><b>150C</b></td>
+        <td class="n">~144 A</td>
+        <td class="n">需實秤（估 ~105–120g）</td>
+        <td>XT30</td>
+        <td>攻擊／硬防主力候選；容量比 850 多約 13%，較利 3 分鐘局</td>
+      </tr>
+      <tr>
+        <td><b>OVONIC 球機電池 4S1P</b></td>
+        <td class="n"><b>1060</b></td>
+        <td class="n"><b>150C</b></td>
+        <td class="n">~159 A</td>
+        <td class="n">需實秤（估 ~115–130g）</td>
+        <td>XT30</td>
+        <td>續航最寬；但重量可能擠壓 300g，<b>上機前一定要整機實秤</b></td>
+      </tr>
+      <tr>
+        <td><b>Tattu／格氏 200 球機專用 4S</b></td>
+        <td class="n"><b>1100</b></td>
+        <td class="n"><b>110C 或 120C</b></td>
+        <td class="n">~121／132 A</td>
+        <td class="n"><b>92g（110C）／101g（120C）</b></td>
+        <td>XT30</td>
+        <td>官方 220／200mm 足球機系列；容量大且意外地輕，先看外包裝是 110C 還是 120C</td>
+      </tr>
+      <tr>
+        <td>Tattu R-Line V5 4S（先前選型）</td>
+        <td class="n">850</td>
+        <td class="n">150C</td>
+        <td class="n">~128 A</td>
+        <td class="n">~100 g</td>
+        <td>XT30</td>
+        <td>重量最穩；配 1507 仍首選之一</td>
+      </tr>
+      <tr>
+        <td>GNB／Tattu 750–850 等（先前選型）</td>
+        <td class="n">750–850</td>
+        <td class="n">95–120C</td>
+        <td class="n">~71–102 A</td>
+        <td class="n">~84–100 g</td>
+        <td>XT30</td>
+        <td>防禦／省重；見下方 4S 清單</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note warn">
+    <b>重量紅線：</b>OVONIC 960／1060 請實秤「含接頭」；Tattu 球機 1100 官方標稱 92g 或 101g（依 C 數），仍建議實秤確認。
+    1060 若偏重，攻擊機優先 960、Tattu 1100 或 850／150C。
+  </div>
+  <div class="note info">
+    <b>換電是固定流程：</b>一 set 約 3 分鐘結束＝<b>一定換一顆</b>（9 顆電就是為這個準備的），不用糾結「這顆還能不能再打一局」。
+    容量差只影響<b>局內餘裕</b>：相對 850，960 約 +13%、1060 約 +25%、1100 約 +29%——猛攻時比較不會中途紅閃／壓垮，不是用來少換電。
+  </div>
+
+  <h2 id="batt-4s">4S 首選（主力比賽）</h2>
+  <div class="prod">
+    <article class="card">
+      <div class="body" style="padding-left:16px">
+        <span class="tag">本隊已購 · 球機專用</span>
+        <h4>OVONIC 歐牌 960mAh 4S 150C（球機電池）</h4>
+        <div class="stats">
+          <div class="stat"><b>960</b><span>mAh</span></div>
+          <div class="stat"><b>150C</b><span>放電</span></div>
+          <div class="stat"><b>實秤</b><span>重量</span></div>
+          <div class="stat"><b>~144A</b><span>持續</span></div>
+        </div>
+        <p>XT30 · 暴力競速 FPV 球機款。C 與 V5 同級，容量更大，利於撐局；買到先實秤再定攻擊／防禦分配。</p>
+      </div>
+    </article>
+    <article class="card">
+      <div class="body" style="padding-left:16px">
+        <span class="tag">本隊已購 · 球機專用</span>
+        <h4>OVONIC 歐牌 1060mAh 4S 150C（球機電池）</h4>
+        <div class="stats">
+          <div class="stat"><b>1060</b><span>mAh</span></div>
+          <div class="stat"><b>150C</b><span>放電</span></div>
+          <div class="stat"><b>實秤</b><span>重量</span></div>
+          <div class="stat"><b>~159A</b><span>持續</span></div>
+        </div>
+        <p>XT30 · 續航最強的已購包之一。務必整機含此電實秤 ≤300g；超重就改掛 960／Tattu 1100／850。</p>
+      </div>
+    </article>
+    <article class="card">
+      <div class="body" style="padding-left:16px">
+        <span class="tag">本隊已購 · 格氏 Tattu 球機</span>
+        <h4>Tattu 200／220mm 足球機專用 1100mAh 4S</h4>
+        <div class="stats">
+          <div class="stat"><b>1100</b><span>mAh</span></div>
+          <div class="stat"><b>110／120C</b><span>放電</span></div>
+          <div class="stat"><b>92／101g</b><span>官方重</span></div>
+          <div class="stat"><b>~121–132A</b><span>持續</span></div>
+        </div>
+        <p>XT30 · 格瑞普／Tattu 官方「200 球機」系列（220mm 競賽常用）。
+          110C 版約 <b>92g</b>（64×28×32mm）、120C 版約 <b>101g</b>（64×28.5×35mm）。
+          請看包裝標籤確認是哪一款；C 低於 150 但仍夠 1408／DYH，配 1507 爆發略緊於 V5／Ovonic 150C。</p>
+      </div>
+    </article>
+
+    <article class="card">
+      <a class="thumb" href="assets/batteries/tattu-v5-850.png" target="_blank" rel="noopener"><img src="assets/batteries/tattu-v5-850.png" alt="Tattu R-Line V5 850mAh 4S 150C" /></a>
+      <div class="body">
+        <span class="tag">#1 推薦 · 攻擊／主力</span>
+        <h4>Tattu R-Line V5 850mAh 4S 150C</h4>
+        <div class="stats">
+          <div class="stat"><b>850</b><span>mAh</span></div>
+          <div class="stat"><b>150C</b><span>放電</span></div>
+          <div class="stat"><b>100g</b><span>重量</span></div>
+          <div class="stat"><b>~128A</b><span>持續</span></div>
+        </div>
+        <p>59×30×32mm · XT30 · 卡在 100g 預算，C 值最高。硬對抗首選。
+          <a href="https://genstattu.com/tattu-r-line-version-5-0-850mah-4s-150c-14-8v-lipo-battery-pack-with-xt30u-f-plug/" target="_blank" rel="noopener">原廠頁</a></p>
+      </div>
+    </article>
+
+    <article class="card">
+      <a class="thumb" href="assets/batteries/gnb-850.jpg" target="_blank" rel="noopener"><img src="assets/batteries/gnb-850.jpg" alt="GNB 850mAh 4S 120C LiHV" /></a>
+      <div class="body">
+        <span class="tag">#2 推薦 · 省重</span>
+        <h4>GNB 850mAh 4S 120C LiHV</h4>
+        <div class="stats">
+          <div class="stat"><b>850</b><span>mAh</span></div>
+          <div class="stat"><b>120C</b><span>放電</span></div>
+          <div class="stat"><b>~88g</b><span>重量</span></div>
+          <div class="stat"><b>~102A</b><span>持續</span></div>
+        </div>
+        <p>比 V5 省 12g，可留給框架或 LED。LiHV 比賽只能充到 4.25V／芯。
+          <a href="https://www.hobbyrc.co.uk/gnb-850mah-4s-120c-lihv-battery-xt30" target="_blank" rel="noopener">經銷頁</a></p>
+      </div>
+    </article>
+
+    <article class="card">
+      <a class="thumb" href="assets/batteries/tattu-750.jpg" target="_blank" rel="noopener"><img src="assets/batteries/tattu-750.jpg" alt="Tattu R-Line 750mAh 4S 95C" /></a>
+      <div class="body">
+        <span class="tag">#3 推薦 · 硬防常用</span>
+        <h4>Tattu R-Line 750mAh 4S 95C</h4>
+        <div class="stats">
+          <div class="stat"><b>750</b><span>mAh</span></div>
+          <div class="stat"><b>95C</b><span>放電</span></div>
+          <div class="stat"><b>~84g</b><span>重量</span></div>
+          <div class="stat"><b>~71A</b><span>持續</span></div>
+        </div>
+        <p>官網歸在 Drone Soccer；評價提到可撐完 3 分鐘一節。
+          <a href="https://genstattu.com/ta-rl-95c-750-4s1p-xt30.html" target="_blank" rel="noopener">原廠頁</a></p>
+      </div>
+    </article>
+
+    <article class="card">
+      <a class="thumb" href="assets/batteries/tattu-850-95c.jpg" target="_blank" rel="noopener"><img src="assets/batteries/tattu-850-95c.jpg" alt="Tattu R-Line 850mAh 4S 95C" /></a>
+      <div class="body">
+        <span class="tag">#4</span>
+        <h4>Tattu R-Line 850mAh 4S 95C</h4>
+        <div class="stats">
+          <div class="stat"><b>850</b><span>mAh</span></div>
+          <div class="stat"><b>95C</b><span>放電</span></div>
+          <div class="stat"><b>~100g</b><span>重量</span></div>
+          <div class="stat"><b>~81A</b><span>持續</span></div>
+        </div>
+        <p>與 V5 同重同容量但 C 較低，能買到 V5 就不必選這顆。
+          <a href="https://genstattu.com/tattu-r-line-850mah-14-8v-95c-4s1p-lipo-battery-pack-with-xt30-plug.html" target="_blank" rel="noopener">原廠頁</a></p>
+      </div>
+    </article>
+
+    <article class="card">
+      <a class="thumb" href="assets/batteries/tattu-650.jpg" target="_blank" rel="noopener"><img src="assets/batteries/tattu-650.jpg" alt="Tattu R-Line 650mAh 4S 95C" /></a>
+      <div class="body">
+        <span class="tag">#5 · 壓重／替補</span>
+        <h4>Tattu R-Line 650mAh 4S 95C</h4>
+        <div class="stats">
+          <div class="stat"><b>650</b><span>mAh</span></div>
+          <div class="stat"><b>95C</b><span>放電</span></div>
+          <div class="stat"><b>~78g</b><span>重量</span></div>
+          <div class="stat"><b>~62A</b><span>持續</span></div>
+        </div>
+        <p>最輕的 4S 選項，但 62A 對 1408 四軸對抗局略吃緊。
+          <a href="https://genstattu.com/tattu-r-line-95c-650mah-4s1p-xt30-plug-lipo-battery.html" target="_blank" rel="noopener">原廠頁</a></p>
+      </div>
+    </article>
+  </div>
+
+  <h2 id="batt-3s">3S 備選（輕量防禦）</h2>
+  <p>同重量下容量比 4S 大 → 續航較長；但電壓低 → 射門與硬頂弱於 4S。接頭多為 XT60，機上若是 XT30 建議重焊統一（轉接有電阻與鬆脫風險）。</p>
+  <div class="wide">
+  <table>
+    <thead><tr><th>#</th><th>型號</th><th class="n">容量</th><th class="n">C</th><th class="n">重量</th><th class="n">持續電流</th><th>接頭</th></tr></thead>
+    <tbody>
+      <tr><td class="n">1</td><td>CNHL Black 1100</td><td class="n">1100</td><td class="n">100C</td><td class="n">~115 g</td><td class="n">~110 A</td><td>XT60／Dean</td></tr>
+      <tr><td class="n">2</td><td>ManiaX 750 同級</td><td class="n">750</td><td class="n">100C</td><td class="n">~68 g</td><td class="n">~75 A</td><td>XT60</td></tr>
+      <tr><td class="n">3</td><td>Fullymax 1300</td><td class="n">1300</td><td class="n">100C</td><td class="n">~117 g</td><td class="n">~130 A</td><td>XT60</td></tr>
+      <tr><td class="n">4</td><td>Tattu Funfly 1300</td><td class="n">1300</td><td class="n">100C</td><td class="n">~113 g</td><td class="n">~130 A</td><td>XT60</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="note bad">
+    <b>不要買：</b>一般穿越機用的重型 <b>4S 1100mAh</b>（如 CNHL Black 約 146g）會擠爆 300g。
+    例外：<b>Tattu／格氏「足球機專用」1100</b>（官方 92／101g）屬輕量球機系列，與重型 1100 不是同一種。
+  </div>
+
+  <div class="note warn">
+    <b>比賽充電：</b>FAI 單芯上限 <b>4.25V</b>。LiHV 雖可充到 4.35V，比賽時只能充到 4.20–4.25V。
+    平時儲存 3.80–3.85V／芯。<b>打完勿空包裝隔夜</b>（等於慢性過放）。標稱重量常有 ±10–20g，買到請實秤。
+  </div>
+</section>
+
+<!-- ============ 螺旋槳 ============ -->
+<section id="prop">
+  <h1>螺旋槳</h1>
+  <p class="lead">F9A-B 上限 3 吋（76mm）、禁止金屬槳。</p>
+  <nav class="toc" aria-label="螺旋槳本章目錄">
+    <span class="toc-label">本章目錄</span>
+    <a href="#prop-table">合規對照表</a>
+    <a href="#prop-compare">GF vs HQ 實測</a>
+  </nav>
+
+  <div class="figs">
+    <div class="fig"><a href="assets/props/gemfan2820.jpg" target="_blank" rel="noopener"><img src="assets/props/gemfan2820.jpg" alt="GEMFAN 2820-3 原廠規格"></a><span>GEMFAN 2820-3 規格</span></div>
+  </div>
+  <small>2828-3／2826-3／HQ 2828-3 的原廠產品圖尚未取得，有圖可再補。</small>
+
+  <h2 id="prop-table">合規對照表</h2>
+  <div class="wide">
+  <table>
+    <thead><tr><th>型號</th><th class="n">直徑</th><th class="n">螺距</th><th class="n">重量</th><th>官方推薦馬達</th><th class="n">起飛重量</th><th>合規</th></tr></thead>
+    <tbody>
+      <tr><td><b>GEMFAN 2828-3</b></td><td class="n">71.12 mm</td><td class="n">2.8"</td><td class="n">1.7 g</td><td>14–15 系列馬達</td><td class="n">300 g</td><td class="ok">✓</td></tr>
+      <tr><td><b>HQProp 2828-3</b></td><td class="n">71.12 mm</td><td class="n">2.8"</td><td class="n">1.8 g</td><td>14–15 系列（原廠測功常用）</td><td class="muted">—</td><td class="ok">✓</td></tr>
+      <tr><td>GEMFAN 2826-3</td><td class="n">71 mm</td><td class="n">2.4"</td><td class="n">1.47 g</td><td>1205–4300KV</td><td class="n">230 g</td><td class="ok">✓</td></tr>
+      <tr><td>GEMFAN 2820-3</td><td class="n">71.12 mm</td><td class="n">2.0"</td><td class="n">1.4 g</td><td>1104–1404</td><td class="n">180 g</td><td class="ok">✓</td></tr>
+      <tr><td>GF3016／3026／3028</td><td class="n">76 mm</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="ok">✓ 上限</td></tr>
+      <tr><td>GF D63</td><td class="n">63 mm</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="ok">✓</td></tr>
+      <tr><td>GF3520-3</td><td class="n">89 mm</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="no">✗ 違規</td></tr>
+      <tr><td>GF4023／4024／4042</td><td class="n">~102 mm</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="muted">—</td><td class="no">✗ 違規</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2 id="prop-compare">GF 2828-3 vs HQ 2828-3（同馬達實測）</h2>
+  <div class="wide">
+  <table>
+    <thead><tr><th>馬達</th><th>槳</th><th class="n">滿油門推力</th><th class="n">電流</th><th class="n">力效</th><th class="n">溫度</th></tr></thead>
+    <tbody>
+      <tr><td rowspan="2"><b>火神 VCI 1507</b></td><td>GF 2828-3</td><td class="n">651 g</td><td class="n">24.64 A</td><td class="n">1.65</td><td class="n">117 °C</td></tr>
+      <tr><td><b>HQ 2828-3</b></td><td class="n ok">657 g</td><td class="n">24.77 A</td><td class="n">1.66</td><td class="n ok">110 °C</td></tr>
+      <tr><td rowspan="2"><b>火神 VCI 1408</b></td><td>GF 2828-3</td><td class="n">574 g</td><td class="n">20.35 A</td><td class="n">1.76</td><td class="n">110 °C</td></tr>
+      <tr><td><b>HQ 2828-3</b></td><td class="n">573 g</td><td class="n ok">20.10 A</td><td class="n ok">1.78</td><td class="n ok">107 °C</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <small>兩者直徑同為 71.12mm、螺距同 2.8"，都合規。差異在 1% 以內，屬於同一級可互換槳。</small>
+
+  <div class="note info">
+    <b>建議：</b>全隊統一 <b>2828-3 級</b>（GEMFAN 或 HQProp 皆可）。兩家實測推力／電流幾乎相同，
+    HQ 版本溫度略低約 3–7°C。重點是<b>全隊統一同一款</b>，避免推力手感不一致。
+    GEMFAN 2828-3 有官方標示（1.7g、起飛重量 300g），資料最完整。
+  </div>
+
+  <div class="note bad">
+    <b>注意：</b>先前多份原廠測功表用了 3520／4024（>76mm）。那些數字只能看馬達潛力，
+    <span class="no">不能用於比賽</span>。實戰請以 2828／3016 級數據為準。
+  </div>
+</section>
+
+<!-- ============ 配置與重量 ============ -->
+<section id="build">
+  <h1>組裝與重量</h1>
+  <p class="lead">F9A-B 上場 3 台＋替補 2 台。可混用馬達，槳建議統一。</p>
+  <nav class="toc" aria-label="組裝本章目錄">
+    <span class="toc-label">本章目錄</span>
+    <a href="#build-check">賽前必讀</a>
+    <a href="#build-teams">三種配置</a>
+    <a href="#build-endurance">3 分鐘續航</a>
+    <a href="#build-weight">300g 預算</a>
+    <a href="#build-light">輕量 vs 299g</a>
+  </nav>
+
+  <h2 id="build-check">學生賽前必讀</h2>
+  <div class="note bad">
+    <b>先記住：300g 是上限，不是目標。</b>
+    送檢重量包含球框、電池、馬達、槳、飛控、電調、LED、線材、螺絲、膠帶與所有固定件。
+    建議比賽狀態控制在 <b>285–295g</b>，不要刻意配重到 299g；至少預留 5g 給秤差、維修與臨時補強。
+  </div>
+
+  <div class="cards c3">
+    <div class="card">
+      <span class="tag">重量與角色</span>
+      <h4>攻擊可偏重，防禦應靈活</h4>
+      <p><b>攻擊：</b>約 285–295g，可換取較穩的碰撞與卡位。</p>
+      <p><b>防禦：</b>約 250–285g，重視轉向、追球、續航與翻正。</p>
+      <p class="muted" style="margin-top:8px">滿載不一定錯，但會更耗電、更熱、轉向較鈍，而且幾乎沒有送檢容錯。</p>
+    </div>
+    <div class="card">
+      <span class="tag">孔距不可混用</span>
+      <h4>先看碳纖維板孔位</h4>
+      <p><b>Φ12 4-M2：</b>1507／DYH1408／火神 VCI 1408／SIRIUS 1505。</p>
+      <p><b>Φ9 4-M2：</b>火神 VCI 1404／1404.5／LANNRC 1404。</p>
+      <p><b>9×9mm：</b>P1604／GTS V3。</p>
+      <p class="muted" style="margin-top:8px">三系不相容。不要硬鎖或斜鎖馬達。</p>
+    </div>
+    <div class="card">
+      <span class="tag">電池與續航</span>
+      <h4>高 C 不等於一定飛得久</h4>
+      <p><b>C 數</b>決定供電能力；<b>mAh</b>主要決定可用時間。</p>
+      <p>850mAh／150C 適合爆發，但 1507 猛攻未必撐滿 3 分鐘。</p>
+      <p class="muted" style="margin-top:8px">一般重型 1100mAh 4S（~140–150g）會擠爆 300g；本隊 Tattu 球機專用 1100（約 92–101g）則可用。</p>
+    </div>
+  </div>
+
+  <div class="note warn" style="margin-top:16px">
+    <b>LED 提醒（學生常踩坑）：</b>
+    一般飛控只有一路 LED → 環燈／尾燈要<strong>串接分段設色</strong>，不要整條同色。
+    射手尾燈有規定色（紅隊射手＝藍、藍隊射手＝紅）；<strong>比賽中場無法接電腦改色</strong>。
+    <strong>亮度調低</strong>（建議約 30–50%，看得見即可；主因是不刺眼／不烤 BEC，對續航幫助很小）；並開啟<strong>低電壓閃爍警告</strong>提醒選手換電／減油。
+    解法：備一台固定射手機，或賽前設好 AUX／撥桿一鍵切「一般 ↔ 射手」。細節見「規則」分頁。
+  </div>
+
+  <div class="wide" style="margin-top:16px">
+  <table>
+    <thead><tr><th>上場前檢查</th><th>學生要做的事</th><th>不合格風險</th></tr></thead>
+    <tbody>
+      <tr><td><b>重量</b></td><td>裝上實際比賽電池與全部固定件後再秤；目標 ≤295g</td><td>超過 300g 不得上場</td></tr>
+      <tr><td><b>電池電壓</b></td><td>最高 4S，每芯 ≤4.25V；LiHV 不可充到 4.35V／芯；確認低壓紅閃有開</td><td>超壓違規；無警告易過放</td></tr>
+      <tr><td><b>防過放</b></td><td>4S 落地休息：&lt;14.0V 小心、&lt;13.2V 停用該顆；紅閃就減油／換電；每 set 換電；勿空包裝</td><td>鼓包報廢、整隊電池打穿</td></tr>
+      <tr><td><b>螺旋槳</b></td><td>使用 ≤76mm；主力統一 2828-3，檢查裂痕與固定螺絲</td><td>超徑違規；裂槳可能失控</td></tr>
+      <tr><td><b>馬達孔位</b></td><td>確認 Φ12、Φ9 或 9×9mm；四顆螺絲平整鎖入</td><td>硬鎖會歪斜、震動或損壞碳板</td></tr>
+      <tr><td><b>LED</b></td><td>主條≥16＋尾燈≥6；射手尾燈＝對方隊色；亮度約 30–50%（看得見即可）；低電壓要紅燈閃爍；中場勿接電腦改色</td><td>識別／射手錯色；過亮刺眼；低壓無提醒易沒電落地</td></tr>
+      <tr><td><b>安全功能</b></td><td>測試 fail-safe、解鎖／上鎖、烏龜模式；人員遠離槳面再通電</td><td>失控與人員受傷</td></tr>
+      <tr><td><b>每 set 換電</b></td><td>落地記錄剩餘電壓、電池與馬達溫度；熱電池冷卻後再充；攻擊機強制換電</td><td>過放鼓包、壓降落地、續航崩壞</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2 id="build-teams">三種隊伍配置</h2>
+  <div class="cards c3">
+    <div class="card hero">
+      <span class="tag">A · 全力對抗</span>
+      <h4>1507 攻擊／1408 硬防</h4>
+      <p class="solid">攻擊：火神 VCI 1507＋Tattu V5 850／150C<br>防禦：火神 VCI 1408＋Tattu 750／95C 或 V5 850</p>
+      <p style="margin-top:8px">推力最強。1507 必須 ≥120–150C、ESC≥30A。</p>
+    </div>
+    <div class="card">
+      <span class="tag">B · 均衡</span>
+      <h4>DYH／1408</h4>
+      <p class="solid">攻擊：DYH1408＋Tattu V5 850／150C<br>防禦：火神 VCI 1408＋750／95C</p>
+      <p style="margin-top:8px">電流比 1507 省，較容易撐滿 3 分鐘。</p>
+    </div>
+    <div class="card">
+      <span class="tag">C · 輕量控場</span>
+      <h4>1404.5＋3S</h4>
+      <p class="solid">火神 VCI 1404.5＋3S 850–1100／≥100C</p>
+      <p style="margin-top:8px">續航最寬裕；硬對抗明顯弱。</p>
+    </div>
+  </div>
+
+  <h2 id="build-endurance">能不能飛到 3 分鐘？</h2>
+  <div class="note warn">
+    <b>算法：</b>可用電量 ≈ 標稱容量 × <b>80%</b>（比賽勿放電到過低）。
+    時間(分) ≈ 可用 mAh ÷ 平均總電流(A) ÷ 1000 × 60。
+    平均電流用測功中段推估，不是滿油門；實戰會因對抗強度上下浮動。
+  </div>
+
+  <div class="wide">
+  <table>
+    <thead>
+      <tr>
+        <th>配置</th>
+        <th>推薦電池</th>
+        <th class="n">可用電量</th>
+        <th class="n">輕飛／控場<br>≈12–15A</th>
+        <th class="n">混合對抗<br>≈18–22A</th>
+        <th class="n">猛攻硬頂<br>≈28–35A</th>
+        <th>3 分鐘結論</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>攻擊 · 火神 VCI 1507</b></td>
+        <td>Tattu V5 <b>850mAh</b> 4S 150C（100g）</td>
+        <td class="n">~680 mAh</td>
+        <td class="n ok">~2.7–3.4 分</td>
+        <td class="n">~1.9–2.3 分</td>
+        <td class="n no">~1.2–1.5 分</td>
+        <td><b class="no">猛攻撐不滿</b>；混合約 2 分。要穩 3 分需控油門或加容量（但會超重）</td>
+      </tr>
+      <tr>
+        <td><b>攻擊 · DYH1408</b></td>
+        <td>Tattu V5 <b>850mAh</b> 4S 150C（100g）</td>
+        <td class="n">~680 mAh</td>
+        <td class="n ok">~3.0–3.8 分</td>
+        <td class="n ok">~2.1–2.5 分</td>
+        <td class="n">~1.4–1.7 分</td>
+        <td>比 1507 省電；<b>混合對抗接近 2.5 分</b>，控場可過 3 分</td>
+      </tr>
+      <tr>
+        <td><b>硬防 · 火神 VCI 1408</b></td>
+        <td>Tattu <b>750mAh</b> 4S 95C（84g）</td>
+        <td class="n">~600 mAh</td>
+        <td class="n ok">~2.7–3.3 分</td>
+        <td class="n">~1.8–2.2 分</td>
+        <td class="n no">~1.2–1.4 分</td>
+        <td>輕防可過 3 分；硬對抗偏緊。要穩就改 <b>850／150C</b></td>
+      </tr>
+      <tr>
+        <td><b>硬防 · 火神 VCI 1408</b></td>
+        <td>Tattu V5 <b>850mAh</b> 4S 150C（100g）</td>
+        <td class="n">~680 mAh</td>
+        <td class="n ok">~3.2–4.0 分</td>
+        <td class="n ok">~2.2–2.6 分</td>
+        <td class="n">~1.5–1.8 分</td>
+        <td><b class="ok">最穩的防禦配</b>；控場穩過 3 分</td>
+      </tr>
+      <tr>
+        <td><b>輕防 · 1404.5</b></td>
+        <td>3S <b>1100mAh</b> ≥100C（~115g）</td>
+        <td class="n">~880 mAh</td>
+        <td class="n ok">~4.0–5.0 分</td>
+        <td class="n ok">~2.8–3.5 分</td>
+        <td class="n ok">~2.0–2.5 分</td>
+        <td><b class="ok">最容易飛滿 3 分</b>；代價是推力弱</td>
+      </tr>
+      <tr>
+        <td><b>輕防 · 1404.5</b></td>
+        <td>3S <b>750mAh</b> ≥100C（~68g）</td>
+        <td class="n">~600 mAh</td>
+        <td class="n ok">~2.7–3.3 分</td>
+        <td class="n">~1.8–2.2 分</td>
+        <td class="n">~1.3–1.5 分</td>
+        <td>壓重用；混合對抗剛好卡邊</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="note info">
+    <b>直答：</b>
+    <ul style="margin:8px 0 0;padding-left:1.2em">
+      <li><b>能穩飛 3 分鐘</b>：1408／DYH＋850mAh（控場／混合）、1404.5＋1100mAh 3S。</li>
+      <li><b>卡邊／偏緊</b>：1507＋850mAh 猛攻；1408＋750mAh 硬對抗。</li>
+      <li><b>局內提早紅閃</b>：1507 全程猛頂／滿油門——功率吃電快，不是「少換一顆」能解；set 結束本來就要換，局中只靠減油／回邊撐完。</li>
+    </ul>
+  </div>
+
+  <div class="note warn">
+    <b>比賽實務：</b>一 set ≈ 3 分鐘，結束就換電；中間有死球、暫停，容量大只是局內比較寬裕。
+    射手（攻擊手）建議 <b>每 set 換一顆熱電</b>（備 4–6 顆同規格），不要指望單顆猛攻撐完整場。
+    防禦機用 850／150C 比 750 更安心。
+  </div>
+
+  <h2 id="build-weight">300g 重量預算試算</h2>
+  <div class="wide">
+  <table>
+    <thead><tr><th>項目</th><th class="n">攻擊（1507＋V5）</th><th class="n">攻擊（DYH＋V5）</th><th class="n">硬防（1408＋750）</th><th class="n">輕防（1404.5＋3S）</th></tr></thead>
+    <tbody>
+      <tr><td>馬達 ×4</td><td class="n">60.1 g</td><td class="n">60.0 g</td><td class="n">54.4 g</td><td class="n">36.8 g</td></tr>
+      <tr><td>槳 ×4（2828-3）</td><td class="n">6.8 g</td><td class="n">6.8 g</td><td class="n">6.8 g</td><td class="n">6.8 g</td></tr>
+      <tr><td>電池</td><td class="n">100 g</td><td class="n">100 g</td><td class="n">84 g</td><td class="n">~68–115 g</td></tr>
+      <tr><td>飛控＋電調（AIO，8.5–12.6g）</td><td class="n">~8.5–12.6 g</td><td class="n">~8.5–12.6 g</td><td class="n">~8.5–12.6 g</td><td class="n">~8.5–12.6 g</td></tr>
+      <tr><td><b>小計（不含框架）</b></td><td class="n"><b>~175–177 g</b></td><td class="n"><b>~175–177 g</b></td><td class="n"><b>~154–156 g</b></td><td class="n"><b>~121–168 g</b></td></tr>
+      <tr><td>可用框架＋LED＋線材</td><td class="n ok">~123–125 g</td><td class="n ok">~123–125 g</td><td class="n ok">~144–146 g</td><td class="n ok">~132–179 g</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <small>1507 與 DYH 重量幾乎相同（約 15g／顆）。差別在電流：1507 滿載 24.6A，必須用高 C 電池。飛控重以官方值計（HAKRC F411 8.5g／RATE 8–9.6g／Oxbot Flow AIO45 12.6g）。三款 40–45A AIO 都滿足「ESC≥30A」需求；Oxbot 另可省掉外接接收機重量。</small>
+
+  <h2 id="build-light">輕量機與 299g 滿載怎麼選？</h2>
+  <div class="wide">
+  <table>
+    <thead><tr><th>策略</th><th>優點</th><th>缺點</th><th>適合角色</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><b>較輕（約 250–285g）</b></td>
+        <td>加速、轉向與翻正較快；平均電流、溫升較低；續航較長；維修後較不易超重</td>
+        <td>碰撞時較容易被頂開；卡位與慣性較弱</td>
+        <td>防禦、控場、追球</td>
+      </tr>
+      <tr>
+        <td><b>偏重（約 285–295g）</b></td>
+        <td>碰撞與卡位較穩；高速衝撞動量較大；仍保留少量送檢容錯</td>
+        <td>轉向較鈍、耗電與溫升較高</td>
+        <td>攻擊、短時硬防</td>
+      </tr>
+      <tr>
+        <td><b>299g 貼上限</b></td>
+        <td>把合法質量幾乎用滿，硬碰硬時較不容易被推開</td>
+        <td><b class="no">僅剩 1g 容錯</b>；秤差、膠帶、換線或維修都可能超重；續航與靈活性最差</td>
+        <td>只適合實秤穩定且明確採硬撞戰術的攻擊機</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="note info">
+    <b>為什麼學生機常接近 300g？</b>
+    20／22cm 球框、碳板、護罩、LED、線材和 80–100g 高 C 電池疊加後，本來就容易落在 290g 以上；
+    這通常是組裝結果，不代表 299g 一定是最佳性能。不要為了「用滿規則」額外加配重。
+  </div>
+
+  <div class="note info">
+    <b>推重比：</b>1507 單顆 651g → 四軸約 2.6kg；對 300g 球體推重比約 <b>8–9:1</b>。
+    動力過剩，瓶頸是散熱、電池 C 數與 300g 總重。
+  </div>
+
+  <div class="note warn">
+    <b>先做這一步：</b>用電子秤實測「框架＋電池＋4馬達＋槳＋飛控」。
+    靠近 300g 就優先讓防禦減重（改 1404.5），攻擊可保留 1507 或 DYH。
+  </div>
+</section>
+
+<!-- ============ LED／飛控 ============ -->
+<section id="led">
+  <h1>LED／飛控</h1>
+  <p class="lead">本隊飛控共 <b>三款 AIO</b>（飛控＋4in1 電調一體）：<b>HAKRC F411 40A</b>、<b>RATE F4 40A</b>、<b>牛博特 Oxbot Flow AIO45</b>。三款都支援可編程 LED，但都是<b>一路</b> LED 輸出。</p>
+  <nav class="toc" aria-label="LED本章目錄">
+    <span class="toc-label">本章目錄</span>
+    <a href="#led-fc">本隊飛控</a>
+    <a href="#led-pinout">F411 接口</a>
+    <a href="#led-rate-wire">RATE 接線</a>
+    <a href="#led-cli">飛控設定</a>
+    <a href="#led-color">顏色規定</a>
+    <a href="#led-power">耗電與秒數</a>
+    <a href="#led-lowbat">低壓紅閃</a>
+    <a href="#led-striker">換射手</a>
+    <a href="#led-wiring">一路 LED 解法</a>
+  </nav>
+
+  <h2 id="led-fc">本隊飛控（三款 AIO）</h2>
+  <div class="prod">
+    <article class="card">
+      <a class="thumb" href="assets/fc/hakrc-f411-40a-board.png" target="_blank" rel="noopener"><img src="assets/fc/hakrc-f411-40a-board.png" alt="HAKRC F411 40A AIO 正面與背面" /></a>
+      <div class="body">
+        <span class="tag">本隊已購 · 飛控＋電調一體</span>
+        <h4>HAKRC F411 40A AIO（BLHeli_S）</h4>
+        <div class="stats">
+          <div class="stat"><b>STM32F411</b><span>主控</span></div>
+          <div class="stat"><b>40／45A</b><span>持續／峰值</span></div>
+          <div class="stat"><b>8.5g</b><span>淨重</span></div>
+          <div class="stat"><b>25.5</b><span>孔距 mm</span></div>
+        </div>
+        <p>約 <b>31–32mm</b> 方板（產品圖常寫 32×32、官網多寫 31×31）、8 層 2oZ 厚銅、40V MOS。電調 <b>BLHeli_S</b>、2–6S、持續 40A／峰值 45A，對 1408／DYH／1507 綽綽有餘。
+          自帶可編程 LED 焊盤（<code>LED B- 5V GND</code>）與內建電流感測（產品圖電流計比例 <b>210</b>）。
+          <b>注意 BEC 只有 5V／2A</b>——22 顆純色燈約 0.2–0.4A 沒問題，但不要整條 60 顆全亮白。</p>
+      </div>
+    </article>
+    <article class="card">
+      <a class="thumb" href="assets/fc/rate-f4-40a-aio.png" target="_blank" rel="noopener"><img src="assets/fc/rate-f4-40a-aio.png" alt="RATE F4 40A AIO 參數詳情" /></a>
+      <div class="body">
+        <span class="tag">本隊已購 · 飛控＋電調一體</span>
+        <h4>RATE F4 40A AIO（AT32F435）</h4>
+        <div class="stats">
+          <div class="stat"><b>AT32F435</b><span>主控</span></div>
+          <div class="stat"><b>40A</b><span>電調</span></div>
+          <div class="stat"><b>8／9.6g</b><span>無殼／有殼</span></div>
+          <div class="stat"><b>25×25</b><span>孔距 mm</span></div>
+        </div>
+        <p>33×33×5.5mm（有殼高 7mm）。主控 <b>AT32F435 @ 288MHz</b>（廠方稱較 F722 約 +34%），支援雙 8K 與<b>雙向 DShot</b>。
+          內建 <b>32bit 電調</b>、持續 40A、3–6S。BEC <b>5V 3A</b>＋10V 2A（HD）；SPL06、MSP OSD、16MB 黑匣子。
+          <b>LED：5V／GND／DIN</b>。配件含 XT30 電源線與 <b>35V 470µF</b> 電容——一定要焊。</p>
+      </div>
+    </article>
+    <article class="card">
+      <div class="body" style="padding-left:16px">
+        <span class="tag">本隊已購 · 內建 ELRS 接收機</span>
+        <h4>牛博特 Oxbot Flow AIO45（AT32F435）</h4>
+        <div class="stats">
+          <div class="stat"><b>AT32F435</b><span>主控</span></div>
+          <div class="stat"><b>45A</b><span>OX32 電調</span></div>
+          <div class="stat"><b>12.6g</b><span>重量</span></div>
+          <div class="stat"><b>5V 4A</b><span>BEC</span></div>
+        </div>
+        <p><b>三塊板裡 LED 餘裕最大（5V 4A）</b>，而且<b>內建 ELRS 接收機</b>——不用外接、不用焊接收機線，省重又少一個掉線點。
+          電調 <b>OX32 32bit</b>、45A、3–6S，預設開 <b>雙向 DShot</b>（可開 RPM 濾波）。
+          ICM42688P（含時鐘同步）、DPS310 氣壓計、16MB 黑匣子、MAX7456 類比 OSD。孔距 <b>25.5×25.5mm</b>。
+          Betaflight target：<code>OXBOT_FLOW_AIO45</code>。</p>
+        <p class="muted" style="margin-top:8px">缺點：<b>12.6g 是三塊裡最重</b>（比 HAKRC 多約 4g）；球機不裝圖傳時記得用 <code>VTX BEC OFF</code> 開關關掉圖傳供電。</p>
+      </div>
+    </article>
+  </div>
+
+  <div class="figs" style="margin-top:12px">
+    <div class="fig"><a href="assets/fc/hakrc-f411-40a-spec.png" target="_blank" rel="noopener"><img src="assets/fc/hakrc-f411-40a-spec.png" alt="HAKRC F411 40A 飛控與電調參數"></a><span>HAKRC F411 參數</span></div>
+    <div class="fig"><a href="assets/fc/rate-f4-at32f435.png" target="_blank" rel="noopener"><img src="assets/fc/rate-f4-at32f435.png" alt="RATE F4 AT32F435 主控"></a><span>RATE AT32F435 主控</span></div>
+    <div class="fig"><a href="assets/fc/rate-f4-32bit-esc.png" target="_blank" rel="noopener"><img src="assets/fc/rate-f4-32bit-esc.png" alt="RATE F4 32bit 電調"></a><span>RATE 32bit 電調</span></div>
+  </div>
+  <small>點圖放大看原廠參數。RATE 主控 AT32F435、32bit 電調支援雙向 DShot；HAKRC 為 STM32F411＋BLHeli_S。</small>
+
+  <h3>三板差異（挑板／備料看這裡）</h3>
+  <div class="wide">
+  <table>
+    <thead><tr><th>項目</th><th>HAKRC F411 40A</th><th>RATE F4 40A</th><th>Oxbot Flow AIO45</th><th>球機影響</th></tr></thead>
+    <tbody>
+      <tr><td>主控</td><td>STM32F411CEU6</td><td>AT32F435</td><td>AT32F435</td><td>F411 資源較少但夠用。<b>三塊 target 都不同，勿互刷</b></td></tr>
+      <tr><td>IMU</td><td>ICM42688</td><td>ICM42688*</td><td>ICM42688P（時鐘同步）</td><td>同級；Oxbot 有 CLKin 略優</td></tr>
+      <tr><td>OSD</td><td>AT7456E（類比）</td><td>RATE MSP OSD</td><td>MAX7456（類比）</td><td>有鏡頭才用</td></tr>
+      <tr><td>黑匣子</td><td>16M</td><td>16MB</td><td>16MB（W25Q128）</td><td>調參可下載 log</td></tr>
+      <tr><td><b>BEC</b></td><td class="no"><b>5V 2A</b></td><td><b>5V 3A</b>（＋10V 2A）</td><td class="ok"><b>5V 4A</b></td><td><b>LED 最寬裕＝Oxbot</b>；F411 板務必調暗</td></tr>
+      <tr><td>電調固件</td><td class="no"><b>BLHeli_S</b>（G-H-30）</td><td class="ok"><b>32bit</b>＋雙向 DShot</td><td class="ok"><b>OX32 32bit</b>＋雙向 DShot</td><td><b>攻擊機優先 RATE／Oxbot</b>：可開 RPM 濾波；F411 不能開</td></tr>
+      <tr><td>電調電流</td><td>持續 40A／峰值 45A</td><td>穩定 40A</td><td class="ok"><b>45A</b></td><td>單顆馬達峰值約 25A → 三塊都夠</td></tr>
+      <tr><td>電池輸入</td><td>2–6S</td><td>3–6S</td><td>3–6S</td><td>本隊 <b>4S</b> 都 OK</td></tr>
+      <tr><td><b>接收機</b></td><td>需外接（SBUS／UART）</td><td>需外接（ELRS→UART2）</td><td class="ok"><b>內建 ELRS</b></td><td><b>Oxbot 省一顆接收機＋線</b>，少一個故障點</td></tr>
+      <tr><td>電流計比例</td><td><b>210</b></td><td>未標示（實飛校正）</td><td>Betaflight 預設值</td><td>F411 先設 <code>ibata_scale = 210</code></td></tr>
+      <tr><td><b>重量</b></td><td class="ok"><b>8.5g</b></td><td><b>8g／9.6g</b></td><td class="no"><b>12.6g</b></td><td>Oxbot 多約 3–4g；但省下接收機（約 1–2g）後差距縮小</td></tr>
+      <tr><td>尺寸／孔距</td><td>約 31–32mm／<b>25.5mm</b>（亦常見 26.5）</td><td>33×33mm／<b>25×25mm</b></td><td><b>25.5×25.5mm</b></td><td><b>孔距三種不完全相同！</b>機架要先對好</td></tr>
+      <tr><td>特殊功能</td><td>—</td><td>10V 2A 供 HD 圖傳</td><td><code>VTX BEC OFF</code> 開關</td><td>球機不裝圖傳就把 Oxbot 的圖傳供電關掉</td></tr>
+      <tr><td>包裝配件</td><td>M2 減震球、XT30、270µF 電容</td><td>減震球、排線、<b>35V 470µF</b>、XT30</td><td>（看賣場）</td><td>電容一定要焊在 VBAT 正負極旁</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note warn" style="margin-top:8px">
+    <b>三塊板孔距不完全一樣：</b>HAKRC <b>25.5</b>（也支援 26.5）、Oxbot <b>25.5</b>、RATE <b>25×25</b>。決定機架前先確認要裝哪一塊，別買了框架才發現裝不上。
+  </div>
+  <div class="note info">
+    <b>怎麼分配（建議）：</b>
+    <b>攻擊機＝Oxbot Flow AIO45</b>（45A＋雙向 DShot＋內建 ELRS＋BEC 4A 最穩，重一點可接受）或 RATE；
+    <b>防禦／輕量機＝HAKRC F411</b>（最輕 8.5g，但 LED 要調暗、不能開 RPM 濾波）。
+  </div>
+
+  <h2 id="led-pinout">HAKRC F411 接口定義（焊哪裡）</h2>
+  <p><a href="assets/fc/hakrc-f411-40a-pinout.png" target="_blank" rel="noopener">點圖看大圖 →</a></p>
+  <div class="prod">
+    <article class="card">
+      <a class="thumb" href="assets/fc/hakrc-f411-40a-pinout.png" target="_blank" rel="noopener"><img src="assets/fc/hakrc-f411-40a-pinout.png" alt="F411 40A AIO 接口定義圖" /></a>
+      <div class="body">
+        <span class="tag">接線圖</span>
+        <h4>F411 40A AIO 接口定義圖</h4>
+        <p>M1–M4 在四角；LED 焊盤在板子上緣，另有原廠 RGB 燈與 USB。</p>
+      </div>
+    </article>
+  </div>
+  <div class="wide">
+  <table>
+    <thead><tr><th>焊盤／插座</th><th>腳位</th><th>接什麼</th></tr></thead>
+    <tbody>
+      <tr><td><b>LED（上緣）</b></td><td><code>LED　B-　5V　GND</code></td><td><b>WS2812 燈條</b>：訊號→LED、＋5V→5V、負→GND。<b>B- 是蜂鳴器負極</b>，別當 GND 用</td></tr>
+      <tr><td>M1–M4（四角）</td><td>各角一組</td><td>四顆馬達；順序與轉向在 Betaflight 馬達頁確認</td></tr>
+      <tr><td>左側排</td><td><code>5V　G　SBUS　R1　T1</code></td><td>接收機（SBUS 或 UART1 的 R1／T1）</td></tr>
+      <tr><td>左側排（下）</td><td><code>G　5V　T3　R3　SCL　SDA</code></td><td>UART3 與 I2C（外掛感測器）</td></tr>
+      <tr><td>下方排</td><td><code>G　5V　VTX　T2　R2</code></td><td>圖傳與 UART2</td></tr>
+      <tr><td>下方排</td><td><code>BAT　G　5V　CAM　B10　G</code></td><td>電池電壓、鏡頭、B10（蜂鳴器／額外 IO）</td></tr>
+      <tr><td>6pin 插座</td><td><code>R1　G　R2　T2　G　BAT</code></td><td>圖傳／接收機用排線，免焊</td></tr>
+      <tr><td>USB 旁</td><td><code>GND　5V　DM　DP</code></td><td>USB 備用焊盤（Type-C 撞壞時救援）</td></tr>
+      <tr><td>板中央</td><td>RGB 燈</td><td>原廠板載燈，非比賽用主燈</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note bad" style="margin-top:8px">
+    <b>學生最常燒板：</b>LED 條的 5V／GND 接反，或把訊號線焊到 <code>B-</code>。焊完先<b>不接電池</b>、只插 USB 確認燈條會亮再上電。
+  </div>
+
+  <h2 id="led-rate-wire">RATE F4／F7 接線圖（焊哪裡）</h2>
+  <div class="prod">
+    <article class="card">
+      <a class="thumb" href="assets/fc/rate-f4-40a-wiring.png" target="_blank" rel="noopener"><img src="assets/fc/rate-f4-40a-wiring.png" alt="RATE F7/F4 32bit AIO 接線圖與端口設定" /></a>
+      <div class="body">
+        <span class="tag">接線圖 · 官方</span>
+        <h4>RATE F7／F4 32bit AIO 接線圖</h4>
+        <p>鏡頭、圖傳、LED、蜂鳴器、接收機、GPS 全部標好。球機最常用下面三行。</p>
+      </div>
+    </article>
+    <article class="card">
+      <a class="thumb" href="assets/fc/rate-f4-packing.png" target="_blank" rel="noopener"><img src="assets/fc/rate-f4-packing.png" alt="RATE 配件清單" /></a>
+      <div class="body">
+        <span class="tag">開箱清單</span>
+        <h4>配件：減震球／排線／電容／XT30</h4>
+        <p>減震球 M2×6.6×5、尼龍螺母與墊片、sh1.0 排線、<b>35V 470µF 電容</b>、XT30 電源線。</p>
+      </div>
+    </article>
+  </div>
+  <div class="wide">
+  <table>
+    <thead><tr><th>外設</th><th>接法（官方圖）</th><th>球機備註</th></tr></thead>
+    <tbody>
+      <tr><td><b>LED 燈條</b></td><td><code>5V　GND　DIN→LED</code></td><td>WS2812 訊號進 LED 焊盤；環＋尾串成一路</td></tr>
+      <tr><td><b>蜂鳴器</b></td><td><code>5V　BB-</code></td><td>可開 visual beeper，低電燈也閃</td></tr>
+      <tr><td><b>ELRS／TBS 接收機</b></td><td><code>5V　GND　RX2　TX2</code></td><td>串口接收機；端口表 UART2＝Serial RX</td></tr>
+      <tr><td>SBUS 接收機</td><td><code>5V　GND　SBUS</code></td><td>走專用 SBUS 焊盤</td></tr>
+      <tr><td>攝像頭</td><td><code>5V　GND　VID</code></td><td>純對戰可不裝</td></tr>
+      <tr><td>類比圖傳</td><td>VBAT（7–26V）、GND、VID、DATA／SA</td><td>UART1＝VTX 控制（依協議選）</td></tr>
+      <tr><td>HD 圖傳（O4 等）</td><td>側邊 6pin（10V／VBAT、GND、UART）</td><td>UART4＝VTX（MSP＋DisplayPort）</td></tr>
+      <tr><td>GPS（選配）</td><td>UART3 或 UART5＋I2C</td><td>室內球機通常不裝</td></tr>
+      <tr><td><b>濾波電容</b></td><td><b>35V 470µF</b> 焊在電池正負極旁</td><td>包裝有附；不焊易壓降／燒板</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note warn" style="margin-top:8px">
+    <b>端口表注意（官方紅字）：</b>類比圖傳若走串口控制，對應 UART 勿關；有 MSP OSD 的串口也勿關，否則無 OSD。
+    球機若無圖傳／GPS，只要接好 <b>接收機＋LED＋蜂鳴器＋電容</b> 即可上場。
+  </div>
+
+  <h2 id="led-cli">飛控設定重點（兩塊板分開看）</h2>
+  <h3>HAKRC F411（BLHeli_S）</h3>
+  <div class="wide">
+  <table>
+    <thead><tr><th>項目</th><th>設定</th><th>為什麼</th></tr></thead>
+    <tbody>
+      <tr><td>電調協議</td><td><b>Dshot300</b>（或 Dshot600）</td><td>BLHeli_S 支援到 Dshot600；F411 用 Dshot300 最穩</td></tr>
+      <tr><td>RPM 濾波</td><td class="no"><b>不能開</b></td><td>無雙向 Dshot；硬開會不起轉</td></tr>
+      <tr><td>電流計比例</td><td><code>set ibata_scale = 210</code></td><td>官方標示 210</td></tr>
+      <tr><td>LED</td><td>亮度約 <b>40</b></td><td>BEC 只有 2A</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <pre>set ibata_scale = 210
+feature LED_STRIP
+set ledstrip_brightness = 40
+set ledstrip_visual_beeper = ON
+set vbat_warning_cell_voltage = 35
+set vbat_min_cell_voltage = 33
+save</pre>
+  <div class="note info" style="margin-top:8px">
+    原廠飛控固件 <code>HAKRCF411D</code>、電調 <code>BLHELI_S (G-H-30)</code>。刷之前先記下來。
+  </div>
+
+  <h3>RATE F4（AT32F435＋32bit 電調）</h3>
+  <div class="wide">
+  <table>
+    <thead><tr><th>項目</th><th>設定</th><th>為什麼</th></tr></thead>
+    <tbody>
+      <tr><td>電調協議</td><td><b>Dshot300／600</b>＋<b>雙向 DShot ON</b></td><td>32bit 電調支援；可開 RPM 濾波讓對抗更穩</td></tr>
+      <tr><td>RPM 濾波</td><td class="ok"><b>可開</b></td><td>這是相對 F411 的最大優勢</td></tr>
+      <tr><td>接收機（ELRS）</td><td>UART2＝Serial RX</td><td>線接 <code>5V GND RX2 TX2</code></td></tr>
+      <tr><td>LED</td><td>亮度約 40–50</td><td>BEC 5V 3A，餘裕比 F411 大</td></tr>
+      <tr><td>低壓警告</td><td>Warning 3.5V／Min 3.3V／芯</td><td>兩塊板相同</td></tr>
+      <tr><td>氣壓計</td><td>球機室內可關</td><td>不用高度模式就關</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <pre>feature LED_STRIP
+set ledstrip_brightness = 40
+set ledstrip_visual_beeper = ON
+set vbat_warning_cell_voltage = 35
+set vbat_min_cell_voltage = 33
+save</pre>
+  <div class="note info" style="margin-top:8px">
+    <b>學生注意：</b>AIO＝飛控與電調同一塊，省線省重，但<b>燒一路等於整塊換</b>。撞機後檢查四角 MOS。
+    RATE 主控是 AT32，刷固件選廠商／對應 target，<b>勿用 STM32 F411 固件硬刷</b>。
+    開箱後先把 <b>470µF／35V 電容</b>焊在 XT30 電池端正負極（越靠近板越好）。
+  </div>
+
+  <h3>牛博特 Oxbot Flow AIO45（內建 ELRS）</h3>
+  <div class="wide">
+  <table>
+    <thead><tr><th>項目</th><th>設定</th><th>為什麼</th></tr></thead>
+    <tbody>
+      <tr><td>Betaflight target</td><td><code>OXBOT_FLOW_AIO45</code></td><td>主控 AT32F435；<b>勿刷成 RATE 或 F411 的 target</b></td></tr>
+      <tr><td>電調協議</td><td><b>Dshot300／600</b>＋<b>雙向 DShot ON</b></td><td>OX32 32bit 支援；原廠預設已開 DShot telemetry</td></tr>
+      <tr><td>RPM 濾波</td><td class="ok"><b>可開</b></td><td>對抗震動大，開了較穩</td></tr>
+      <tr><td><b>接收機</b></td><td class="ok"><b>內建 ELRS，不用外接</b></td><td>只要把 ELRS 對頻（bind）；省一顆接收機與焊線</td></tr>
+      <tr><td>LED</td><td>亮度 40–50 都很寬裕</td><td>BEC <b>5V 4A</b>，三塊板中餘裕最大</td></tr>
+      <tr><td><b>圖傳供電</b></td><td>球機不裝圖傳 → 用 <code>VTX BEC OFF</code> 關掉</td><td>Betaflight 開關名稱就叫 <b>VTX BEC OFF</b>（PINIO），省電、少發熱</td></tr>
+      <tr><td>低壓警告</td><td>Warning 3.5V／Min 3.3V／芯</td><td>三塊板都一樣</td></tr>
+      <tr><td>氣壓計</td><td>DPS310；室內球機可關</td><td>不用高度模式就關</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <pre>feature LED_STRIP
+set ledstrip_brightness = 45
+set ledstrip_visual_beeper = ON
+set vbat_warning_cell_voltage = 35
+set vbat_min_cell_voltage = 33
+save</pre>
+  <div class="note info" style="margin-top:8px">
+    <b>內建 ELRS 的好處（對球機很實際）：</b>不用外接接收機＝少一條天線線、少一個撞機後鬆脫的點，也省約 1–2g。
+    對頻與刷 ELRS 固件的教學見
+    <a href="https://wiki.oxbot.cn/fc-esc/" target="_blank" rel="noopener">牛博特官方知識庫（飛控／電調）</a>。
+  </div>
+  <div class="note warn">
+    <b>重量提醒：</b>Oxbot <b>12.6g</b> 比 HAKRC 8.5g 重約 4g。掛上去後<b>整機一定要重秤</b>；靠近 300g 就把電池換小一號或改用較輕的板。
+  </div>
+
+  <div class="note bad">
+    <b>中場接電腦改飛控 LED 顏色＝幾乎不可能。</b>
+    timeout／set 間只有 1–3 分鐘。顏色必須賽前設好，或用遙控／硬體一鍵切換。
+  </div>
+
+  <h2 id="led-color">顏色規定（FAI B.1.5）</h2>
+  <div class="note info" style="margin-top:0">
+    <b>名詞統一：<span class="ok">射手 ＝ 攻擊手 ＝ 前鋒（striker）</span></b>——同一個角色、同一台球機，不是三種人。
+    本頁以下一律稱 <b>射手</b>。規則重點：<b>每隊只有 1 名射手</b>，也是<b>唯一可以得分</b>的人；其餘隊員只能防守／導引。
+  </div>
+  <div class="wide">
+  <table>
+    <thead><tr><th>燈位</th><th>規定</th><th>學生要做的</th></tr></thead>
+    <tbody>
+      <tr><td><b>環形主燈</b></td><td>≥16 顆；整場紅隊紅、藍隊藍</td><td>賽前切成主辦指定隊色，任意角度都要看得清</td></tr>
+      <tr><td><b>尾巴識別燈</b></td><td>≥6 顆；各機顏色彼此好分辨</td><td>勿跟本隊紅／藍主色搞混</td></tr>
+      <tr><td><b>射手尾燈</b>（＝攻擊手）</td><td>紅隊射手＝<b>藍</b>；藍隊射手＝<b>紅</b></td><td>必須是對方隊色；換射手就要改這台尾燈</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2 id="led-power">亮度與電量粗算（22 顆）</h2>
+  <div class="note" style="margin-top:0">
+    <b>結論：續航幾乎都是馬達吃掉的；調 LED 亮度對飛多久影響通常 &lt;3%（約 1–2 秒）。</b>
+    調暗主因是不刺眼、BEC 較不熱。
+  </div>
+
+  <h3>① 單顆 WS2812</h3>
+  <ul>
+    <li>全亮白光約 <b>60 mA＠5V</b>（約 0.3 W／顆）。</li>
+    <li>純紅或純藍約白光的 <b>1／3</b>（約 20 mA＠5V）。</li>
+  </ul>
+
+  <h3>② 本隊：買 1m／60 燈條，只裝 22 顆</h3>
+  <div class="note warn" style="margin-top:0">
+    規格 1m／60 顆，裝機只留 <b>主條 16＋尾燈 6＝22 顆</b>。多的剪掉。
+  </div>
+  <div class="wide">
+  <table>
+    <thead><tr><th>假設（22 顆）</th><th>5V 端電流</th><th>功率</th><th>折回 4S 電池側</th></tr></thead>
+    <tbody>
+      <tr><td>全亮白</td><td>22×60mA＝<b>1.32 A</b></td><td>≈6.6 W</td><td>≈ <b>0.52 A</b></td></tr>
+      <tr><td>純紅或純藍 100%</td><td>22×20mA＝<b>0.44 A</b></td><td>≈2.2 W</td><td>≈ <b>0.17 A</b></td></tr>
+      <tr><td>純色＋亮度 40%</td><td>≈<b>0.18 A</b></td><td>≈0.9 W</td><td>≈ <b>0.07 A</b></td></tr>
+      <tr style="opacity:.75"><td>（對照）誤裝 60 顆純色 100%</td><td>1.2 A</td><td>≈6 W</td><td>≈0.47 A；易壓垮飛控 5V</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>③ 3 分鐘耗電 ≈ 馬達能飛幾秒？</h3>
+  <p><code>消耗 mAh ≈ 電流(A) × 0.05 × 1000</code>；換算（馬達平均 15A）：<code>秒數 ≈ mAh × 3.6 ÷ 15</code>。</p>
+  <div class="wide">
+  <table>
+    <thead>
+      <tr>
+        <th>項目（22 顆）</th>
+        <th>電池側電流</th>
+        <th>3 分鐘耗電</th>
+        <th>佔 850mAh</th>
+        <th>≈ 馬達 15A 可飛</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>全亮白</td><td>0.52 A</td><td><b>≈26 mAh</b></td><td>≈3.1%</td><td><b>≈6 秒</b></td></tr>
+      <tr><td>純紅／藍 100%</td><td>0.17 A</td><td><b>≈9 mAh</b></td><td>≈1.1%</td><td><b>≈2 秒</b></td></tr>
+      <tr><td>純色 40% 亮度</td><td>0.07 A</td><td><b>≈3.5 mAh</b></td><td>≈0.4%</td><td><b>≈1 秒</b></td></tr>
+      <tr><td>100%→40% 省下的</td><td>—</td><td><b>≈5.5 mAh</b></td><td>≈0.6%</td><td><b>≈1–2 秒</b></td></tr>
+      <tr><td><b>馬達（對抗局平均）</b></td><td><b>12–20 A</b></td><td><b>≈600–1000 mAh</b></td><td>整包</td><td>整局 3 分鐘</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note" style="margin-top:8px">
+    平均 12A → 秒數 ×1.25；20A → ×0.75。調亮度一整局約差 <b>1–2 秒</b>。
+    仍建議 <code>set ledstrip_brightness = 40</code>：不刺眼、BEC 較涼。
+  </div>
+
+  <h2 id="led-lowbat">低電壓必須紅閃提醒</h2>
+  <p>選手常看不見遙控電壓表，靠球機燈號。低電要明顯閃爍，提醒減油、回邊、換電。</p>
+  <div class="wide">
+  <table>
+    <thead><tr><th>項目</th><th>建議設定</th><th>說明</th></tr></thead>
+    <tbody>
+      <tr><td><b>警告 Warning</b></td><td>單芯 <b>3.5–3.6 V</b></td><td><code>vbat_warning_cell_voltage</code></td></tr>
+      <tr><td><b>最低 Minimum</b></td><td>單芯 <b>3.3 V</b></td><td><code>vbat_min_cell_voltage</code></td></tr>
+      <tr><td><b>LED 覆蓋</b></td><td>燈珠加 <b>W（Warnings）</b></td><td>低電紅閃</td></tr>
+      <tr><td><b>視覺蜂鳴</b></td><td><code>ledstrip_visual_beeper = ON</code></td><td>蜂鳴時燈也閃</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <pre>feature LED_STRIP
+set ledstrip_brightness = 40
+set ledstrip_visual_beeper = ON
+set vbat_warning_cell_voltage = 35
+set vbat_min_cell_voltage = 33
+save</pre>
+  <p class="muted">CLI 電壓單位 0.1V（35＝3.5V／芯）。燈珠例：<code>led 0 0,0::CW:2</code>。完整 3S／4S 電壓表見「電池」分頁。</p>
+  <div class="note" style="margin-top:8px">
+    <b>注意：</b>猛加油瞬間壓降可能短暫紅閃＝正常；一直紅閃＝真的沒電，減油或落地換電。
+  </div>
+
+  <h2 id="led-striker">set 中射手（攻擊手）失能要換人</h2>
+  <ul>
+    <li>隊長喊 timeout → 全隊落地 → 原射手離場 → 指定場上另一人當新射手（每 set 只能一次）。</li>
+    <li><b>新射手尾燈必須改成射手規定色</b>；主條隊色不用改。</li>
+    <li>若主辦要求旗帶，改掛到新射手機。</li>
+  </ul>
+
+  <h2 id="led-wiring">技術現實：一般飛控只有一路 LED</h2>
+  <p>環／尾若並聯或整條同色，就無法同時有隊色＋識別色。解法由易到難：</p>
+  <div class="wide">
+  <table>
+    <thead><tr><th>#</th><th>解法</th><th>做法</th><th>適合誰</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><b>專用射手機</b></td><td>1 台固定射手尾燈色；換射手＝換人／換機</td><td>全隊首選</td></tr>
+      <tr><td>2</td><td><b>燈鏈分段</b></td><td>環＋尾串成一條 WS2812；燈珠編號分色（0–15 隊色、16–21 尾燈）</td><td>一路 LED</td></tr>
+      <tr><td>3</td><td><b>AUX／撥桿切色</b></td><td>預存一般／射手兩套，落地遙控切</td><td>timeout 換射手</td></tr>
+      <tr><td>4</td><td><b>尾燈硬體開關</b></td><td>飛控只驅環燈；尾燈獨立撥色</td><td>不會分段時</td></tr>
+      <tr><td>5</td><td><b>雙路輸出</b></td><td>少數板有 LED2 或外掛控制器</td><td>一般飛控沒有</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note" style="margin-top:12px">
+    <b>小隊建議：</b>檢錄 5 機至少 1 台射手機＋其餘分段燈色；有餘力再加 AUX 切色。
+    <a href="https://betaflight.com/docs/wiki/guides/current/LED-Strip-Functionality" target="_blank" rel="noopener">Betaflight LED Strip</a>
+  </div>
+</section>
+
+<!-- ============ 規則檢錄 ============ -->
+<section id="rule">
+  <h1>規則與檢錄</h1>
+  <p class="lead">依 FAI Sporting Code Section 4, Volume F9 Drone Sport（2026/1/1 生效）。</p>
+  <nav class="toc" aria-label="規則本章目錄">
+    <span class="toc-label">本章目錄</span>
+    <a href="#rule-spec">比賽規格</a>
+    <a href="#rule-limits">關鍵限制</a>
+    <a href="#rule-process">檢錄規定</a>
+    <a href="#rule-motors">馬達合規</a>
+    <button type="button" class="go" data-go="led">LED／飛控 →</button>
+  </nav>
+
+  <h2 id="rule-spec">F9A-B 比賽規格</h2>
+  <div class="wide">
+  <table>
+    <thead><tr><th>子級</th><th>球框直徑</th><th class="n">總重上限</th><th>電池上限</th><th class="n">槳徑上限</th><th class="n">LED</th></tr></thead>
+    <tbody>
+      <tr style="background:rgba(110,168,254,.09)"><td><b>F9A-B</b></td><td><b>20cm +2cm（裝進 22cm 圈）</b></td><td class="n"><b>≤300 g</b></td><td><b>4S（≤17V）</b></td><td class="n"><b>76 mm</b></td><td class="n"><b>≥16</b></td></tr>
+      <tr><td>F9A-C（中國聯賽）</td><td>10cm</td><td class="n">≤27–30 g</td><td>≤4.35V</td><td class="n">42 mm</td><td class="n">≥4</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2 id="rule-limits">F9A-B 關鍵限制</h2>
+  <ul>
+    <li><b>馬達</b>：僅電動馬達，最多 4 顆。</li>
+    <li><b>電池</b>：最高 4S；每 cell 滿電 ≤4.25V（4S ≤17V）。可於每一 set 前量測。<span class="no">6S 違規</span>。</li>
+    <li><b>螺旋槳</b>：最大 3 吋／76mm；禁止金屬槳。</li>
+    <li><b>總重</b>：含框架與電池 ≤300g。</li>
+    <li><b>框架</b>：塑膠或複材，禁止金屬；全部零件在框內不可突出；底部平面 ≤2cm；單一開放面積 ≤150cm²。</li>
+    <li><b>LED</b>：主條 ≥16（可切紅／藍）；後方識別燈 ≥6（各機色可區分）。</li>
+    <li><b>安全</b>：須有 fail-safe，觸發後立即停止馬達；允許烏龜模式；禁止預編程機動／自動定位。</li>
+    <li><b>射手</b>：每隊 <b>1 名</b>，是<b>唯一可以得分</b>的人；須以尾燈（或主辦發的標示帶）與隊友明顯區分。</li>
+  </ul>
+  <div class="note info">
+    <b>名詞對照（三種說法同一個角色）：</b>
+    <b class="ok">射手 ＝ 攻擊手 ＝ 前鋒</b>；FAI 英文為 <b>striker</b>，中國聯賽規則寫「進攻運動員（前鋒）」。
+    本站一律稱 <b>射手</b>。其餘隊員為<b>防守</b>或<b>導引</b>角色，不能得分。
+  </div>
+
+  <h2 id="rule-process">球機檢錄規定（Processing）</h2>
+  <p class="lead" style="margin-top:0">賽前送檢、賽中隨時可抽查；合格後貼不易偽造的標示，不合規可取消資格。</p>
+
+  <div class="note warn" style="margin-top:0">
+    <b>本場賽事規定（以主辦公告為準）：每一組檢錄上限「球機 5 顆、電池 9 顆」。</b>
+    送檢時就要決定帶哪 5 顆球機、哪 9 顆電池；<u>未檢錄的機／電不得上場</u>。
+    （FAI 世界賽級 F9A-B 為每隊 10 台，僅供對照。）
+    <div style="margin-top:8px">
+      建議分配：球機＝攻擊 1–2＋硬防 1–2＋輕防／備機 1；電池 9 顆用來支應一場 3 個 set 的換電與備援。
+      電池編號並記錄滿電電壓（≤4.25V／芯），檢錄與換電照號拿。
+    </div>
+  </div>
+
+  <div class="wide">
+  <table>
+    <thead><tr><th>檢錄項目</th><th>合格標準（F9A-B）</th><th>實務建議</th></tr></thead>
+    <tbody>
+      <tr><td><b>總重</b></td><td>含外框＋電池＋全部裝備 ≤300 g</td><td>用比賽電池實秤，目標 ≤295 g</td></tr>
+      <tr><td><b>外徑</b></td><td>20 cm +2 cm，須裝進 Ø22 cm 圈</td><td>自備 22 cm 環預檢</td></tr>
+      <tr><td><b>突出物</b></td><td>球框外不可有任何突出</td><td>檢查天線、槳、螺絲頭</td></tr>
+      <tr><td><b>框架</b></td><td>塑膠／複材，禁止金屬；底平面 ≤2 cm；單開口 ≤150 cm²</td><td>金屬骨架不合格</td></tr>
+      <tr><td><b>馬達</b></td><td>僅電動，最多 4 顆</td><td>—</td></tr>
+      <tr><td><b>電池電壓</b></td><td>最高 4S；單芯 ≤4.25 V（4S≤17 V）</td><td>每 set 前可量；LiHV 勿充 4.35V</td></tr>
+      <tr><td><b>螺旋槳</b></td><td>≤76 mm；禁止金屬槳</td><td>卡尺量尖對尖；避免卡在邊緣的槳</td></tr>
+      <tr><td><b>LED</b></td><td>主條 ≥16；後燈 ≥6；可切隊色；射手尾燈＝對方隊色；亮度約 30–50%；低電紅閃</td><td>通電確認；中場無法接電腦改色→備射手機或 AUX 切色</td></tr>
+      <tr><td><b>Fail-safe</b></td><td>觸發後馬達立即停止</td><td>關機／失控模擬必測</td></tr>
+      <tr><td><b>禁裝</b></td><td>無預編程機動、無自動定位／路徑修正</td><td>烏龜／翻正允許</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="note warn" style="margin-top:14px">
+    <b>檢錄時程：</b>賽前正式檢錄並標示 → 每場／換機前可做起飛前檢查 → 每一 set 前可量電壓 → 賽中／場次後可抽查。
+    備機最多 2 台且未上場不裝電池；換機／換電僅限 set 間休息。地方賽程序可能簡化，規格仍相同。
+  </div>
+
+  <div class="note info">
+    <b>LED 顏色、耗電、低壓閃爍、換射手：</b>已獨立成
+    <button type="button" class="go" data-go="led" style="margin-left:6px;font-size:14px;padding:4px 10px;border-radius:999px;border:1px solid var(--accent);background:transparent;color:var(--accent);cursor:pointer;font-family:inherit;font-weight:700">LED／飛控</button>
+    分頁。
+  </div>
+
+  <h2 id="rule-motors">你手上馬達的合規判定</h2>
+  <div class="wide">
+  <table>
+    <thead><tr><th>馬達</th><th>電壓</th><th>F9A-B</th></tr></thead>
+    <tbody>
+      <tr><td>T-HOBBY（THOBBY）DYH1408 3988KV</td><td>4S</td><td class="ok">✓</td></tr>
+      <tr><td>火神 VCI 1408 3900KV</td><td>4S</td><td class="ok">✓</td></tr>
+      <tr><td>火神 VCI 1404.5 4600KV</td><td>3S（原廠測功）</td><td class="ok">✓</td></tr>
+      <tr><td>火神 VCI 1404 4500KV</td><td>3S</td><td class="ok">✓</td></tr>
+      <tr><td>火神 VCI 1507 4000KV</td><td>4S</td><td class="ok">✓</td></tr>
+      <tr><td>RCinpower GTS V3 1404+ 3850／4680KV</td><td>3–4S</td><td class="ok">✓</td></tr>
+      <tr><td><b>LANNRC 1404 4600KV</b></td><td>2–4S</td><td class="ok">✓</td></tr>
+      <tr><td>SIRIUS 1404 3850／4600／4800／5000KV</td><td>3–4S</td><td class="ok">✓</td></tr>
+      <tr><td>SIRIUS 1505 3800／4800／5000KV</td><td>4S</td><td class="ok">✓</td></tr>
+      <tr><td>P1604 3800KV</td><td>4S</td><td class="ok">✓</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p style="margin-top:20px"><a href="https://www.fai.org/dronesoccer-rules" target="_blank" rel="noopener">FAI 官方規則頁</a> ·
+  <a href="https://www.fai.org/sites/default/files/document/file/SC4_volume_CIAM_F9_Drone_sports_2026.pdf" target="_blank" rel="noopener">2026 規則 PDF</a></p>
+</section>
+
+</div>
+
+<button id="back-top" type="button" aria-label="回到頁面頂端" title="回到頂端">↑</button>
+
+<script>
+  const secs = document.querySelectorAll('.wrap > section');
+  const valid = new Set([...secs].map(s => s.id));
+
+  function goTab(id, anchor) {
+    if (!valid.has(id)) id = 'home';
+    document.querySelectorAll('header nav button[data-go]').forEach(x => {
+      x.classList.toggle('on', x.dataset.go === id);
+      x.setAttribute('aria-pressed', String(x.dataset.go === id));
+    });
+    secs.forEach(s => s.classList.toggle('on', s.id === id));
+    const url = new URL(location.href);
+    url.searchParams.set('tab', id);
+    url.hash = anchor || '';
+    history.replaceState(null, '', url.pathname + url.search + (anchor ? '#' + anchor : ''));
+    requestAnimationFrame(() => {
+      if (anchor) {
+        const el = document.getElementById(anchor);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        else window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    });
+  }
+
+  const progress = document.getElementById('page-progress');
+  const backTop = document.getElementById('back-top');
+  let scrollTicking = false;
+  function updateScrollUi() {
+    const max = document.documentElement.scrollHeight - innerHeight;
+    progress.style.width = (max > 0 ? Math.min(100, scrollY / max * 100) : 0) + '%';
+    backTop.classList.toggle('show', scrollY > 520);
+    scrollTicking = false;
+  }
+  addEventListener('scroll', () => {
+    if (!scrollTicking) {
+      requestAnimationFrame(updateScrollUi);
+      scrollTicking = true;
+    }
+  }, { passive:true });
+  backTop.addEventListener('click', () => scrollTo({ top:0, behavior:'smooth' }));
+
+  document.querySelectorAll('button[data-go]').forEach(b => {
+    b.addEventListener('click', () => goTab(b.dataset.go, b.dataset.anchor || ''));
+  });
+
+  document.querySelectorAll('.toc a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const id = a.getAttribute('href').slice(1);
+      const el = document.getElementById(id);
+      if (!el) return;
+      const url = new URL(location.href);
+      const tab = url.searchParams.get('tab') || document.querySelector('.wrap > section.on')?.id || 'home';
+      history.replaceState(null, '', '?tab=' + tab + '#' + id);
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  function bootFromUrl() {
+    const params = new URLSearchParams(location.search);
+    let tab = params.get('tab') || '';
+    const hash = (location.hash || '').replace(/^#/, '');
+    if (!tab && hash) {
+      const host = document.getElementById(hash);
+      if (host) {
+        const sec = host.closest('.wrap > section');
+        if (sec) tab = sec.id;
+      }
+    }
+    goTab(tab || 'home', hash || '');
+  }
+  bootFromUrl();
+  updateScrollUi();
+</script>
+
+</body>
+</html>

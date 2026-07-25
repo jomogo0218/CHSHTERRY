@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>比賽電池產品圖鑑 · 約 100g · 高 C</title>
+  <style>
+    :root {
+      --bg: #0f1115;
+      --card: #1a1d24;
+      --text: #f2f4f8;
+      --muted: #9aa3b2;
+      --line: #2a303c;
+      --accent: #6ea8fe;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 18px;
+      line-height: 1.55;
+      padding: 28px 20px 64px;
+    }
+    .wrap { max-width: 980px; margin: 0 auto; }
+    h1 { font-size: 28px; margin: 0 0 8px; line-height: 1.3; }
+    .sub { color: var(--muted); font-size: 17px; margin-bottom: 28px; }
+    .note {
+      border: 1px solid var(--line);
+      background: var(--card);
+      padding: 16px 18px;
+      border-radius: 10px;
+      margin-bottom: 28px;
+      font-size: 17px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    @media (min-width: 720px) {
+      .grid { grid-template-columns: 1fr 1fr; }
+      .hero { grid-column: 1 / -1; }
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .card img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: contain;
+      background: #fff;
+      display: block;
+    }
+    .body { padding: 18px 20px 22px; }
+    .rank {
+      color: var(--accent);
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      margin-bottom: 6px;
+    }
+    .name { font-size: 22px; font-weight: 700; margin: 0 0 10px; }
+    .specs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin: 14px 0;
+    }
+    .spec {
+      background: #12151b;
+      border-radius: 8px;
+      padding: 10px 8px;
+      text-align: center;
+    }
+    .spec b { display: block; font-size: 20px; margin-bottom: 4px; }
+    .spec span { color: var(--muted); font-size: 14px; }
+    .use { color: var(--muted); font-size: 16px; margin: 0 0 12px; }
+    a.btn {
+      display: inline-block;
+      color: var(--accent);
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+    }
+    a.btn:hover { border-bottom-color: var(--accent); }
+    h2 { font-size: 22px; margin: 36px 0 14px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>比賽電池產品圖鑑</h1>
+    <p class="sub">FAI F9A-B · 約 100g · 高 C（≥95）· 3S／4S · 圖片來自原廠／經銷商產品頁</p>
+
+    <div class="note">
+      <b>主力首選：</b>Tattu R-Line V5 850mAh 4S 150C（100g，約 128A）。
+      攻擊機／硬對抗優先這顆。LiHV 比賽充到 4.20–4.25V／芯。
+    </div>
+
+    <div class="grid">
+      <article class="card hero">
+        <img src="assets/batteries/tattu-v5-850.png" alt="Tattu R-Line V5 850 4S 150C" />
+        <div class="body">
+          <div class="rank">#1 · 推薦 · 4S</div>
+          <h2 class="name" style="font-size:24px;margin:0 0 10px">Tattu R-Line V5 850</h2>
+          <p class="use">攻擊／主力比賽 · XT30</p>
+          <div class="specs">
+            <div class="spec"><b>850</b><span>mAh</span></div>
+            <div class="spec"><b>150C</b><span>放電</span></div>
+            <div class="spec"><b>100g</b><span>重量</span></div>
+            <div class="spec"><b>~128A</b><span>持續</span></div>
+          </div>
+          <a class="btn" href="https://genstattu.com/tattu-r-line-version-5-0-850mah-4s-150c-14-8v-lipo-battery-pack-with-xt30u-f-plug/" target="_blank" rel="noopener">原廠產品頁</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <img src="assets/batteries/gnb-850.jpg" alt="GNB 850 4S 120C LiHV" />
+        <div class="body">
+          <div class="rank">#2 · 推薦 · 4S</div>
+          <h2 class="name">GNB 850 LiHV</h2>
+          <p class="use">省重＋高爆發 · XT30 · 比賽充到 4.25V</p>
+          <div class="specs">
+            <div class="spec"><b>850</b><span>mAh</span></div>
+            <div class="spec"><b>120C</b><span>放電</span></div>
+            <div class="spec"><b>~88g</b><span>重量</span></div>
+            <div class="spec"><b>~102A</b><span>持續</span></div>
+          </div>
+          <a class="btn" href="https://www.hobbyrc.co.uk/gnb-850mah-4s-120c-lihv-battery-xt30" target="_blank" rel="noopener">經銷商產品頁</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <img src="assets/batteries/tattu-750.jpg" alt="Tattu R-Line 750 4S 95C" />
+        <div class="body">
+          <div class="rank">#3 · 推薦 · 4S</div>
+          <h2 class="name">Tattu R-Line 750</h2>
+          <p class="use">省重／硬防常用 · XT30</p>
+          <div class="specs">
+            <div class="spec"><b>750</b><span>mAh</span></div>
+            <div class="spec"><b>95C</b><span>放電</span></div>
+            <div class="spec"><b>~84g</b><span>重量</span></div>
+            <div class="spec"><b>~71A</b><span>持續</span></div>
+          </div>
+          <a class="btn" href="https://genstattu.com/ta-rl-95c-750-4s1p-xt30.html" target="_blank" rel="noopener">原廠產品頁</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <img src="assets/batteries/tattu-850-95c.jpg" alt="Tattu R-Line 850 4S 95C" />
+        <div class="body">
+          <div class="rank">#4 · 4S</div>
+          <h2 class="name">Tattu R-Line 850 95C</h2>
+          <p class="use">續航略長 · XT30 · C 次於 V5</p>
+          <div class="specs">
+            <div class="spec"><b>850</b><span>mAh</span></div>
+            <div class="spec"><b>95C</b><span>放電</span></div>
+            <div class="spec"><b>~100g</b><span>重量</span></div>
+            <div class="spec"><b>~81A</b><span>持續</span></div>
+          </div>
+          <a class="btn" href="https://genstattu.com/tattu-r-line-850mah-14-8v-95c-4s1p-lipo-battery-pack-with-xt30-plug.html" target="_blank" rel="noopener">原廠產品頁</a>
+        </div>
+      </article>
+
+      <article class="card">
+        <img src="assets/batteries/tattu-650.jpg" alt="Tattu R-Line 650 4S 95C" />
+        <div class="body">
+          <div class="rank">#5 · 4S</div>
+          <h2 class="name">Tattu R-Line 650</h2>
+          <p class="use">壓重／替補 · XT30 · 對抗局略吃緊</p>
+          <div class="specs">
+            <div class="spec"><b>650</b><span>mAh</span></div>
+            <div class="spec"><b>95C</b><span>放電</span></div>
+            <div class="spec"><b>~78g</b><span>重量</span></div>
+            <div class="spec"><b>~62A</b><span>持續</span></div>
+          </div>
+          <a class="btn" href="https://genstattu.com/tattu-r-line-95c-650mah-4s1p-xt30-plug-lipo-battery.html" target="_blank" rel="noopener">原廠產品頁</a>
+        </div>
+      </article>
+    </div>
+
+    <h2>說明</h2>
+    <p class="sub" style="margin:0">
+      圖片已下載到本機 <code>assets/batteries/</code>。3S 候選（CNHL／ManiaX 等）尚未抓到穩定產品圖，之後可再補。
+      標稱重量 ±10–20g，買到請實秤。
+    </p>
+  </div>
+</body>
+</html>
