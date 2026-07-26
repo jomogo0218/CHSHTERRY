@@ -236,6 +236,155 @@
     .fx-item > h4{gap:4px 10px}
   }
 
+
+  /* Betaflight 模擬器 */
+  .bfsim{margin:18px 0 8px}
+  .bfsim-toolbar{
+    display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;
+    margin-bottom:12px;padding:12px 14px;border:1px solid var(--line);
+    border-radius:12px;background:rgba(18,22,30,.92);
+  }
+  .bfsim-conn{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--muted)}
+  .bfsim-conn strong{color:var(--text)}
+  .bfsim-dot{
+    width:10px;height:10px;border-radius:50%;background:#3ddc84;
+    box-shadow:0 0 0 3px rgba(61,220,132,.18);animation:bfsim-pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes bfsim-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+  .bfsim-roles{display:flex;gap:6px;flex-wrap:wrap}
+  .bfsim-role{
+    border:1px solid var(--line);background:transparent;color:var(--muted);
+    border-radius:999px;padding:7px 12px;font:inherit;font-size:13px;font-weight:800;cursor:pointer;
+  }
+  .bfsim-role.on{background:#ff9f1a;color:#1a1205;border-color:#ff9f1a}
+  .bfsim-board{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--muted);margin-left:auto}
+  .bfsim-board select,.bfsim-field select,.bfsim-field input, .bfsim-table input[type="number"], .bfsim-table select{
+    font:inherit;font-size:14px;font-weight:700;color:var(--text);
+    background:#0f131a;border:1px solid var(--line);border-radius:8px;padding:7px 9px;
+  }
+  .bfsim-shell{
+    display:grid;grid-template-columns:210px 1fr;gap:0;
+    border:1px solid #2a2f38;border-radius:14px;overflow:hidden;
+    background:#2b2f36;min-height:560px;
+    box-shadow:0 18px 40px rgba(0,0,0,.35);
+  }
+  .bfsim-nav{
+    display:flex;flex-direction:column;gap:2px;padding:10px 0;
+    background:#1f2329;border-right:1px solid #111;
+    overflow:auto;max-height:min(78vh,820px);
+  }
+  .bfsim-nav button{
+    display:flex;flex-direction:column;align-items:flex-start;gap:1px;
+    width:100%;border:0;border-left:3px solid transparent;background:transparent;
+    color:#c8cdd4;padding:9px 12px;text-align:left;cursor:pointer;font-family:inherit;
+  }
+  .bfsim-nav button b{font-size:13px;font-weight:800;letter-spacing:.01em}
+  .bfsim-nav button span{font-size:11px;color:#8b93a0}
+  .bfsim-nav button:hover{background:rgba(255,255,255,.04);color:#fff}
+  .bfsim-nav button.on{background:rgba(255,159,26,.14);border-left-color:#ff9f1a;color:#fff}
+  .bfsim-nav button.on span{color:#ffd7a0}
+  .bfsim-main{background:#353a42;padding:14px;overflow:auto;max-height:min(78vh,820px)}
+  .bfsim-panel{display:none}
+  .bfsim-panel.on{display:block;animation:section-in .18s ease-out}
+  .bfsim-panel-h{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:12px}
+  .bfsim-panel-h h3{margin:0;color:#fff;font-size:20px;border:0;padding:0}
+  .bfsim-panel-h h3::before{display:none}
+  .bfsim-panel-h h3 small{display:inline;margin-left:8px;font-size:13px;color:#ffb14a;font-weight:700}
+  .bfsim-panel-h p{margin:6px 0 0;color:#b7bec8;font-size:14px}
+  .bfsim-panel-h p.bad{color:#ff8b8b}
+  .bfsim-badge{
+    flex:0 0 auto;font-size:11px;font-weight:800;letter-spacing:.04em;
+    padding:5px 8px;border-radius:999px;border:1px solid #555;
+    color:#ddd;background:#2a2f36;
+  }
+  .bfsim-badge.ok{border-color:#3ddc84;color:#3ddc84}
+  .bfsim-grid2{display:grid;grid-template-columns:1fr;gap:12px}
+  @media(min-width:860px){.bfsim-grid2{grid-template-columns:1fr 1fr}}
+  .bfsim-card{
+    background:#2a2f36;border:1px solid #1a1d22;border-radius:10px;padding:12px 14px;
+  }
+  .bfsim-card.warn-card{border-color:rgba(255,139,139,.45);background:rgba(90,30,30,.25)}
+  .bfsim-card h4{margin:0 0 10px;color:#fff;font-size:15px}
+  .bfsim-card h4 span{display:inline;margin-left:6px;color:#9aa3b0;font-size:12px;font-weight:600}
+  .bfsim-field{display:flex;flex-direction:column;gap:5px;margin:0 0 10px;color:#cfd5de;font-size:13px;font-weight:700}
+  .bfsim-field em{font-style:normal;color:#8b93a0;font-size:12px}
+  .bfsim-check{
+    display:flex;align-items:flex-start;gap:8px;margin:0 0 8px;
+    color:#d5dae2;font-size:13.5px;font-weight:650;line-height:1.45;cursor:pointer;
+  }
+  .bfsim-check input{margin-top:3px}
+  .bfsim-tip{margin:8px 0 0;font-size:13px;line-height:1.55;color:#aeb6c2}
+  .bfsim-tip b{color:#ffd7a0}
+  .bfsim-btn{
+    margin-top:8px;border:1px solid #666;background:#3a404a;color:#fff;
+    border-radius:8px;padding:8px 11px;font:inherit;font-size:13px;font-weight:800;cursor:pointer;
+  }
+  .bfsim-btn:hover{border-color:#ff9f1a;color:#ffd7a0}
+  .bfsim-btn.warn{border-color:#ff8b8b;color:#ffb4b4}
+  .bfsim-rows{display:flex;flex-direction:column;gap:6px}
+  .bfsim-row{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:#cfd5de;padding:6px 0;border-bottom:1px solid #3a404a}
+  .bfsim-row b.ok{color:#3ddc84}
+  .bfsim-row b.muted{color:#8b93a0;font-weight:600}
+  .bfsim-flags{margin:0;padding-left:18px;color:#d5dae2}
+  .bfsim-flags .ok{color:#3ddc84}
+  .bfsim-tablewrap{overflow:auto}
+  .bfsim-table{width:100%;border-collapse:collapse;font-size:13px;color:#d5dae2}
+  .bfsim-table th,.bfsim-table td{border-bottom:1px solid #3a404a;padding:8px 6px;text-align:left;vertical-align:middle}
+  .bfsim-table th{color:#ffb14a;font-size:12px}
+  .bfsim-table input[type="number"]{width:84px}
+  .bfsim-inline3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .bfsim-chans{display:flex;flex-direction:column;gap:8px}
+  .bfsim-chan{display:grid;grid-template-columns:64px 1fr 48px;gap:8px;align-items:center;font-size:12px;color:#cfd5de}
+  .bfsim-chan .bar{height:10px;background:#1a1d22;border-radius:999px;overflow:hidden}
+  .bfsim-chan .bar i{display:block;height:100%;width:50%;background:linear-gradient(90deg,#ff9f1a,#ffd27a)}
+  .bfsim-modes{display:flex;flex-direction:column;gap:8px}
+  .bfsim-mode{
+    display:grid;grid-template-columns:minmax(140px,1.1fr) 90px 1fr;gap:8px;align-items:center;
+    padding:10px;border-radius:8px;background:#2a2f36;border:1px solid #1a1d22;
+  }
+  .bfsim-mode b{color:#fff;font-size:13px}
+  .bfsim-mode b small{display:block;color:#9aa3b0;font-weight:600;margin-top:2px}
+  .bfsim-mode .range{
+    position:relative;height:16px;border-radius:999px;background:#1a1d22;overflow:hidden;
+  }
+  .bfsim-mode .range i{
+    position:absolute;top:0;bottom:0;background:rgba(255,159,26,.85);
+  }
+  .bfsim-quad{
+    display:grid;grid-template-columns:1fr 1fr;gap:8px;width:140px;margin:10px 0;
+  }
+  .bfsim-quad span{
+    display:grid;place-items:center;aspect-ratio:1;border-radius:8px;
+    background:#1a1d22;border:1px dashed #666;color:#ffb14a;font-weight:800;
+  }
+  .bfsim-ledprev{
+    height:38px;border-radius:8px;margin:8px 0;
+    background:linear-gradient(90deg,#1e90ff,#1e90ff 70%,#ff3b30 70%,#ff3b30);
+    box-shadow:0 0 18px rgba(30,144,255,.35);
+  }
+  .bfsim-cli{
+    margin:0;padding:12px;border-radius:10px;background:#12151a;color:#b7f7c5;
+    border:1px solid #1a1d22;font-size:12.5px;line-height:1.55;overflow:auto;max-height:420px;
+    white-space:pre-wrap;word-break:break-word;
+  }
+  .bfsim-explain{
+    margin-top:12px;padding:12px 14px;border-radius:12px;
+    border:1px solid rgba(255,159,26,.28);background:rgba(255,159,26,.08);
+  }
+  .bfsim-explain b{display:block;margin-bottom:4px;color:#ffb14a}
+  .bfsim-explain p{margin:0;color:var(--text);font-size:15px;line-height:1.65}
+  @media(max-width:820px){
+    .bfsim-shell{grid-template-columns:1fr}
+    .bfsim-nav{
+      flex-direction:row;overflow-x:auto;max-height:none;border-right:0;border-bottom:1px solid #111;
+      padding:8px;
+    }
+    .bfsim-nav button{min-width:118px;border-left:0;border-bottom:3px solid transparent;padding:8px}
+    .bfsim-nav button.on{border-bottom-color:#ff9f1a;border-left-color:transparent}
+    .bfsim-board{margin-left:0}
+    .bfsim-mode{grid-template-columns:1fr;gap:6px}
+  }
+
   .ok{color:var(--ok);font-weight:700}
   .no{color:var(--bad);font-weight:700}
   .muted{color:var(--muted)}
@@ -467,6 +616,7 @@
         <div class="nav-btns">
           <button data-go="fc" aria-pressed="false">飛控硬體</button>
           <button data-go="bf" aria-pressed="false">飛控設定</button>
+          <button data-go="bfsim" aria-pressed="false">設定模擬</button>
           <button data-go="led" aria-pressed="false">LED</button>
         </div>
       </div>
@@ -528,6 +678,7 @@
       <div class="links">
         <button type="button" class="go" data-go="fc">飛控硬體</button>
         <button type="button" class="go" data-go="bf">飛控設定</button>
+        <button type="button" class="go" data-go="bfsim">設定模擬</button>
         <button type="button" class="go" data-go="led">LED</button>
       </div>
     </div>
@@ -612,6 +763,16 @@
         <li>CLI 範本與上場檢查</li>
       </ul>
       <button type="button" class="go" data-go="bf">開啟飛控設定</button>
+    </div>
+    <div class="card">
+      <span class="tag">系統</span>
+      <h4>設定模擬</h4>
+      <ul>
+        <li>模擬 Betaflight 介面</li>
+        <li>一鍵套用攻擊／防守</li>
+        <li>中英對照練習設定</li>
+      </ul>
+      <button type="button" class="go" data-go="bfsim">開啟設定模擬</button>
     </div>
     <div class="card">
       <span class="tag">系統</span>
@@ -2170,7 +2331,7 @@ save</pre>
 <!-- ============ 飛控設定 ============ -->
 <section id="bf">
   <h1>飛控設定（Betaflight）</h1>
-  <p class="lead">足球機不是穿越機：室內、會撞、要翻正、沒有圖傳與 GPS。這一頁先講「每個設定影響什麼」，再講該不該改、改成什麼。</p>
+  <p class="lead">足球機不是穿越機：室內、會撞、要翻正、沒有圖傳與 GPS。這一頁先講「每個設定影響什麼」，再講該不該改、改成什麼。想邊看邊點，可開 <button type="button" class="go" data-go="bfsim">設定模擬</button>。</p>
   <nav class="toc" aria-label="飛控設定本章目錄">
     <span class="toc-label">本章目錄</span>
     <div class="toc-group">
@@ -3510,6 +3671,492 @@ save</pre>
   </div>
 </section>
 
+<!-- ============ 飛控設定模擬器 ============ -->
+<section id="bfsim">
+  <h1>飛控設定模擬器</h1>
+  <p class="lead">這不是真的 Betaflight，是給隊員練習「設定長什麼樣子、該填多少」的模擬介面。左邊分頁名稱刻意保留英文，好跟真實 Configurator 對照；右側說明用中文講清楚。</p>
+  <div class="note warn">
+    <b>請記住：</b>這裡改數字不會寫進飛控。真正上場仍要接實機、拆槳、備份 <code>diff all</code> 後再設定。模擬器是用來建立印象與對照建議值。
+  </div>
+
+  <div class="bfsim" id="bfsim-app">
+    <div class="bfsim-toolbar">
+      <div class="bfsim-conn">
+        <span class="bfsim-dot" aria-hidden="true"></span>
+        <span>模擬已連線 · <strong data-bind="craft_name">CHSH-ATK-1</strong></span>
+      </div>
+      <div class="bfsim-roles" role="group" aria-label="角色建議值">
+        <button type="button" class="bfsim-role on" data-role="atk">套用攻擊手建議</button>
+        <button type="button" class="bfsim-role" data-role="def">套用防守手建議</button>
+      </div>
+      <label class="bfsim-board">飛控板
+        <select id="bfsim-board" aria-label="選擇飛控板">
+          <option value="oxbot">Oxbot Flow AIO45（攻擊常用）</option>
+          <option value="rate">RATE F4（攻擊常用）</option>
+          <option value="f411">HAKRC F411（防守常用）</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="bfsim-shell">
+      <nav class="bfsim-nav" aria-label="模擬 Configurator 分頁">
+        <button type="button" class="on" data-panel="setup"><b>Setup</b><span>設定總覽</span></button>
+        <button type="button" data-panel="ports"><b>Ports</b><span>埠</span></button>
+        <button type="button" data-panel="configuration"><b>Configuration</b><span>配置</span></button>
+        <button type="button" data-panel="power"><b>Power &amp; Battery</b><span>電源電池</span></button>
+        <button type="button" data-panel="receiver"><b>Receiver</b><span>接收機</span></button>
+        <button type="button" data-panel="modes"><b>Modes</b><span>模式</span></button>
+        <button type="button" data-panel="motors"><b>Motors</b><span>馬達</span></button>
+        <button type="button" data-panel="pid"><b>PID Tuning</b><span>PID／濾波</span></button>
+        <button type="button" data-panel="rates"><b>Rates</b><span>手感</span></button>
+        <button type="button" data-panel="failsafe"><b>Failsafe</b><span>斷訊保護</span></button>
+        <button type="button" data-panel="led"><b>LED Strip</b><span>燈條</span></button>
+        <button type="button" data-panel="blackbox"><b>Blackbox</b><span>黑匣子</span></button>
+        <button type="button" data-panel="cli"><b>CLI</b><span>指令預覽</span></button>
+      </nav>
+
+      <div class="bfsim-main">
+        <!-- SETUP -->
+        <div class="bfsim-panel on" data-panel="setup">
+          <header class="bfsim-panel-h">
+            <div>
+              <h3>Setup <small>設定總覽</small></h3>
+              <p>真實軟體連上飛控後的第一頁。這裡看能不能解鎖、校正準不準。</p>
+            </div>
+            <span class="bfsim-badge ok">模擬資料</span>
+          </header>
+          <div class="bfsim-grid2">
+            <div class="bfsim-card">
+              <h4>Arming Disable Flags <span>不能解鎖原因</span></h4>
+              <ul class="bfsim-flags" id="bfsim-flags">
+                <li class="ok">無阻擋（模擬已就緒）</li>
+              </ul>
+              <p class="bfsim-tip">真機若解不了鎖，先看這一區，不要先亂改 PID。</p>
+            </div>
+            <div class="bfsim-card">
+              <h4>Sensors <span>感測器</span></h4>
+              <div class="bfsim-rows">
+                <div class="bfsim-row"><span>Gyro 陀螺儀</span><b class="ok">OK</b></div>
+                <div class="bfsim-row"><span>Acc 加速度計</span><b class="ok">OK</b></div>
+                <div class="bfsim-row"><span>Baro 氣壓計</span><b class="muted">球機可忽略</b></div>
+                <div class="bfsim-row"><span>Mag 羅盤</span><b class="muted">未使用</b></div>
+              </div>
+              <button type="button" class="bfsim-btn" data-hint="accel">Calibrate Accelerometer｜校正加速度計</button>
+            </div>
+          </div>
+          <div class="bfsim-card">
+            <h4>Craft Name <span>機號命名</span></h4>
+            <label class="bfsim-field">名稱
+              <input type="text" data-key="craft_name" maxlength="16" />
+            </label>
+            <p class="bfsim-tip">五台球機外觀很像，接上電腦要立刻知道是攻擊幾號或防守幾號。</p>
+          </div>
+        </div>
+
+        <!-- PORTS -->
+        <div class="bfsim-panel" data-panel="ports">
+          <header class="bfsim-panel-h">
+            <div>
+              <h3>Ports <small>埠</small></h3>
+              <p>告訴飛控：接收機接在哪個 UART。沒裝的功能不要亂開。</p>
+            </div>
+          </header>
+          <div class="bfsim-tablewrap">
+            <table class="bfsim-table">
+              <thead><tr><th>Port</th><th>中文</th><th>MSP</th><th>Serial RX</th><th>說明</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>USB VCP</td><td>電腦線</td><td><input type="checkbox" checked disabled></td>
+                  <td></td>
+                  <td>連 Configurator 用，不要關</td>
+                </tr>
+                <tr>
+                  <td>UART1</td><td>視接線</td><td><input type="checkbox" data-key="uart1_msp"></td>
+                  <td><input type="checkbox" data-key="uart1_rx"></td>
+                  <td>沒接就不要勾</td>
+                </tr>
+                <tr>
+                  <td>UART2</td><td>外接 ELRS 常見</td><td><input type="checkbox" data-key="uart2_msp"></td>
+                  <td><input type="checkbox" data-key="uart2_rx"></td>
+                  <td>RATE／外接接收機常走這裡</td>
+                </tr>
+                <tr>
+                  <td>UART3</td><td>視接線</td><td><input type="checkbox" data-key="uart3_msp"></td>
+                  <td><input type="checkbox" data-key="uart3_rx"></td>
+                  <td>Oxbot 內建 ELRS 不一定吃 UART</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="bfsim-tip">規則：接收機那一列只開 <b>Serial RX</b>。GPS／VTX 沒裝就全部空白。</p>
+        </div>
+
+        <!-- CONFIGURATION -->
+        <div class="bfsim-panel" data-panel="configuration">
+          <header class="bfsim-panel-h">
+            <div>
+              <h3>Configuration <small>配置</small></h3>
+              <p>機架型式、功能開關、解鎖角度都在這裡。</p>
+            </div>
+          </header>
+          <div class="bfsim-grid2">
+            <div class="bfsim-card">
+              <h4>Mixer <span>機架混控</span></h4>
+              <label class="bfsim-field">型式
+                <select data-key="mixer">
+                  <option value="QUADX">Quad X</option>
+                  <option value="QUADP">Quad +</option>
+                </select>
+              </label>
+              <p class="bfsim-tip">足球機固定選 <b>Quad X</b>。</p>
+            </div>
+            <div class="bfsim-card">
+              <h4>Features <span>功能開關</span></h4>
+              <label class="bfsim-check"><input type="checkbox" data-key="feat_motor_stop"> MOTOR_STOP｜油門最低停轉（球機建議關）</label>
+              <label class="bfsim-check"><input type="checkbox" data-key="feat_ledstrip"> LED_STRIP｜燈條控制（要開）</label>
+              <label class="bfsim-check"><input type="checkbox" data-key="feat_osd"> OSD｜圖傳字幕（球機可關）</label>
+              <label class="bfsim-check"><input type="checkbox" data-key="feat_airmode"> AIRMODE｜空中模式（建議開）</label>
+              <label class="bfsim-check"><input type="checkbox" data-key="feat_telemetry"> TELEMETRY｜遙測（有需要再開）</label>
+            </div>
+            <div class="bfsim-card">
+              <h4>Arming <span>解鎖相關</span></h4>
+              <label class="bfsim-field">Maximum Arm Angle｜解鎖角度限制
+                <input type="number" data-key="small_angle" min="0" max="180" />
+                <em>度</em>
+              </label>
+              <label class="bfsim-check"><input type="checkbox" data-key="runaway_takeoff" checked> Runaway Takeoff Prevention｜失控起飛保護</label>
+              <p class="bfsim-tip">攻擊建議 30；防守建議 40。不要直接 180。</p>
+            </div>
+            <div class="bfsim-card">
+              <h4>Board Alignment <span>飛控方向補償</span></h4>
+              <div class="bfsim-inline3">
+                <label class="bfsim-field">Roll<input type="number" data-key="align_roll" value="0"></label>
+                <label class="bfsim-field">Pitch<input type="number" data-key="align_pitch" value="0"></label>
+                <label class="bfsim-field">Yaw<input type="number" data-key="align_yaw" value="0"></label>
+              </div>
+              <p class="bfsim-tip">正裝通常都是 0。飛控有旋轉安裝才要補角度。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- POWER -->
+        <div class="bfsim-panel" data-panel="power">
+          <header class="bfsim-panel-h">
+            <div>
+              <h3>Power &amp; Battery <small>電源與電池</small></h3>
+              <p>電壓警告決定紅閃時機；電流比例影響耗電判斷。</p>
+            </div>
+          </header>
+          <div class="bfsim-grid2">
+            <div class="bfsim-card">
+              <h4>Voltage <span>電壓</span></h4>
+              <label class="bfsim-field">Scale｜電壓校正
+                <input type="number" data-key="vbat_scale" min="0" max="255" />
+              </label>
+              <label class="bfsim-field">Warning Cell Voltage｜警告電壓
+                <input type="number" data-key="vbat_warn" step="0.01" min="3" max="4.5" />
+                <em>V／芯</em>
+              </label>
+              <label class="bfsim-field">Minimum Cell Voltage｜最低電壓
+                <input type="number" data-key="vbat_min" step="0.01" min="2.5" max="4.2" />
+                <em>V／芯</em>
+              </label>
+              <p class="bfsim-tip">建議警告 3.50、最低 3.30。Scale 要用三用電表對到真實電壓。</p>
+            </div>
+            <div class="bfsim-card">
+              <h4>Current / Capacity <span>電流與容量</span></h4>
+              <label class="bfsim-field">Current Meter Scale｜電流計比例
+                <input type="number" data-key="ibata_scale" />
+              </label>
+              <label class="bfsim-field">Capacity｜電池容量
+                <input type="number" data-key="bat_capacity" step="10" />
+                <em>mAh</em>
+              </label>
+              <p class="bfsim-tip">F411 常見 ibata_scale＝210。容量填實際標稱值即可。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- RECEIVER -->
+        <div class="bfsim-panel" data-panel="receiver">
+          <header class="bfsim-panel-h">
+            <div>
+              <h3>Receiver <small>接收機</small></h3>
+              <p>確認協定、通道行程，以及 ARM 是否在 AUX1。</p>
+            </div>
+          </header>
+          <div class="bfsim-grid2">
+            <div class="bfsim-card">
+              <h4>Serial Receiver Provider <span>接收協定</span></h4>
+              <label class="bfsim-field">協定
+                <select data-key="serialrx">
+                  <option value="CRSF">CRSF（ELRS／TBS）</option>
+                  <option value="SBUS">SBUS</option>
+                </select>
+              </label>
+              <label class="bfsim-field">Deadband｜死區
+                <input type="number" data-key="deadband" min="0" max="32" />
+              </label>
+              <p class="bfsim-tip">ELRS 用 CRSF。死區先 0–2，搖桿有漂再加。</p>
+            </div>
+            <div class="bfsim-card">
+              <h4>Channel Monitor <span>通道監視（模擬）</span></h4>
+              <div class="bfsim-chans" id="bfsim-chans"></div>
+              <p class="bfsim-tip">真機時推搖桿，條要跟著動；中位約 1500，兩端約 1000／2000。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- MODES -->
+        <div class="bfsim-panel" data-panel="modes">
+          <header class="bfsim-panel-h">
+            <div>
+              <h3>Modes <small>模式</small></h3>
+              <p>用 AUX 開關決定現在是解鎖、自穩還是翻正。這裡最容易設錯。</p>
+            </div>
+          </header>
+          <div class="bfsim-modes" id="bfsim-modes"></div>
+          <p class="bfsim-tip"><b>ARM 一定放 AUX1。</b>PREARM 建議另開一個開關。ANGLE 防守常開；攻擊可當求救檔。</p>
+        </div>
+
+        <!-- MOTORS -->
+        <div class="bfsim-panel" data-panel="motors">
+          <header class="bfsim-panel-h">
+            <div>
+              <h3>Motors <small>馬達</small></h3>
+              <p class="bad">真實操作一定要拆槳。這裡只是模擬。</p>
+            </div>
+          </header>
+          <div class="bfsim-grid2">
+            <div class="bfsim-card">
+              <h4>ESC/Motor Protocol <span>電調協定</span></h4>
+              <label class="bfsim-field">協定
+                <select data-key="motor_protocol">
+                  <option value="DSHOT300">DShot300</option>
+                  <option value="DSHOT600">DShot600</option>
+                  <option value="DSHOT150">DShot150</option>
+                </select>
+              </label>
+              <label class="bfsim-check"><input type="checkbox" data-key="dshot_bidir"> Bidirectional DShot｜雙向轉速回傳</label>
+              <label class="bfsim-field">Motor Poles｜磁鐵數
+                <input type="number" data-key="motor_poles" min="2" max="24" />
+              </label>
+              <label class="bfsim-field">Motor Idle｜怠速
+                <input type="number" data-key="motor_idle" min="0" max="2000" />
+              </label>
+              <p class="bfsim-tip">先 DShot300。F411 原廠不要硬開雙向 DShot。</p>
+            </div>
+            <div class="bfsim-card">
+              <h4>Prop Direction <span>槳向圖</span></h4>
+              <label class="bfsim-field">圖示
+                <select data-key="props_dir">
+                  <option value="in">Props in（內八）</option>
+                  <option value="out">Props out（外八）</option>
+                </select>
+              </label>
+              <div class="bfsim-quad" aria-hidden="true">
+                <span>2</span><span>1</span><span>3</span><span>4</span>
+              </div>
+              <p class="bfsim-tip">全隊統一一種圖，四顆轉向必須跟圖一致。</p>
+              <button type="button" class="bfsim-btn warn" data-hint="props">提醒：真機測試前拆槳</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- PID -->
+        <div class="bfsim-panel" data-panel="pid">
+          <header class="bfsim-panel-h">
+            <div>
+              <h3>PID Tuning <small>PID／濾波</small></h3>
+              <p>球機建議先用官方預設。這裡只開放少數與角色有關的項目。</p>
+            </div>
+          </header>
+          <div class="bfsim-grid2">
+            <div class="bfsim-card">
+              <h4>Dynamic Idle <span>動態怠速</span></h4>
+              <label class="bfsim-field">dyn_idle_min_rpm
+                <input type="number" data-key="dyn_idle" min="0" max="100" />
+              </label>
+              <label class="bfsim-field">transient_throttle_limit
+                <input type="number" data-key="transient_limit" min="0" max="30" />
+              </label>
+              <p class="bfsim-tip">有雙向 DShot 才有意義。攻擊起點 40，並把 transient 設 0。防守 F411 原廠請設 0 關閉。</p>
+            </div>
+            <div class="bfsim-card">
+              <h4>Angle Mode <span>自穩相關</span></h4>
+              <label class="bfsim-field">Angle Limit｜最大傾角
+                <input type="number" data-key="angle_limit" min="10" max="80" />
+                <em>度</em>
+              </label>
+              <label class="bfsim-check"><input type="checkbox" data-key="yaw_spin" checked> Yaw Spin Recovery｜偏航失控保護</label>
+              <label class="bfsim-check"><input type="checkbox" data-key="rpm_filter"> RPM Filter｜RPM 濾波</label>
+              <p class="bfsim-tip">PID 的 P／I／D 本模擬器刻意不給亂改，避免學員一開始就抄奇怪數值。</p>
+            </div>
+          </div>
+          <div class="note info" style="margin-top:12px">P／I／D／FF／Filters 詳細「改了什麼感覺」請回 <button type="button" class="go" data-go="bf" data-anchor="bf-impact-pid">飛控設定 · 功能影響字典</button>。</div>
+        </div>
+
+        <!-- RATES -->
+        <div class="bfsim-panel" data-panel="rates">
+          <header class="bfsim-panel-h">
+            <div>
+              <h3>Rates <small>手感</small></h3>
+              <p>Rates Type 用 ACTUAL。中心是微調靈敏度，Max Rate 是打滿能轉多快。</p>
+            </div>
+          </header>
+          <div class="bfsim-card">
+            <label class="bfsim-field">Rates Type
+              <select data-key="rates_type">
+                <option value="ACTUAL">ACTUAL</option>
+                <option value="BETAFLIGHT">BETAFLIGHT</option>
+              </select>
+            </label>
+            <div class="bfsim-tablewrap">
+              <table class="bfsim-table">
+                <thead><tr><th>軸</th><th>Center Sensitivity<br>中心靈敏度</th><th>Max Rate<br>最大轉速</th><th>Expo</th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td>Roll</td>
+                    <td><input type="number" data-key="roll_center" /> deg/s</td>
+                    <td><input type="number" data-key="roll_max" /> deg/s</td>
+                    <td><input type="number" data-key="roll_expo" /></td>
+                  </tr>
+                  <tr>
+                    <td>Pitch</td>
+                    <td><input type="number" data-key="pitch_center" /> deg/s</td>
+                    <td><input type="number" data-key="pitch_max" /> deg/s</td>
+                    <td><input type="number" data-key="pitch_expo" /></td>
+                  </tr>
+                  <tr>
+                    <td>Yaw</td>
+                    <td><input type="number" data-key="yaw_center" /> deg/s</td>
+                    <td><input type="number" data-key="yaw_max" /> deg/s</td>
+                    <td><input type="number" data-key="yaw_expo" /></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <label class="bfsim-field">Throttle Limit Type｜油門上限類型
+              <select data-key="thr_limit_type">
+                <option value="OFF">OFF（比賽用）</option>
+                <option value="SCALE">SCALE（練習用）</option>
+              </select>
+            </label>
+            <label class="bfsim-field">Throttle Limit Percent｜油門上限百分比
+              <input type="number" data-key="thr_limit_pct" min="25" max="100" />
+              <em>%</em>
+            </label>
+            <p class="bfsim-tip">攻擊起點：中心 90／80，最大 600／500，Expo 約 12。防守起點：中心 70，最大 450／400，Expo 約 20。</p>
+          </div>
+        </div>
+
+        <!-- FAILSAFE -->
+        <div class="bfsim-panel" data-panel="failsafe">
+          <header class="bfsim-panel-h">
+            <div>
+              <h3>Failsafe <small>斷訊保護</small></h3>
+              <p>球機正確答案幾乎只有 DROP。Land／GPS Rescue 不要用。</p>
+            </div>
+          </header>
+          <div class="bfsim-grid2">
+            <div class="bfsim-card">
+              <h4>Stage 2 Failsafe Procedure <span>斷訊後動作</span></h4>
+              <label class="bfsim-field">Procedure
+                <select data-key="failsafe_procedure">
+                  <option value="DROP">Drop｜立刻停槳</option>
+                  <option value="AUTO-LAND">Land｜繼續轉（球機不要）</option>
+                  <option value="GPS-RESCUE">GPS Rescue｜球機不要</option>
+                </select>
+              </label>
+              <label class="bfsim-field">Guard time for stage 2｜判定時間
+                <input type="number" data-key="failsafe_delay" step="0.1" min="0.2" max="20" />
+                <em>秒</em>
+              </label>
+              <p class="bfsim-tip">維持 Drop + 1.5 秒。接收機端還要設成斷訊不輸出。</p>
+            </div>
+            <div class="bfsim-card warn-card">
+              <h4>驗收測試 <span>一定要做</span></h4>
+              <ol>
+                <li>拆槳</li>
+                <li>接電池、解鎖、油門稍微推一點</li>
+                <li>關掉遙控器</li>
+                <li>馬達必須在約 1.5 秒內停轉</li>
+              </ol>
+              <button type="button" class="bfsim-btn" data-hint="failsafe-test">模擬：我關掉遙控器了</button>
+              <p id="bfsim-fs-result" class="bfsim-tip"></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- LED -->
+        <div class="bfsim-panel" data-panel="led">
+          <header class="bfsim-panel-h">
+            <div>
+              <h3>LED Strip <small>燈條</small></h3>
+              <p>亮度會吃 BEC。顏色規則詳見 LED 分頁。</p>
+            </div>
+          </header>
+          <div class="bfsim-grid2">
+            <div class="bfsim-card">
+              <h4>Brightness / Beeper <span>亮度與警示</span></h4>
+              <label class="bfsim-field">ledstrip_brightness｜亮度
+                <input type="number" data-key="led_brightness" min="5" max="100" />
+                <em>%</em>
+              </label>
+              <label class="bfsim-check"><input type="checkbox" data-key="led_visual_beeper"> Visual Beeper｜視覺蜂鳴</label>
+              <label class="bfsim-check"><input type="checkbox" data-key="vtx_bec_off"> VTX BEC OFF｜關閉圖傳供電（Oxbot）</label>
+              <p class="bfsim-tip">攻擊 45、防守 40。Oxbot 沒裝圖傳務必開 VTX BEC OFF。</p>
+            </div>
+            <div class="bfsim-card">
+              <h4>預覽 <span>示意</span></h4>
+              <div class="bfsim-ledprev" id="bfsim-ledprev"></div>
+              <p class="bfsim-tip">這只是亮度示意，不是正式隊色編排工具。</p>
+              <button type="button" class="go" data-go="led">打開正式 LED 分頁 →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- BLACKBOX -->
+        <div class="bfsim-panel" data-panel="blackbox">
+          <header class="bfsim-panel-h">
+            <div>
+              <h3>Blackbox <small>黑匣子</small></h3>
+              <p>調參時才開。平常關閉省空間。</p>
+            </div>
+          </header>
+          <div class="bfsim-card">
+            <label class="bfsim-check"><input type="checkbox" data-key="blackbox_on"> 啟用黑匣子紀錄（模擬）</label>
+            <label class="bfsim-field">Device｜紀錄裝置
+              <select data-key="blackbox_device">
+                <option value="NONE">NONE</option>
+                <option value="SPIFLASH">SPIFLASH</option>
+              </select>
+            </label>
+            <p class="bfsim-tip">要分析震動／PID 才打開。比賽當天天天開通常沒必要。</p>
+          </div>
+        </div>
+
+        <!-- CLI -->
+        <div class="bfsim-panel" data-panel="cli">
+          <header class="bfsim-panel-h">
+            <div>
+              <h3>CLI <small>依目前模擬值產生預覽</small></h3>
+              <p>這是依照你在模擬器裡填的內容產生的指令預覽，方便對照。不要直接以為已經寫進飛控。</p>
+            </div>
+            <button type="button" class="bfsim-btn" id="bfsim-copy-cli">複製預覽</button>
+          </header>
+          <pre class="bfsim-cli" id="bfsim-cli"></pre>
+        </div>
+      </div>
+    </div>
+
+    <aside class="bfsim-explain" id="bfsim-explain" aria-live="polite">
+      <b>說明</b>
+      <p>點左邊分頁開始模擬。上方可一鍵套用攻擊手或防守手建議值；改任何欄位時，這裡會提示它影響什麼。</p>
+    </aside>
+  </div>
+</section>
+
 <!-- ============ LED ============ -->
 <section id="led">
   <h1>LED</h1>
@@ -3850,6 +4497,381 @@ save</pre>
     }
     goTab(tab || 'home', hash || '');
   }
+
+  /* ===== Betaflight 設定模擬器 ===== */
+  (function initBfSim() {
+    const root = document.getElementById('bfsim-app');
+    if (!root) return;
+
+    const explain = document.getElementById('bfsim-explain');
+    const boardSel = document.getElementById('bfsim-board');
+    const cliPre = document.getElementById('bfsim-cli');
+    const fsResult = document.getElementById('bfsim-fs-result');
+    const ledPrev = document.getElementById('bfsim-ledprev');
+
+    const hints = {
+      craft_name: 'Craft Name｜機號。五台長得很像，接上電腦要立刻分得出攻擊幾號／防守幾號。',
+      mixer: 'Mixer｜機架混控。足球機固定用 Quad X，選錯馬達邏輯會整個反掉。',
+      feat_motor_stop: 'MOTOR_STOP｜油門最低就停轉。球機通常要關閉，否則跟 Airmode／對抗手感打架。',
+      feat_ledstrip: 'LED_STRIP｜讓飛控控制燈條。比賽要亮燈，這個要開。',
+      feat_osd: 'OSD｜圖傳字幕。球機沒鏡頭就不用開。',
+      feat_airmode: 'AIRMODE｜油門收死時仍保有姿態控制。對抗被撞後比較救得回來。',
+      small_angle: 'Maximum Arm Angle｜解鎖角度。攻擊約 30、防守約 40。設 180 很危險。',
+      runaway_takeoff: 'Runaway Takeoff Prevention｜解鎖後暴衝會自動上鎖，建議維持開啟。',
+      vbat_warn: 'Warning Cell Voltage｜警告電壓。建議 3.50V／芯，決定紅閃何時開始。',
+      vbat_min: 'Minimum Cell Voltage｜最低電壓。建議 3.30V／芯。',
+      ibata_scale: 'Current Meter Scale｜電流計比例。F411 常見 210。',
+      serialrx: 'Serial Receiver Provider｜ELRS 選 CRSF。選錯會沒訊號或通道亂跳。',
+      deadband: 'Deadband｜搖桿死區。先 0–2，有中位漂移再加。',
+      motor_protocol: 'ESC/Motor Protocol｜先用 DShot300，穩了再考慮 DShot600。',
+      dshot_bidir: 'Bidirectional DShot｜電調回傳轉速。Oxbot／RATE 可開；F411 原廠先別開。',
+      motor_poles: 'Motor Poles｜磁鐵數。14xx／15xx 多為 14，請實際數過。',
+      dyn_idle: 'Dynamic Idle｜依真實 RPM 撐住怠速。攻擊有 bidir 可先 40；防守無 bidir 設 0。',
+      angle_limit: 'Angle Limit｜ANGLE 模式最大傾角。攻擊約 60、防守約 55。',
+      rpm_filter: 'RPM Filter｜要有雙向 DShot 才有意義。硬開會不起轉。',
+      rates_type: 'Rates Type｜建議 ACTUAL，中心與最大轉速最好懂。',
+      roll_center: 'Center Sensitivity｜搖桿中間有多靈。攻擊約 90、防守約 70。',
+      roll_max: 'Max Rate｜打滿能轉多快。攻擊約 600、防守約 450。',
+      thr_limit_type: 'Throttle Limit｜練習可 SCALE；比賽改 OFF。',
+      failsafe_procedure: 'Failsafe Procedure｜球機用 DROP。Land／GPS Rescue 不要。',
+      failsafe_delay: 'Guard time｜斷訊後多久進入 Stage 2。維持 1.5 秒。',
+      led_brightness: 'LED brightness｜攻擊約 45、防守約 40。太亮會壓垮小 BEC。',
+      vtx_bec_off: 'VTX BEC OFF｜Oxbot 沒裝圖傳務必開啟，關掉圖傳供電。',
+      accel: 'Calibrate Accelerometer｜平放桌面校正。ANGLE 準不準很大程度看這個。',
+      props: '真機 Motors 分頁測試前一定拆槳。順序或轉向錯，一開油門就翻。',
+      'failsafe-test': '模擬斷訊驗收：若 Procedure=DROP，馬達應停止。真機請拆槳實測關遙控器。'
+    };
+
+    const modeDefs = [
+      { key: 'mode_arm', en: 'ARM', zh: '解鎖', aux: 'AUX1', need: true },
+      { key: 'mode_prearm', en: 'PREARM', zh: '預解鎖', aux: 'AUX2', need: true },
+      { key: 'mode_angle', en: 'ANGLE', zh: '自穩', aux: 'AUX3', need: false },
+      { key: 'mode_turtle', en: 'FLIP OVER AFTER CRASH', zh: '翻正', aux: 'AUX4', need: false },
+      { key: 'mode_beeper', en: 'BEEPER', zh: '尋機', aux: 'AUX5', need: false },
+      { key: 'mode_acro_trainer', en: 'ACRO TRAINER', zh: '特技訓練', aux: '—', need: false }
+    ];
+
+    const profiles = {
+      atk: {
+        craft_name: 'CHSH-ATK-1',
+        mixer: 'QUADX',
+        feat_motor_stop: false,
+        feat_ledstrip: true,
+        feat_osd: false,
+        feat_airmode: true,
+        feat_telemetry: false,
+        small_angle: 30,
+        runaway_takeoff: true,
+        align_roll: 0, align_pitch: 0, align_yaw: 0,
+        vbat_scale: 110,
+        vbat_warn: 3.5,
+        vbat_min: 3.3,
+        ibata_scale: 400,
+        bat_capacity: 1060,
+        serialrx: 'CRSF',
+        deadband: 0,
+        uart1_msp: false, uart1_rx: false,
+        uart2_msp: false, uart2_rx: true,
+        uart3_msp: false, uart3_rx: false,
+        motor_protocol: 'DSHOT300',
+        dshot_bidir: true,
+        motor_poles: 14,
+        motor_idle: 550,
+        props_dir: 'in',
+        dyn_idle: 40,
+        transient_limit: 0,
+        angle_limit: 60,
+        yaw_spin: true,
+        rpm_filter: true,
+        rates_type: 'ACTUAL',
+        roll_center: 90, roll_max: 600, roll_expo: 12,
+        pitch_center: 90, pitch_max: 600, pitch_expo: 12,
+        yaw_center: 80, yaw_max: 500, yaw_expo: 12,
+        thr_limit_type: 'OFF',
+        thr_limit_pct: 100,
+        failsafe_procedure: 'DROP',
+        failsafe_delay: 1.5,
+        led_brightness: 45,
+        led_visual_beeper: true,
+        vtx_bec_off: true,
+        blackbox_on: false,
+        blackbox_device: 'NONE',
+        mode_arm: true,
+        mode_prearm: true,
+        mode_angle: false,
+        mode_turtle: true,
+        mode_beeper: true,
+        mode_acro_trainer: false
+      },
+      def: {
+        craft_name: 'CHSH-DEF-1',
+        mixer: 'QUADX',
+        feat_motor_stop: false,
+        feat_ledstrip: true,
+        feat_osd: false,
+        feat_airmode: true,
+        feat_telemetry: false,
+        small_angle: 40,
+        runaway_takeoff: true,
+        align_roll: 0, align_pitch: 0, align_yaw: 0,
+        vbat_scale: 110,
+        vbat_warn: 3.5,
+        vbat_min: 3.3,
+        ibata_scale: 210,
+        bat_capacity: 850,
+        serialrx: 'CRSF',
+        deadband: 1,
+        uart1_msp: false, uart1_rx: false,
+        uart2_msp: false, uart2_rx: true,
+        uart3_msp: false, uart3_rx: false,
+        motor_protocol: 'DSHOT300',
+        dshot_bidir: false,
+        motor_poles: 14,
+        motor_idle: 550,
+        props_dir: 'in',
+        dyn_idle: 0,
+        transient_limit: 0,
+        angle_limit: 55,
+        yaw_spin: true,
+        rpm_filter: false,
+        rates_type: 'ACTUAL',
+        roll_center: 70, roll_max: 450, roll_expo: 20,
+        pitch_center: 70, pitch_max: 450, pitch_expo: 20,
+        yaw_center: 70, yaw_max: 400, yaw_expo: 20,
+        thr_limit_type: 'OFF',
+        thr_limit_pct: 100,
+        failsafe_procedure: 'DROP',
+        failsafe_delay: 1.5,
+        led_brightness: 40,
+        led_visual_beeper: true,
+        vtx_bec_off: false,
+        blackbox_on: false,
+        blackbox_device: 'NONE',
+        mode_arm: true,
+        mode_prearm: true,
+        mode_angle: true,
+        mode_turtle: true,
+        mode_beeper: true,
+        mode_acro_trainer: true
+      }
+    };
+
+    let state = { ...profiles.atk };
+    let role = 'atk';
+
+    function setExplain(text) {
+      explain.innerHTML = '<b>說明</b><p>' + text + '</p>';
+    }
+
+    function applyBoardDefaults() {
+      const b = boardSel.value;
+      if (b === 'f411') {
+        state.ibata_scale = 210;
+        state.dshot_bidir = false;
+        state.rpm_filter = false;
+        state.dyn_idle = 0;
+        state.led_brightness = Math.min(state.led_brightness, 40);
+        state.vtx_bec_off = false;
+        state.uart2_rx = true;
+        setExplain('已切到 HAKRC F411：電流比例 210、原廠先關閉雙向 DShot／RPM 濾波／Dynamic Idle，亮度勿太高。');
+      } else if (b === 'oxbot') {
+        if (role === 'atk') {
+          state.dshot_bidir = true;
+          state.rpm_filter = true;
+          state.dyn_idle = 40;
+          state.led_brightness = Math.max(state.led_brightness, 45);
+        }
+        state.vtx_bec_off = true;
+        state.uart2_rx = false;
+        setExplain('已切到 Oxbot：內建 ELRS 不一定走 UART2；沒裝圖傳請開啟 VTX BEC OFF。');
+      } else {
+        if (role === 'atk') {
+          state.dshot_bidir = true;
+          state.rpm_filter = true;
+          state.dyn_idle = 40;
+        }
+        state.vtx_bec_off = false;
+        state.uart2_rx = true;
+        setExplain('已切到 RATE F4：外接 ELRS 常見走 UART2 Serial RX；可開雙向 DShot。');
+      }
+      render();
+    }
+
+    function renderModes() {
+      const host = document.getElementById('bfsim-modes');
+      host.innerHTML = modeDefs.map(m => {
+        const on = !!state[m.key];
+        return `<label class="bfsim-mode">
+          <b>${m.en}<small>${m.zh}${m.need ? ' · 必要' : ''}</small></b>
+          <span>${m.aux}</span>
+          <span class="range"><i style="left:${on ? '58%' : '0'};width:${on ? '42%' : '0'}"></i></span>
+          <span style="grid-column:1/-1">
+            <input type="checkbox" data-key="${m.key}" ${on ? 'checked' : ''}> 啟用此模式區間（模擬）
+          </span>
+        </label>`;
+      }).join('');
+    }
+
+    function renderChans() {
+      const host = document.getElementById('bfsim-chans');
+      const chans = [
+        ['Roll', 1500], ['Pitch', 1500], ['Yaw', 1500], ['Throttle', 1000],
+        ['AUX1 ARM', state.mode_arm ? 1800 : 1000],
+        ['AUX2 PREARM', state.mode_prearm ? 1800 : 1000]
+      ];
+      host.innerHTML = chans.map(([n, v]) => {
+        const pct = Math.max(0, Math.min(100, (v - 1000) / 10));
+        return `<div class="bfsim-chan"><span>${n}</span><div class="bar"><i style="width:${pct}%"></i></div><span>${v}</span></div>`;
+      }).join('');
+    }
+
+    function buildCli() {
+      const lines = [
+        '# 模擬 CLI 預覽（不會寫入飛控）',
+        `set craft_name = ${state.craft_name}`,
+        state.feat_ledstrip ? 'feature LED_STRIP' : 'feature -LED_STRIP',
+        state.feat_motor_stop ? 'feature MOTOR_STOP' : 'feature -MOTOR_STOP',
+        state.feat_airmode ? 'feature AIRMODE' : 'feature -AIRMODE',
+        state.feat_osd ? 'feature OSD' : 'feature -OSD',
+        `set small_angle = ${state.small_angle}`,
+        `set runaway_takeoff_prevention = ${state.runaway_takeoff ? 'ON' : 'OFF'}`,
+        `set vbat_warning_cell_voltage = ${Math.round(state.vbat_warn * 100)}`,
+        `set vbat_min_cell_voltage = ${Math.round(state.vbat_min * 100)}`,
+        `set vbat_scale = ${state.vbat_scale}`,
+        `set ibata_scale = ${state.ibata_scale}`,
+        `set bat_capacity = ${state.bat_capacity}`,
+        `set serialrx_provider = ${state.serialrx}`,
+        `set deadband = ${state.deadband}`,
+        `set motor_pwm_protocol = ${state.motor_protocol}`,
+        `set dshot_bidir = ${state.dshot_bidir ? 'ON' : 'OFF'}`,
+        `set motor_poles = ${state.motor_poles}`,
+        `set motor_idle = ${state.motor_idle}`,
+        `set dyn_idle_min_rpm = ${state.dyn_idle}`,
+        `set transient_throttle_limit = ${state.transient_limit}`,
+        `set angle_limit = ${state.angle_limit}`,
+        `set rates_type = ${state.rates_type}`,
+        `# Rates 請在 Rateprofile UI 設：Roll/Pitch center ${state.roll_center}/${state.pitch_center}, max ${state.roll_max}/${state.pitch_max}, expo ${state.roll_expo}`,
+        `# Yaw center ${state.yaw_center}, max ${state.yaw_max}, expo ${state.yaw_expo}`,
+        `set throttle_limit_type = ${state.thr_limit_type}`,
+        `set throttle_limit_percent = ${state.thr_limit_pct}`,
+        `set failsafe_procedure = ${state.failsafe_procedure}`,
+        `set failsafe_delay = ${Math.round(state.failsafe_delay * 10)}`,
+        `set ledstrip_brightness = ${state.led_brightness}`,
+        `set ledstrip_visual_beeper = ${state.led_visual_beeper ? 'ON' : 'OFF'}`,
+        `set blackbox_device = ${state.blackbox_on ? state.blackbox_device : 'NONE'}`,
+        '# Modes：ARM=AUX1, PREARM 建議另開；詳見模擬 Modes 分頁',
+        'save'
+      ];
+      cliPre.textContent = lines.join('\n');
+    }
+
+    function render() {
+      root.querySelectorAll('[data-bind="craft_name"]').forEach(el => {
+        el.textContent = state.craft_name;
+      });
+      root.querySelectorAll('[data-key]').forEach(el => {
+        const key = el.dataset.key;
+        if (!(key in state)) return;
+        if (el.type === 'checkbox') el.checked = !!state[key];
+        else el.value = state[key];
+      });
+      renderModes();
+      renderChans();
+      buildCli();
+      if (ledPrev) {
+        const b = Math.max(0.2, state.led_brightness / 100);
+        ledPrev.style.opacity = String(b);
+        ledPrev.style.filter = `brightness(${0.7 + b})`;
+      }
+      // flags
+      const flags = [];
+      if (state.feat_motor_stop) flags.push('<li>提醒：MOTOR_STOP 目前開啟（球機通常應關閉）</li>');
+      if (state.failsafe_procedure !== 'DROP') flags.push('<li class="bad">Failsafe 不是 DROP（危險）</li>');
+      if (!state.mode_arm) flags.push('<li>未設定 ARM</li>');
+      if (state.dshot_bidir && boardSel.value === 'f411') flags.push('<li>F411 原廠開了雙向 DShot（高風險）</li>');
+      if (!flags.length) flags.push('<li class="ok">無阻擋（模擬已就緒）</li>');
+      const flagHost = document.getElementById('bfsim-flags');
+      if (flagHost) flagHost.innerHTML = flags.join('');
+    }
+
+    function readControl(el) {
+      const key = el.dataset.key;
+      if (!key) return;
+      if (el.type === 'checkbox') state[key] = el.checked;
+      else if (el.type === 'number') state[key] = el.value === '' ? 0 : Number(el.value);
+      else state[key] = el.value;
+      if (hints[key]) setExplain(hints[key]);
+      render();
+    }
+
+    root.addEventListener('change', e => {
+      const el = e.target.closest('[data-key]');
+      if (el && root.contains(el)) readControl(el);
+    });
+    root.addEventListener('input', e => {
+      const el = e.target.closest('[data-key]');
+      if (el && root.contains(el) && (el.tagName === 'INPUT' || el.tagName === 'SELECT')) {
+        // number/text live update; checkboxes handled by change
+        if (el.type !== 'checkbox') readControl(el);
+      }
+    });
+
+    // tabs
+    root.querySelectorAll('.bfsim-nav button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.panel;
+        root.querySelectorAll('.bfsim-nav button').forEach(b => b.classList.toggle('on', b === btn));
+        root.querySelectorAll('.bfsim-panel').forEach(p => p.classList.toggle('on', p.dataset.panel === id));
+        setExplain('目前在 <b>' + btn.querySelector('b').textContent + '</b>｜' + btn.querySelector('span').textContent + '。改左側欄位時，下方說明會告訴你它影響什麼。');
+      });
+    });
+
+    // role buttons
+    root.querySelectorAll('.bfsim-role').forEach(btn => {
+      btn.addEventListener('click', () => {
+        role = btn.dataset.role;
+        root.querySelectorAll('.bfsim-role').forEach(b => b.classList.toggle('on', b === btn));
+        state = { ...profiles[role] };
+        if (role === 'def') boardSel.value = 'f411';
+        else if (boardSel.value === 'f411') boardSel.value = 'oxbot';
+        applyBoardDefaults();
+        setExplain(role === 'atk'
+          ? '已套用攻擊手建議：較快 Rates、Acro 為主、開雙向 DShot／Dynamic Idle、亮度 45。'
+          : '已套用防守手建議：較慢 Rates、ANGLE／ACRO TRAINER、F411 先不開 bidir、亮度 40、解鎖角度 40。');
+      });
+    });
+
+    boardSel.addEventListener('change', applyBoardDefaults);
+
+    root.querySelectorAll('[data-hint]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const h = btn.dataset.hint;
+        if (h === 'failsafe-test') {
+          if (state.failsafe_procedure === 'DROP') {
+            fsResult.innerHTML = '<b style="color:#3ddc84">模擬結果：馬達停止（DROP 正確）。</b>真機仍要拆槳實測關遙控器。';
+          } else {
+            fsResult.innerHTML = '<b style="color:#ff8b8b">模擬結果：馬達可能還在轉！</b>請把 Procedure 改回 Drop。';
+          }
+        }
+        if (hints[h]) setExplain(hints[h]);
+      });
+    });
+
+    const copyBtn = document.getElementById('bfsim-copy-cli');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(cliPre.textContent);
+          setExplain('CLI 預覽已複製。貼到真實飛控前，請先確認這是模擬值，並先做 diff all 備份。');
+        } catch (e) {
+          setExplain('瀏覽器無法自動複製，請手動選取 CLI 預覽文字。');
+        }
+      });
+    }
+
+    render();
+  })();
+
   bootFromUrl();
   updateScrollUi();
 </script>
