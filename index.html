@@ -11,7 +11,7 @@
     --bg:#0a0d12; --card:rgba(22,26,34,.90); --card2:rgba(12,15,22,.94);
     --text:#f3f5f9; --muted:#a3aebc; --line:rgba(120,130,150,.28);
     --accent:#5ec8ff; --gold:#c9a24a; --ok:#5cd6a0; --warn:#ffbe5c; --bad:#ff8b8b;
-    --header-h:120px;
+    --header-h:138px;
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
@@ -100,15 +100,21 @@
   .hero-brand h1{margin:0 0 12px}
   .hero-brand .lead{margin-bottom:0}
   header nav{
-    display:flex;gap:7px;overflow-x:auto;padding-bottom:11px;
+    display:flex;gap:12px;overflow-x:auto;padding-bottom:11px;align-items:flex-end;
     scrollbar-width:none;overscroll-behavior-inline:contain;
   }
   header nav::-webkit-scrollbar{display:none}
+  .nav-group{display:flex;flex-direction:column;gap:4px;flex:0 0 auto}
+  .nav-group-label{
+    font-size:10px;font-weight:800;color:var(--muted);letter-spacing:.08em;
+    text-transform:uppercase;padding-left:2px;line-height:1;white-space:nowrap;
+  }
+  .nav-group .nav-btns{display:flex;gap:6px}
   header nav button{
     flex:0 0 auto; cursor:pointer;
     background:transparent;color:var(--muted);
     border:1px solid var(--line); border-radius:999px;
-    padding:7px 15px;font-size:14px;font-weight:700;
+    padding:7px 13px;font-size:14px;font-weight:700;
     font-family:inherit;transition:background .18s,color .18s,border-color .18s,transform .18s;
   }
   header nav button:hover{color:var(--text);border-color:#4a5568;transform:translateY(-1px)}
@@ -256,12 +262,22 @@
   /* 本章目錄 */
   .toc{
     display:flex;flex-wrap:wrap;gap:8px;
-    position:sticky;top:101px;z-index:8;
+    position:sticky;top:118px;z-index:8;
     margin:16px 0 26px;padding:11px 14px;
     background:var(--card);border:1px solid var(--line);border-radius:10px;
     box-shadow:0 6px 20px rgba(0,0,0,.16);
   }
   .toc-label{display:flex;align-items:center;font-size:12px;font-weight:800;color:var(--muted);letter-spacing:.04em;margin-right:2px}
+  .toc-group{
+    display:flex;flex-wrap:wrap;align-items:center;gap:6px;
+    padding:2px 0;margin-right:4px;
+  }
+  .toc-group + .toc-group{
+    border-left:1px solid var(--line);padding-left:10px;margin-left:2px;
+  }
+  .toc-group-label{
+    font-size:11px;font-weight:800;color:var(--accent);letter-spacing:.03em;margin-right:2px;
+  }
   .toc a,.toc button.go{
     display:inline-block;font-size:14px;font-weight:600;
     padding:6px 12px;border-radius:999px;
@@ -326,8 +342,10 @@
     .hero-brand{margin-top:18px;padding-top:12px;gap:14px}
     .hero-brand .crest-wrap{width:min(92vw,360px)}
     .bg-logo{opacity:.09;background-size:min(92vw,420px) auto;background-position:center 8%}
-    header nav{gap:6px;padding-bottom:9px}
-    header nav button{padding:6px 12px;font-size:13px}
+    header nav{gap:10px;padding-bottom:9px}
+    .nav-group{gap:3px}
+    .nav-group-label{font-size:9px}
+    header nav button{padding:6px 11px;font-size:13px}
     h1{margin-top:30px;font-size:30px}
     h2{margin-top:38px;font-size:21px}
     h3{font-size:18px}
@@ -339,6 +357,9 @@
     .note{padding:14px;font-size:15px}
     .toc{position:static;padding:10px;gap:6px;box-shadow:none}
     .toc-label{width:100%}
+    .toc-group{width:100%;margin:0;padding:5px 0;gap:5px}
+    .toc-group + .toc-group{border-left:0;border-top:1px solid var(--line);padding:8px 0 3px;margin:0}
+    .toc-group-label{min-width:36px}
     .toc a,.toc button.go{font-size:12px;padding:5px 9px}
     table{font-size:14px}
     th,td{padding:9px 10px;min-width:82px}
@@ -374,13 +395,40 @@
       </div>
     </div>
     <nav aria-label="主要分頁">
-      <button class="on" data-go="home" aria-pressed="true">總覽</button>
-      <button data-go="motor" aria-pressed="false">馬達</button>
-      <button data-go="batt" aria-pressed="false">電池</button>
-      <button data-go="prop" aria-pressed="false">螺旋槳</button>
-      <button data-go="build" aria-pressed="false">組裝重量</button>
-      <button data-go="led" aria-pressed="false">LED／飛控</button>
-      <button data-go="rule" aria-pressed="false">規則檢錄</button>
+      <div class="nav-group">
+        <span class="nav-group-label">開始</span>
+        <div class="nav-btns">
+          <button class="on" data-go="home" aria-pressed="true">總覽</button>
+        </div>
+      </div>
+      <div class="nav-group">
+        <span class="nav-group-label">配備</span>
+        <div class="nav-btns">
+          <button data-go="motor" aria-pressed="false">馬達</button>
+          <button data-go="batt" aria-pressed="false">電池</button>
+          <button data-go="prop" aria-pressed="false">螺旋槳</button>
+        </div>
+      </div>
+      <div class="nav-group">
+        <span class="nav-group-label">整機</span>
+        <div class="nav-btns">
+          <button data-go="build" aria-pressed="false">組裝</button>
+          <button data-go="fly" aria-pressed="false">續航</button>
+        </div>
+      </div>
+      <div class="nav-group">
+        <span class="nav-group-label">系統</span>
+        <div class="nav-btns">
+          <button data-go="fc" aria-pressed="false">飛控</button>
+          <button data-go="led" aria-pressed="false">LED</button>
+        </div>
+      </div>
+      <div class="nav-group">
+        <span class="nav-group-label">賽事</span>
+        <div class="nav-btns">
+          <button data-go="rule" aria-pressed="false">規則</button>
+        </div>
+      </div>
     </nav>
     <div id="page-progress" aria-hidden="true"></div>
   </div>
@@ -397,7 +445,7 @@
     <div>
       <p class="eyebrow">CHIA HWA SENIOR HIGH · DRONE TEAM</p>
       <h1>嘉華中學足球無人機配備總覽</h1>
-      <p class="lead">嘉華中學足球無人機俱樂部備賽手冊：挑選 → 組裝秤重 → LED／飛控 → 檢錄上場。數字來自原廠測功與 FAI 2026 規則。</p>
+      <p class="lead">嘉華中學足球無人機俱樂部備賽手冊：挑選 → 組裝秤重 → 續航確認 → 飛控／LED 設定 → 檢錄上場。數字來自原廠測功與 FAI 2026 規則。</p>
     </div>
   </div>
 
@@ -419,19 +467,20 @@
       </div>
     </div>
     <div class="phase">
-      <h4>組裝與秤重</h4>
-      <p>目標 285–295g（上限 300g）；統一槳；實秤含比賽電池與全部固定件。</p>
+      <h4>組裝、秤重與續航</h4>
+      <p>目標 285–295g（上限 300g）；統一槳；用續航表排馬達＋電池。</p>
       <div class="links">
-        <button type="button" class="go" data-go="build">組裝重量</button>
+        <button type="button" class="go" data-go="build">組裝</button>
         <button type="button" class="go" data-go="build" data-anchor="build-weight">300g 預算</button>
+        <button type="button" class="go" data-go="fly">續航</button>
       </div>
     </div>
     <div class="phase">
       <h4>飛控與 LED</h4>
       <p>三款 AIO（Oxbot／RATE／HAKRC）；隊色紅／藍、射手尾燈對方色、亮度約 40%、低壓紅閃。</p>
       <div class="links">
-        <button type="button" class="go" data-go="led">LED／飛控</button>
-        <button type="button" class="go" data-go="led" data-anchor="led-fc">本隊飛控</button>
+        <button type="button" class="go" data-go="fc">飛控</button>
+        <button type="button" class="go" data-go="led">LED</button>
       </div>
     </div>
     <div class="phase">
@@ -478,33 +527,53 @@
     </div>
     <div class="card">
       <span class="tag">整機</span>
-      <h4>組裝重量</h4>
+      <h4>組裝</h4>
       <ul>
-        <li>馬達＋電池能飛多久</li>
+        <li>賽前必讀</li>
         <li>三種隊伍搭配</li>
-        <li>300g 預算</li>
+        <li>300g 預算與輕量機</li>
       </ul>
-      <button type="button" class="go" data-go="build">開啟組裝重量</button>
+      <button type="button" class="go" data-go="build">開啟組裝</button>
     </div>
     <div class="card">
-      <span class="tag">飛控</span>
-      <h4>LED／飛控</h4>
+      <span class="tag">整機</span>
+      <h4>續航</h4>
       <ul>
-        <li>三款 AIO 接線與差異</li>
-        <li>顏色與換射手</li>
-        <li>22 顆耗電＋低壓紅閃</li>
+        <li>馬達＋電池能飛多久</li>
+        <li>控場／對抗／猛攻</li>
+        <li>一 set 約 3 分鐘對照</li>
       </ul>
-      <button type="button" class="go" data-go="led">開啟 LED／飛控</button>
+      <button type="button" class="go" data-go="fly">開啟續航</button>
+    </div>
+    <div class="card">
+      <span class="tag">系統</span>
+      <h4>飛控</h4>
+      <ul>
+        <li>三款 AIO 規格</li>
+        <li>接線與焊點</li>
+        <li>CLI 設定重點</li>
+      </ul>
+      <button type="button" class="go" data-go="fc">開啟飛控</button>
+    </div>
+    <div class="card">
+      <span class="tag">系統</span>
+      <h4>LED</h4>
+      <ul>
+        <li>顏色與換射手</li>
+        <li>22 顆耗電</li>
+        <li>低壓紅閃</li>
+      </ul>
+      <button type="button" class="go" data-go="led">開啟 LED</button>
     </div>
     <div class="card">
       <span class="tag">賽事</span>
-      <h4>規則檢錄</h4>
+      <h4>規則</h4>
       <ul>
         <li>F9A-B 規格</li>
         <li>5 球 9 電檢錄</li>
         <li>馬達合規表</li>
       </ul>
-      <button type="button" class="go" data-go="rule">開啟規則檢錄</button>
+      <button type="button" class="go" data-go="rule">開啟規則</button>
     </div>
   </div>
 
@@ -602,7 +671,7 @@
       <div class="row"><div class="lab">＋1100 3S<span>≥100C</span></div><div class="track"><i class="ok" style="width:91.4%"></i></div><div class="val">約 3.2 分</div></div>
     </div>
     <small>條長基準＝3.5 分。完整控場／對抗／猛攻數字見「組裝重量 → 馬達＋電池能飛多久」。</small>
-    <p style="margin:10px 0 0"><button type="button" class="go" data-go="build" data-anchor="build-endurance">開啟完整續航對照</button>
+    <p style="margin:10px 0 0"><button type="button" class="go" data-go="fly" data-anchor="build-endurance">開啟完整續航對照</button>
     <button type="button" class="go" data-go="motor" data-anchor="motor-charts" style="margin-left:8px">開啟馬達圖表</button></p>
   </div>
 </section>
@@ -935,7 +1004,7 @@
     <a href="#batt-owned">本隊已購</a>
     <a href="#batt-4s">4S 建議</a>
     <a href="#batt-3s">3S 備選</a>
-    <button type="button" class="go" data-go="build" data-anchor="build-endurance">馬達＋電池能飛多久 →</button>
+    <button type="button" class="go" data-go="fly" data-anchor="build-endurance">馬達＋電池能飛多久 →</button>
   </nav>
 
   <div class="note warn">
@@ -1067,7 +1136,7 @@
   </div>
   <div class="note info">
     低壓紅閃 CLI 見
-    <button type="button" class="go" data-go="led" data-anchor="led-lowbat" style="margin-left:4px;font-size:14px;padding:4px 10px;border-radius:999px;border:1px solid var(--accent);background:transparent;color:var(--accent);cursor:pointer;font-family:inherit;font-weight:700">LED／飛控 · 低壓紅閃</button>。
+    <button type="button" class="go" data-go="led" data-anchor="led-lowbat" style="margin-left:4px;font-size:14px;padding:4px 10px;border-radius:999px;border:1px solid var(--accent);background:transparent;color:var(--accent);cursor:pointer;font-family:inherit;font-weight:700">LED · 低壓紅閃</button>。
   </div>
 
   <h2 id="batt-owned">本隊已購電池</h2>
@@ -1408,15 +1477,24 @@
 
 <!-- ============ 配置與重量 ============ -->
 <section id="build">
-  <h1>組裝與重量</h1>
-  <p class="lead">F9A-B 上場 3 台＋替補 2 台。可混用馬達，槳建議統一。</p>
+  <h1>組裝</h1>
+  <p class="lead">F9A-B 上場 3 台＋替補 2 台。可混用馬達，槳建議統一。續航表已獨立成「續航」分頁。</p>
   <nav class="toc" aria-label="組裝本章目錄">
     <span class="toc-label">本章目錄</span>
-    <a href="#build-check">賽前必讀</a>
-    <a href="#build-teams">三種搭配</a>
-    <a href="#build-endurance">馬達＋電池能飛多久</a>
-    <a href="#build-weight">300g 預算</a>
-    <a href="#build-light">輕量 vs 299g</a>
+    <div class="toc-group">
+      <span class="toc-group-label">準備</span>
+      <a href="#build-check">賽前必讀</a>
+      <a href="#build-teams">三種搭配</a>
+    </div>
+    <div class="toc-group">
+      <span class="toc-group-label">重量</span>
+      <a href="#build-weight">300g 預算</a>
+      <a href="#build-light">輕量 vs 299g</a>
+    </div>
+    <div class="toc-group">
+      <span class="toc-group-label">相關</span>
+      <button type="button" class="go" data-go="fly">續航對照 →</button>
+    </div>
   </nav>
 
   <h2 id="build-check">學生賽前必讀</h2>
@@ -1496,6 +1574,84 @@
       <p style="margin-top:8px">續航最寬裕；硬對抗明顯弱。</p>
     </div>
   </div>
+
+  <h2 id="build-weight">300g 重量預算試算</h2>
+  <div class="wide">
+  <table>
+    <thead><tr><th>項目</th><th class="n">攻擊（1507＋V5）</th><th class="n">攻擊（DYH＋V5）</th><th class="n">硬防（1408＋750）</th><th class="n">輕防（1404.5＋3S）</th></tr></thead>
+    <tbody>
+      <tr><td>馬達 ×4</td><td class="n">60.1 g</td><td class="n">60.0 g</td><td class="n">54.4 g</td><td class="n">36.8 g</td></tr>
+      <tr><td>槳 ×4（2828-3）</td><td class="n">6.8 g</td><td class="n">6.8 g</td><td class="n">6.8 g</td><td class="n">6.8 g</td></tr>
+      <tr><td>電池</td><td class="n">100 g</td><td class="n">100 g</td><td class="n">84 g</td><td class="n">~68–115 g</td></tr>
+      <tr><td>飛控＋電調（AIO，8.5–12.6g）</td><td class="n">~8.5–12.6 g</td><td class="n">~8.5–12.6 g</td><td class="n">~8.5–12.6 g</td><td class="n">~8.5–12.6 g</td></tr>
+      <tr><td><b>小計（不含框架）</b></td><td class="n"><b>~175–177 g</b></td><td class="n"><b>~175–177 g</b></td><td class="n"><b>~154–156 g</b></td><td class="n"><b>~121–168 g</b></td></tr>
+      <tr><td>可用框架＋LED＋線材</td><td class="n ok">~123–125 g</td><td class="n ok">~123–125 g</td><td class="n ok">~144–146 g</td><td class="n ok">~132–179 g</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <small>1507 與 DYH 重量幾乎相同（約 15g／顆）。差別在電流：1507 滿載 24.6A，必須用高 C 電池。飛控重以官方值計（HAKRC F411 8.5g／RATE 8–9.6g／Oxbot Flow AIO45 12.6g）。三款 40–45A AIO 都滿足「ESC≥30A」需求；Oxbot 另可省掉外接接收機重量。</small>
+
+  <h2 id="build-light">輕量機與 299g 滿載怎麼選？</h2>
+  <div class="wide">
+  <table>
+    <thead><tr><th>策略</th><th>優點</th><th>缺點</th><th>適合角色</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><b>較輕（約 250–285g）</b></td>
+        <td>加速、轉向與翻正較快；平均電流、溫升較低；續航較長；維修後較不易超重</td>
+        <td>碰撞時較容易被頂開；卡位與慣性較弱</td>
+        <td>防禦、控場、追球</td>
+      </tr>
+      <tr>
+        <td><b>偏重（約 285–295g）</b></td>
+        <td>碰撞與卡位較穩；高速衝撞動量較大；仍保留少量送檢容錯</td>
+        <td>轉向較鈍、耗電與溫升較高</td>
+        <td>攻擊、短時硬防</td>
+      </tr>
+      <tr>
+        <td><b>299g 貼上限</b></td>
+        <td>把合法重量幾乎用滿，硬碰硬時較不容易被推開</td>
+        <td><b class="no">僅剩 1g 容錯</b>；秤差、膠帶、換線或維修都可能超重；續航與靈活性最差</td>
+        <td>只適合實秤穩定且明確採硬撞戰術的攻擊機</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="note info">
+    <b>為什麼學生機常接近 300g？</b>
+    20／22cm 球框、碳板、護罩、LED、線材和 80–100g 高 C 電池疊加後，本來就容易落在 290g 以上；
+    這通常是組裝結果，不代表 299g 一定是最佳性能。不要為了「用滿規則」額外加配重。
+  </div>
+
+  <div class="note info">
+    <b>推重比：</b>1507 單顆 651g → 四軸約 2.6kg；對 300g 球體推重比約 <b>8–9:1</b>。
+    動力過剩，瓶頸是散熱、電池 C 數與 300g 總重。
+  </div>
+
+  <div class="note warn">
+    <b>先做這一步：</b>用電子秤實測「框架＋電池＋4馬達＋槳＋飛控」。
+    靠近 300g 就優先讓防禦減重（改 1404.5），攻擊可保留 1507 或 DYH。
+  </div>
+</section>
+
+<!-- ============ 續航 ============ -->
+<section id="fly">
+  <h1>續航</h1>
+  <p class="lead">馬達＋電池能飛多久：控場／對抗／猛攻粗估。一 set 約 3 分鐘，結束就換電。</p>
+  <nav class="toc" aria-label="續航本章目錄">
+    <span class="toc-label">本章目錄</span>
+    <div class="toc-group">
+      <span class="toc-group-label">對照</span>
+      <a href="#build-endurance">馬達＋電池</a>
+    </div>
+    <div class="toc-group">
+      <span class="toc-group-label">相關</span>
+      <button type="button" class="go" data-go="build">組裝 →</button>
+      <button type="button" class="go" data-go="batt">電池 →</button>
+      <button type="button" class="go" data-go="motor">馬達 →</button>
+    </div>
+  </nav>
 
   <h2 id="build-endurance">馬達＋電池能飛多久？</h2>
   <div class="note warn">
@@ -1663,81 +1819,28 @@
     <b>比賽實務：</b>射手（攻擊手）建議每 set 換一顆熱電（備 4–6 顆同規格），不要指望單顆猛攻撐完整場。
   </div>
 
-  <h2 id="build-weight">300g 重量預算試算</h2>
-  <div class="wide">
-  <table>
-    <thead><tr><th>項目</th><th class="n">攻擊（1507＋V5）</th><th class="n">攻擊（DYH＋V5）</th><th class="n">硬防（1408＋750）</th><th class="n">輕防（1404.5＋3S）</th></tr></thead>
-    <tbody>
-      <tr><td>馬達 ×4</td><td class="n">60.1 g</td><td class="n">60.0 g</td><td class="n">54.4 g</td><td class="n">36.8 g</td></tr>
-      <tr><td>槳 ×4（2828-3）</td><td class="n">6.8 g</td><td class="n">6.8 g</td><td class="n">6.8 g</td><td class="n">6.8 g</td></tr>
-      <tr><td>電池</td><td class="n">100 g</td><td class="n">100 g</td><td class="n">84 g</td><td class="n">~68–115 g</td></tr>
-      <tr><td>飛控＋電調（AIO，8.5–12.6g）</td><td class="n">~8.5–12.6 g</td><td class="n">~8.5–12.6 g</td><td class="n">~8.5–12.6 g</td><td class="n">~8.5–12.6 g</td></tr>
-      <tr><td><b>小計（不含框架）</b></td><td class="n"><b>~175–177 g</b></td><td class="n"><b>~175–177 g</b></td><td class="n"><b>~154–156 g</b></td><td class="n"><b>~121–168 g</b></td></tr>
-      <tr><td>可用框架＋LED＋線材</td><td class="n ok">~123–125 g</td><td class="n ok">~123–125 g</td><td class="n ok">~144–146 g</td><td class="n ok">~132–179 g</td></tr>
-    </tbody>
-  </table>
-  </div>
-  <small>1507 與 DYH 重量幾乎相同（約 15g／顆）。差別在電流：1507 滿載 24.6A，必須用高 C 電池。飛控重以官方值計（HAKRC F411 8.5g／RATE 8–9.6g／Oxbot Flow AIO45 12.6g）。三款 40–45A AIO 都滿足「ESC≥30A」需求；Oxbot 另可省掉外接接收機重量。</small>
-
-  <h2 id="build-light">輕量機與 299g 滿載怎麼選？</h2>
-  <div class="wide">
-  <table>
-    <thead><tr><th>策略</th><th>優點</th><th>缺點</th><th>適合角色</th></tr></thead>
-    <tbody>
-      <tr>
-        <td><b>較輕（約 250–285g）</b></td>
-        <td>加速、轉向與翻正較快；平均電流、溫升較低；續航較長；維修後較不易超重</td>
-        <td>碰撞時較容易被頂開；卡位與慣性較弱</td>
-        <td>防禦、控場、追球</td>
-      </tr>
-      <tr>
-        <td><b>偏重（約 285–295g）</b></td>
-        <td>碰撞與卡位較穩；高速衝撞動量較大；仍保留少量送檢容錯</td>
-        <td>轉向較鈍、耗電與溫升較高</td>
-        <td>攻擊、短時硬防</td>
-      </tr>
-      <tr>
-        <td><b>299g 貼上限</b></td>
-        <td>把合法重量幾乎用滿，硬碰硬時較不容易被推開</td>
-        <td><b class="no">僅剩 1g 容錯</b>；秤差、膠帶、換線或維修都可能超重；續航與靈活性最差</td>
-        <td>只適合實秤穩定且明確採硬撞戰術的攻擊機</td>
-      </tr>
-    </tbody>
-  </table>
-  </div>
-
-  <div class="note info">
-    <b>為什麼學生機常接近 300g？</b>
-    20／22cm 球框、碳板、護罩、LED、線材和 80–100g 高 C 電池疊加後，本來就容易落在 290g 以上；
-    這通常是組裝結果，不代表 299g 一定是最佳性能。不要為了「用滿規則」額外加配重。
-  </div>
-
-  <div class="note info">
-    <b>推重比：</b>1507 單顆 651g → 四軸約 2.6kg；對 300g 球體推重比約 <b>8–9:1</b>。
-    動力過剩，瓶頸是散熱、電池 C 數與 300g 總重。
-  </div>
-
-  <div class="note warn">
-    <b>先做這一步：</b>用電子秤實測「框架＋電池＋4馬達＋槳＋飛控」。
-    靠近 300g 就優先讓防禦減重（改 1404.5），攻擊可保留 1507 或 DYH。
-  </div>
 </section>
 
-<!-- ============ LED／飛控 ============ -->
-<section id="led">
-  <h1>LED／飛控</h1>
-  <p class="lead">本隊飛控共 <b>三款 AIO</b>（飛控＋4in1 電調一體）：<b>HAKRC F411 40A</b>、<b>RATE F4 40A</b>、<b>牛博特 Oxbot Flow AIO45</b>。三款都支援可編程 LED，但都是<b>一路</b> LED 輸出。</p>
-  <nav class="toc" aria-label="LED本章目錄">
+<!-- ============ 飛控 ============ -->
+<section id="fc">
+  <h1>飛控</h1>
+  <p class="lead">本隊三款 AIO 飛控規格、焊點、接線與 Betaflight 設定集中在這一頁。</p>
+  <nav class="toc" aria-label="飛控本章目錄">
     <span class="toc-label">本章目錄</span>
-    <a href="#led-fc">本隊飛控</a>
-    <a href="#led-pinout">F411 接口</a>
-    <a href="#led-rate-wire">RATE 接線</a>
-    <a href="#led-cli">飛控設定</a>
-    <a href="#led-color">顏色規定</a>
-    <a href="#led-power">耗電與秒數</a>
-    <a href="#led-lowbat">低壓紅閃</a>
-    <a href="#led-striker">換射手</a>
-    <a href="#led-wiring">一路 LED 解法</a>
+    <div class="toc-group">
+      <span class="toc-group-label">硬體</span>
+      <a href="#led-fc">三款 AIO</a>
+      <a href="#led-pinout">HAKRC 接口</a>
+      <a href="#led-rate-wire">RATE 接線</a>
+    </div>
+    <div class="toc-group">
+      <span class="toc-group-label">設定</span>
+      <a href="#led-cli">飛控設定</a>
+    </div>
+    <div class="toc-group">
+      <span class="toc-group-label">相關</span>
+      <button type="button" class="go" data-go="led">LED 設定 →</button>
+    </div>
   </nav>
 
   <h2 id="led-fc">本隊飛控（三款 AIO）</h2>
@@ -1999,6 +2102,30 @@ save</pre>
     <b>中場接電腦改飛控 LED 顏色＝幾乎不可能。</b>
     timeout／set 間只有 1–3 分鐘。顏色必須賽前設好，或用遙控／硬體一鍵切換。
   </div>
+</section>
+
+<!-- ============ LED ============ -->
+<section id="led">
+  <h1>LED</h1>
+  <p class="lead">隊色、射手尾燈、22 顆耗電、低壓紅閃與一路 LED 配線集中在這一頁。</p>
+  <nav class="toc" aria-label="LED本章目錄">
+    <span class="toc-label">本章目錄</span>
+    <div class="toc-group">
+      <span class="toc-group-label">規則</span>
+      <a href="#led-color">顏色規定</a>
+      <a href="#led-striker">換射手</a>
+    </div>
+    <div class="toc-group">
+      <span class="toc-group-label">電源</span>
+      <a href="#led-power">耗電與秒數</a>
+      <a href="#led-lowbat">低壓紅閃</a>
+    </div>
+    <div class="toc-group">
+      <span class="toc-group-label">接線</span>
+      <a href="#led-wiring">一路 LED 解法</a>
+      <button type="button" class="go" data-go="fc">飛控接線 →</button>
+    </div>
+  </nav>
 
   <h2 id="led-color">顏色規定（FAI B.1.5）</h2>
   <div class="note info" style="margin-top:0">
@@ -2132,7 +2259,8 @@ save</pre>
     <a href="#rule-limits">關鍵限制</a>
     <a href="#rule-process">檢錄規定</a>
     <a href="#rule-motors">馬達合規</a>
-    <button type="button" class="go" data-go="led">LED／飛控 →</button>
+    <button type="button" class="go" data-go="fc">飛控 →</button>
+    <button type="button" class="go" data-go="led">LED →</button>
   </nav>
 
   <h2 id="rule-spec">F9A-B 比賽規格</h2>
@@ -2201,7 +2329,7 @@ save</pre>
 
   <div class="note info">
     <b>LED 顏色、耗電、低壓閃爍、換射手：</b>已獨立成
-    <button type="button" class="go" data-go="led" style="margin-left:6px;font-size:14px;padding:4px 10px;border-radius:999px;border:1px solid var(--accent);background:transparent;color:var(--accent);cursor:pointer;font-family:inherit;font-weight:700">LED／飛控</button>
+    <button type="button" class="go" data-go="led" style="margin-left:6px;font-size:14px;padding:4px 10px;border-radius:999px;border:1px solid var(--accent);background:transparent;color:var(--accent);cursor:pointer;font-family:inherit;font-weight:700">LED</button>
     分頁。
   </div>
 
@@ -2296,6 +2424,17 @@ save</pre>
     const params = new URLSearchParams(location.search);
     let tab = params.get('tab') || '';
     const hash = (location.hash || '').replace(/^#/, '');
+
+    // 舊版「組裝重量」與「LED／飛控」分頁拆開後，舊連結仍導向正確頁面。
+    const legacyAnchorTabs = {
+      'build-endurance':'fly',
+      'led-fc':'fc',
+      'led-pinout':'fc',
+      'led-rate-wire':'fc',
+      'led-cli':'fc'
+    };
+    if (legacyAnchorTabs[hash]) tab = legacyAnchorTabs[hash];
+
     if (!tab && hash) {
       const host = document.getElementById(hash);
       if (host) {
