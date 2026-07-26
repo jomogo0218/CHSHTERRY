@@ -46,7 +46,9 @@ a{color:var(--bf-accent)}
   padding:8px 12px;font-size:12.5px;line-height:1.5;
 }
 
-.app{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 92px)}
+.app{display:grid;grid-template-columns:220px 1fr 300px;min-height:calc(100vh - 92px)}
+@media(max-width:1100px){.app{grid-template-columns:200px 1fr}}
+@media(max-width:900px){.app{grid-template-columns:1fr}}
 .side{
   background:linear-gradient(180deg,var(--bf-side),var(--bf-side2));
   border-right:1px solid #111;overflow:auto;max-height:calc(100vh - 92px);
@@ -93,15 +95,30 @@ a{color:var(--bf-accent)}
 
 .rows{display:flex;flex-direction:column;gap:0}
 .row{
-  display:grid;grid-template-columns:minmax(180px,1.15fr) minmax(140px,.9fr) minmax(0,2fr);
-  gap:8px;align-items:start;padding:8px 0;border-bottom:1px solid #45484c;
+  display:grid;grid-template-columns:minmax(170px,1fr) minmax(120px,.75fr) minmax(0,2.2fr);
+  gap:8px;align-items:start;padding:10px 8px;border-bottom:1px solid #45484c;
+  cursor:pointer;border-radius:4px;
 }
-.row:hover{background:rgba(0,0,0,.12)}
+.row:hover{background:rgba(255,187,42,.06)}
+.row.active{background:rgba(255,187,42,.12);outline:1px solid rgba(255,187,42,.35)}
 .row .k{font-family:ui-monospace,Consolas,monospace;font-weight:700;color:#fff;font-size:12.5px}
+.row .k .zhname{display:block;font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;font-style:normal;color:var(--bf-accent);font-size:13px;font-weight:800;margin-top:3px}
 .row .k em{display:block;font-style:normal;color:#9aa2ab;font-size:11px;font-weight:600;margin-top:2px}
 .row .v input,.row .v select{width:100%;max-width:220px}
-.row .d{color:#c2c8cf;line-height:1.45;font-size:12px}
-.row .d .def{color:#8e959e}
+.row .d{color:#dde2e7;line-height:1.55;font-size:12.5px}
+.row .d .soccer{margin-top:4px;color:#ffe6a8;font-weight:700}
+.row .d .en{margin-top:4px;color:#8e959e;font-size:11px;line-height:1.4}
+.row .d .def{color:#8e959e;margin-top:2px;font-size:11px}
+.detail{
+  background:#2a2c30;border-left:1px solid #111;padding:12px;overflow:auto;
+  max-height:calc(100vh - 92px);position:sticky;top:92px;
+}
+.detail h3{margin:0 0 6px;font-size:15px;color:var(--bf-accent)}
+.detail .enkey{font-family:ui-monospace,Consolas,monospace;color:#9aa2ab;font-size:12px;margin-bottom:10px}
+.detail .block{margin:0 0 12px;padding:10px;background:#34373b;border-radius:4px;line-height:1.6}
+.detail .block b{display:block;color:#ffd27a;margin-bottom:4px;font-size:12px}
+.detail .empty{color:#9aa2ab;line-height:1.6}
+@media(max-width:1100px){.detail{display:none}}
 .tag{
   display:inline-block;margin-left:6px;padding:1px 5px;border-radius:3px;font-size:10px;font-weight:800;
   background:#2b2e32;color:#ffd27a;border:1px solid #5a4a20;vertical-align:middle;
@@ -168,12 +185,14 @@ a{color:var(--bf-accent)}
   <input class="search" id="search" type="search" placeholder="搜尋設定英文名稱／說明… 例如 failsafe、dshot、angle" />
 </div>
 <div class="note-banner">
-  這是依 <b>Betaflight 官方 CLI 文件</b>自動展開的完整設定模擬（含 Modes 全清單）。外觀刻意對齊 Configurator，但<b>不會寫入飛控</b>。
-  球機實用項會標 <span class="tag need">球機</span>；危險／略過項會標提示。目前載入 <span id="statCount" class="stat">…</span>
+  這是依 <b>Betaflight 官方 CLI 文件</b>展開的完整設定模擬。每一項都有<strong>繁體中文說明</strong>（右欄點選可看完整版）。外觀對齊 Configurator，但<b>不會寫入飛控</b>。目前載入 <span id="statCount" class="stat">…</span>
 </div>
 <div class="app">
   <nav class="side" id="side" aria-label="Configurator tabs"></nav>
   <main class="main" id="main"></main>
+  <aside class="detail" id="detail" aria-live="polite">
+    <div class="empty">點左側任一設定列，這裡會顯示完整中文說明：它在管什麼、改了會怎樣、球機怎麼建議。</div>
+  </aside>
 </div>
 <div class="help" id="help">點左側分頁開始。上方可套用攻擊／防守建議值；開啟 Expert Mode 會顯示 GPS／OSD／VTX／Servos 等進階分頁。</div>
 
@@ -279,7 +298,7 @@ const PRESETS = {
   }
 };
 
-let catalog=null, state={}, expert=false, active='setup', role='atk';
+let catalog=null, zhExplain=null, state={}, expert=false, active='setup', role='atk', selectedKey=null;
 
 function inferType(v){
   const r=(v.range||'') + ' ' + (v.default||'');
@@ -391,13 +410,53 @@ function controlFor(v){
   return `<input type="text" data-k="${v.key}" value="${val??''}" />`;
 }
 
+function zhVar(key){
+  return (zhExplain && zhExplain.vars && zhExplain.vars[key]) || {};
+}
+function zhSec(name){
+  return (zhExplain && zhExplain.sections && zhExplain.sections[name]) || {};
+}
+function zhMode(en){
+  return (zhExplain && zhExplain.modes && zhExplain.modes[en]) || {};
+}
+function zhFeat(en){
+  return (zhExplain && zhExplain.features && zhExplain.features[en]) || {};
+}
+function showDetail(kind, key, fallback){
+  selectedKey = key;
+  const box = document.getElementById('detail');
+  let title='', enkey=key, detail='', soccer='', extra='';
+  if (kind==='var'){
+    const z=zhVar(key); const v=(catalog.groups.flatMap(g=>g.vars).find(x=>x.key===key))||{};
+    title = z.zh || key; enkey = key;
+    detail = z.detail || fallback || v.desc || '尚無中文說明';
+    soccer = z.soccer || '';
+    extra = `<div class="block"><b>英文原文</b>${escapeHtml(v.desc||'')}<div style="margin-top:6px;color:#9aa2ab">Default: ${escapeHtml(String(v.default||''))} · ${escapeHtml(String(v.range||''))}</div></div>`;
+  } else if (kind==='mode'){
+    const z=zhMode(key);
+    title = key; detail = z.detail || fallback || ''; soccer = z.soccer || '';
+  } else if (kind==='feature'){
+    const z=zhFeat(key);
+    title = key; detail = z.detail || fallback || FEATURE_ZH[key] || ''; soccer = z.soccer || '';
+  }
+  box.innerHTML = `<h3>${escapeHtml(title)}</h3><div class="enkey">${escapeHtml(enkey)}</div>
+    <div class="block"><b>這是什麼／會影響什麼</b>${escapeHtml(detail)}</div>
+    ${soccer?`<div class="block"><b>球機怎麼做</b>${escapeHtml(soccer)}</div>`:''}
+    ${extra}
+    <div class="block"><b>怎麼用這一頁</b>左邊保留英文名稱，方便對真實 Configurator；中文是給人看的說明。改數值不會寫入飛控。</div>`;
+  document.querySelectorAll('.row.active').forEach(r=>r.classList.remove('active'));
+  const row=document.querySelector('.row[data-key="'+CSS.escape(key)+'"]');
+  if (row) row.classList.add('active');
+}
 function varRow(v){
-  const hint=SOCCER_HINTS[v.key];
-  const tag=hint?`<span class="tag need">球機</span>`:'';
-  return `<div class="row" data-search="${(v.key+' '+v.desc).toLowerCase()}">
-    <div class="k">${v.key}${tag}<em>${hint||''}</em></div>
-    <div class="v">${controlFor(v)}</div>
-    <div class="d">${v.desc}<div class="def">Default: ${v.default} · ${v.range}</div></div>
+  const z=zhVar(v.key);
+  const hint=z.soccer || SOCCER_HINTS[v.key] || '';
+  const tag=hint?`<span class="tag need">球機</span>`:(z.zh?`<span class="tag">說明</span>`:'');
+  const detail = z.detail || v.desc;
+  return `<div class="row" data-key="${v.key}" data-search="${(v.key+' '+(z.zh||'')+' '+detail+' '+hint).toLowerCase()}" onclick="showDetail('var','${v.key}')">
+    <div class="k">${v.key}${tag}<span class="zhname">${z.zh||''}</span><em>${hint?('建議：'+hint):''}</em></div>
+    <div class="v" onclick="event.stopPropagation()">${controlFor(v)}</div>
+    <div class="d">${detail}${hint?`<div class="soccer">球機：${hint}</div>`:''}<div class="en">${v.desc}</div><div class="def">Default: ${v.default} · ${v.range}</div></div>
   </div>`;
 }
 
@@ -439,14 +498,17 @@ function panelPorts(){
 
 function panelConfiguration(){
   const feats=catalog.features.map(f=>{
-    const zh=FEATURE_ZH[f]||'';
+    const z=zhFeat(f);
+    const zh=z.detail || FEATURE_ZH[f]||'';
+    const soccer=z.soccer||'';
     let tag='';
     if (f==='MOTOR_STOP') tag='<span class="tag bad">球機建議關</span>';
-    if (f==='LED_STRIP'||f==='AIRMODE') tag='<span class="tag need">球機建議開</span>';
-    if (['GPS','3D','OSD'].includes(f)) tag='<span class="tag skip">球機略過</span>';
-    return `<label><input type="checkbox" data-k="feature_${f}" ${state['feature_'+f]?'checked':''}><span><b>${f}</b><br>${zh} ${tag}</span></label>`;
+    else if (f==='LED_STRIP'||f==='AIRMODE'||f==='ANTI_GRAVITY') tag='<span class="tag need">球機建議開</span>';
+    else if (['GPS','3D','OSD'].includes(f)) tag='<span class="tag skip">球機略過</span>';
+    else if (soccer) tag='<span class="tag skip">'+soccer+'</span>';
+    return `<label onclick="showDetail('feature','${f}')"><input type="checkbox" data-k="feature_${f}" ${state['feature_'+f]?'checked':''} onclick="event.stopPropagation()"><span><b>${f}</b><br>${zh} ${tag}</span></label>`;
   }).join('');
-  const groups=groupsForTab('configuration').map(g=>`<div class="card"><h2>${g.section}<span>${g.vars.length} 項</span></h2><div class="rows">${g.vars.map(varRow).join('')}</div></div>`).join('');
+  const groups=groupsForTab('configuration').map(g=>{const s=zhSec(g.section); return `<div class="card"><h2>${g.section}<span>${s.zh||''} · ${g.vars.length} 項</span></h2>${s.intro?`<p style="color:#cfd4da;line-height:1.55;margin:0 0 8px">${s.intro}</p>`:''}<div class="rows">${g.vars.map(varRow).join('')}</div></div>`;}).join('');
   return `<div class="panel-h"><div><h1>Configuration <small>配置</small></h1>
   <p>Features、系統、板向、蜂鳴、遙測等。此分頁含官方文件對應到 Configuration 的全部 CLI 參數。</p></div></div>
   <div class="card"><h2>Mixer / Receiver Mode</h2>
@@ -461,7 +523,7 @@ function panelConfiguration(){
 
 function panelGeneric(tabId, title, zh, blurb){
   const groups=groupsForTab(tabId);
-  const body=groups.map(g=>`<div class="card"><h2>${g.section}<span>${g.vars.length} 項</span></h2><div class="rows">${g.vars.map(varRow).join('')}</div></div>`).join('')
+  const body=groups.map(g=>{const s=zhSec(g.section); return `<div class="card"><h2>${g.section}<span>${s.zh||''} · ${g.vars.length} 項</span></h2>${s.intro?`<p style="color:#cfd4da;line-height:1.55;margin:0 0 8px">${s.intro}</p>`:''}<div class="rows">${g.vars.map(varRow).join('')}</div></div>`;}).join('')
     || `<div class="card"><p>此分頁在真實 Configurator 存在；若官方 CLI 文件沒有獨立變數組，會顯示說明／佔位。</p></div>`;
   return `<div class="panel-h"><div><h1>${title} <small>${zh}</small></h1><p>${blurb}</p></div>
   <span class="stat">${groups.reduce((n,g)=>n+g.vars.length,0)} 參數</span></div>${body}`;
@@ -470,16 +532,20 @@ function panelGeneric(tabId, title, zh, blurb){
 function panelModes(){
   const lines=catalog.modes.map(m=>{
     const on=!!state['mode_'+m.en];
+    const z=zhMode(m.en);
+    const soccer = z.soccer || m.soccer || '';
     let tag='<span class="tag skip">可略</span>';
-    if (m.soccer.includes('必要')||m.soccer.includes('強烈')) tag='<span class="tag need">'+m.soccer+'</span>';
-    else if (m.soccer.includes('建議')) tag='<span class="tag need">'+m.soccer+'</span>';
-    else if (m.soccer.includes('不要')) tag='<span class="tag bad">'+m.soccer+'</span>';
-    else tag='<span class="tag skip">'+m.soccer+'</span>';
-    return `<label class="mode-line">
+    if (soccer.includes('必要')||soccer.includes('強烈')) tag='<span class="tag need">'+soccer+'</span>';
+    else if (soccer.includes('建議')) tag='<span class="tag need">'+soccer+'</span>';
+    else if (soccer.includes('不要')) tag='<span class="tag bad">'+soccer+'</span>';
+    else if (soccer) tag='<span class="tag skip">'+soccer+'</span>';
+    const detail = z.detail || m.zh;
+    return `<label class="mode-line" onclick="showDetail('mode','${m.en}')">
       <b>${m.en}<small>${m.zh}</small></b>
       <span>AUX</span>
       <span class="range"><i style="opacity:${on?1:0}"></i></span>
-      <span><input type="checkbox" data-k="mode_${m.en}" ${on?'checked':''}> ${tag}</span>
+      <span onclick="event.stopPropagation()"><input type="checkbox" data-k="mode_${m.en}" ${on?'checked':''}> ${tag}</span>
+      <div style="grid-column:1/-1;color:#dde2e7;line-height:1.5;font-size:12.5px">${detail}${soccer?`<div style="color:#ffe6a8;font-weight:700;margin-top:3px">球機：${soccer}</div>`:''}</div>
     </label>`;
   }).join('');
   return `<div class="panel-h"><div><h1>Modes <small>模式（官方全清單）</small></h1>
@@ -577,8 +643,9 @@ function renderPanel(){
       const name=state.craft_name||state.name||'CHSH';
       document.getElementById('connLabel').textContent=`模擬已連線 · ${name}`;
       if (SOCCER_HINTS[k]) help(`${k}：${SOCCER_HINTS[k]}`);
-      else if (k.startsWith('mode_')) help(`Modes → ${k.slice(5)}（切換不會寫入飛控）`);
-      else if (k.startsWith('feature_')) help(`Features → ${k.slice(8)}`);
+      else if (k.startsWith('mode_')) { help(`Modes → ${k.slice(5)}`); showDetail('mode', k.slice(5)); }
+      else if (k.startsWith('feature_')) { help(`Features → ${k.slice(8)}`); showDetail('feature', k.slice(8)); }
+      else if (zhVar(k).detail) { showDetail('var', k); help(`${zhVar(k).zh||k}：已更新數值（模擬）`); }
       if (active==='cli') {/* keep */}
     };
     el.addEventListener('change', sync);
@@ -645,12 +712,17 @@ document.getElementById('btnAtk').onclick=()=>applyPreset('atk');
 document.getElementById('btnDef').onclick=()=>applyPreset('def');
 document.getElementById('search').addEventListener('input', e=>applySearch(e.target.value));
 
-fetch('assets/bfsim/catalog.json').then(r=>r.json()).then(data=>{
+Promise.all([
+  fetch('assets/bfsim/catalog.json').then(r=>r.json()),
+  fetch('assets/bfsim/zh_explain.json').then(r=>r.json())
+]).then(([data, zh])=>{
   catalog=data;
+  zhExplain=zh;
   buildState();
   applyPreset('atk');
+  help('已載入完整參數與繁體中文說明。點任一設定列，右側會顯示詳細說明。');
 }).catch(err=>{
-  document.getElementById('main').innerHTML='<p style="color:#ff6b6b">無法載入 catalog.json：'+err+'</p>';
+  document.getElementById('main').innerHTML='<p style="color:#ff6b6b">無法載入資料：'+err+'</p>';
 });
 </script>
 </body>
