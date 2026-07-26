@@ -1360,19 +1360,42 @@
   <table>
     <thead><tr><th>馬達</th><th>槳</th><th class="n">滿油門推力</th><th class="n">電流</th><th class="n">力效</th><th class="n">溫度</th></tr></thead>
     <tbody>
-      <tr><td rowspan="2"><b>火神 VCI 1507</b></td><td>GF 2828-3</td><td class="n">651 g</td><td class="n">24.64 A</td><td class="n">1.65</td><td class="n">117 °C</td></tr>
+      <tr><td rowspan="2"><b>火神 VCI 1507</b><br><span class="muted">4S · 16V</span></td><td>GF 2828-3</td><td class="n">651 g</td><td class="n">24.64 A</td><td class="n">1.65</td><td class="n">117 °C</td></tr>
       <tr><td><b>HQ 2828-3</b></td><td class="n ok">657 g</td><td class="n">24.77 A</td><td class="n">1.66</td><td class="n ok">110 °C</td></tr>
-      <tr><td rowspan="2"><b>火神 VCI 1408</b></td><td>GF 2828-3</td><td class="n">574 g</td><td class="n">20.35 A</td><td class="n">1.76</td><td class="n">110 °C</td></tr>
+      <tr><td rowspan="2"><b>火神 VCI 1408</b><br><span class="muted">4S · 16V</span></td><td>GF 2828-3</td><td class="n">574 g</td><td class="n">20.35 A</td><td class="n">1.76</td><td class="n">110 °C</td></tr>
       <tr><td><b>HQ 2828-3</b></td><td class="n">573 g</td><td class="n ok">20.10 A</td><td class="n ok">1.78</td><td class="n ok">107 °C</td></tr>
+      <tr><td rowspan="2"><b>火神 VCI 1404.5</b><br><span class="muted">3S · 12V</span></td><td>GF 2828-3</td><td class="n">350 g</td><td class="n">15.59 A</td><td class="n">1.87</td><td class="n">125 °C</td></tr>
+      <tr><td><b>HQ 2828-3</b></td><td class="n ok">357 g</td><td class="n ok">15.27 A</td><td class="n ok">1.95</td><td class="n ok">118 °C</td></tr>
+      <tr><td rowspan="2"><b>火神 VCI 1404</b><br><span class="muted">3S · 12V</span></td><td>GF 2828-3</td><td class="n">325 g</td><td class="n">14.18 A</td><td class="n">1.91</td><td class="n">117 °C</td></tr>
+      <tr><td><b>HQ 2828-3</b></td><td class="n ok">330 g</td><td class="n ok">13.78 A</td><td class="n ok">2.00</td><td class="n ok">112 °C</td></tr>
     </tbody>
   </table>
   </div>
-  <small>兩者直徑同為 71.12mm、螺距同 2.8"，都合規。差異在 1% 以內，屬於同一級可互換槳。</small>
+  <small>兩者直徑同為 71.12mm、螺距同 2.8"，都合規。差異多在 1–2% 內，屬於同一級可互換槳。綠字＝同馬達下較優的一方。</small>
+
+  <div class="card" style="margin-top:14px">
+    <div class="bars-peak bars-lab-wide">
+      <div class="bar-group">滿油門推力（同馬達比槳）</div>
+      <div class="row"><div class="lab">1507 · GF</div><div class="track"><i style="width:99.1%"></i></div><div class="val">651g</div></div>
+      <div class="row"><div class="lab">1507 · HQ</div><div class="track"><i class="ok" style="width:100%"></i></div><div class="val">657g</div></div>
+      <div class="row"><div class="lab">1408 · GF</div><div class="track"><i style="width:87.4%"></i></div><div class="val">574g</div></div>
+      <div class="row"><div class="lab">1408 · HQ</div><div class="track"><i style="width:87.2%"></i></div><div class="val">573g</div></div>
+      <div class="row"><div class="lab">1404.5 · GF<span>3S</span></div><div class="track"><i style="width:53.3%"></i></div><div class="val">350g</div></div>
+      <div class="row"><div class="lab">1404.5 · HQ<span>3S</span></div><div class="track"><i class="ok" style="width:54.3%"></i></div><div class="val">357g</div></div>
+      <div class="row"><div class="lab">1404 · GF<span>3S</span></div><div class="track"><i style="width:49.5%"></i></div><div class="val">325g</div></div>
+      <div class="row"><div class="lab">1404 · HQ<span>3S</span></div><div class="track"><i class="ok" style="width:50.2%"></i></div><div class="val">330g</div></div>
+    </div>
+    <small>條長＝相對 1507＋HQ 的 657g。1404／1404.5 是 3S，不可直接跟 4S 比絕對推力。</small>
+  </div>
 
   <div class="note info">
-    <b>建議：</b>全隊統一 <b>2828-3 級</b>（GEMFAN 或 HQProp 皆可）。兩家實測推力／電流幾乎相同，
+    <b>建議：</b>全隊統一 <b>2828-3 級</b>（GEMFAN 或 HQProp 皆可）。四顆火神馬達上都是兩家推力／電流接近，
     HQ 版本溫度略低約 3–7°C。重點是<b>全隊統一同一款</b>，避免推力手感不一致。
     GEMFAN 2828-3 有官方標示（1.7g、起飛重量 300g），資料最完整。
+  </div>
+  <div class="note warn">
+    <b>目前沒有 GF／HQ 成對資料的馬達：</b>DYH1408（只有 GF）、P1604（原廠用 3520 違規槳）、LANNRC 1404（原廠用 4024 違規槳）。
+    這三顆不能拿來跟上面的 HQ 欄位直接對照。
   </div>
 
   <div class="note bad">
