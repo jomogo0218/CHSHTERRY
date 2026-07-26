@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex,nofollow" />
+<title>Betaflight 設定模擬器（完整）· 嘉華足球無人機</title>
+<style>
+:root{
+  --bf-bg:#3d3f42; --bf-panel:#4e5154; --bf-side:#2e3033; --bf-side2:#25272a;
+  --bf-line:#222; --bf-text:#eceff1; --bf-muted:#a7b0a7; --bf-accent:#ffbb2a;
+  --bf-accent2:#ff9a00; --bf-ok:#37c871; --bf-bad:#ff6b6b; --bf-chip:#3a3d40;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{
+  font-family:"Segoe UI","Noto Sans TC","Microsoft JhengHei",sans-serif;
+  background:#1c1e21;color:var(--bf-text);font-size:13px;
+}
+button,input,select{font:inherit}
+a{color:var(--bf-accent)}
+
+/* Top bar like Configurator */
+.topbar{
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  padding:8px 12px;background:#232528;border-bottom:1px solid #111;
+  position:sticky;top:0;z-index:30;
+}
+.brand{display:flex;align-items:center;gap:8px;font-weight:800;letter-spacing:.02em}
+.brand img{width:28px;height:28px;object-fit:contain}
+.brand span{color:var(--bf-accent)}
+.topbar .sep{width:1px;height:22px;background:#444}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--bf-ok);box-shadow:0 0 0 3px rgba(55,200,113,.18)}
+.pill{
+  border:1px solid #555;background:#2c2f33;color:#ddd;border-radius:4px;
+  padding:6px 10px;cursor:pointer;font-weight:700;
+}
+.pill.on{background:var(--bf-accent);color:#222;border-color:var(--bf-accent)}
+.pill.ghost:hover{border-color:var(--bf-accent);color:var(--bf-accent)}
+.search{
+  margin-left:auto;min-width:220px;flex:1;max-width:360px;
+  background:#1b1d20;border:1px solid #444;border-radius:4px;color:#fff;padding:7px 10px;
+}
+.note-banner{
+  background:#3a3018;border-bottom:1px solid #6a5420;color:#ffe6a8;
+  padding:8px 12px;font-size:12.5px;line-height:1.5;
+}
+
+.app{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 92px)}
+.side{
+  background:linear-gradient(180deg,var(--bf-side),var(--bf-side2));
+  border-right:1px solid #111;overflow:auto;max-height:calc(100vh - 92px);
+  position:sticky;top:92px;align-self:start;
+}
+.side button{
+  width:100%;display:flex;flex-direction:column;align-items:flex-start;gap:1px;
+  border:0;border-left:3px solid transparent;background:transparent;color:#c5c9ce;
+  padding:9px 12px;text-align:left;cursor:pointer;
+}
+.side button:hover{background:rgba(255,255,255,.04);color:#fff}
+.side button.on{background:rgba(255,187,42,.12);border-left-color:var(--bf-accent);color:#fff}
+.side button b{font-size:12.5px}
+.side button small{font-size:11px;color:#8e959e}
+.side .group-label{
+  margin:10px 12px 4px;font-size:10px;font-weight:800;letter-spacing:.08em;
+  color:#7d858f;text-transform:uppercase;
+}
+
+.main{background:var(--bf-bg);padding:12px 14px 40px;min-width:0}
+.panel{display:none}
+.panel.on{display:block}
+.panel-h{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:10px}
+.panel-h h1{margin:0;font-size:20px;font-weight:800}
+.panel-h h1 small{margin-left:8px;font-size:12px;color:var(--bf-accent);font-weight:700}
+.panel-h p{margin:4px 0 0;color:#b7bec6;max-width:70ch;line-height:1.5}
+
+.toolbar{
+  display:flex;flex-wrap:wrap;gap:8px;align-items:center;
+  margin:0 0 12px;padding:8px 10px;background:#33363a;border:1px solid #222;border-radius:4px;
+}
+.toolbar label{display:flex;align-items:center;gap:6px;color:#cfd4da;font-weight:700}
+.toolbar select,.field select,.field input[type=text],.field input[type=number],.cli-in{
+  background:#1f2226;border:1px solid #555;border-radius:3px;color:#fff;padding:6px 8px;
+}
+.card{
+  background:var(--bf-panel);border:1px solid #2a2c2f;border-radius:4px;padding:10px 12px;margin:0 0 10px;
+}
+.card h2{
+  margin:0 0 8px;font-size:13px;font-weight:800;color:var(--bf-accent);
+  border-bottom:1px solid #3a3d41;padding-bottom:6px;
+}
+.card h2 span{color:#9aa2ab;font-weight:600;margin-left:6px}
+
+.rows{display:flex;flex-direction:column;gap:0}
+.row{
+  display:grid;grid-template-columns:minmax(180px,1.15fr) minmax(140px,.9fr) minmax(0,2fr);
+  gap:8px;align-items:start;padding:8px 0;border-bottom:1px solid #45484c;
+}
+.row:hover{background:rgba(0,0,0,.12)}
+.row .k{font-family:ui-monospace,Consolas,monospace;font-weight:700;color:#fff;font-size:12.5px}
+.row .k em{display:block;font-style:normal;color:#9aa2ab;font-size:11px;font-weight:600;margin-top:2px}
+.row .v input,.row .v select{width:100%;max-width:220px}
+.row .d{color:#c2c8cf;line-height:1.45;font-size:12px}
+.row .d .def{color:#8e959e}
+.tag{
+  display:inline-block;margin-left:6px;padding:1px 5px;border-radius:3px;font-size:10px;font-weight:800;
+  background:#2b2e32;color:#ffd27a;border:1px solid #5a4a20;vertical-align:middle;
+}
+.tag.need{background:#2a3d2f;color:#8dffb5;border-color:#2f6a45}
+.tag.bad{background:#3d2424;color:#ffb4b4;border-color:#6a3030}
+.tag.skip{background:#2f3135;color:#9aa2ab;border-color:#555}
+
+.features{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px}
+.features label,.modes label{
+  display:flex;gap:8px;align-items:flex-start;padding:7px 8px;background:#3a3d41;border:1px solid #2a2c2f;border-radius:3px;cursor:pointer;
+}
+.features label:hover,.modes label:hover{border-color:#666}
+.modes{display:flex;flex-direction:column;gap:6px}
+.mode-line{display:grid;grid-template-columns:minmax(190px,1fr) 70px 1fr auto;gap:8px;align-items:center;padding:8px;background:#3a3d41;border:1px solid #2a2c2f;border-radius:3px}
+.mode-line b{font-size:12.5px}
+.mode-line b small{display:block;color:#9aa2ab;font-weight:600}
+.range{height:14px;background:#222;border-radius:8px;position:relative;overflow:hidden}
+.range i{position:absolute;inset:0 auto 0 55%;width:40%;background:var(--bf-accent)}
+
+.ports{width:100%;border-collapse:collapse}
+.ports th,.ports td{border-bottom:1px solid #45484c;padding:7px 6px;text-align:left}
+.ports th{color:var(--bf-accent);font-size:11px}
+
+.cli-wrap{display:grid;grid-template-rows:1fr auto;gap:8px;min-height:60vh}
+.cli-out{
+  background:#111;color:#b6f5c0;border:1px solid #000;border-radius:3px;padding:10px;
+  font-family:ui-monospace,Consolas,monospace;font-size:12px;line-height:1.5;overflow:auto;white-space:pre-wrap;
+}
+.cli-row{display:flex;gap:8px}
+.cli-row input{flex:1}
+
+.help{
+  position:sticky;bottom:0;background:#2a2416;border-top:1px solid #6a5420;
+  padding:8px 12px;color:#ffe6a8;font-size:12.5px;line-height:1.5;z-index:20;
+}
+.stat{color:#9aa2ab;font-size:11px}
+@media(max-width:900px){
+  .app{grid-template-columns:1fr}
+  .side{position:static;max-height:none;display:flex;overflow-x:auto}
+  .side button{min-width:130px;border-left:0;border-bottom:3px solid transparent}
+  .side button.on{border-bottom-color:var(--bf-accent)}
+  .row{grid-template-columns:1fr;gap:4px}
+  .mode-line{grid-template-columns:1fr}
+  .search{margin-left:0;max-width:none}
+}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="brand">
+    <img src="assets/brand/chia-hwa-drone-team.png" alt="" />
+    Betaflight <span>App 模擬器</span>
+  </div>
+  <div class="sep"></div>
+  <span class="dot" title="模擬已連線"></span>
+  <strong id="connLabel">模擬已連線 · CHSH-ATK-1</strong>
+  <div class="sep"></div>
+  <button type="button" class="pill on" id="btnAtk">攻擊手建議值</button>
+  <button type="button" class="pill" id="btnDef">防守手建議值</button>
+  <button type="button" class="pill ghost" id="btnExpert">Expert Mode</button>
+  <button type="button" class="pill ghost" id="btnDefaults">Reset to Defaults</button>
+  <a class="pill ghost" href="index.html?tab=bf" style="text-decoration:none">回手冊說明</a>
+  <input class="search" id="search" type="search" placeholder="搜尋設定英文名稱／說明… 例如 failsafe、dshot、angle" />
+</div>
+<div class="note-banner">
+  這是依 <b>Betaflight 官方 CLI 文件</b>自動展開的完整設定模擬（含 Modes 全清單）。外觀刻意對齊 Configurator，但<b>不會寫入飛控</b>。
+  球機實用項會標 <span class="tag need">球機</span>；危險／略過項會標提示。目前載入 <span id="statCount" class="stat">…</span>
+</div>
+<div class="app">
+  <nav class="side" id="side" aria-label="Configurator tabs"></nav>
+  <main class="main" id="main"></main>
+</div>
+<div class="help" id="help">點左側分頁開始。上方可套用攻擊／防守建議值；開啟 Expert Mode 會顯示 GPS／OSD／VTX／Servos 等進階分頁。</div>
+
+<script>
+const TABS = [
+  {id:'setup', en:'Setup', zh:'設定總覽', expert:false},
+  {id:'ports', en:'Ports', zh:'埠', expert:false},
+  {id:'configuration', en:'Configuration', zh:'配置', expert:false},
+  {id:'power', en:'Power & Battery', zh:'電源與電池', expert:false},
+  {id:'failsafe', en:'Failsafe', zh:'斷訊保護', expert:false},
+  {id:'pid_tuning', en:'PID Tuning', zh:'PID／濾波／Rates', expert:false},
+  {id:'receiver', en:'Receiver', zh:'接收機', expert:false},
+  {id:'modes', en:'Modes', zh:'模式', expert:false},
+  {id:'adjustments', en:'Adjustments', zh:'飛行中微調', expert:true},
+  {id:'motors', en:'Motors', zh:'馬達', expert:false},
+  {id:'motors_test', en:'Motors Test', zh:'馬達測試（示意）', expert:false},
+  {id:'blackbox_viewer', en:'Blackbox', zh:'黑匣子檢視', expert:false},
+  {id:'onboard_logging', en:'Blackbox', zh:'機載紀錄設定', expert:false},
+  {id:'osd', en:'OSD', zh:'圖傳字幕', expert:true},
+  {id:'vtx', en:'VTX', zh:'圖傳', expert:true},
+  {id:'led_strip', en:'LED Strip', zh:'燈條', expert:false},
+  {id:'sensors', en:'Sensors', zh:'感測器', expert:false},
+  {id:'gps', en:'GPS', zh:'GPS', expert:true},
+  {id:'servos', en:'Servos', zh:'舵機', expert:true},
+  {id:'presets', en:'Presets', zh:'預設套件', expert:false},
+  {id:'cli', en:'CLI', zh:'指令列', expert:false},
+];
+
+const FEATURE_ZH = {
+  MOTOR_STOP:'油門最低停轉（球機通常關）',
+  LED_STRIP:'燈條（要開）',
+  OSD:'圖傳字幕（球機可關）',
+  AIRMODE:'空中模式（建議開）',
+  TELEMETRY:'遙測',
+  GPS:'GPS（球機略過）',
+  '3D':'3D 模式（不要）',
+  SOFTSERIAL:'軟串列',
+  ANTI_GRAVITY:'抗重力',
+  RX_SERIAL:'序列接收機',
+  ESC_SENSOR:'電調感測',
+  RSSI_ADC:'RSSI ADC',
+  DISPLAY:'顯示',
+  TRANSPONDER:'應答機',
+  CHANNEL_FORWARDING:'通道轉發',
+  SERVO_TILT:'舵機傾斜',
+  INFLIGHT_ACC_CAL:'飛行中加速度校正',
+  SONAR:'超音波',
+  RX_PPM:'PPM',
+  RX_PARALLEL_PWM:'平行 PWM',
+  RX_MSP:'MSP RX',
+  RX_SPI:'SPI RX'
+};
+
+const SOCCER_HINTS = {
+  failsafe_procedure:'球機用 DROP',
+  small_angle:'攻擊約30、防守約40',
+  dshot_bidir:'Oxbot/RATE可開；F411原廠先別開',
+  dyn_idle_min_rpm:'有bidir才設；攻擊起點40',
+  ledstrip_brightness:'攻擊45、防守40',
+  motor_pwm_protocol:'先DSHOT300',
+  motor_poles:'14xx/15xx多為14',
+  vbat_warning_cell_voltage:'350=3.50V',
+  vbat_min_cell_voltage:'330=3.30V',
+  ibata_scale:'F411常見210',
+  serialrx_provider:'ELRS用CRSF',
+  craft_name:'寫機號',
+  runaway_takeoff_prevention:'建議ON',
+  angle_limit:'攻擊60、防守55',
+  throttle_limit_type:'練習SCALE、比賽OFF',
+  rates_type:'用ACTUAL'
+};
+
+const PRESETS = {
+  atk:{
+    craft_name:'CHSH-ATK-1', name:'CHSH-ATK-1',
+    failsafe_procedure:'DROP', failsafe_delay:15,
+    small_angle:30, angle_limit:60,
+    runaway_takeoff_prevention:'ON',
+    motor_pwm_protocol:'DSHOT300', dshot_bidir:'ON', motor_poles:14,
+    dyn_idle_min_rpm:40, transient_throttle_limit:0,
+    ledstrip_brightness:45, ledstrip_visual_beeper:'ON',
+    vbat_warning_cell_voltage:350, vbat_min_cell_voltage:330,
+    bat_capacity:1060, serialrx_provider:'CRSF', rates_type:'ACTUAL',
+    throttle_limit_type:'OFF', throttle_limit_percent:100,
+    roll_rc_rate:9, pitch_rc_rate:9, yaw_rc_rate:8,
+    roll_srate:60, pitch_srate:60, yaw_srate:50,
+    roll_expo:12, pitch_expo:12, yaw_expo:12
+  },
+  def:{
+    craft_name:'CHSH-DEF-1', name:'CHSH-DEF-1',
+    failsafe_procedure:'DROP', failsafe_delay:15,
+    small_angle:40, angle_limit:55,
+    runaway_takeoff_prevention:'ON',
+    motor_pwm_protocol:'DSHOT300', dshot_bidir:'OFF', motor_poles:14,
+    dyn_idle_min_rpm:0, transient_throttle_limit:0,
+    ledstrip_brightness:40, ledstrip_visual_beeper:'ON',
+    vbat_warning_cell_voltage:350, vbat_min_cell_voltage:330, ibata_scale:210,
+    bat_capacity:850, serialrx_provider:'CRSF', rates_type:'ACTUAL',
+    throttle_limit_type:'OFF', throttle_limit_percent:100,
+    roll_rc_rate:7, pitch_rc_rate:7, yaw_rc_rate:7,
+    roll_srate:45, pitch_srate:45, yaw_srate:40,
+    roll_expo:20, pitch_expo:20, yaw_expo:20
+  }
+};
+
+let catalog=null, state={}, expert=false, active='setup', role='atk';
+
+function inferType(v){
+  const r=(v.range||'') + ' ' + (v.default||'');
+  if (/OFF,\s*ON|ON,\s*OFF/i.test(r) || /^(ON|OFF)$/i.test(String(v.default).trim())) return 'bool';
+  if (/,/.test(v.range) && !/–|-|\d/.test(v.range.replace(/[0-9]/g,''))) {
+    const opts=v.range.split(',').map(s=>s.trim()).filter(Boolean);
+    if (opts.length>1 && opts.length<30) return 'enum:'+opts.join('|');
+  }
+  if (/^\d+(\.\d+)?$/.test(String(v.default).trim()) || /\d/.test(v.range||'')) return 'number';
+  return 'text';
+}
+
+function defaultValue(v){
+  const d=String(v.default||'').trim();
+  if (/^ON$/i.test(d)) return 'ON';
+  if (/^OFF$/i.test(d)) return 'OFF';
+  const num=d.match(/^-?\d+(\.\d+)?/);
+  if (num) return Number(num[0]);
+  // enum first token
+  if (d && !d.includes(' ')) return d.split(',')[0];
+  return d;
+}
+
+function buildState(){
+  state={};
+  for (const g of catalog.groups){
+    for (const v of g.vars){
+      state[v.key]=defaultValue(v);
+    }
+  }
+  // features
+  for (const f of catalog.features){
+    state['feature_'+f] = ['LED_STRIP','AIRMODE','ANTI_GRAVITY','RX_SERIAL'].includes(f);
+  }
+  // modes
+  for (const m of catalog.modes){
+    state['mode_'+m.en] = ['ARM','PREARM','BEEPER','FLIP OVER AFTER CRASH','AIR MODE'].includes(m.en);
+  }
+  // ports
+  for (let i=1;i<=6;i++){
+    state['uart'+i+'_rx']=false;
+    state['uart'+i+'_msp']=false;
+    state['uart'+i+'_gps']=false;
+    state['uart'+i+'_vtx']=false;
+  }
+  state.uart2_rx=true;
+  state.mixer='QUADX';
+  state.receiver_mode='SERIAL';
+}
+
+function applyPreset(which){
+  role=which;
+  Object.assign(state, PRESETS[which]);
+  // modes for role
+  state['mode_ANGLE']= which==='def';
+  state['mode_ACRO TRAINER']= which==='def';
+  state['mode_FLIP OVER AFTER CRASH']=true;
+  state['mode_PREARM']=true;
+  state['mode_ARM']=true;
+  state['mode_BEEPER']=true;
+  state['mode_AIR MODE']=true;
+  state.feature_MOTOR_STOP=false;
+  state.feature_LED_STRIP=true;
+  state.feature_OSD=false;
+  state.feature_GPS=false;
+  state.feature_3D=false;
+  document.getElementById('btnAtk').classList.toggle('on', which==='atk');
+  document.getElementById('btnDef').classList.toggle('on', which==='def');
+  renderAll();
+  help(`已套用${which==='atk'?'攻擊手':'防守手'}建議值。其餘未列出的參數維持官方預設。`);
+}
+
+function help(t){ document.getElementById('help').textContent=t; }
+
+function visibleTabs(){
+  return TABS.filter(t => expert || !t.expert);
+}
+
+function renderSide(){
+  const side=document.getElementById('side');
+  const groups=[
+    ['連線後常用', ['setup','ports','configuration','power','receiver','modes','motors','pid_tuning','failsafe','led_strip','onboard_logging','cli','presets']],
+    ['進階／選配', ['sensors','adjustments','osd','vtx','gps','servos','blackbox_viewer','motors_test']]
+  ];
+  let html='';
+  for (const [label, ids] of groups){
+    const tabs=visibleTabs().filter(t=>ids.includes(t.id));
+    if (!tabs.length) continue;
+    html += `<div class="group-label">${label}</div>`;
+    html += tabs.map(t=>`<button type="button" data-tab="${t.id}" class="${t.id===active?'on':''}"><b>${t.en}</b><small>${t.zh}</small></button>`).join('');
+  }
+  side.innerHTML=html;
+  side.querySelectorAll('button').forEach(b=>b.onclick=()=>{active=b.dataset.tab; renderAll();});
+}
+
+function controlFor(v){
+  const t=inferType(v);
+  const val=state[v.key];
+  if (t==='bool'){
+    return `<select data-k="${v.key}"><option value="OFF" ${val==='OFF'||val===false?'selected':''}>OFF</option><option value="ON" ${val==='ON'||val===true?'selected':''}>ON</option></select>`;
+  }
+  if (t.startsWith('enum:')){
+    const opts=t.slice(5).split('|');
+    return `<select data-k="${v.key}">${opts.map(o=>`<option value="${o}" ${String(val)===o?'selected':''}>${o}</option>`).join('')}</select>`;
+  }
+  if (t==='number'){
+    return `<input type="number" data-k="${v.key}" value="${val??''}" />`;
+  }
+  return `<input type="text" data-k="${v.key}" value="${val??''}" />`;
+}
+
+function varRow(v){
+  const hint=SOCCER_HINTS[v.key];
+  const tag=hint?`<span class="tag need">球機</span>`:'';
+  return `<div class="row" data-search="${(v.key+' '+v.desc).toLowerCase()}">
+    <div class="k">${v.key}${tag}<em>${hint||''}</em></div>
+    <div class="v">${controlFor(v)}</div>
+    <div class="d">${v.desc}<div class="def">Default: ${v.default} · ${v.range}</div></div>
+  </div>`;
+}
+
+function groupsForTab(tabId){
+  return catalog.groups.filter(g=>g.tab===tabId);
+}
+
+function panelSetup(){
+  return `<div class="panel-h"><div><h1>Setup <small>設定總覽</small></h1>
+  <p>真實 Configurator 連線後首頁。這裡可看感測器、解鎖條件與機名。下方帶入官方 Identity 相關 CLI 參數。</p></div>
+  <span class="stat">模擬資料</span></div>
+  <div class="card"><h2>Craft / Identity</h2>
+    <div class="rows">${groupsForTab('setup').flatMap(g=>g.vars).map(varRow).join('') || '<p>無</p>'}</div>
+  </div>
+  <div class="card"><h2>Sensors 狀態（示意）</h2>
+    <p>Gyro OK · Acc OK · Baro 可忽略 · Mag 未使用 · GPS 未使用</p>
+    <p>Arming Disable Flags：依目前設定即時檢查（見 Failsafe／Modes／MOTOR_STOP）。</p>
+  </div>`;
+}
+
+function panelPorts(){
+  let rows='';
+  for (let i=1;i<=6;i++){
+    rows += `<tr>
+      <td>UART${i}</td>
+      <td><input type="checkbox" data-k="uart${i}_msp" ${state['uart'+i+'_msp']?'checked':''}></td>
+      <td><input type="checkbox" data-k="uart${i}_rx" ${state['uart'+i+'_rx']?'checked':''}></td>
+      <td><input type="checkbox" data-k="uart${i}_gps" ${state['uart'+i+'_gps']?'checked':''}></td>
+      <td><input type="checkbox" data-k="uart${i}_vtx" ${state['uart'+i+'_vtx']?'checked':''}></td>
+      <td>${i===2?'外接 ELRS 常見':'依接線'}</td>
+    </tr>`;
+  }
+  return `<div class="panel-h"><div><h1>Ports <small>埠</small></h1>
+  <p>完整 UART 功能配置。球機通常只開接收機那一列的 Serial RX；GPS／VTX 沒裝就不要勾。</p></div></div>
+  <div class="card"><h2>UART Configuration</h2>
+  <table class="ports"><thead><tr><th>Port</th><th>MSP</th><th>Serial RX</th><th>GPS</th><th>VTX</th><th>註</th></tr></thead><tbody>${rows}</tbody></table>
+  </div>`;
+}
+
+function panelConfiguration(){
+  const feats=catalog.features.map(f=>{
+    const zh=FEATURE_ZH[f]||'';
+    let tag='';
+    if (f==='MOTOR_STOP') tag='<span class="tag bad">球機建議關</span>';
+    if (f==='LED_STRIP'||f==='AIRMODE') tag='<span class="tag need">球機建議開</span>';
+    if (['GPS','3D','OSD'].includes(f)) tag='<span class="tag skip">球機略過</span>';
+    return `<label><input type="checkbox" data-k="feature_${f}" ${state['feature_'+f]?'checked':''}><span><b>${f}</b><br>${zh} ${tag}</span></label>`;
+  }).join('');
+  const groups=groupsForTab('configuration').map(g=>`<div class="card"><h2>${g.section}<span>${g.vars.length} 項</span></h2><div class="rows">${g.vars.map(varRow).join('')}</div></div>`).join('');
+  return `<div class="panel-h"><div><h1>Configuration <small>配置</small></h1>
+  <p>Features、系統、板向、蜂鳴、遙測等。此分頁含官方文件對應到 Configuration 的全部 CLI 參數。</p></div></div>
+  <div class="card"><h2>Mixer / Receiver Mode</h2>
+    <div class="rows">
+      <div class="row"><div class="k">mixer<em>機架</em></div><div class="v"><select data-k="mixer"><option>QUADX</option><option>QUADP</option></select></div><div class="d">足球機固定 Quad X</div></div>
+      <div class="row"><div class="k">receiver_mode</div><div class="v"><select data-k="receiver_mode"><option value="SERIAL">Serial (via UART)</option><option value="SPI">SPI Rx</option></select></div><div class="d">ELRS 外接通常 Serial</div></div>
+    </div>
+  </div>
+  <div class="card"><h2>Features 全清單</h2><div class="features">${feats}</div></div>
+  ${groups}`;
+}
+
+function panelGeneric(tabId, title, zh, blurb){
+  const groups=groupsForTab(tabId);
+  const body=groups.map(g=>`<div class="card"><h2>${g.section}<span>${g.vars.length} 項</span></h2><div class="rows">${g.vars.map(varRow).join('')}</div></div>`).join('')
+    || `<div class="card"><p>此分頁在真實 Configurator 存在；若官方 CLI 文件沒有獨立變數組，會顯示說明／佔位。</p></div>`;
+  return `<div class="panel-h"><div><h1>${title} <small>${zh}</small></h1><p>${blurb}</p></div>
+  <span class="stat">${groups.reduce((n,g)=>n+g.vars.length,0)} 參數</span></div>${body}`;
+}
+
+function panelModes(){
+  const lines=catalog.modes.map(m=>{
+    const on=!!state['mode_'+m.en];
+    let tag='<span class="tag skip">可略</span>';
+    if (m.soccer.includes('必要')||m.soccer.includes('強烈')) tag='<span class="tag need">'+m.soccer+'</span>';
+    else if (m.soccer.includes('建議')) tag='<span class="tag need">'+m.soccer+'</span>';
+    else if (m.soccer.includes('不要')) tag='<span class="tag bad">'+m.soccer+'</span>';
+    else tag='<span class="tag skip">'+m.soccer+'</span>';
+    return `<label class="mode-line">
+      <b>${m.en}<small>${m.zh}</small></b>
+      <span>AUX</span>
+      <span class="range"><i style="opacity:${on?1:0}"></i></span>
+      <span><input type="checkbox" data-k="mode_${m.en}" ${on?'checked':''}> ${tag}</span>
+    </label>`;
+  }).join('');
+  return `<div class="panel-h"><div><h1>Modes <small>模式（官方全清單）</small></h1>
+  <p>來源：Betaflight <code>msp_box.c</code> 全部 box。球機不會用的也列出，避免你在真實軟體看到卻不知道是什麼。</p></div>
+  <span class="stat">${catalog.modes.length} modes</span></div>
+  <div class="card"><h2>Mode Activation</h2><div class="modes">${lines}</div></div>`;
+}
+
+function panelMotorsTest(){
+  return `<div class="panel-h"><div><h1>Motors <small>測試示意</small></h1>
+  <p class="bad" style="color:#ff6b6b">真實環境一定要拆槳。此處僅示意馬達順序 1–4，不輸出任何訊號。</p></div></div>
+  <div class="card"><h2>Motor Order / Props</h2>
+  <p>Props in / out 必須與四顆轉向一致。逐顆測試：1 右前、2 左前、3 左後、4 右後（依 BF 圖示）。</p>
+  <p>詳細電調參數在 Motors 分頁（Motor & ESC CLI 組）。</p></div>`;
+}
+
+function panelPresets(){
+  return `<div class="panel-h"><div><h1>Presets <small>預設套件</small></h1>
+  <p>真實 Configurator 可線上抓社群 Preset。球機請優先套用 ExpressLRS Link Preset；不要亂套未知 PID tune。</p></div></div>
+  <div class="card"><h2>建議</h2>
+    <ul>
+      <li>ExpressLRS Link Preset（改封包率後必套）</li>
+      <li>不要套用與本隊機架／重量不符的足球機 PID 貼文</li>
+      <li>本模擬器上方「攻擊／防守建議值」才是隊內起點</li>
+    </ul>
+  </div>`;
+}
+
+function panelCli(){
+  const lines=buildCliLines();
+  return `<div class="panel-h"><div><h1>CLI <small>完整 diff 預覽</small></h1>
+  <p>依目前模擬狀態產生。可搜尋、可複製。這不是真實串列埠。</p></div>
+  <button type="button" class="pill" id="copyCli">Copy</button></div>
+  <div class="cli-wrap"><div class="cli-out" id="cliOut">${lines.map(l=>escapeHtml(l)).join('\\n')}</div>
+  <div class="cli-row"><input class="cli-in" id="cliIn" placeholder="輸入 get failsafe_procedure 或 set ledstrip_brightness = 40（模擬）" /><button class="pill" id="cliRun">Enter</button></div></div>`;
+}
+
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));}
+
+function buildCliLines(){
+  const lines=['# diff all （模擬）', `# role ${role}`, `set craft_name = ${state.craft_name||state.name||'CHSH'}`];
+  for (const f of catalog.features){
+    lines.push(`${state['feature_'+f]?'feature':'feature -'} ${f}`);
+  }
+  // only dump values that differ from defaults OR soccer-relevant keys
+  const interesting=new Set(Object.keys(SOCCER_HINTS));
+  for (const g of catalog.groups){
+    for (const v of g.vars){
+      const cur=state[v.key];
+      const def=defaultValue(v);
+      if (interesting.has(v.key) || String(cur)!==String(def)){
+        lines.push(`set ${v.key} = ${cur}`);
+      }
+    }
+  }
+  lines.push('save');
+  return lines;
+}
+
+function renderPanel(){
+  const main=document.getElementById('main');
+  let html='';
+  switch(active){
+    case 'setup': html=panelSetup(); break;
+    case 'ports': html=panelPorts(); break;
+    case 'configuration': html=panelConfiguration(); break;
+    case 'modes': html=panelModes(); break;
+    case 'motors_test': html=panelMotorsTest(); break;
+    case 'presets': html=panelPresets(); break;
+    case 'cli': html=panelCli(); break;
+    case 'power': html=panelGeneric('power','Power & Battery','電源與電池','電壓、電流、容量等官方 Battery CLI 全組。'); break;
+    case 'failsafe': html=panelGeneric('failsafe','Failsafe','斷訊保護','含 Failsafe 與 GPS Rescue 參數。球機只用 DROP，不要開 GPS Rescue。'); break;
+    case 'pid_tuning': html=panelGeneric('pid_tuning','PID Tuning','PID／濾波／Rates','含 PID、濾波、Rates、Dynamic Idle、RPM Filter、TPA、Crash Recovery 等全部相關 CLI。'); break;
+    case 'receiver': html=panelGeneric('receiver','Receiver','接收機','RC 平滑、接收協定、RSSI、MSP Override 等。'); break;
+    case 'motors': html=panelGeneric('motors','Motors','馬達／電調','Motor & ESC 全組 CLI。測試請看 Motors Test，並記得拆槳。'); break;
+    case 'onboard_logging': html=panelGeneric('onboard_logging','Blackbox','機載紀錄','Blackbox 裝置與取樣等。'); break;
+    case 'led_strip': html=panelGeneric('led_strip','LED Strip','燈條','LED 相關 CLI 全組。'); break;
+    case 'osd': html=panelGeneric('osd','OSD','圖傳字幕','球機通常略過，但仍完整列出避免遺漏。'); break;
+    case 'vtx': html=panelGeneric('vtx','VTX','圖傳','球機不裝圖傳；Oxbot 請關 VTX BEC。參數仍完整列出。'); break;
+    case 'gps': html=panelGeneric('gps','GPS','GPS','球機略過，完整列出供對照。'); break;
+    case 'servos': html=panelGeneric('servos','Servos','舵機','球機略過。'); break;
+    case 'sensors': html=panelGeneric('sensors','Sensors','感測器','光學流／測距等。球機通常無。'); break;
+    case 'adjustments': html=`<div class="panel-h"><div><h1>Adjustments <small>飛行中微調</small></h1><p>真實 Configurator 可用 AUX 在飛行中改 PID／Rates。球機比賽與訓練<b>不建議</b>使用，出事難追溯。此處保留分頁以免遺漏。</p></div></div><div class="card"><p>請在真實軟體查看 Adjustments 矩陣；本模擬器以 CLI 參數為主，不模擬調整槽位矩陣 UI。</p></div>`; break;
+    case 'blackbox_viewer': html=`<div class="panel-h"><div><h1>Blackbox Viewer <small>檢視</small></h1><p>真實軟體可下載並開啟黑匣子。模擬器不內建波形檢視器。</p></div></div><div class="card"><p>請使用官方 Blackbox Explorer／Perf。機載紀錄參數在 Blackbox 設定分頁。</p></div>`; break;
+    default: html=`<p>未知分頁</p>`;
+  }
+  main.innerHTML=`<div class="panel on">${html}</div>`;
+  // bind controls
+  main.querySelectorAll('[data-k]').forEach(el=>{
+    const sync=()=>{
+      const k=el.dataset.k;
+      if (el.type==='checkbox') state[k]=el.checked;
+      else if (el.type==='number') state[k]=el.value===''?0:Number(el.value);
+      else state[k]=el.value;
+      const name=state.craft_name||state.name||'CHSH';
+      document.getElementById('connLabel').textContent=`模擬已連線 · ${name}`;
+      if (SOCCER_HINTS[k]) help(`${k}：${SOCCER_HINTS[k]}`);
+      else if (k.startsWith('mode_')) help(`Modes → ${k.slice(5)}（切換不會寫入飛控）`);
+      else if (k.startsWith('feature_')) help(`Features → ${k.slice(8)}`);
+      if (active==='cli') {/* keep */}
+    };
+    el.addEventListener('change', sync);
+    el.addEventListener('input', sync);
+  });
+  // restore select values for mixer etc after innerHTML
+  main.querySelectorAll('select[data-k]').forEach(el=>{ if(state[el.dataset.k]!=null) el.value=state[el.dataset.k]; });
+
+  const copy=document.getElementById('copyCli');
+  if (copy) copy.onclick=async()=>{
+    try{ await navigator.clipboard.writeText(document.getElementById('cliOut').textContent); help('CLI 預覽已複製'); }catch(e){ help('請手動複製'); }
+  };
+  const run=document.getElementById('cliRun');
+  const input=document.getElementById('cliIn');
+  if (run && input){
+    const exec=()=>{
+      const cmd=input.value.trim();
+      if (!cmd) return;
+      const out=document.getElementById('cliOut');
+      if (cmd==='diff all' || cmd==='diff'){ out.textContent=buildCliLines().join('\\n'); }
+      else if (cmd.startsWith('get ')){
+        const k=cmd.slice(4).trim();
+        out.textContent += `\\n${k} = ${state[k]??'UNKNOWN'}`;
+      } else if (cmd.startsWith('set ')){
+        const m=cmd.slice(4).match(/^([a-z0-9_]+)\s*=\s*(.+)$/i);
+        if (m){ state[m[1]]=isNaN(m[2])?m[2].trim():Number(m[2]); out.textContent += `\\n# ${m[1]} set to ${state[m[1]]}`; }
+      } else if (cmd==='help'){ out.textContent += '\\n# 模擬支援：diff all / get <var> / set <var> = <val>'; }
+      else { out.textContent += `\\n# 不支援的模擬指令：${cmd}`; }
+      input.value='';
+      out.scrollTop=out.scrollHeight;
+    };
+    run.onclick=exec;
+    input.onkeydown=e=>{ if(e.key==='Enter') exec(); };
+  }
+}
+
+function applySearch(q){
+  q=q.trim().toLowerCase();
+  document.querySelectorAll('.row[data-search]').forEach(row=>{
+    row.style.display = !q || row.dataset.search.includes(q) ? '' : 'none';
+  });
+}
+
+function renderAll(){
+  renderSide();
+  renderPanel();
+  const n=sumVars();
+  document.getElementById('statCount').textContent = `${n} 個 CLI 參數 · ${catalog.modes.length} 個 Modes · ${catalog.features.length} 個 Features`;
+  applySearch(document.getElementById('search').value);
+  document.getElementById('connLabel').textContent=`模擬已連線 · ${state.craft_name||state.name||'CHSH'}`;
+}
+
+function sumVars(){return catalog.groups.reduce((n,g)=>n+g.vars.length,0)}
+
+document.getElementById('btnExpert').onclick=()=>{
+  expert=!expert;
+  document.getElementById('btnExpert').classList.toggle('on', expert);
+  if (!expert && TABS.find(t=>t.id===active)?.expert) active='setup';
+  renderAll();
+  help(expert?'Expert Mode 已開啟：顯示 GPS／OSD／VTX／Servos／Adjustments。':'Expert Mode 已關閉。');
+};
+document.getElementById('btnDefaults').onclick=()=>{ buildState(); renderAll(); help('已重設為官方預設（模擬）。'); };
+document.getElementById('btnAtk').onclick=()=>applyPreset('atk');
+document.getElementById('btnDef').onclick=()=>applyPreset('def');
+document.getElementById('search').addEventListener('input', e=>applySearch(e.target.value));
+
+fetch('assets/bfsim/catalog.json').then(r=>r.json()).then(data=>{
+  catalog=data;
+  buildState();
+  applyPreset('atk');
+}).catch(err=>{
+  document.getElementById('main').innerHTML='<p style="color:#ff6b6b">無法載入 catalog.json：'+err+'</p>';
+});
+</script>
+</body>
+</html>
