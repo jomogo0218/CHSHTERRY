@@ -419,7 +419,8 @@
       <div class="nav-group">
         <span class="nav-group-label">系統</span>
         <div class="nav-btns">
-          <button data-go="fc" aria-pressed="false">飛控</button>
+          <button data-go="fc" aria-pressed="false">飛控硬體</button>
+          <button data-go="bf" aria-pressed="false">飛控設定</button>
           <button data-go="led" aria-pressed="false">LED</button>
         </div>
       </div>
@@ -479,7 +480,8 @@
       <h4>飛控與 LED</h4>
       <p>三款 AIO（Oxbot／RATE／HAKRC）；隊色紅／藍、射手尾燈對方色、亮度約 40%、低壓紅閃。</p>
       <div class="links">
-        <button type="button" class="go" data-go="fc">飛控</button>
+        <button type="button" class="go" data-go="fc">飛控硬體</button>
+        <button type="button" class="go" data-go="bf">飛控設定</button>
         <button type="button" class="go" data-go="led">LED</button>
       </div>
     </div>
@@ -547,13 +549,23 @@
     </div>
     <div class="card">
       <span class="tag">系統</span>
-      <h4>飛控</h4>
+      <h4>飛控硬體</h4>
       <ul>
         <li>三款 AIO 規格</li>
         <li>接線與焊點</li>
-        <li>CLI 設定重點</li>
+        <li>孔距與 BEC 差異</li>
       </ul>
-      <button type="button" class="go" data-go="fc">開啟飛控</button>
+      <button type="button" class="go" data-go="fc">開啟飛控硬體</button>
+    </div>
+    <div class="card">
+      <span class="tag">系統</span>
+      <h4>飛控設定</h4>
+      <ul>
+        <li>Betaflight 逐頁設定</li>
+        <li>必改／保持預設／不要開</li>
+        <li>CLI 範本與上場檢查</li>
+      </ul>
+      <button type="button" class="go" data-go="bf">開啟飛控設定</button>
     </div>
     <div class="card">
       <span class="tag">系統</span>
@@ -1827,8 +1839,8 @@
 
 <!-- ============ 飛控 ============ -->
 <section id="fc">
-  <h1>飛控</h1>
-  <p class="lead">本隊三款 AIO 飛控規格、焊點、接線與 Betaflight 設定集中在這一頁。</p>
+  <h1>飛控硬體</h1>
+  <p class="lead">本隊三款 AIO 的規格、焊點與接線。<b>軟體設定已獨立成「飛控設定」分頁。</b></p>
   <nav class="toc" aria-label="飛控本章目錄">
     <span class="toc-label">本章目錄</span>
     <div class="toc-group">
@@ -1839,10 +1851,11 @@
     </div>
     <div class="toc-group">
       <span class="toc-group-label">設定</span>
-      <a href="#led-cli">飛控設定</a>
+      <a href="#led-cli">三板設定差異</a>
     </div>
     <div class="toc-group">
       <span class="toc-group-label">相關</span>
+      <button type="button" class="go" data-go="bf">Betaflight 完整設定 →</button>
       <button type="button" class="go" data-go="led">LED 設定 →</button>
     </div>
   </nav>
@@ -1925,7 +1938,7 @@
       <tr><td>OSD</td><td>AT7456E（類比）</td><td>RATE MSP OSD</td><td>MAX7456（類比）</td><td>有鏡頭才用</td></tr>
       <tr><td>黑匣子</td><td>16M</td><td>16MB</td><td>16MB（W25Q128）</td><td>調參可下載 log</td></tr>
       <tr><td><b>BEC</b></td><td class="no"><b>5V 2A</b></td><td><b>5V 3A</b>（＋10V 2A）</td><td class="ok"><b>5V 4A</b></td><td><b>LED 最寬裕＝Oxbot</b>；F411 板務必調暗</td></tr>
-      <tr><td>電調固件</td><td class="no"><b>BLHeli_S</b>（G-H-30）</td><td class="ok"><b>32bit</b>＋雙向 DShot</td><td class="ok"><b>OX32 32bit</b>＋雙向 DShot</td><td><b>攻擊機優先 RATE／Oxbot</b>：可開 RPM 濾波；F411 不能開</td></tr>
+      <tr><td>電調固件</td><td class="no"><b>BLHeli_S</b>（G-H-30）</td><td class="ok"><b>32bit</b>＋雙向 DShot</td><td class="ok"><b>OX32 32bit</b>＋雙向 DShot</td><td><b>攻擊機優先 RATE／Oxbot</b>：可直接開 RPM 濾波。<b>原廠 BLHeli_S 不支援雙向 DShot</b>，要刷 Bluejay 才有機會</td></tr>
       <tr><td>電調電流</td><td>持續 40A／峰值 45A</td><td>穩定 40A</td><td class="ok"><b>45A</b></td><td>單顆馬達峰值約 25A → 三塊都夠</td></tr>
       <tr><td>電池輸入</td><td>2–6S</td><td>3–6S</td><td>3–6S</td><td>本隊 <b>4S</b> 都 OK</td></tr>
       <tr><td><b>接收機</b></td><td>需外接（SBUS／UART）</td><td>需外接（ELRS→UART2）</td><td class="ok"><b>內建 ELRS</b></td><td><b>Oxbot 省一顆接收機＋線</b>，少一個故障點</td></tr>
@@ -1943,7 +1956,7 @@
   <div class="note info">
     <b>怎麼分配（建議）：</b>
     <b>攻擊機＝Oxbot Flow AIO45</b>（45A＋雙向 DShot＋內建 ELRS＋BEC 4A 最穩，重一點可接受）或 RATE；
-    <b>防禦／輕量機＝HAKRC F411</b>（最輕 8.5g，但 LED 要調暗、不能開 RPM 濾波）。
+    <b>防禦／輕量機＝HAKRC F411</b>（最輕 8.5g，但 LED 要調暗；原廠韌體無法開 RPM 濾波）。
   </div>
 
   <h2 id="led-pinout">HAKRC F411 接口定義（焊哪裡）</h2>
@@ -2025,7 +2038,7 @@
     <thead><tr><th>項目</th><th>設定</th><th>為什麼</th></tr></thead>
     <tbody>
       <tr><td>電調協議</td><td><b>Dshot300</b>（或 Dshot600）</td><td>BLHeli_S 支援到 Dshot600；F411 用 Dshot300 最穩</td></tr>
-      <tr><td>RPM 濾波</td><td class="no"><b>不能開</b></td><td>無雙向 Dshot；硬開會不起轉</td></tr>
+      <tr><td>RPM 濾波</td><td class="no"><b>原廠不能開</b></td><td>原廠 BLHeli_S 不支援雙向 DShot。硬開會抓不到轉速甚至不起轉；要開必須先刷 <b>Bluejay</b>，且 F411 不是每個馬達腳位都保證可用</td></tr>
       <tr><td>電流計比例</td><td><code>set ibata_scale = 210</code></td><td>官方標示 210</td></tr>
       <tr><td>LED</td><td>亮度約 <b>40</b></td><td>BEC 只有 2A</td></tr>
     </tbody>
@@ -2105,6 +2118,522 @@ save</pre>
   <div class="note bad">
     <b>中場接電腦改飛控 LED 顏色＝幾乎不可能。</b>
     timeout／set 間只有 1–3 分鐘。顏色必須賽前設好，或用遙控／硬體一鍵切換。
+  </div>
+</section>
+
+<!-- ============ 飛控設定 ============ -->
+<section id="bf">
+  <h1>飛控設定（Betaflight）</h1>
+  <p class="lead">足球機不是穿越機：室內、會撞、要翻正、沒有圖傳與 GPS。這一頁把每一個分頁該不該改、改成什麼、為什麼，全部列出來。</p>
+  <nav class="toc" aria-label="飛控設定本章目錄">
+    <span class="toc-label">本章目錄</span>
+    <div class="toc-group">
+      <span class="toc-group-label">開始</span>
+      <a href="#bf-safety">安全鐵則</a>
+      <a href="#bf-order">設定順序</a>
+    </div>
+    <div class="toc-group">
+      <span class="toc-group-label">分類</span>
+      <a href="#bf-must">一定要改</a>
+      <a href="#bf-tune">依情況調</a>
+      <a href="#bf-default">保持預設</a>
+      <a href="#bf-never">不要開</a>
+    </div>
+    <div class="toc-group">
+      <span class="toc-group-label">逐頁</span>
+      <a href="#bf-tabs">各分頁說明</a>
+      <a href="#bf-boards">三塊板差異</a>
+    </div>
+    <div class="toc-group">
+      <span class="toc-group-label">實戰</span>
+      <a href="#bf-cli">CLI 範本</a>
+      <a href="#bf-check">上場前檢查</a>
+      <a href="#bf-trouble">排除故障</a>
+      <a href="#bf-docs">官方文件</a>
+    </div>
+  </nav>
+
+  <div class="note critical">
+    <b>本頁依 Betaflight 官方文件整理（4.5 之後版本）。</b>
+    不同版本預設值可能不同，<b>刷完韌體一定要重新確認一次</b>；跨大版本升級官方要求 Chip Erase（全清）並重新設定，不要直接把舊的 <code>diff</code> 貼上去。
+  </div>
+
+  <h2 id="bf-safety">開始前：三條安全鐵則</h2>
+  <div class="note bad">
+    <b>1. 拆槳。</b>任何在電腦前測馬達、測 failsafe、調參數的動作，槳一律拆掉。<br />
+    <b>2. 先備份。</b>接上飛控後先在 CLI 打 <code>diff all</code>，整段複製存成文字檔（用機號命名）。改壞了才有得救。<br />
+    <b>3. 一次只改一件事。</b>改完存檔、記錄、再測。五台一起亂改，出問題找不到原因。
+  </div>
+  <div class="note info">
+    <b>怎麼備份：</b>Betaflight 的 CLI 分頁輸入 <code>diff all</code> → 按「Save to file」，或整段選取複製。
+    每台球機一個檔，檔名寫 <b>機號＋日期</b>（例：<code>3號機_0726.txt</code>）。
+  </div>
+
+  <h2 id="bf-order">設定順序（照這個順序做，不會漏）</h2>
+  <div class="wide">
+  <table>
+    <thead><tr><th class="n">#</th><th>步驟</th><th>做什麼</th><th>過關標準</th></tr></thead>
+    <tbody>
+      <tr><td class="n">1</td><td>接電腦前檢查</td><td>拆槳；焊點、電容、LED 線目視確認</td><td>沒有虛焊、沒有短路</td></tr>
+      <tr><td class="n">2</td><td>連線與備份</td><td>USB 連上；<code>diff all</code> 存檔；記下版本與 target</td><td>檔案存好</td></tr>
+      <tr><td class="n">3</td><td>Setup 校正</td><td>平放桌面校正加速度計；看陀螺儀畫面是否平穩</td><td>靜置時線是平的</td></tr>
+      <tr><td class="n">4</td><td>板子方向</td><td>飛控若不是正裝，設 Board Alignment</td><td>機頭前傾＝畫面前傾</td></tr>
+      <tr><td class="n">5</td><td>Ports 埠</td><td>接收機那個 UART 開 Serial RX</td><td>只開需要的</td></tr>
+      <tr><td class="n">6</td><td>Receiver 接收機</td><td>選 CRSF（ELRS）或 SBUS；對頻；檢查通道</td><td>四軸與開關都會動</td></tr>
+      <tr><td class="n">7</td><td>Modes 模式</td><td>ARM 設在 <b>AUX1</b>；加 BEEPER；新手加 ANGLE</td><td>撥開關會顯示 ARM</td></tr>
+      <tr><td class="n">8</td><td>Failsafe 保護</td><td>遙控器關機測試（<b>槳已拆</b>）</td><td>馬達會自己停</td></tr>
+      <tr><td class="n">9</td><td>Motors 馬達</td><td>選 DShot；<b>逐顆</b>測轉向與順序</td><td>四顆位置、方向都對</td></tr>
+      <tr><td class="n">10</td><td>Power 電池</td><td>電壓對照三用電表；設警告 3.5V／最低 3.3V</td><td>誤差 &lt;0.1V</td></tr>
+      <tr><td class="n">11</td><td>LED</td><td>開 LED_STRIP、調亮度、設隊色</td><td>顏色符合規則</td></tr>
+      <tr><td class="n">12</td><td>命名與存檔</td><td>設 <code>craft_name</code> 為機號；再存一次 <code>diff all</code></td><td>五台都有檔</td></tr>
+      <tr><td class="n">13</td><td>裝槳試飛</td><td>先低油門離地 10 公分確認不亂飄</td><td>穩定才進場</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2 id="bf-must">一定要改（不改就有安全或比賽風險）</h2>
+  <div class="wide">
+  <table>
+    <thead><tr><th>設定</th><th>設成</th><th>在哪裡</th><th>為什麼一定要</th></tr></thead>
+    <tbody>
+      <tr class="critical-row">
+        <td><b>ARM 開關位置</b></td>
+        <td><b>AUX1（第 5 通道）</b>；低＝解除、高＝解鎖</td>
+        <td>Modes</td>
+        <td><b>ELRS 官方規定</b>：AUX1 每一個封包都會送出，訊號差時仍能可靠上鎖。放在其他通道可能<b>關不掉馬達</b></td>
+      </tr>
+      <tr class="critical-row">
+        <td><b>接收機端 Failsafe</b></td>
+        <td>設為 <b>不輸出訊號（no pulses）</b></td>
+        <td>接收機／ELRS 設定</td>
+        <td>接收機若持續送最後訊號，飛控不會判定為斷訊，就<b>不會停槳</b>。這是最常見的致命設定錯誤</td>
+      </tr>
+      <tr class="critical-row">
+        <td><b>Failsafe 動作</b></td>
+        <td><code>DROP</code>（預設值，直接停槳）</td>
+        <td>Failsafe</td>
+        <td>室內比賽場地小、有人在旁。斷訊要立刻停，不要用 Land 讓它繼續轉</td>
+      </tr>
+      <tr>
+        <td>低電壓警告／最低值</td>
+        <td>警告 <b>3.50V</b>／最低 <b>3.30V</b>（皆為官方預設）</td>
+        <td>Power &amp; Battery</td>
+        <td>球機看不到螢幕，只能靠<b>紅閃</b>判斷。沒設就是在打穿電池</td>
+      </tr>
+      <tr>
+        <td>電壓校正</td>
+        <td>對照三用電表調 <code>vbat_scale</code></td>
+        <td>Power &amp; Battery</td>
+        <td>電壓讀不準＝紅閃時機不準＝過放</td>
+      </tr>
+      <tr>
+        <td>馬達順序與轉向</td>
+        <td>Motors 分頁逐顆確認</td>
+        <td>Motors</td>
+        <td>接反會<b>一上油門就翻</b>。學生最常犯</td>
+      </tr>
+      <tr>
+        <td>電調協定</td>
+        <td><b>DShot300</b>（保守）或 DShot600</td>
+        <td>Motors</td>
+        <td>類比協定沒有 Turtle mode，也不能做轉速回傳</td>
+      </tr>
+      <tr>
+        <td>LED 開啟與亮度</td>
+        <td><code>LED_STRIP</code> 開；亮度依 BEC 調降</td>
+        <td>Configuration／LED</td>
+        <td>規則要求 ≥16 顆亮燈；亮度預設 100 會壓垮小 BEC</td>
+      </tr>
+      <tr>
+        <td>機號命名</td>
+        <td><code>craft_name</code> ＝ 機號</td>
+        <td>CLI</td>
+        <td>五台球機外觀相近，接上電腦要能立刻認出是哪一台</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note critical">
+    <b>Failsafe 一定要實測，不能只看設定畫面。</b>
+    做法：<b>拆槳</b> → 接電池 → 解鎖 → 油門推一點點 → <b>關掉遙控器</b> → 馬達必須在約 1.5 秒內完全停止。
+    沒停就是接收機端沒設好，<b>禁止上場</b>。
+  </div>
+
+  <h2 id="bf-tune">依情況調整（看隊員程度與硬體）</h2>
+  <div class="wide">
+  <table>
+    <thead><tr><th>設定</th><th>建議</th><th>適合誰</th><th>說明</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><b>ANGLE 自穩模式</b></td>
+        <td>新手<b>開</b>並放在開關上；熟手用 Acro</td>
+        <td>新進隊員</td>
+        <td>放手會自動回正，撞完比較好救。最大傾角 <code>angle_limit</code> 預設 60 度</td>
+      </tr>
+      <tr>
+        <td><b>油門上限</b></td>
+        <td><code>throttle_limit_type = SCALE</code>、<code>throttle_limit_percent</code> 70–80</td>
+        <td>新手練習機</td>
+        <td>室內場地小，限制最大油門比較好控。<b>正式比賽記得改回 100</b></td>
+      </tr>
+      <tr>
+        <td><b>Rates（轉動速度）</b></td>
+        <td>先降低最大轉速再慢慢加</td>
+        <td>全隊</td>
+        <td>Betaflight 預設偏穿越機。競速常用 550–650 度／秒；室內球機可以更低。這是<b>手感</b>，要每個人自己試</td>
+      </tr>
+      <tr>
+        <td><b>TURTLE（翻正模式）</b></td>
+        <td>建議設在開關上</td>
+        <td>全隊</td>
+        <td>翻覆時反轉馬達翻回來，省一次撿機。需要 DShot。<b>槳卡住時硬轉會燒馬達／電調</b>，卡死就別硬按</td>
+      </tr>
+      <tr>
+        <td><b>Airmode</b></td>
+        <td>建議開（預設多為常開）</td>
+        <td>全隊</td>
+        <td>油門收到底仍保有姿態控制力，碰撞後比較不會失控翻滾</td>
+      </tr>
+      <tr>
+        <td><b>解鎖角度限制</b></td>
+        <td><code>small_angle</code> 預設 25 度；球體歪著放會鎖住</td>
+        <td>視球框而定</td>
+        <td>放大才能歪著解鎖，但也代表<b>倒著也能解鎖</b>，操作要更小心。官方不建議直接設 180</td>
+      </tr>
+      <tr>
+        <td><b>雙向 DShot ＋ RPM 濾波</b></td>
+        <td>電調支援才開</td>
+        <td>RATE／Oxbot</td>
+        <td>對抗震動大，開了明顯較穩。<b>原廠 BLHeli_S（F411）不支援</b></td>
+      </tr>
+      <tr>
+        <td><b>馬達磁鐵數</b></td>
+        <td><code>motor_poles</code>：14xx／15xx 多為 <b>14</b></td>
+        <td>有開 RPM 濾波才需要</td>
+        <td>要<b>數馬達鐘罩內的磁鐵</b>確認。填錯＝濾錯頻率，反而更抖</td>
+      </tr>
+      <tr>
+        <td><b>Dynamic Idle</b></td>
+        <td>有雙向 DShot 才設；並把 <code>transient_throttle_limit</code> 設 0</td>
+        <td>RATE／Oxbot</td>
+        <td>防止急停時馬達失步。官方 5 吋建議 3000–4000 轉；<b>球機槳小轉速高，要自己量怠速轉速再抓低約 20%</b></td>
+      </tr>
+      <tr>
+        <td><b>黑匣子</b></td>
+        <td>調參時才開，平常關</td>
+        <td>調參的人</td>
+        <td>只有要分析震動／PID 才需要，開著會吃資源與空間</td>
+      </tr>
+      <tr>
+        <td><b>Model Match</b></td>
+        <td>建議開（ELRS）</td>
+        <td>全隊</td>
+        <td>五台球機同時在場，避免<b>拿錯模型檔控到別台</b></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note warn">
+    <b>PID 不要亂抄。</b>網路上的「足球機 PID」多半來自不同機架、不同馬達、不同重量，抄過來常常更難飛。
+    先確認<b>震動、轉向、重量、電池</b>都正常；真的要調再用黑匣子看資料，不要憑感覺一直改數字。
+  </div>
+
+  <h2 id="bf-default">保持預設就好（不要動）</h2>
+  <div class="wide">
+  <table>
+    <thead><tr><th>項目</th><th>預設</th><th>為什麼別動</th></tr></thead>
+    <tbody>
+      <tr><td>PID 數值</td><td>官方預設</td><td>預設對小四軸已相當堪用；沒有黑匣子資料就改，多半越改越糟</td></tr>
+      <tr><td>濾波器（Filters）</td><td>官方預設</td><td>亂關濾波會讓馬達過熱燒毀；亂加濾波會變鈍</td></tr>
+      <tr><td>Anti Gravity</td><td>開，gain 80</td><td>急拉油門時抑制掉頭下沉，預設就好</td></tr>
+      <tr><td>失控起飛保護</td><td><code>runaway_takeoff_prevention = ON</code></td><td>解鎖後暴衝會自動上鎖，是保護人的功能</td></tr>
+      <tr><td>陀螺儀溢位偵測</td><td><code>gyro_overflow_detect = ALL</code></td><td>官方建議值</td></tr>
+      <tr><td>Failsafe 判定時間</td><td>1.5 秒（Stage 1）</td><td>太短會被瞬斷誤觸發；官方最短建議 0.2 秒</td></tr>
+      <tr><td>馬達輸出上限</td><td><code>motor_output_limit = 100</code></td><td>那是給「電池電壓超過馬達規格」用的，本隊 4S 配 4S 不需要</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2 id="bf-never">不要開／不要亂改</h2>
+  <div class="wide">
+  <table>
+    <thead><tr><th>不要做</th><th>後果</th></tr></thead>
+    <tbody>
+      <tr class="critical-row"><td><b>Failsafe 設成 Land 或 GPS Rescue</b></td><td>球機沒 GPS；室內斷訊還繼續轉槳＝傷人風險。<b>一律用 DROP</b></td></tr>
+      <tr class="critical-row"><td><b>沒有雙向 DShot 卻硬開 RPM 濾波</b></td><td>抓不到轉速，可能無法解鎖或馬達不轉</td></tr>
+      <tr class="critical-row"><td><b>刷錯 target</b></td><td>三塊板主控不同（F411／AT32F435），刷錯可能變磚</td></tr>
+      <tr><td>3D 模式</td><td>球機用不到，且與 Dynamic Idle 衝突</td></tr>
+      <tr><td>開 GPS／氣壓計相關模式</td><td>沒裝硬體卻啟用，只會多出開機延遲與錯誤</td></tr>
+      <tr><td>把濾波全關「求延遲低」</td><td>馬達爆熱、電調燒毀，這是燒硬體最快的方式</td></tr>
+      <tr><td>比賽當天大改參數</td><td>沒時間試飛驗證，等於拿比賽賭運氣</td></tr>
+      <tr><td>五台共用同一份 diff 直接貼</td><td>板子型號、接收機、電流計都不同，會出錯</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2 id="bf-tabs">Betaflight 逐頁說明</h2>
+  <p class="lead" style="margin-top:0">照 Configurator 左邊選單由上而下，每一頁球機要看什麼。</p>
+
+  <h3>Setup 設定</h3>
+  <div class="wide">
+  <table>
+    <thead><tr><th>項目</th><th>球機怎麼做</th></tr></thead>
+    <tbody>
+      <tr><td>校正加速度計</td><td><b>平放在水平桌面</b>不要動，按校正。用 ANGLE 模式一定要做</td></tr>
+      <tr><td>陀螺儀即時畫面</td><td>靜置時線應接近平的。抖動很大＝減震球沒裝好或線材壓到板子</td></tr>
+      <tr><td>Arming Disable Flags</td><td>不能解鎖時<b>先看這裡</b>，會直接告訴你被什麼擋住</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Ports 埠</h3>
+  <div class="wide">
+  <table>
+    <thead><tr><th>項目</th><th>球機怎麼做</th></tr></thead>
+    <tbody>
+      <tr><td>Serial RX</td><td><b>只在接收機那一個 UART 打開</b>。焊在 RX2／TX2 就是 UART2</td></tr>
+      <tr><td>Oxbot 內建 ELRS</td><td>內建接收機不吃 UART，設定方式與外接不同（見三塊板差異）</td></tr>
+      <tr><td>其他功能</td><td>沒裝圖傳／GPS 就<b>全部不要開</b></td></tr>
+      <tr><td>不要關的</td><td>USB 設定用的 MSP 不要關掉，否則之後連不上</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Configuration 配置</h3>
+  <div class="wide">
+  <table>
+    <thead><tr><th>項目</th><th>球機怎麼做</th></tr></thead>
+    <tbody>
+      <tr><td>Board Alignment</td><td>飛控若旋轉或側裝，在這裡補角度，不要用歪的直接飛</td></tr>
+      <tr><td>加速度計</td><td>要用 ANGLE／自穩就<b>開</b></td></tr>
+      <tr><td>氣壓計／磁力計</td><td>室內球機<b>關</b></td></tr>
+      <tr><td>LED_STRIP</td><td><b>開</b>（比賽規則要求燈）</td></tr>
+      <tr><td>OSD</td><td>沒鏡頭沒圖傳就不用開</td></tr>
+      <tr><td>蜂鳴器提示</td><td>可關掉 USB 提示音，桌上設定才不會一直叫</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Power &amp; Battery 電源與電池</h3>
+  <div class="wide">
+  <table>
+    <thead><tr><th>項目</th><th>球機怎麼做</th></tr></thead>
+    <tbody>
+      <tr><td>電壓來源</td><td>板載 ADC</td></tr>
+      <tr><td>電壓校正</td><td>三用電表量實際電壓，調 <code>vbat_scale</code> 到一致</td></tr>
+      <tr><td>警告電壓</td><td><b>3.50V／芯</b>（4S＝14.0V）</td></tr>
+      <tr><td>最低電壓</td><td><b>3.30V／芯</b>（4S＝13.2V）</td></tr>
+      <tr><td>電池容量</td><td>填實際 mAh（例 1060），估算比較準</td></tr>
+      <tr><td>電流計比例</td><td>HAKRC F411 原廠標示 <code>ibata_scale = 210</code>；其他板要實測校正</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Receiver 接收機</h3>
+  <div class="wide">
+  <table>
+    <thead><tr><th>項目</th><th>球機怎麼做</th></tr></thead>
+    <tbody>
+      <tr><td>協定</td><td>ELRS／TBS ＝ <b>CRSF</b>；老式接收機才用 SBUS</td></tr>
+      <tr><td>通道檢查</td><td>推每一根搖桿，確認對應軸會動、方向正確</td></tr>
+      <tr><td>ARM 通道</td><td><b>AUX1</b>，低約 1000、高約 2000</td></tr>
+      <tr><td>ELRS 連線設定</td><td>對頻後在 Betaflight <b>Presets 分頁</b>套用對應封包率的 ExpressLRS Link Preset</td></tr>
+      <tr><td>Model Match</td><td>建議開，避免控到別台球機</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Modes 模式</h3>
+  <div class="wide">
+  <table>
+    <thead><tr><th>模式</th><th>要不要設</th><th>說明</th></tr></thead>
+    <tbody>
+      <tr class="critical-row"><td><b>ARM</b></td><td><b>必設（AUX1）</b></td><td>沒有這個就不會轉</td></tr>
+      <tr><td>BEEPER</td><td>建議</td><td>掉在場邊找得回來</td></tr>
+      <tr><td>ANGLE</td><td>新手建議</td><td>自動回正，好救</td></tr>
+      <tr><td>FLIP OVER AFTER CRASH</td><td>建議</td><td>翻正用；需要 DShot</td></tr>
+      <tr><td>AIRMODE</td><td>視飛控預設</td><td>已常開就不用另設開關</td></tr>
+      <tr><td>其他</td><td>不用</td><td>球機用不到 GPS、鏡頭、圖傳相關模式</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Motors 馬達</h3>
+  <div class="note bad" style="margin-top:0">
+    <b>這一頁一定要拆槳。</b>Betaflight 官方也是這樣要求。
+  </div>
+  <div class="wide">
+  <table>
+    <thead><tr><th>項目</th><th>球機怎麼做</th></tr></thead>
+    <tbody>
+      <tr><td>協定</td><td>DShot300（保守穩定）或 DShot600</td></tr>
+      <tr><td>雙向 DShot</td><td>電調支援才開（RATE／Oxbot 可；原廠 F411 不可）</td></tr>
+      <tr><td>馬達順序</td><td>逐顆點，確認畫面上的 1/2/3/4 對應實際位置</td></tr>
+      <tr><td>轉向</td><td>對照所選的 Props In／Props Out，錯的用電調設定反轉，不要調換線</td></tr>
+      <tr><td>磁鐵數</td><td>有開 RPM 濾波才要準；14xx／15xx 常見 14 顆，實際去數</td></tr>
+      <tr><td>怠速</td><td>沒特殊需求就用預設</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>PID Tuning／Filters</h3>
+  <div class="wide">
+  <table>
+    <thead><tr><th>項目</th><th>球機怎麼做</th></tr></thead>
+    <tbody>
+      <tr><td>PID</td><td><b>先用預設</b>。要改先確認震動與硬體都正常</td></tr>
+      <tr><td>濾波</td><td>維持預設；<b>不要為了追手感關掉</b></td></tr>
+      <tr><td>Profile</td><td>可用不同 Profile 存<b>攻擊機</b>與<b>防禦機</b>設定</td></tr>
+      <tr><td>Dynamic Idle</td><td>有雙向 DShot 才有意義；要同時把 <code>transient_throttle_limit</code> 設 0</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Rates 手感</h3>
+  <div class="wide">
+  <table>
+    <thead><tr><th>項目</th><th>球機怎麼做</th></tr></thead>
+    <tbody>
+      <tr><td>模式</td><td>ACTUAL（4.3 起的預設），中心靈敏度與最大轉速可分開設</td></tr>
+      <tr><td>最大轉速</td><td>先設低一點好控，熟了再加。競速常見 550–650 度／秒</td></tr>
+      <tr><td>Expo</td><td>中間想更細膩就加一點，不影響最大轉速</td></tr>
+      <tr><td>Rate Profile</td><td>可存多組，練習與比賽分開</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Failsafe 保護</h3>
+  <div class="wide">
+  <table>
+    <thead><tr><th>項目</th><th>球機怎麼做</th></tr></thead>
+    <tbody>
+      <tr class="critical-row"><td>Stage 2 動作</td><td><b>DROP</b>（停槳上鎖）</td></tr>
+      <tr><td>Stage 1 判定時間</td><td>預設 1.5 秒，不用改</td></tr>
+      <tr><td>恢復延遲</td><td>預設 0.5 秒。要重新解鎖必須<b>先撥回上鎖再解鎖</b></td></tr>
+      <tr><td>接收機端</td><td>務必設成<b>斷訊不輸出</b></td></tr>
+      <tr><td>驗收</td><td>拆槳實測關遙控器，馬達必須停</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>LED 燈條</h3>
+  <p>顏色規則、22 顆耗電、低壓紅閃、換射手，全部整理在
+    <button type="button" class="go" data-go="led">LED 分頁</button>。這裡只提醒：亮度預設是 100，<b>小 BEC 一定要調降</b>。</p>
+
+  <h3>Blackbox 黑匣子</h3>
+  <div class="wide">
+  <table>
+    <thead><tr><th>項目</th><th>球機怎麼做</th></tr></thead>
+    <tbody>
+      <tr><td>平常</td><td>關閉，省資源與空間</td></tr>
+      <tr><td>調參時</td><td>開啟，記錄到板載 flash</td></tr>
+      <tr><td>取樣率</td><td>一般 1kHz 夠用；要看濾波／震動用 2kHz</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2 id="bf-boards">三塊板不一樣的地方</h2>
+  <div class="wide">
+  <table>
+    <thead><tr><th>項目</th><th>HAKRC F411</th><th>RATE F4</th><th>Oxbot Flow AIO45</th></tr></thead>
+    <tbody>
+      <tr><td>主控</td><td>STM32F411</td><td>AT32F435</td><td>AT32F435</td></tr>
+      <tr class="critical-row"><td><b>Target</b></td><td>F411 系列</td><td>AT32 對應 target</td><td><code>OXBOT_FLOW_AIO45</code></td></tr>
+      <tr><td>電調韌體</td><td>BLHeli_S（原廠）</td><td>32bit</td><td>OX32 32bit</td></tr>
+      <tr><td>雙向 DShot／RPM 濾波</td><td class="no">原廠不支援</td><td class="ok">可</td><td class="ok">可</td></tr>
+      <tr><td>接收機</td><td>外接（UART／SBUS）</td><td>外接 ELRS（UART2）</td><td class="ok">內建 ELRS</td></tr>
+      <tr><td>LED 亮度</td><td class="no">BEC 2A，約 40</td><td>BEC 3A，40–50</td><td class="ok">BEC 4A，40–50</td></tr>
+      <tr><td>電流計比例</td><td><code>ibata_scale = 210</code></td><td>需實測</td><td>用板子預設</td></tr>
+      <tr class="critical-row"><td><b>圖傳供電</b></td><td>—</td><td>不接就不供電</td><td><b>沒裝圖傳務必開 <code>VTX BEC OFF</code></b></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note warn">
+    <b>設定前先確認手上這台是哪一塊板。</b>接上電腦後在 CLI 打 <code>version</code> 就會顯示 target 與韌體版本。
+  </div>
+
+  <h2 id="bf-cli">CLI 範本（先看懂再貼）</h2>
+  <div class="note info" style="margin-top:0">
+    貼上後要打 <code>save</code> 才會生效並重開機。<b>貼之前先 <code>diff all</code> 備份。</b>
+    下面是三塊板共通的部分；括號說明不要一起貼。
+  </div>
+  <h3>共通（三塊板都適用）</h3>
+  <pre>set craft_name = CHSH-1
+feature LED_STRIP
+set ledstrip_brightness = 40
+set ledstrip_visual_beeper = ON
+set vbat_warning_cell_voltage = 350
+set vbat_min_cell_voltage = 330
+set bat_capacity = 1060
+set failsafe_procedure = DROP
+set runaway_takeoff_prevention = ON
+save</pre>
+  <small>電壓值單位是 0.01V：350＝3.50V、330＝3.30V（這兩項本來就是官方預設，這裡是確認用）。<code>craft_name</code> 請改成該台的機號。</small>
+
+  <h3>HAKRC F411（原廠 BLHeli_S）</h3>
+  <pre>set ibata_scale = 210
+set ledstrip_brightness = 40
+save</pre>
+  <small>這塊板<b>不要</b>開 <code>dshot_bidir</code>。</small>
+
+  <h3>RATE F4／Oxbot（32bit 電調，可開轉速回傳）</h3>
+  <pre>set dshot_bidir = ON
+set motor_poles = 14
+set transient_throttle_limit = 0
+save</pre>
+  <small><code>motor_poles</code> 要對照實際磁鐵數。開完到 CLI 打 <code>status</code>，確認有轉速回傳且錯誤率低，再考慮設 <code>dyn_idle_min_rpm</code>。</small>
+
+  <h3>新手練習機（限制油門，比賽前要改回）</h3>
+  <pre>set throttle_limit_type = SCALE
+set throttle_limit_percent = 75
+save</pre>
+  <small>改回比賽狀態：<code>set throttle_limit_type = OFF</code> 然後 <code>save</code>。</small>
+
+  <h2 id="bf-check">上場前 60 秒檢查</h2>
+  <div class="wide">
+  <table>
+    <thead><tr><th class="n">#</th><th>檢查</th><th>合格</th></tr></thead>
+    <tbody>
+      <tr><td class="n">1</td><td>電池單芯電壓</td><td>≤4.25V</td></tr>
+      <tr><td class="n">2</td><td>LED 顏色</td><td>隊色正確、射手尾燈為對方色</td></tr>
+      <tr><td class="n">3</td><td>解鎖測試（場邊、拆槳或架高）</td><td>四顆都轉、方向正確</td></tr>
+      <tr><td class="n">4</td><td>斷訊測試（賽前一次即可）</td><td>關遙控器馬達會停</td></tr>
+      <tr><td class="n">5</td><td>整機重量</td><td>≤300g，建議 285–295g</td></tr>
+      <tr><td class="n">6</td><td>螺絲與槳</td><td>沒鬆、沒裂</td></tr>
+      <tr><td class="n">7</td><td>機號與遙控模型檔</td><td>對得起來，沒拿錯</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2 id="bf-trouble">常見狀況排除</h2>
+  <div class="wide">
+  <table>
+    <thead><tr><th>狀況</th><th>先看哪裡</th><th>常見原因</th></tr></thead>
+    <tbody>
+      <tr><td>不能解鎖</td><td>Setup 的 Arming Disable Flags</td><td>油門沒歸零、開關位置不對、角度超過限制、沒校正</td></tr>
+      <tr><td>一解鎖就翻</td><td>Motors 分頁</td><td>馬達順序或轉向錯誤</td></tr>
+      <tr><td>馬達不轉或抖動</td><td>協定與雙向 DShot</td><td>電調不支援卻開了 <code>dshot_bidir</code></td></tr>
+      <tr><td>飛起來抖／中油門震</td><td>震動源</td><td>槳裂、螺絲鬆、減震球沒裝；先修硬體再談 PID</td></tr>
+      <tr><td>電量還有卻一直紅閃</td><td>電壓校正</td><td><code>vbat_scale</code> 沒校；或電池 C 數不足造成壓降</td></tr>
+      <tr><td>飛一飛突然停</td><td>Failsafe 與接收機</td><td>訊號不良觸發斷訊保護；或電池插頭鬆動</td></tr>
+      <tr><td>遙控控到別台</td><td>ELRS Model Match</td><td>沒開 Model Match、或模型檔選錯</td></tr>
+      <tr><td>接不上電腦</td><td>線材與埠設定</td><td>用到只供電的充電線；或把 MSP 關掉了</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2 id="bf-docs">官方文件（有疑問以這些為準）</h2>
+  <ul>
+    <li><a href="https://betaflight.com/docs/wiki/getting-started/setup-guide" target="_blank" rel="noopener">Betaflight 設定總指南</a></li>
+    <li><a href="https://betaflight.com/docs/wiki/guides/current/Failsafe" target="_blank" rel="noopener">Failsafe 斷訊保護</a></li>
+    <li><a href="https://betaflight.com/docs/wiki/guides/current/DSHOT-RPM-Filtering" target="_blank" rel="noopener">DShot RPM 濾波</a></li>
+    <li><a href="https://betaflight.com/docs/wiki/guides/current/Dynamic-Idle" target="_blank" rel="noopener">Dynamic Idle</a></li>
+    <li><a href="https://betaflight.com/docs/wiki/guides/current/Cli" target="_blank" rel="noopener">CLI 參數完整清單</a></li>
+    <li><a href="https://betaflight.com/docs/wiki/app/power-tab" target="_blank" rel="noopener">Power &amp; Battery 分頁</a></li>
+    <li><a href="https://www.expresslrs.org/quick-start/pre-1stflight/" target="_blank" rel="noopener">ExpressLRS 首飛前設定（ARM 放 AUX1）</a></li>
+  </ul>
+  <div class="note info">
+    <b>之後可以做得更準：</b>把每台球機的 <code>version</code>、<code>status</code>、<code>diff all</code> 存下來，就能針對本隊實機列出「現在設定 vs 建議設定」的逐項差異表。
   </div>
 </section>
 
