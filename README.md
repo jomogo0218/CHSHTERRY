@@ -2,7 +2,9 @@
 
 FAI F9A-B（20／22cm）備賽配備總覽。
 
-**線上版：** https://jomogo0218.github.io/Drone-Soccer/
+**倉庫（私人）：** https://github.com/jomogo0218/CHSHTERRY  
+
+本機請直接用瀏覽器開啟 `index.html`。公開 GitHub Pages 已關閉。
 
 ## 資料夾結構
 
