@@ -608,7 +608,7 @@
       <h4>飛控設定</h4>
       <ul>
         <li>每個設定影響什麼</li>
-        <li>必改／保持預設／不要開</li>
+        <li>攻擊／防守建議數值</li>
         <li>CLI 範本與上場檢查</li>
       </ul>
       <button type="button" class="go" data-go="bf">開啟飛控設定</button>
@@ -2189,6 +2189,13 @@ save</pre>
       <a href="#bf-impact-power">電池燈光</a>
     </div>
     <div class="toc-group">
+      <span class="toc-group-label">數值</span>
+      <a href="#bf-values">建議數值</a>
+      <a href="#bf-atk-def">攻擊 vs 防守</a>
+      <a href="#bf-rates">Rates 起點</a>
+      <a href="#bf-profile-cli">兩套 CLI</a>
+    </div>
+    <div class="toc-group">
       <span class="toc-group-label">分類</span>
       <a href="#bf-must">一定要改</a>
       <a href="#bf-tune">依情況調</a>
@@ -2705,6 +2712,188 @@ save</pre>
     調之前先問自己：我現在到底想改哪一種感覺？不要為了改而改。
   </div>
 
+
+  <h2 id="bf-values">建議數值總表（先抄這張）</h2>
+  <p class="lead" style="margin-top:0">下面這些數字是本隊球機的<strong>起點值</strong>，不是宇宙真理。安全類數值照抄；手感類（Rates）先用起點飛，再依個人微調。PID 先維持 Betaflight 預設，有黑匣子再動。</p>
+  <div class="note warn">
+    <b>怎麼讀這張表：</b>「共通」兩種角色都一樣，不要各自發明。「攻擊／防守不同」才是角色差異。英文名稱對應 Configurator，CLI 方便直接貼。
+  </div>
+
+  <h3>一、共通安全與系統數值（攻擊／防守都一樣）</h3>
+  <div class="wide">
+  <table>
+    <thead><tr><th>中文</th><th>英文／位置</th><th>建議值</th><th>CLI</th></tr></thead>
+    <tbody>
+      <tr class="critical-row"><td>解鎖開關</td><td>Modes → <code>ARM</code></td><td><b>AUX1</b>；低＝上鎖、高＝解鎖</td><td>用 Modes 拉區間（看 <code>aux</code>）</td></tr>
+      <tr class="critical-row"><td>飛控斷訊動作</td><td>Failsafe → <code>Drop</code></td><td><b>DROP</b></td><td><code>set failsafe_procedure = DROP</code></td></tr>
+      <tr class="critical-row"><td>接收機斷訊</td><td>ELRS／接收機端</td><td><b>No Pulses／不輸出</b></td><td>（接收機端，不是 BF）</td></tr>
+      <tr><td>斷訊判定時間</td><td><code>Guard time for stage 2</code></td><td><b>1.5 秒</b>（預設）</td><td><code>set failsafe_delay = 15</code></td></tr>
+      <tr><td>警告電壓／芯</td><td><code>Warning Cell Voltage</code></td><td><b>3.50 V</b></td><td><code>set vbat_warning_cell_voltage = 350</code></td></tr>
+      <tr><td>最低電壓／芯</td><td><code>Minimum Cell Voltage</code></td><td><b>3.30 V</b></td><td><code>set vbat_min_cell_voltage = 330</code></td></tr>
+      <tr><td>失控起飛保護</td><td><code>Runaway Takeoff Prevention</code></td><td><b>ON</b></td><td><code>set runaway_takeoff_prevention = ON</code></td></tr>
+      <tr><td>電調協定</td><td><code>ESC/Motor Protocol</code></td><td>先 <b>DShot300</b>；線路穩再試 DShot600</td><td><code>set motor_pwm_protocol = DSHOT300</code></td></tr>
+      <tr><td>Rates 類型</td><td>Rateprofile → <code>Rates Type</code></td><td><b>ACTUAL</b></td><td><code>set rates_type = ACTUAL</code></td></tr>
+      <tr><td>馬達磁鐵數</td><td><code>Motor Poles</code></td><td>14xx／15xx 先 <b>14</b>（請實際數）</td><td><code>set motor_poles = 14</code></td></tr>
+      <tr><td>機號</td><td><code>Craft Name</code></td><td>寫機號，例如 <b>CHSH-ATK-1</b></td><td><code>set craft_name = CHSH-ATK-1</code></td></tr>
+      <tr><td>Model Match</td><td>ELRS → <code>Model Match</code></td><td><b>開</b></td><td>（ELRS 端）</td></tr>
+      <tr><td>PID／濾波</td><td>PID Tuning / Filters</td><td><b>先維持官方預設</b></td><td>不要亂貼網路上的 PID</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2 id="bf-atk-def">攻擊手 vs 防守手：有差異，而且應該有差異</h2>
+  <p class="lead" style="margin-top:0">不是為了耍帥才分開。攻擊要衝、要頂、要快速變向；防守要追、要轉、要撐久、落地後還要救得回來。硬體本來就不同，飛控手感也該跟著不同。</p>
+
+  <div class="wide">
+  <table>
+    <thead><tr><th>項目</th><th>攻擊手（射手／硬頂）</th><th>防守手（控場／追球）</th></tr></thead>
+    <tbody>
+      <tr><td>本隊硬體傾向</td><td>Oxbot Flow AIO45 或 RATE F4；馬達 1507／DYH1408；重量約 285–295g</td><td>HAKRC F411 較常見；馬達 1408／1404.5；重量約 250–285g</td></tr>
+      <tr><td>飛行模式建議</td><td>熟手主飛 <b>Acro</b>；ANGLE 可留在開關當「求救檔」</td><td>新手／多數防守建議主飛 <b>ANGLE</b>；熟手可切 Acro</td></tr>
+      <tr><td>雙向 DShot／RPM 濾波</td><td><b>開</b>（Oxbot／RATE 支援）</td><td>F411 原廠 <b>先不開</b>；有刷 Bluejay 且確認可用再談</td></tr>
+      <tr><td>Dynamic Idle</td><td>有雙向 DShot 才開；起點 <b>40</b></td><td>無雙向就 <b>不要設</b></td></tr>
+      <tr><td>LED 亮度</td><td><b>40–45</b>（BEC 較大可略高）</td><td><b>35–40</b>（F411 BEC 2A，寧可暗一點）</td></tr>
+      <tr><td>電流計比例</td><td>Oxbot 用板預設；RATE 實測</td><td>F411：<b>210</b></td></tr>
+      <tr><td>解鎖角度 <code>small_angle</code></td><td><b>25–35</b></td><td><b>35–45</b>（落地歪一點也要救得起來）</td></tr>
+      <tr><td>ANGLE 最大傾角</td><td>若有開：<b>55–60</b></td><td><b>50–55</b>（先求穩，再慢慢加大）</td></tr>
+      <tr><td>比賽油門上限</td><td><b>OFF／100%</b>（要得出力）</td><td>正式賽通常也 <b>100%</b>；練習可先鎖 80%</td></tr>
+      <tr><td>Rates 方向</td><td>較快、較兇，方便甩開與射門變向</td><td>較慢、中間較細，方便追球微調</td></tr>
+      <tr><td>Turtle 翻正</td><td><b>建議開</b>（對抗後常倒地）</td><td><b>建議開</b>（追球翻車也多）</td></tr>
+      <tr><td>Profile 建議</td><td>PID Profile 1＋Rateprofile 1 當攻擊</td><td>PID Profile 2＋Rateprofile 2 當防守；或乾脆分機設定</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="note info">
+    <b>同一塊飛控也可以分兩套：</b>Betaflight 有多組 Profile／Rateprofile。
+    攻擊手用 Profile 1，防守手用 Profile 2，再用遙控開關切換。
+    但本隊若攻擊機與防守機硬體本來就不同（Oxbot vs F411），<b>還是建議分開備份、分開命名</b>，不要五台共用一份 diff。
+  </div>
+
+  <h3 id="bf-rates">Rates 起點數值（ACTUAL）</h3>
+  <p>請到 Rateprofile 分頁，Rates Type 選 <code>ACTUAL</code>，直接看畫面上的 <b>Center Sensitivity</b>（中心靈敏度）與 <b>Max Rate</b>（最大轉速，單位 deg/s）。先用這組飛 10 分鐘，再決定要不要加減。</p>
+  <div class="wide">
+  <table>
+    <thead><tr><th>軸</th><th>攻擊手起點</th><th>防守手起點</th><th>體感差在哪</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Roll／Pitch 中心<br /><small>Center Sensitivity</small></td>
+        <td><b>90 deg/s</b></td>
+        <td><b>70 deg/s</b></td>
+        <td>攻擊中間較靈，方便快速微調射門角度；防守中間較溫，追球比較不會越修越大</td>
+      </tr>
+      <tr>
+        <td>Yaw 中心</td><td><b>80 deg/s</b></td>
+        <td><b>70 deg/s</b></td>
+        <td>偏航太靈，室內很容易原地轉過頭</td>
+      </tr>
+      <tr>
+        <td>Roll／Pitch 最大<br /><small>Max Rate</small></td>
+        <td><b>600 deg/s</b></td>
+        <td><b>450 deg/s</b></td>
+        <td>攻擊要能快速翻面脫身；防守先求轉得夠用不求最兇</td>
+      </tr>
+      <tr>
+        <td>Yaw 最大</td><td><b>500 deg/s</b></td>
+        <td><b>400 deg/s</b></td>
+        <td>球機偏航需求通常低於滾轉／俯仰</td>
+      </tr>
+      <tr>
+        <td>Expo</td><td><b>10–15</b></td>
+        <td><b>15–25</b></td>
+        <td>防守加多一點 Expo，中間更細、外側打滿仍可到最大轉速</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note warn">
+    <b>Rates 怎麼調才對：</b>一次只改一個數字，改完飛同一組動作（8 字、左右橫移、急停、翻正）。
+    覺得「輕輕碰就飛走」→ 先降中心；覺得「打滿還轉太慢」→ 再加大 Max Rate。
+    不要同一天又改 Rates 又改 PID，否則你不知道是誰造成的。
+  </div>
+
+  <h3>其他常改數值（含攻擊／防守差異）</h3>
+  <div class="wide">
+  <table>
+    <thead><tr><th>中文</th><th>英文</th><th>攻擊建議</th><th>防守建議</th></tr></thead>
+    <tbody>
+      <tr><td>燈條亮度</td><td><code>ledstrip_brightness</code></td><td><b>45</b>（Oxbot／RATE）</td><td><b>40</b>（F411 可再降到 35）</td></tr>
+      <tr><td>雙向 DShot</td><td><code>dshot_bidir</code></td><td><b>ON</b></td><td>F411 原廠 <b>OFF</b></td></tr>
+      <tr><td>Dynamic Idle 最小 RPM</td><td><code>dyn_idle_min_rpm</code></td><td>有 bidir 先 <b>40</b></td><td><b>0</b>（關閉）</td></tr>
+      <tr><td>暫時油門限制</td><td><code>transient_throttle_limit</code></td><td>開 Dynamic Idle 時必設 <b>0</b></td><td>維持預設／0</td></tr>
+      <tr><td>解鎖角度</td><td><code>small_angle</code></td><td><b>30</b></td><td><b>40</b></td></tr>
+      <tr><td>ANGLE 最大傾角</td><td><code>angle_limit</code></td><td><b>60</b></td><td><b>55</b></td></tr>
+      <tr><td>練習用油門上限</td><td><code>throttle_limit_*</code></td><td>新進攻擊手可先 <b>SCALE 85</b></td><td>新進防守手可先 <b>SCALE 75–80</b></td></tr>
+      <tr><td>比賽油門上限</td><td>同上</td><td><b>OFF</b></td><td><b>OFF</b></td></tr>
+      <tr><td>電流計比例</td><td><code>ibata_scale</code></td><td>依板；Oxbot 用預設</td><td>F411：<b>210</b></td></tr>
+      <tr><td>電池容量填寫</td><td><code>bat_capacity</code></td><td>依實際：850／960／1060／1100</td><td>依實際：750／850／1100（3S）</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 id="bf-profile-cli">攻擊／防守兩套 CLI 起點</h3>
+  <div class="note critical">
+    <b>貼之前：</b>拆槳、<code>diff all</code> 備份、確認這台是攻擊機還是防守機。
+    Rates 的 Center／Max 請優先在 Rateprofile 圖形介面設定（最不容易設錯）；下面 CLI 以安全與系統項為主，Rates 用註解提醒你手動設。
+  </div>
+
+  <h4>攻擊手起點（Oxbot／RATE）</h4>
+  <pre>set craft_name = CHSH-ATK-1
+feature LED_STRIP
+set ledstrip_brightness = 45
+set ledstrip_visual_beeper = ON
+set vbat_warning_cell_voltage = 350
+set vbat_min_cell_voltage = 330
+set bat_capacity = 1060
+set failsafe_procedure = DROP
+set runaway_takeoff_prevention = ON
+set motor_pwm_protocol = DSHOT300
+set rates_type = ACTUAL
+set motor_poles = 14
+set small_angle = 30
+set angle_limit = 60
+set dshot_bidir = ON
+set transient_throttle_limit = 0
+set dyn_idle_min_rpm = 40
+set throttle_limit_type = OFF
+save</pre>
+  <small>接著到 Rateprofile：ACTUAL；Roll／Pitch 中心 90、最大 600；Yaw 中心 80、最大 500；Expo 約 12。Modes：ARM＝AUX1，建議再加 BEEPER、FLIP OVER AFTER CRASH；ANGLE 可放另一個開關當備用。</small>
+
+  <h4>防守手起點（HAKRC F411 原廠）</h4>
+  <pre>set craft_name = CHSH-DEF-1
+feature LED_STRIP
+set ledstrip_brightness = 40
+set ledstrip_visual_beeper = ON
+set vbat_warning_cell_voltage = 350
+set vbat_min_cell_voltage = 330
+set bat_capacity = 850
+set failsafe_procedure = DROP
+set runaway_takeoff_prevention = ON
+set motor_pwm_protocol = DSHOT300
+set rates_type = ACTUAL
+set motor_poles = 14
+set small_angle = 40
+set angle_limit = 55
+set ibata_scale = 210
+set dshot_bidir = OFF
+set dyn_idle_min_rpm = 0
+set throttle_limit_type = OFF
+save</pre>
+  <small>接著到 Rateprofile：ACTUAL；Roll／Pitch 中心 70、最大 450；Yaw 中心 70、最大 400；Expo 約 20。Modes：ARM＝AUX1，建議 ANGLE 常開或容易撥到，再加 BEEPER、FLIP OVER AFTER CRASH。</small>
+
+  <h4>新手練習（兩種角色都能先套）</h4>
+  <pre>set throttle_limit_type = SCALE
+set throttle_limit_percent = 80
+save</pre>
+  <small>比賽前一定改回：<code>set throttle_limit_type = OFF</code> 然後 <code>save</code>。攻擊手練習若已較熟，可改 85；防守新手可先 75。</small>
+
+  <div class="note info">
+    <b>一句話記住差異：</b>
+    攻擊手＝較快 Rates＋Acro 為主＋開轉速回傳／RPM 濾波＋亮度可略高；
+    防守手＝較慢 Rates＋ANGLE 優先＋F411 先別硬開 bidir＋亮度與解鎖角度更務實。
+    兩邊的 Failsafe、電壓警告、ARM＝AUX1 <b>完全一樣，沒有角色差</b>。
+  </div>
+
   <h2 id="bf-must">一定要改（不改就有安全或比賽風險）</h2>
   <div class="wide">
   <table>
@@ -3069,7 +3258,7 @@ save</pre>
   <h2 id="bf-cli">CLI 範本（先看懂再貼）</h2>
   <div class="note info" style="margin-top:0">
     貼上後要打 <code>save</code> 才會生效並重開機。<b>貼之前先 <code>diff all</code> 備份。</b>
-    下面是三塊板共通的部分；括號說明不要一起貼。
+    攻擊／防守完整起點請優先看 <a href="#bf-profile-cli">兩套 CLI</a>；下面保留三塊板差異與練習用片段。
   </div>
   <h3>共通（三塊板都適用）</h3>
   <pre>set craft_name = CHSH-1
