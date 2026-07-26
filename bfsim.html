@@ -22,10 +22,25 @@ button,input,select{font:inherit}
 a{color:var(--bf-accent)}
 
 /* Top bar like Configurator */
+.book-nav{
+  display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  padding:7px 12px;background:#17191c;border-bottom:1px solid #111;
+  position:sticky;top:0;z-index:40;
+}
+.book-nav a,.book-nav button{
+  border:1px solid #444;background:#2c2f33;color:#ddd;border-radius:4px;
+  padding:5px 10px;cursor:pointer;font-weight:700;text-decoration:none;font-size:12.5px;
+}
+.book-nav a:hover,.book-nav button:hover{border-color:var(--bf-accent);color:var(--bf-accent)}
+.book-nav a.on{background:var(--bf-accent);color:#222;border-color:var(--bf-accent)}
+.book-nav .back{background:#3a3018;border-color:#6a5420;color:#ffe6a8}
+.book-nav .back:hover{border-color:var(--bf-accent);color:#fff}
+.book-nav .sep{width:1px;height:18px;background:#444;margin:0 2px}
+.book-nav .hint{color:#8e959e;font-size:11.5px;margin-left:4px}
 .topbar{
   display:flex;align-items:center;gap:10px;flex-wrap:wrap;
   padding:8px 12px;background:#232528;border-bottom:1px solid #111;
-  position:sticky;top:0;z-index:30;
+  position:sticky;top:42px;z-index:30;
 }
 .brand{display:flex;align-items:center;gap:8px;font-weight:800;letter-spacing:.02em}
 .brand img{width:28px;height:28px;object-fit:contain}
@@ -47,13 +62,13 @@ a{color:var(--bf-accent)}
   padding:8px 12px;font-size:12.5px;line-height:1.5;
 }
 
-.app{display:grid;grid-template-columns:220px 1fr 300px;min-height:calc(100vh - 92px)}
+.app{display:grid;grid-template-columns:220px 1fr 300px;min-height:calc(100vh - 134px)}
 @media(max-width:1100px){.app{grid-template-columns:200px 1fr}}
 @media(max-width:900px){.app{grid-template-columns:1fr}}
 .side{
   background:linear-gradient(180deg,var(--bf-side),var(--bf-side2));
-  border-right:1px solid #111;overflow:auto;max-height:calc(100vh - 92px);
-  position:sticky;top:92px;align-self:start;
+  border-right:1px solid #111;overflow:auto;max-height:calc(100vh - 134px);
+  position:sticky;top:134px;align-self:start;
 }
 .side button{
   width:100%;display:flex;flex-direction:column;align-items:flex-start;gap:1px;
@@ -118,7 +133,7 @@ a{color:var(--bf-accent)}
 .card .intro{color:#e8edf2!important;font-size:13.5px!important;line-height:1.6!important}
 .detail{
   background:#2a2c30;border-left:1px solid #111;padding:12px;overflow:auto;
-  max-height:calc(100vh - 92px);position:sticky;top:92px;
+  max-height:calc(100vh - 134px);position:sticky;top:134px;
 }
 .detail h3{margin:0 0 6px;font-size:15px;color:var(--bf-accent)}
 .detail .enkey{font-family:ui-monospace,Consolas,monospace;color:#9aa2ab;font-size:12px;margin-bottom:10px}
@@ -140,11 +155,22 @@ a{color:var(--bf-accent)}
 }
 .features label:hover,.modes label:hover{border-color:#666}
 .modes{display:flex;flex-direction:column;gap:6px}
-.mode-line{display:grid;grid-template-columns:minmax(190px,1fr) 70px 1fr auto;gap:8px;align-items:center;padding:8px;background:#3a3d41;border:1px solid #2a2c2f;border-radius:3px}
+.mode-line{display:grid;grid-template-columns:minmax(170px,1.1fr) 88px 1fr auto;gap:8px;align-items:center;padding:8px;background:#3a3d41;border:1px solid #2a2c2f;border-radius:3px}
 .mode-line b{font-size:12.5px}
 .mode-line b small{display:block;color:#9aa2ab;font-weight:600}
+.mode-line .aux-pick{display:flex;flex-direction:column;gap:4px}
+.mode-line .aux-pick select,.mode-line .aux-pick input{width:100%;max-width:88px;background:#1f2226;border:1px solid #555;border-radius:3px;color:#fff;padding:4px 6px}
 .range{height:14px;background:#222;border-radius:8px;position:relative;overflow:hidden}
 .range i{position:absolute;inset:0 auto 0 55%;width:40%;background:var(--bf-accent)}
+.ch-bars{display:flex;flex-direction:column;gap:8px}
+.ch-bar{display:grid;grid-template-columns:72px 1fr 52px;gap:8px;align-items:center}
+.ch-bar .lab{font-weight:800;font-family:ui-monospace,Consolas,monospace}
+.ch-bar .track{height:16px;background:#1a1c1f;border:1px solid #444;border-radius:3px;position:relative;overflow:hidden}
+.ch-bar .track b{position:absolute;top:0;bottom:0;left:0;width:50%;background:linear-gradient(90deg,#2d6a4f,var(--bf-accent));border-right:2px solid #fff}
+.ch-bar .us{font-family:ui-monospace,Consolas,monospace;color:#9aa2ab;font-size:11px;text-align:right}
+.aux-table{width:100%;border-collapse:collapse;margin-top:6px}
+.aux-table th,.aux-table td{border-bottom:1px solid #45484c;padding:6px;text-align:left;font-size:12.5px}
+.aux-table th{color:var(--bf-accent);font-size:11px}
 
 .ports{width:100%;border-collapse:collapse}
 .ports th,.ports td{border-bottom:1px solid #45484c;padding:7px 6px;text-align:left}
@@ -175,6 +201,22 @@ a{color:var(--bf-accent)}
 </style>
 </head>
 <body>
+<nav class="book-nav" aria-label="手冊導覽">
+  <button type="button" class="back" id="btnBack" title="返回上一頁">← 返回上一頁</button>
+  <span class="sep" aria-hidden="true"></span>
+  <a href="index.html?tab=home">總覽</a>
+  <a href="index.html?tab=motor">馬達</a>
+  <a href="index.html?tab=batt">電池</a>
+  <a href="index.html?tab=prop">螺旋槳</a>
+  <a href="index.html?tab=build">組裝</a>
+  <a href="index.html?tab=fly">續航</a>
+  <a href="index.html?tab=fc">飛控硬體</a>
+  <a href="index.html?tab=bf">飛控設定</a>
+  <a class="on" href="bfsim.html" id="navSimHere">設定模擬</a>
+  <a href="index.html?tab=led">LED</a>
+  <a href="index.html?tab=rule">規則</a>
+  <span class="hint">可進出各章；瀏覽器 ← 也可返回</span>
+</nav>
 <div class="topbar">
   <div class="brand">
     <img src="assets/brand/chia-hwa-drone-team.png" alt="" />
@@ -188,7 +230,7 @@ a{color:var(--bf-accent)}
   <button type="button" class="pill" id="btnDef">防守手建議值</button>
   <button type="button" class="pill ghost" id="btnExpert">Expert Mode</button>
   <button type="button" class="pill ghost" id="btnDefaults">Reset to Defaults</button>
-  <a class="pill ghost" href="index.html?tab=bf" style="text-decoration:none">回手冊說明</a>
+  <button type="button" class="pill ghost" id="btnBackBook">回手冊說明</button>
   <input class="search" id="search" type="search" placeholder="搜尋設定英文名稱／說明… 例如 failsafe、dshot、angle" />
 </div>
 <div class="note-banner">
@@ -253,6 +295,17 @@ const FEATURE_ZH = {
   RX_SPI:'SPI RX'
 };
 
+const TEAM_AUX = {
+  // AUX 編號＝遙控輔助開關；BF 通道號＝AUX+4（AUX1＝CH5）
+  'ARM': { aux:1, start:1700, end:2100 },
+  'PREARM': { aux:2, start:1700, end:2100 },
+  'ANGLE': { aux:3, start:1700, end:2100 },
+  'ACRO TRAINER': { aux:3, start:1300, end:1699 },
+  'BEEPER': { aux:4, start:1700, end:2100 },
+  'FLIP OVER AFTER CRASH': { aux:5, start:1700, end:2100 },
+  'AIR MODE': { aux:0, start:900, end:2100 } // 0＝常開區間（示意）
+};
+
 const SOCCER_HINTS = {
   failsafe_procedure:'球機用 DROP',
   small_angle:'攻擊約30、防守約40',
@@ -306,6 +359,57 @@ const PRESETS = {
 };
 
 let catalog=null, zhExplain=null, state={}, expert=false, active='setup', role='atk', selectedKey=null;
+let channelMap='AETR1234';
+let modeAux={};
+let stickDemo={ roll:1500, pitch:1500, yaw:1500, throttle:1000, aux1:1000, aux2:1000, aux3:1000, aux4:1000, aux5:1000 };
+
+const qs = new URLSearchParams(location.search);
+const fromTab = qs.get('from') || 'bf';
+const panelFromUrl = qs.get('panel');
+if (panelFromUrl && TABS.some(t => t.id === panelFromUrl)) {
+  active = panelFromUrl;
+  if (TABS.find(t => t.id === active)?.expert) expert = true;
+}
+
+function handbookUrl(tab) {
+  return 'index.html?tab=' + encodeURIComponent(tab || fromTab || 'bf');
+}
+function goBackNav() {
+  try {
+    if (document.referrer) {
+      const ref = new URL(document.referrer);
+      if (ref.origin === location.origin) {
+        history.back();
+        return;
+      }
+    }
+  } catch (e) {}
+  location.href = handbookUrl(fromTab);
+}
+function syncPanelUrl(replace) {
+  const url = new URL(location.href);
+  url.searchParams.set('panel', active);
+  if (fromTab) url.searchParams.set('from', fromTab);
+  const next = url.pathname + '?' + url.searchParams.toString();
+  if (replace) history.replaceState({ panel: active, from: fromTab }, '', next);
+  else history.pushState({ panel: active, from: fromTab }, '', next);
+}
+function setActivePanel(id, opts) {
+  opts = opts || {};
+  if (!TABS.some(t => t.id === id)) id = 'setup';
+  const tabMeta = TABS.find(t => t.id === id);
+  if (tabMeta && tabMeta.expert && !expert) {
+    expert = true;
+    document.getElementById('btnExpert').classList.add('on');
+  }
+  if (id === active && !opts.force) {
+    if (opts.replace) syncPanelUrl(true);
+    return;
+  }
+  active = id;
+  renderAll();
+  syncPanelUrl(!!opts.replace);
+}
 
 function inferType(v){
   const r=(v.range||'') + ' ' + (v.default||'');
@@ -327,6 +431,13 @@ function defaultValue(v){
   // enum first token
   if (d && !d.includes(' ')) return d.split(',')[0];
   return d;
+}
+
+function resetModeAux(){
+  modeAux = {};
+  for (const [en, cfg] of Object.entries(TEAM_AUX)) {
+    modeAux[en] = { ...cfg };
+  }
 }
 
 function buildState(){
@@ -354,6 +465,9 @@ function buildState(){
   state.uart2_rx=true;
   state.mixer='QUADX';
   state.receiver_mode='SERIAL';
+  channelMap='AETR1234';
+  resetModeAux();
+  stickDemo={ roll:1500, pitch:1500, yaw:1500, throttle:1000, aux1:1000, aux2:2000, aux3:1000, aux4:1000, aux5:1000 };
 }
 
 function applyPreset(which){
@@ -372,10 +486,18 @@ function applyPreset(which){
   state.feature_OSD=false;
   state.feature_GPS=false;
   state.feature_3D=false;
+  channelMap='AETR1234';
+  resetModeAux();
+  // 示範：PREARM 已開、ARM 仍上鎖（AUX1 低）
+  stickDemo.aux1=1000;
+  stickDemo.aux2=2000;
+  stickDemo.aux3= which==='def' ? 2000 : 1000;
+  stickDemo.aux4=1000;
+  stickDemo.aux5=1000;
   document.getElementById('btnAtk').classList.toggle('on', which==='atk');
   document.getElementById('btnDef').classList.toggle('on', which==='def');
   renderAll();
-  help(`已套用${which==='atk'?'攻擊手':'防守手'}建議值。其餘未列出的參數維持官方預設。`);
+  help(`已套用${which==='atk'?'攻擊手':'防守手'}建議值（含本隊 AUX 對照與 map AETR）。`);
 }
 
 function help(t){ document.getElementById('help').textContent=t; }
@@ -398,7 +520,7 @@ function renderSide(){
     html += tabs.map(t=>`<button type="button" data-tab="${t.id}" class="${t.id===active?'on':''}"><b>${t.en}</b><small>${t.zh}</small></button>`).join('');
   }
   side.innerHTML=html;
-  side.querySelectorAll('button').forEach(b=>b.onclick=()=>{active=b.dataset.tab; renderAll();});
+  side.querySelectorAll('button').forEach(b=>b.onclick=()=>setActivePanel(b.dataset.tab));
 }
 
 function controlFor(v){
@@ -512,11 +634,18 @@ function panelPorts(){
       <td><input type="checkbox" data-k="uart${i}_rx" ${state['uart'+i+'_rx']?'checked':''}></td>
       <td><input type="checkbox" data-k="uart${i}_gps" ${state['uart'+i+'_gps']?'checked':''}></td>
       <td><input type="checkbox" data-k="uart${i}_vtx" ${state['uart'+i+'_vtx']?'checked':''}></td>
-      <td>${i===2?'外接 ELRS 常見':'依接線'}</td>
+      <td>${i===2?'外接 ELRS 常見（RATE／F411）':'依接線'}</td>
     </tr>`;
   }
   return `<div class="panel-h"><div><h1>Ports <small>埠</small></h1>
   <p>完整 UART 功能配置。球機通常只開接收機那一列的 Serial RX；GPS／VTX 沒裝就不要勾。</p></div></div>
+  <div class="card"><h2>球機注意</h2>
+    <ul>
+      <li><b>外接 ELRS</b>（RATE／原廠 F411）：在實際接線那一列開 Serial RX，常見 UART2。</li>
+      <li><b>Oxbot 內建 ELRS</b>：走板載接收，不要照抄再開一條外接 UART Serial RX，避免雙接收衝突。</li>
+      <li>同一時間只應有一條有效接收路徑；協定在 Receiver 選 <b>CRSF</b>。</li>
+    </ul>
+  </div>
   <div class="card"><h2>UART Configuration</h2>
   <table class="ports"><thead><tr><th>Port</th><th>MSP</th><th>Serial RX</th><th>GPS</th><th>VTX</th><th>註</th></tr></thead><tbody>${rows}</tbody></table>
   </div>`;
@@ -555,7 +684,75 @@ function panelGeneric(tabId, title, zh, blurb){
   <span class="stat">${groups.reduce((n,g)=>n+g.vars.length,0)} 參數</span></div>${body}`;
 }
 
+function chBar(lab, us, key){
+  const pct = Math.max(0, Math.min(100, ((us-885)/(2115-885))*100));
+  return `<div class="ch-bar">
+    <span class="lab">${lab}</span>
+    <div>
+      <div class="track"><b style="width:${pct}%"></b></div>
+      <input type="range" min="885" max="2115" value="${us}" data-stick="${key}" style="width:100%;margin-top:4px" />
+    </div>
+    <span class="us" data-stick-val="${key}">${us}</span>
+  </div>`;
+}
+
+function panelReceiver(){
+  const mapOpts=['AETR1234','TAER1234','ETAR1234','RETA1234'].map(m=>`<option value="${m}" ${channelMap===m?'selected':''}>${m}</option>`).join('');
+  const bars = [
+    chBar('Roll / CH1', stickDemo.roll, 'roll'),
+    chBar('Pitch / CH2', stickDemo.pitch, 'pitch'),
+    chBar('Yaw / CH3', stickDemo.yaw, 'yaw'),
+    chBar('Throttle / CH4', stickDemo.throttle, 'throttle'),
+    chBar('AUX1 / CH5', stickDemo.aux1, 'aux1'),
+    chBar('AUX2 / CH6', stickDemo.aux2, 'aux2'),
+    chBar('AUX3 / CH7', stickDemo.aux3, 'aux3'),
+    chBar('AUX4 / CH8', stickDemo.aux4, 'aux4'),
+    chBar('AUX5 / CH9', stickDemo.aux5, 'aux5'),
+  ].join('');
+  const groups=groupsForTab('receiver');
+  const body=groups.map(g=>{const s=zhSec(g); return `<div class="card"><h2>${g.section}<span class="zhsec">${s.zh||g.zh||''}</span><span> · ${g.vars.length} 項</span></h2>${(s.intro||g.intro)?`<p class="intro">${s.intro||g.intro}</p>`:''}<div class="rows">${g.vars.map(varRow).join('')}</div></div>`;}).join('');
+  return `<div class="panel-h"><div><h1>Receiver <small>接收機／通道</small></h1>
+  <p>檢查每一條通道：搖桿方向、AUX 開關高低、Channel Map。ELRS 協定選 CRSF；RSSI 通道維持 0（用遙測）。</p></div>
+  <span class="stat">通道示意可拖動</span></div>
+  <div class="card"><h2>Channel Map <span class="zhsec">通道對應</span></h2>
+    <div class="rows">
+      <div class="row"><div class="k">map<span class="zhname">搖桿通道順序</span><em>建議：AETR1234（Mode 2 常見）</em></div>
+        <div class="v"><select id="channelMapSel">${mapOpts}</select></div>
+        <div class="d"><div class="zhdetail">決定 Roll／Pitch／Yaw／Throttle 對應哪根搖桿。對完後在下方長條確認方向：推右＝Roll 增加、拉後＝Pitch 增加。</div>
+        <div class="soccer">球機：統一 <b>map AETR1234</b>；方向反了先在遙控器反向，再考慮改 map</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="card"><h2>Channel Monitor <span class="zhsec">通道監視（示意）</span></h2>
+    <p class="intro">真實 Configurator 這裡會跟著遙控器動。拖動可模擬檢查；ARM 必須在 <b>AUX1</b>（低≈1000 上鎖、高≈2000 解鎖）。</p>
+    <div class="ch-bars">${bars}</div>
+  </div>
+  ${body}`;
+}
+
+function auxOptions(selected){
+  let html=`<option value="0" ${Number(selected)===0?'selected':''}>常開</option>`;
+  for (let i=1;i<=8;i++) html += `<option value="${i}" ${Number(selected)===i?'selected':''}>AUX${i}</option>`;
+  return html;
+}
+
+function ensureModeAux(en){
+  if (!modeAux[en]) {
+    modeAux[en] = TEAM_AUX[en] ? { ...TEAM_AUX[en] } : { aux:1, start:1700, end:2100 };
+  }
+  return modeAux[en];
+}
+
 function panelModes(){
+  const teamRows = [
+    ['AUX1（CH5）','ARM','必要：低＝上鎖、高＝解鎖（ELRS 官方）'],
+    ['AUX2（CH6）','PREARM','強烈建議：先預解鎖才能 ARM'],
+    ['AUX3（CH7）','ANGLE／ACRO TRAINER','防守／新手自穩；可用不同區間'],
+    ['AUX4（CH8）','BEEPER','尋機蜂鳴／視覺蜂鳴'],
+    ['AUX5（CH9）','FLIP OVER AFTER CRASH','翻正（需 DShot）'],
+    ['Feature／常開','AIR MODE','低油門仍可控；也可 Modes 常開區間'],
+  ].map(r=>`<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('');
+
   const lines=catalog.modes.map(m=>{
     const on=!!state['mode_'+m.en];
     const z=zhMode(m.en);
@@ -563,20 +760,36 @@ function panelModes(){
     let tag='<span class="tag skip">可略</span>';
     if (soccer.includes('必要')||soccer.includes('強烈')) tag='<span class="tag need">'+soccer+'</span>';
     else if (soccer.includes('建議')) tag='<span class="tag need">'+soccer+'</span>';
-    else if (soccer.includes('不要')) tag='<span class="tag bad">'+soccer+'</span>';
+    else if (soccer.includes('不要')||soccer.includes('勿開')||soccer.includes('略過')) tag='<span class="tag bad">'+soccer+'</span>';
     else if (soccer) tag='<span class="tag skip">'+soccer+'</span>';
     const detail = z.detail || m.zh;
-    return `<label class="mode-line" onclick="showDetail('mode','${m.en}')">
+    const cfg = ensureModeAux(m.en);
+    const leftPct = ((cfg.start-885)/(2115-885))*100;
+    const widthPct = Math.max(4, ((cfg.end-cfg.start)/(2115-885))*100);
+    const auxVal = stickDemo['aux'+cfg.aux] ?? 1500;
+    const inRange = on && (cfg.aux===0 || (auxVal>=cfg.start && auxVal<=cfg.end));
+    return `<div class="mode-line" data-mode="${m.en}" onclick="showDetail('mode','${m.en}')">
       <b>${m.en}<small>${m.zh}</small></b>
-      <span>AUX</span>
-      <span class="range"><i style="opacity:${on?1:0}"></i></span>
-      <span onclick="event.stopPropagation()"><input type="checkbox" data-k="mode_${m.en}" ${on?'checked':''}> ${tag}</span>
+      <div class="aux-pick" onclick="event.stopPropagation()">
+        <select data-mode-aux="${m.en}" ${on?'':'disabled'}>${auxOptions(cfg.aux)}</select>
+      </div>
+      <span class="range" title="${cfg.start}–${cfg.end}"><i style="left:${leftPct}%;width:${widthPct}%;opacity:${on?1:0.25}"></i></span>
+      <span onclick="event.stopPropagation()"><input type="checkbox" data-k="mode_${m.en}" ${on?'checked':''}> ${tag}${inRange?' <span class="tag need">啟用中</span>':''}</span>
+      <div style="grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap;align-items:center" onclick="event.stopPropagation()">
+        <label>起 <input type="number" min="900" max="2100" step="25" data-mode-start="${m.en}" value="${cfg.start}" ${on?'':'disabled'} style="width:72px;background:#1f2226;border:1px solid #555;border-radius:3px;color:#fff;padding:4px"></label>
+        <label>迄 <input type="number" min="900" max="2100" step="25" data-mode-end="${m.en}" value="${cfg.end}" ${on?'':'disabled'} style="width:72px;background:#1f2226;border:1px solid #555;border-radius:3px;color:#fff;padding:4px"></label>
+        <span style="color:#9aa2ab;font-size:11px">BF 通道＝AUX+4（AUX1→CH5）</span>
+      </div>
       <div style="grid-column:1/-1;color:#dde2e7;line-height:1.5;font-size:12.5px">${detail}${soccer?`<div style="color:#ffe6a8;font-weight:700;margin-top:3px">球機：${soccer}</div>`:''}</div>
-    </label>`;
+    </div>`;
   }).join('');
-  return `<div class="panel-h"><div><h1>Modes <small>模式（官方全清單）</small></h1>
-  <p>來源：Betaflight <code>msp_box.c</code> 全部 box。球機不會用的也列出，避免你在真實軟體看到卻不知道是什麼。</p></div>
+  return `<div class="panel-h"><div><h1>Modes <small>模式與 AUX 通道</small></h1>
+  <p>來源：Betaflight 全部 box。球機請依下方「本隊 AUX 對照」綁定；ARM 只能在 AUX1。</p></div>
   <span class="stat">${catalog.modes.length} modes</span></div>
+  <div class="card"><h2>本隊 AUX 對照（建議統一）</h2>
+    <table class="aux-table"><thead><tr><th>通道</th><th>模式</th><th>說明</th></tr></thead><tbody>${teamRows}</tbody></table>
+    <p class="intro" style="margin-top:8px">CLI 會輸出 <code>aux</code> 行。真實飛控還需在遙控器把實體開關編到對應 AUX。</p>
+  </div>
   <div class="card"><h2>Mode Activation</h2><div class="modes">${lines}</div></div>`;
 }
 
@@ -613,6 +826,7 @@ function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({ '&':'&amp;','<'
 
 function buildCliLines(){
   const lines=['# diff all （模擬）', `# role ${role}`, `set craft_name = ${state.craft_name||state.name||'CHSH'}`];
+  lines.push(`map ${channelMap}`);
   for (const f of catalog.features){
     lines.push(`${state['feature_'+f]?'feature':'feature -'} ${f}`);
   }
@@ -627,6 +841,17 @@ function buildCliLines(){
       }
     }
   }
+  // Modes → aux（AUX 編號轉 0-based 通道；box 用清單序示意）
+  lines.push('# modes / aux （模擬；box id 以清單序示意，寫入真機前請用 Modes 分頁核對）');
+  let slot=0;
+  catalog.modes.forEach((m, boxId)=>{
+    if (!state['mode_'+m.en]) return;
+    const cfg=ensureModeAux(m.en);
+    const auxCh = cfg.aux===0 ? 0 : (cfg.aux-1); // 常開也寫 AUX1 區間示意
+    lines.push(`# ${m.en}${cfg.aux===0?'（常開區間）':` → AUX${cfg.aux} / CH${cfg.aux+4}`}`);
+    lines.push(`aux ${slot} ${boxId} ${auxCh} ${cfg.start} ${cfg.end} 0 0`);
+    slot++;
+  });
   lines.push('save');
   return lines;
 }
@@ -645,7 +870,7 @@ function renderPanel(){
     case 'power': html=panelGeneric('power','Power & Battery','電源與電池','電壓、電流、容量等官方 Battery CLI 全組。'); break;
     case 'failsafe': html=panelGeneric('failsafe','Failsafe','斷訊保護','含 Failsafe 與 GPS Rescue 參數。球機只用 DROP，不要開 GPS Rescue。'); break;
     case 'pid_tuning': html=panelGeneric('pid_tuning','PID Tuning','PID／濾波／Rates','含 PID、濾波、Rates、Dynamic Idle、RPM Filter、TPA、Crash Recovery 等全部相關 CLI。'); break;
-    case 'receiver': html=panelGeneric('receiver','Receiver','接收機','RC 平滑、接收協定、RSSI、MSP Override 等。'); break;
+    case 'receiver': html=panelReceiver(); break;
     case 'motors': html=panelGeneric('motors','Motors','馬達／電調','Motor & ESC 全組 CLI。測試請看 Motors Test，並記得拆槳。'); break;
     case 'onboard_logging': html=panelGeneric('onboard_logging','Blackbox','機載紀錄','Blackbox 裝置與取樣等。'); break;
     case 'led_strip': html=panelGeneric('led_strip','LED Strip','燈條','LED 相關 CLI 全組。'); break;
@@ -671,14 +896,54 @@ function renderPanel(){
       if (SOCCER_HINTS[k]) help(`${k}：${SOCCER_HINTS[k]}`);
       else if (k.startsWith('mode_')) { help(`Modes → ${k.slice(5)}`); showDetail('mode', k.slice(5)); }
       else if (k.startsWith('feature_')) { help(`Features → ${k.slice(8)}`); showDetail('feature', k.slice(8)); }
-      else if (zhVar(k).detail) { showDetail('var', k); help(`${zhVar(k).zh||k}：已更新數值（模擬）`); }
+      else       if (zhVar(k).detail) { showDetail('var', k); help(`${zhVar(k).zh||k}：已更新數值（模擬）`); }
       if (active==='cli') {/* keep */}
+      if (active==='modes' && k.startsWith('mode_')) renderPanel();
     };
     el.addEventListener('change', sync);
     el.addEventListener('input', sync);
   });
   // restore select values for mixer etc after innerHTML
   main.querySelectorAll('select[data-k]').forEach(el=>{ if(state[el.dataset.k]!=null) el.value=state[el.dataset.k]; });
+
+  const mapSel=document.getElementById('channelMapSel');
+  if (mapSel) mapSel.onchange=()=>{ channelMap=mapSel.value; help(`Channel Map 已設為 map ${channelMap}`); };
+
+  main.querySelectorAll('[data-stick]').forEach(el=>{
+    el.addEventListener('input', ()=>{
+      const k=el.dataset.stick;
+      stickDemo[k]=Number(el.value);
+      const lab=main.querySelector('[data-stick-val="'+k+'"]');
+      if (lab) lab.textContent=String(stickDemo[k]);
+      const track=el.parentElement && el.parentElement.querySelector('.track');
+      if (track) {
+        const pct=Math.max(0, Math.min(100, ((stickDemo[k]-885)/(2115-885))*100));
+        const b=track.querySelector('b'); if (b) b.style.width=pct+'%';
+      }
+      if (k.startsWith('aux')) help(`${k.toUpperCase()}＝${stickDemo[k]}（低≈上鎖／關，高≈解鎖／開）`);
+    });
+  });
+
+  main.querySelectorAll('[data-mode-aux]').forEach(el=>{
+    el.addEventListener('change', ()=>{
+      const en=el.dataset.modeAux;
+      ensureModeAux(en).aux=Number(el.value);
+      help(`${en} → ${Number(el.value)===0?'常開':('AUX'+el.value)}`);
+      renderPanel();
+    });
+  });
+  main.querySelectorAll('[data-mode-start]').forEach(el=>{
+    el.addEventListener('change', ()=>{
+      ensureModeAux(el.dataset.modeStart).start=Number(el.value);
+      renderPanel();
+    });
+  });
+  main.querySelectorAll('[data-mode-end]').forEach(el=>{
+    el.addEventListener('change', ()=>{
+      ensureModeAux(el.dataset.modeEnd).end=Number(el.value);
+      renderPanel();
+    });
+  });
 
   const copy=document.getElementById('copyCli');
   if (copy) copy.onclick=async()=>{
@@ -729,16 +994,35 @@ function sumVars(){return catalog.groups.reduce((n,g)=>n+g.vars.length,0)}
 document.getElementById('btnExpert').onclick=()=>{
   expert=!expert;
   document.getElementById('btnExpert').classList.toggle('on', expert);
-  if (!expert && TABS.find(t=>t.id===active)?.expert) active='setup';
-  renderAll();
+  if (!expert && TABS.find(t=>t.id===active)?.expert) setActivePanel('setup', { replace:true, force:true });
+  else renderAll();
   help(expert?'Expert Mode 已開啟：顯示 GPS／OSD／VTX／Servos／Adjustments。':'Expert Mode 已關閉。');
 };
 document.getElementById('btnDefaults').onclick=()=>{ buildState(); renderAll(); help('已重設為官方預設（模擬）。'); };
 document.getElementById('btnAtk').onclick=()=>applyPreset('atk');
 document.getElementById('btnDef').onclick=()=>applyPreset('def');
 document.getElementById('search').addEventListener('input', e=>applySearch(e.target.value));
+document.getElementById('btnBack').onclick=goBackNav;
+document.getElementById('btnBackBook').onclick=()=>{ location.href = handbookUrl(fromTab); };
+document.getElementById('navSimHere').addEventListener('click', e=>{
+  e.preventDefault();
+  setActivePanel('setup', { replace:true });
+  window.scrollTo({ top:0, behavior:'smooth' });
+});
+addEventListener('popstate', (e)=>{
+  const st = e.state || {};
+  const params = new URLSearchParams(location.search);
+  const id = st.panel || params.get('panel') || 'setup';
+  if (id !== active) {
+    active = id;
+    const tabMeta = TABS.find(t => t.id === id);
+    if (tabMeta && tabMeta.expert) expert = true;
+    document.getElementById('btnExpert').classList.toggle('on', expert);
+    renderAll();
+  }
+});
 
-const bust = 'v=20260727zh2';
+const bust = 'v=20260727ch1';
 fetch('assets/bfsim/catalog.json?' + bust)
   .then(r=>{ if(!r.ok) throw new Error('catalog HTTP '+r.status); return r.json(); })
   .then(data=>{
@@ -753,8 +1037,9 @@ fetch('assets/bfsim/catalog.json?' + bust)
     const missing = (catalog.groups||[]).flatMap(g=>g.vars).filter(v=>!v.detail).length;
     buildState();
     applyPreset('atk');
-    help(missing ? `已載入，但有 ${missing} 項缺少中文 detail。` : '已載入完整參數與繁體中文說明。右欄說明以中文為主，英文原文預設收合。');
-    // auto-open first row detail on PID for sanity
+    document.getElementById('btnExpert').classList.toggle('on', expert);
+    syncPanelUrl(true);
+    help(missing ? `已載入，但有 ${missing} 項缺少中文 detail。` : '已載入完整參數與繁體中文說明。可用上方導覽進出手冊，瀏覽器返回也可。');
   })
   .catch(err=>{
     document.getElementById('main').innerHTML='<p style="color:#ff6b6b;font-size:16px;line-height:1.6">無法載入設定資料：'+err+'<br>請強制重新整理（Ctrl+Shift+R）。</p>';

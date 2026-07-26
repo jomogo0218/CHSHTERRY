@@ -128,6 +128,7 @@
     display:inline-flex;align-items:center;
   }
   header nav a.nav-sim:hover{color:var(--text);border-color:#4a5568;transform:translateY(-1px);text-decoration:none}
+  header nav a.nav-sim.on{background:var(--accent);color:#07111f;border-color:var(--accent)}
   #page-progress{
     position:absolute;left:0;bottom:-1px;width:0;height:2px;
     background:var(--accent);transition:width .08s linear;pointer-events:none;
@@ -2276,7 +2277,7 @@ save</pre>
       <tr><td class="n">4</td><td>板子方向</td><td>飛控若不是正裝，設 Board Alignment</td><td>機頭前傾＝畫面前傾</td></tr>
       <tr><td class="n">5</td><td>Ports 埠</td><td>接收機那個 UART 開 Serial RX</td><td>只開需要的</td></tr>
       <tr><td class="n">6</td><td>Receiver 接收機</td><td>選 CRSF（ELRS）或 SBUS；對頻；檢查通道</td><td>四軸與開關都會動</td></tr>
-      <tr><td class="n">7</td><td>Modes 模式</td><td>ARM 設在 <b>AUX1</b>；加 BEEPER；新手加 ANGLE</td><td>撥開關會顯示 ARM</td></tr>
+      <tr><td class="n">7</td><td>Modes 模式</td><td>ARM 設在 <b>AUX1</b>；加 <b>PREARM</b>、BEEPER；新手加 ANGLE；建議加翻正</td><td>撥開關會顯示對應模式</td></tr>
       <tr><td class="n">8</td><td>Failsafe 保護</td><td>遙控器關機測試（<b>槳已拆</b>）</td><td>馬達會自己停</td></tr>
       <tr><td class="n">9</td><td>Motors 馬達</td><td>選 DShot；<b>逐顆</b>測轉向與順序</td><td>四顆位置、方向都對</td></tr>
       <tr><td class="n">10</td><td>Power 電池</td><td>電壓對照三用電表；設警告 3.5V／最低 3.3V</td><td>誤差 &lt;0.1V</td></tr>
@@ -2937,7 +2938,7 @@ save</pre>
     <tbody>
       <tr class="critical-row">
         <td><b>ARM 開關位置</b></td>
-        <td><b>AUX1（第 5 通道）</b>；低＝解除、高＝解鎖</td>
+        <td><b>AUX1（第 5 通道）</b>；低＝上鎖、高＝解鎖</td>
         <td>Modes</td>
         <td><b>ELRS 官方規定</b>：AUX1 每一個封包都會送出，訊號差時仍能可靠上鎖。放在其他通道可能<b>關不掉馬達</b></td>
       </tr>
@@ -3174,23 +3175,43 @@ save</pre>
     <thead><tr><th>項目</th><th>球機怎麼做</th></tr></thead>
     <tbody>
       <tr><td>協定</td><td>ELRS／TBS ＝ <b>CRSF</b>；老式接收機才用 SBUS</td></tr>
-      <tr><td>通道檢查</td><td>推每一根搖桿，確認對應軸會動、方向正確</td></tr>
-      <tr><td>ARM 通道</td><td><b>AUX1</b>，低約 1000、高約 2000</td></tr>
+      <tr><td>Channel Map</td><td>統一 <b>map AETR1234</b>；推每根搖桿確認方向（右＝Roll↑、後＝Pitch↑）</td></tr>
+      <tr><td>通道檢查</td><td>CH1–CH4 跟搖桿；AUX1–AUX5 跟開關高低（約 1000／2000）</td></tr>
+      <tr><td>ARM 通道</td><td><b>AUX1（CH5）</b>，低≈1000 上鎖、高≈2000 解鎖</td></tr>
+      <tr><td>RSSI 通道</td><td>維持 <b>0</b>（ELRS 用遙測 RSSI，不要占 AUX）</td></tr>
       <tr><td>ELRS 連線設定</td><td>對頻後在 Betaflight <b>Presets 分頁</b>套用對應封包率的 ExpressLRS Link Preset</td></tr>
       <tr><td>Model Match</td><td>建議開，避免控到別台球機</td></tr>
+      <tr><td>接收機 Failsafe</td><td><b>No Pulses／不輸出</b>；拆槳後關遙控實測停槳</td></tr>
     </tbody>
   </table>
   </div>
+
+  <h3 id="bf-aux-map">本隊 AUX 通道對照（建議五台統一）</h3>
+  <div class="wide">
+  <table>
+    <thead><tr><th>遙控 AUX</th><th>BF 通道</th><th>模式</th><th>高低怎麼用</th></tr></thead>
+    <tbody>
+      <tr class="critical-row"><td><b>AUX1</b></td><td>CH5</td><td><b>ARM</b></td><td>低＝上鎖、高＝解鎖（不可改到別通道）</td></tr>
+      <tr class="critical-row"><td><b>AUX2</b></td><td>CH6</td><td><b>PREARM</b></td><td>高＝已預解鎖，才能 ARM</td></tr>
+      <tr><td>AUX3</td><td>CH7</td><td>ANGLE（可兼 ACRO TRAINER 不同區間）</td><td>高＝自穩；中／低依設定</td></tr>
+      <tr><td>AUX4</td><td>CH8</td><td>BEEPER</td><td>高＝尋機</td></tr>
+      <tr><td>AUX5</td><td>CH9</td><td>FLIP OVER AFTER CRASH</td><td>高＝翻正（槳卡住立刻停）</td></tr>
+      <tr><td>—</td><td>—</td><td>AIR MODE</td><td>Feature 常開即可，不必另占開關</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note info">模擬器 Modes／Receiver 分頁已依此對照預填；CLI 會產出 <code>map</code> 與 <code>aux</code> 示意行。寫入真機前仍以 Configurator Modes 畫面為準。</div>
 
   <h3>Modes 模式</h3>
   <div class="wide">
   <table>
     <thead><tr><th>模式</th><th>要不要設</th><th>說明</th></tr></thead>
     <tbody>
-      <tr class="critical-row"><td><b>ARM</b></td><td><b>必設（AUX1）</b></td><td>沒有這個就不會轉</td></tr>
-      <tr><td>BEEPER</td><td>建議</td><td>掉在場邊找得回來</td></tr>
-      <tr><td>ANGLE</td><td>新手建議</td><td>自動回正，好救</td></tr>
-      <tr><td>FLIP OVER AFTER CRASH</td><td>建議</td><td>翻正用；需要 DShot</td></tr>
+      <tr class="critical-row"><td><b>ARM</b></td><td><b>必設（AUX1）</b></td><td>低＝上鎖、高＝解鎖；ELRS 官方規定放 AUX1</td></tr>
+      <tr class="critical-row"><td><b>PREARM</b></td><td><b>強烈建議（AUX2）</b></td><td>先預解鎖才能 ARM，避免誤觸</td></tr>
+      <tr><td>ANGLE</td><td>新手／防守建議（AUX3）</td><td>自動回正，好救</td></tr>
+      <tr><td>BEEPER</td><td>建議（AUX4）</td><td>掉在場邊找得回來</td></tr>
+      <tr><td>FLIP OVER AFTER CRASH</td><td>建議（AUX5）</td><td>翻正用；需要 DShot</td></tr>
       <tr><td>AIRMODE</td><td>視飛控預設</td><td>已常開就不用另設開關</td></tr>
       <tr><td>其他</td><td>不用</td><td>球機用不到 GPS、鏡頭、圖傳相關模式</td></tr>
     </tbody>
@@ -3821,17 +3842,23 @@ save</pre>
   const secs = document.querySelectorAll('.wrap > section');
   const valid = new Set([...secs].map(s => s.id));
 
-  function goTab(id, anchor) {
+  function goTab(id, anchor, opts) {
+    opts = opts || {};
     if (!valid.has(id)) id = 'home';
+    const url = new URL(location.href);
+    const curTab = url.searchParams.get('tab') || document.querySelector('.wrap > section.on')?.id || '';
+    const curHash = (location.hash || '').replace(/^#/, '');
+    const same = curTab === id && curHash === (anchor || '');
     document.querySelectorAll('header nav button[data-go]').forEach(x => {
       x.classList.toggle('on', x.dataset.go === id);
       x.setAttribute('aria-pressed', String(x.dataset.go === id));
     });
+    document.querySelectorAll('header nav a.nav-sim').forEach(a => a.classList.remove('on'));
     secs.forEach(s => s.classList.toggle('on', s.id === id));
-    const url = new URL(location.href);
     url.searchParams.set('tab', id);
-    url.hash = anchor || '';
-    history.replaceState(null, '', url.pathname + url.search + (anchor ? '#' + anchor : ''));
+    const next = url.pathname + '?' + url.searchParams.toString() + (anchor ? '#' + anchor : '');
+    if (opts.replace || same) history.replaceState({ tab: id, anchor: anchor || '' }, '', next);
+    else history.pushState({ tab: id, anchor: anchor || '' }, '', next);
     requestAnimationFrame(() => {
       if (anchor) {
         const el = document.getElementById(anchor);
@@ -3872,7 +3899,7 @@ save</pre>
       if (!el) return;
       const url = new URL(location.href);
       const tab = url.searchParams.get('tab') || document.querySelector('.wrap > section.on')?.id || 'home';
-      history.replaceState(null, '', '?tab=' + tab + '#' + id);
+      history.pushState({ tab: tab, anchor: id }, '', '?tab=' + tab + '#' + id);
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
@@ -3899,9 +3926,29 @@ save</pre>
         if (sec) tab = sec.id;
       }
     }
-    goTab(tab || 'home', hash || '');
+    goTab(tab || 'home', hash || '', { replace: true });
   }
 
+  addEventListener('popstate', (e) => {
+    const st = e.state || {};
+    const params = new URLSearchParams(location.search);
+    const tab = st.tab || params.get('tab') || 'home';
+    const anchor = st.anchor || (location.hash || '').replace(/^#/, '');
+    goTab(tab, anchor, { replace: true });
+  });
+
+  function currentTab() {
+    return new URLSearchParams(location.search).get('tab')
+      || document.querySelector('.wrap > section.on')?.id
+      || 'bf';
+  }
+  document.querySelectorAll('a[href="bfsim.html"], a[href^="bfsim.html?"], a.nav-sim').forEach(a => {
+    a.addEventListener('click', (e) => {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      e.preventDefault();
+      location.href = 'bfsim.html?from=' + encodeURIComponent(currentTab());
+    });
+  });
 
   bootFromUrl();
   updateScrollUi();
