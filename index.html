@@ -2213,6 +2213,7 @@ save</pre>
       <a href="#bf-check">上場前檢查</a>
       <a href="#bf-trouble">排除故障</a>
       <a href="#bf-docs">官方文件</a>
+      <a href="#bf-missed">還有哪些沒寫</a>
     </div>
   </nav>
 
@@ -2725,6 +2726,9 @@ save</pre>
     <thead><tr><th>中文</th><th>英文／位置</th><th>建議值</th><th>CLI</th></tr></thead>
     <tbody>
       <tr class="critical-row"><td>解鎖開關</td><td>Modes → <code>ARM</code></td><td><b>AUX1</b>；低＝上鎖、高＝解鎖</td><td>用 Modes 拉區間（看 <code>aux</code>）</td></tr>
+      <tr class="critical-row"><td>預解鎖</td><td>Modes → <code>PREARM</code></td><td>建議另一個開關；先 PREARM 再 ARM</td><td>Modes 拉區間</td></tr>
+      <tr class="critical-row"><td>馬達停止功能</td><td>Configuration → <code>MOTOR_STOP</code></td><td><b>OFF（關閉）</b></td><td>不要開 feature MOTOR_STOP</td></tr>
+      <tr><td>機架混控</td><td>Configuration → Mixer</td><td><b>Quad X</b></td><td>維持 Quad X</td></tr>
       <tr class="critical-row"><td>飛控斷訊動作</td><td>Failsafe → <code>Drop</code></td><td><b>DROP</b></td><td><code>set failsafe_procedure = DROP</code></td></tr>
       <tr class="critical-row"><td>接收機斷訊</td><td>ELRS／接收機端</td><td><b>No Pulses／不輸出</b></td><td>（接收機端，不是 BF）</td></tr>
       <tr><td>斷訊判定時間</td><td><code>Guard time for stage 2</code></td><td><b>1.5 秒</b>（預設）</td><td><code>set failsafe_delay = 15</code></td></tr>
@@ -2857,7 +2861,7 @@ set transient_throttle_limit = 0
 set dyn_idle_min_rpm = 40
 set throttle_limit_type = OFF
 save</pre>
-  <small>接著到 Rateprofile：ACTUAL；Roll／Pitch 中心 90、最大 600；Yaw 中心 80、最大 500；Expo 約 12。Modes：ARM＝AUX1，建議再加 BEEPER、FLIP OVER AFTER CRASH；ANGLE 可放另一個開關當備用。</small>
+  <small>接著到 Rateprofile：ACTUAL；Roll／Pitch 中心 90、最大 600；Yaw 中心 80、最大 500；Expo 約 12。Modes：ARM＝AUX1，建議再加 PREARM、BEEPER、FLIP OVER AFTER CRASH；ANGLE 可放另一個開關當備用。Configuration 確認 Mixer＝Quad X，且 MOTOR_STOP 關閉。</small>
 
   <h4>防守手起點（HAKRC F411 原廠）</h4>
   <pre>set craft_name = CHSH-DEF-1
@@ -2879,7 +2883,7 @@ set dshot_bidir = OFF
 set dyn_idle_min_rpm = 0
 set throttle_limit_type = OFF
 save</pre>
-  <small>接著到 Rateprofile：ACTUAL；Roll／Pitch 中心 70、最大 450；Yaw 中心 70、最大 400；Expo 約 20。Modes：ARM＝AUX1，建議 ANGLE 常開或容易撥到，再加 BEEPER、FLIP OVER AFTER CRASH。</small>
+  <small>接著到 Rateprofile：ACTUAL；Roll／Pitch 中心 70、最大 450；Yaw 中心 70、最大 400；Expo 約 20。Modes：ARM＝AUX1，建議加 PREARM；ANGLE 常開或容易撥到，再加 BEEPER、FLIP OVER AFTER CRASH。Configuration 確認 Mixer＝Quad X，且 MOTOR_STOP 關閉。</small>
 
   <h4>新手練習（兩種角色都能先套）</h4>
   <pre>set throttle_limit_type = SCALE
@@ -3323,6 +3327,172 @@ save</pre>
       <tr><td>接不上電腦</td><td>線材與埠設定</td><td>用到只供電的充電線；或把 MSP 關掉了</td></tr>
     </tbody>
   </table>
+  </div>
+
+
+  <h2 id="bf-missed">還有哪些常見功能沒寫？球機要不要理</h2>
+  <p class="lead" style="margin-top:0">前面已經把「一定要懂、一定會改」的寫完了。下面這些是 Configurator 裡常看到、但本頁先前沒單獨展開的。分成三類：<b>建議補進流程</b>、<b>維持預設就好</b>、<b>球機直接略過</b>。</p>
+
+  <h3>建議補進流程（球機真的用得到）</h3>
+  <div class="wide">
+  <table>
+    <thead><tr><th>中文</th><th>英文／位置</th><th>建議</th><th>為什麼先前容易漏、但很重要</th></tr></thead>
+    <tbody>
+      <tr class="critical-row">
+        <td>預解鎖</td>
+        <td>Modes → <code>PREARM</code></td>
+        <td>建議加在另一個開關：要先 PREARM，再 ARM 才轉</td>
+        <td>學生機最實用的防呆。遙控器在包包裡被擠到 ARM，若沒有 PREARM，可能直接轉槳。室內場地旁邊都是人，這層開關很值得</td>
+      </tr>
+      <tr class="critical-row">
+        <td>馬達停止功能</td>
+        <td>Configuration → Features → <code>MOTOR_STOP</code></td>
+        <td><b>通常保持關閉（OFF）</b></td>
+        <td>開著時，油門收到最低會直接停轉。聽起來安全，但跟 Airmode／對抗中的姿態控制衝突，常飛起來很怪。球機一般維持 OFF，靠 ARM 上鎖才真正停槳</td>
+      </tr>
+      <tr>
+        <td>槳向圖（內八／外八）</td>
+        <td>Motors → <code>Props in / Props out</code></td>
+        <td>全隊統一一種，本隊先定一種後不要混</td>
+        <td>只講「轉向要對」還不夠。你選的圖，必須跟四顆馬達實際轉向一致，不然會以為轉向對了其實整體扭力邏輯是反的</td>
+      </tr>
+      <tr>
+        <td>機架型式</td>
+        <td>Configuration → Mixer → <code>Quad X</code></td>
+        <td><b>Quad X</b></td>
+        <td>足球機就是標準四軸 X 字。若被改成別的 mixer，馬達邏輯全錯，一開油門就翻</td>
+      </tr>
+      <tr>
+        <td>馬達蜂鳴尋機</td>
+        <td>Configuration／Beeper → <code>DShot Beacon</code>；Modes 也可配 BEEPER</td>
+        <td>建議開；找機時很有用</td>
+        <td>沒裝獨立蜂鳴器時，可用 DShot Beacon 讓馬達發出滴滴聲找機。球滾到擋板後超實用。注意：尋機時槳有機會微動，周圍要淨空</td>
+      </tr>
+      <tr>
+        <td>特技訓練器</td>
+        <td>Modes → <code>ACRO TRAINER</code></td>
+        <td>新手練 Acro 時很有用</td>
+        <td>讓你在 Acro 手感下，仍限制最大傾角，比較不會一緊張就整顆翻過去。比直接丟進全開 Acro 溫和，比一直待在 ANGLE 又更接近實戰</td>
+      </tr>
+      <tr>
+        <td>偏航失控保護</td>
+        <td>PID Tuning／Features → <code>Yaw Spin Recovery</code></td>
+        <td>建議維持 <b>ON</b>（多數新版預設就有）</td>
+        <td>某顆馬達失步開始瘋狂自轉時，飛控會介入嘗試停損。對抗碰撞多，這類保護比穿越機更有感</td>
+      </tr>
+      <tr>
+        <td>遙控死區</td>
+        <td>Receiver → <code>Deadband</code></td>
+        <td>先 <b>0–2</b>；搖桿有漂才加</td>
+        <td>搖桿中位若微微漂，球機會自己慢慢爬走。死區太大會變得不跟手；先確認遙控器校正，再考慮加一點點</td>
+      </tr>
+      <tr>
+        <td>搖桿行程端點</td>
+        <td>Receiver 看 1000–2000</td>
+        <td>最低近 1000、最高近 2000；中位約 1500</td>
+        <td>行程不夠，你會覺得油門推到底還不夠力、或某個方向轉不滿。這常被誤判成 Rates／馬達問題</td>
+      </tr>
+      <tr>
+        <td>蜂鳴器哪些狀況要叫</td>
+        <td>Configuration → <code>Beeper Configuration</code></td>
+        <td>保留電池警告、Failsafe、尋機；可關 USB／開機嗶嗶</td>
+        <td>桌上調參一直叫會讓人把蜂鳴器關掉，結果上場真正低電壓也不叫。要關只關「煩的」，不要關「要命的」</td>
+      </tr>
+      <tr>
+        <td>射手機色一鍵切換</td>
+        <td>Modes 的 <code>LEDLOW</code>／使用者模式，或硬體／AUX 切色</td>
+        <td>本隊規則需要時要有方案</td>
+        <td>中場不能接電腦改射手尾燈顏色。這不是可有可無，是比賽流程功能。細節也寫在 LED／規則頁，飛控端要預留開關或備機</td>
+      </tr>
+      <tr>
+        <td>陀螺儀校正</td>
+        <td>Setup 靜置；可選 <code>Gyro Calibration on First Arm</code></td>
+        <td>開機後先平放靜置；必要時開首次解鎖校正</td>
+        <td>前面強調加速度計很多，陀螺儀也要穩。開機後馬上拿著晃，校正品質會差，飛起來會飄、會漂</td>
+      </tr>
+      <tr>
+        <td>RC 平滑／連線預設</td>
+        <td>Presets → <code>ExpressLRS Link</code>；Receiver 的 RC Smoothing</td>
+        <td>改完 ELRS 封包率一定要套對應 Preset</td>
+        <td>只改 ELRS 不改 BF，常出現黏滯、頓挫。這點前面有提，但要當成「改遙控必做步驟」而不只是選配</td>
+      </tr>
+      <tr>
+        <td>電調刷機路徑（F411）</td>
+        <td>Motors → <code>ESC Pass-through</code> → Bluejay 等</td>
+        <td>只有要上雙向 DShot／RPM 濾波時才做</td>
+        <td>原廠 BLHeli_S 不能雙向。若防守機也想開 RPM 濾波，得走刷 Bluejay／確認腳位這條路，不是在 BF 勾一個選項就結束</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>維持預設就好（看得到，但球機先別碰）</h3>
+  <div class="wide">
+  <table>
+    <thead><tr><th>中文</th><th>英文</th><th>為什麼先別動</th></tr></thead>
+    <tbody>
+      <tr><td>簡化調參拉桿</td><td><code>Simplified Tuning</code>／PID sliders</td><td>可以玩，但沒黑匣子時很容易愈拉愈奇怪。先用預設飛穩再說</td></tr>
+      <tr><td>I 項放鬆</td><td><code>I-term Relax</code></td><td>官方預設通常已合理；亂關會在快速動作後翹尾／回彈</td></tr>
+      <tr><td>D Max</td><td><code>D Max</code></td><td>進階動態 D；沒數據別手調</td></tr>
+      <tr><td>TPA（油門油門衰減）</td><td><code>TPA / TPA Breakpoint</code></td><td>高油門時降低 PID 防止抖。預設先用，有高油門抖動再研究</td></tr>
+      <tr><td>推力線性化</td><td><code>Thrust Linear</code></td><td>小槳 whoop／特殊動力才常認真調；本隊先預設</td></tr>
+      <tr><td>絕對控制</td><td><code>Absolute Control</code></td><td>多數球機用不到，維持預設</td></tr>
+      <tr><td>動態陷波濾波細節</td><td><code>Dynamic Notch</code></td><td>已含在濾波預設裡；不要為了「更乾淨」亂加寬／亂關</td></tr>
+      <tr><td>Feedforward 平滑／平均值</td><td><code>Feedforward Smoothing / Averaging</code></td><td>細調項；先把 Rates 跟基本 PID 穩住</td></tr>
+      <tr><td>電壓補償／油門 PID 衰減進階項</td><td>Voltage sag compensation 等</td><td>電池壓降很大時才有感；先把電池 C 數與重量選對更重要</td></tr>
+      <tr><td>碰撞回復</td><td><code>Crash Recovery</code></td><td>聽起來適合足球，但誤觸會在對抗中自己亂修正。本隊建議先關／維持預設關閉，不要當必開</td></tr>
+      <tr><td>黑匣子除錯模式</td><td><code>Debug Mode</code></td><td>只有要分析特定問題才改；平常 NONE 即可</td></tr>
+      <tr><td>專家模式</td><td>Configurator <code>Expert Mode</code></td><td>只是讓介面露出更多選項，不是飛行功能。學生機建議先不要開，避免改到不該碰的</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>球機直接略過（看到也不要用）</h3>
+  <div class="wide">
+  <table>
+    <thead><tr><th>中文</th><th>英文</th><th>略過原因</th></tr></thead>
+    <tbody>
+      <tr><td>圖傳選單／頻表</td><td><code>VTX</code>、<code>VTX Table</code></td><td>球機不裝圖傳。唯一要理的是 Oxbot 的 <code>VTX BEC OFF</code></td></tr>
+      <tr><td>OSD 畫面配置</td><td><code>OSD</code> 分頁</td><td>沒鏡頭就看不到</td></tr>
+      <tr><td>GPS／羅盤／救援返航</td><td><code>GPS</code>、<code>GPS Rescue</code>、<code>Mag</code></td><td>沒硬體；室內也不該用 GPS Rescue 當 Failsafe</td></tr>
+      <tr><td>氣壓計定高</td><td><code>Barometer</code>／相關模式</td><td>室內氣壓亂，足球也不靠定高打</td></tr>
+      <tr><td>3D 模式</td><td><code>3D</code></td><td>正反轉特技用；跟球機需求與 Dynamic Idle 不合</td></tr>
+      <tr><td>攝影機控制</td><td><code>CAMERA CONTROL</code></td><td>沒相機</td></tr>
+      <tr><td>舵機／固定翼混控</td><td><code>Servos</code>、非 Quad mixer</td><td>不是四軸球機</td></tr>
+      <tr><td>頭朝固定／無頭模式</td><td><code>HEADFREE</code> / <code>HEADADJ</code></td><td>球機用目視方向飛，開了反而更混亂</td></tr>
+      <tr><td>飛行中微調通道</td><td><code>Adjustments</code> 分頁</td><td>比賽中邊飛邊改 PID／Rates，出事難追溯。練習室也不建議學員開</td></tr>
+      <tr><td>軟串列／亂開 Telemetry 埠</td><td><code>Softserial</code>、多餘 Telemetry</td><td>沒接對應硬體就開，只是自找衝突</td></tr>
+      <tr><td>PARALYZE 等冷門模式</td><td><code>PARALYZE</code> 等</td><td>球機用不到；誤開會讓人以為飛控壞掉</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Modes 清單速查：球機要／可選／不要</h3>
+  <div class="wide">
+  <table>
+    <thead><tr><th>模式英文</th><th>中文</th><th>球機</th></tr></thead>
+    <tbody>
+      <tr><td><code>ARM</code></td><td>解鎖</td><td><b>必要</b>（AUX1）</td></tr>
+      <tr><td><code>PREARM</code></td><td>預解鎖</td><td><b>強烈建議</b></td></tr>
+      <tr><td><code>ANGLE</code></td><td>自穩</td><td>防守／新手建議；攻擊可作求救檔</td></tr>
+      <tr><td><code>HORIZON</code></td><td>半自穩</td><td>可選，但通常 ANGLE 或 Acro 二選一就好，少加第三種以免混亂</td></tr>
+      <tr><td><code>ACRO TRAINER</code></td><td>特技訓練限制傾角</td><td>練 Acro 時建議</td></tr>
+      <tr><td><code>AIRMODE</code></td><td>空中模式</td><td>建議開（常開或 Modes）</td></tr>
+      <tr><td><code>FLIP OVER AFTER CRASH</code></td><td>翻正</td><td>建議</td></tr>
+      <tr><td><code>BEEPER</code></td><td>尋機</td><td>建議</td></tr>
+      <tr><td><code>LEDLOW</code>／自訂切色</td><td>燈光切換</td><td>有換射手需求時要有方案</td></tr>
+      <tr><td><code>BLACKBOX</code></td><td>黑匣子開關</td><td>調參時才需要</td></tr>
+      <tr><td><code>FAILSAFE</code> 開關</td><td>手動進 Failsafe</td><td>一般不必；測試用</td></tr>
+      <tr><td><code>GPS RESCUE</code> 等</td><td>GPS 相關</td><td>不要</td></tr>
+      <tr><td><code>HEADFREE</code>／相機／OSD 相關</td><td>—</td><td>不要</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="note critical">
+    <b>結論：</b>主流程沒有大洞，但先前確實漏了幾項球機很實用的：
+    <b>PREARM、MOTOR_STOP 要關、Props in/out、Quad X、DShot Beacon、ACRO TRAINER、Yaw Spin Recovery、死區／行程、蜂鳴器項目、射手機色切換、電調刷機路徑</b>。
+    至於 PID 進階項與圖傳／GPS／OSD，不是漏寫成「必學」，是刻意先不要讓學員碰。
   </div>
 
   <h2 id="bf-docs">官方文件（有疑問以這些為準）</h2>
