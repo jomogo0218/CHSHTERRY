@@ -561,7 +561,7 @@
       <span class="tag">系統</span>
       <h4>飛控設定</h4>
       <ul>
-        <li>Betaflight 逐頁設定</li>
+        <li>每個設定影響什麼</li>
         <li>必改／保持預設／不要開</li>
         <li>CLI 範本與上場檢查</li>
       </ul>
@@ -2124,13 +2124,23 @@ save</pre>
 <!-- ============ 飛控設定 ============ -->
 <section id="bf">
   <h1>飛控設定（Betaflight）</h1>
-  <p class="lead">足球機不是穿越機：室內、會撞、要翻正、沒有圖傳與 GPS。這一頁把每一個分頁該不該改、改成什麼、為什麼，全部列出來。</p>
+  <p class="lead">足球機不是穿越機：室內、會撞、要翻正、沒有圖傳與 GPS。這一頁先講「每個設定影響什麼」，再講該不該改、改成什麼。</p>
   <nav class="toc" aria-label="飛控設定本章目錄">
     <span class="toc-label">本章目錄</span>
     <div class="toc-group">
       <span class="toc-group-label">開始</span>
       <a href="#bf-safety">安全鐵則</a>
       <a href="#bf-order">設定順序</a>
+    </div>
+    <div class="toc-group">
+      <span class="toc-group-label">影響</span>
+      <a href="#bf-impact">功能影響字典</a>
+      <a href="#bf-impact-arm">解鎖安全</a>
+      <a href="#bf-impact-rx">遙控斷訊</a>
+      <a href="#bf-impact-modes">飛行模式</a>
+      <a href="#bf-impact-motor">馬達電調</a>
+      <a href="#bf-impact-pid">PID手感</a>
+      <a href="#bf-impact-power">電池燈光</a>
     </div>
     <div class="toc-group">
       <span class="toc-group-label">分類</span>
@@ -2189,6 +2199,421 @@ save</pre>
       <tr><td class="n">13</td><td>裝槳試飛</td><td>先低油門離地 10 公分確認不亂飄</td><td>穩定才進場</td></tr>
     </tbody>
   </table>
+  </div>
+
+
+  <h2 id="bf-impact">功能影響字典（每個設定到底動到什麼）</h2>
+  <p class="lead" style="margin-top:0">先懂因果，再決定要不要改。下面每一項都用「它管什麼 → 改了會怎樣 → 改錯會怎樣」說明。</p>
+  <div class="note info">
+    可以把飛控想成一條控制鏈：<b>遙控訊號 → 接收機 → 飛控運算 → 電調 → 馬達 → 槳</b>。
+    每個設定都是這條鏈上的一個開關或旋鈕。
+  </div>
+
+  <h3 id="bf-impact-flow">整條控制鏈先看懂</h3>
+  <div class="wide">
+  <table>
+    <thead><tr><th>環節</th><th>實際在做什麼</th><th>相關設定</th></tr></thead>
+    <tbody>
+      <tr><td>遙控器</td><td>你推搖桿＝送出通道數值</td><td>Model Match、封包率、通道映射</td></tr>
+      <tr><td>接收機</td><td>把無線訊號變成飛控讀得到的數值</td><td>Ports、Serial RX、CRSF／SBUS、接收機端 Failsafe</td></tr>
+      <tr><td>Modes</td><td>決定現在是解鎖、自穩還是翻正</td><td>ARM、ANGLE、TURTLE、BEEPER</td></tr>
+      <tr><td>Rates</td><td>搖桿偏轉多少 → 飛機要轉多快</td><td>中心靈敏度、最大轉速、Expo</td></tr>
+      <tr><td>PID</td><td>比較「想要的姿態」與「實際姿態」，算出馬達該怎麼轉</td><td>P／I／D、Anti Gravity、Airmode</td></tr>
+      <tr><td>Filters</td><td>把震動雜訊濾掉，避免 PID 被噪音騙到</td><td>陀螺儀濾波、RPM 濾波、D 濾波</td></tr>
+      <tr><td>Motors／ESC</td><td>把指令變成四顆馬達的轉速</td><td>DShot、雙向 DShot、順序、轉向、怠速</td></tr>
+      <tr><td>保護系統</td><td>出事時強制介入</td><td>Failsafe、低壓警告、失控起飛保護</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 id="bf-impact-arm">解鎖與安全</h3>
+  <div class="wide">
+  <table>
+    <thead><tr><th>設定</th><th>它管什麼</th><th>改了會怎樣</th><th>改錯會怎樣</th></tr></thead>
+    <tbody>
+      <tr class="critical-row">
+        <td><b>ARM（解鎖）</b></td>
+        <td>允許／禁止馬達轉動的總開關</td>
+        <td>開＝馬達可轉；關＝立刻停轉上鎖</td>
+        <td>沒設或通道錯＝解不了鎖；放錯通道（非 AUX1）＝訊號差時可能關不掉</td>
+      </tr>
+      <tr>
+        <td><b>small_angle</b><br /><small>解鎖角度限制</small></td>
+        <td>機身歪超過幾度就不准解鎖</td>
+        <td>數字越大＝越歪也能解鎖；預設約 25°</td>
+        <td>設太大＝倒著也能解鎖，危險；設太小＝球框歪一點就解不了</td>
+      </tr>
+      <tr>
+        <td><b>runaway_takeoff_prevention</b><br /><small>失控起飛保護</small></td>
+        <td>解鎖後若未預期暴衝，自動上鎖</td>
+        <td>開著＝有人為錯誤時多一層保護</td>
+        <td>關掉＝解鎖後若油門／PID 異常，可能直接衝人</td>
+      </tr>
+      <tr>
+        <td><b>Arming Disable Flags</b></td>
+        <td>列出目前「為什麼不能解鎖」</td>
+        <td>不改設定，是診斷畫面</td>
+        <td>不看這裡就亂改＝常改錯地方</td>
+      </tr>
+      <tr>
+        <td><b>加速度計校正</b></td>
+        <td>告訴飛控「什麼叫水平」</td>
+        <td>校正準＝ANGLE 模式會回正到真的水平</td>
+        <td>歪著校正＝自穩會往錯誤方向拉，感覺一直飄</td>
+      </tr>
+      <tr>
+        <td><b>Board Alignment</b><br /><small>飛控安裝方向補償</small></td>
+        <td>飛控板不是正裝時，把方向補正</td>
+        <td>補正後：你推前＝真的往前傾</td>
+        <td>不補＝搖桿方向與實際動作錯位，幾乎無法飛</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 id="bf-impact-rx">遙控、接收機、斷訊</h3>
+  <div class="wide">
+  <table>
+    <thead><tr><th>設定</th><th>它管什麼</th><th>改了會怎樣</th><th>改錯會怎樣</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><b>Ports → Serial RX</b></td>
+        <td>飛控從哪個 UART 讀接收機</td>
+        <td>開對埠＝有遙控訊號</td>
+        <td>開錯埠＝沒訊號；多開＝浪費資源、可能衝突</td>
+      </tr>
+      <tr>
+        <td><b>serialrx_provider</b><br /><small>接收協定</small></td>
+        <td>怎麼解讀接收機資料格式</td>
+        <td>ELRS／TBS 用 CRSF；老接收機用 SBUS</td>
+        <td>協定選錯＝通道全亂或完全沒訊號</td>
+      </tr>
+      <tr>
+        <td><b>通道檢查／映射</b></td>
+        <td>哪根搖桿對應滾轉、俯仰、偏航、油門</td>
+        <td>對了＝推右滾轉就往右滾</td>
+        <td>軸對調或反向＝一解鎖就往錯方向飛</td>
+      </tr>
+      <tr class="critical-row">
+        <td><b>接收機端 Failsafe</b></td>
+        <td>斷訊時接收機要不要繼續輸出假訊號</td>
+        <td>設「不輸出」＝飛控能發現斷訊並進入保護</td>
+        <td>繼續輸出最後值＝飛控以為還有控制，<b>槳不會停</b></td>
+      </tr>
+      <tr class="critical-row">
+        <td><b>failsafe_procedure = DROP</b></td>
+        <td>確認斷訊後飛控要做什麼</td>
+        <td>DROP＝立刻停槳上鎖，球機落地</td>
+        <td>Land／GPS Rescue＝沒 GPS 還繼續轉，室內極危險</td>
+      </tr>
+      <tr>
+        <td><b>failsafe_delay</b><br /><small>Stage 1 判定時間</small></td>
+        <td>斷訊後等多久才真正停槳</td>
+        <td>較長＝短暫掉訊較不容易誤觸發；較短＝斷訊更快停</td>
+        <td>太短＝訊號抖一下就掉機；太長＝真斷訊時拖更久才停</td>
+      </tr>
+      <tr>
+        <td><b>Model Match</b></td>
+        <td>遙控模型檔是否必須對上這台接收機</td>
+        <td>開＝拿錯模型檔控不動這台</td>
+        <td>關＝五台同場可能控到別台</td>
+      </tr>
+      <tr>
+        <td><b>ELRS 封包率／Preset</b></td>
+        <td>更新頻率與抗干擾取捨</td>
+        <td>較高＝更跟手但抗干擾較弱；較低＝較穩但延遲略增</td>
+        <td>沒套對應 Preset＝遙控延遲／平滑不正確</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 id="bf-impact-modes">飛行模式（Modes）</h3>
+  <div class="wide">
+  <table>
+    <thead><tr><th>模式</th><th>它管什麼</th><th>開了會怎樣</th><th>要注意</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><b>ANGLE（自穩）</b></td>
+        <td>限制最大傾角，放手會回水平</td>
+        <td>新手好救、撞完較容易恢復；無法做大角度動作</td>
+        <td>依賴加速度計；校正歪了自穩也會歪</td>
+      </tr>
+      <tr>
+        <td><b>Acro（特技／手動）</b></td>
+        <td>搖桿控制「轉速」不是「角度」</td>
+        <td>可做翻滾、空中對抗更靈活</td>
+        <td>放手不會自己回正；新手容易一直翻</td>
+      </tr>
+      <tr>
+        <td><b>AIRMODE</b></td>
+        <td>油門收到底時，PID 是否仍積極控姿態</td>
+        <td>開＝低油門／墜落中仍較可控</td>
+        <td>關＝油門收死後姿態控制變弱，碰撞後較容易亂翻</td>
+      </tr>
+      <tr>
+        <td><b>FLIP OVER AFTER CRASH<br />（Turtle 翻正）</b></td>
+        <td>讓部分馬達反轉，把翻覆的機翻回來</td>
+        <td>省一次撿機</td>
+        <td>需要 DShot；槳卡死時硬轉會燒馬達／電調</td>
+      </tr>
+      <tr>
+        <td><b>BEEPER</b></td>
+        <td>用蜂鳴器／LED 視覺提示找機</td>
+        <td>掉在場邊較好找</td>
+        <td>沒蜂鳴器就靠 LED 視覺蜂鳴</td>
+      </tr>
+      <tr>
+        <td><b>HORIZON</b></td>
+        <td>中間像自穩、打滿像特技</td>
+        <td>折衷手感</td>
+        <td>球機通常二選一即可，不必再加這層複雜度</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 id="bf-impact-motor">馬達與電調</h3>
+  <div class="wide">
+  <table>
+    <thead><tr><th>設定</th><th>它管什麼</th><th>改了會怎樣</th><th>改錯會怎樣</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><b>motor_pwm_protocol</b><br /><small>DShot300／600</small></td>
+        <td>飛控用什麼數位語言跟電調說話</td>
+        <td>DShot＝可 Turtle、可雙向回傳；越快延遲越低但對線路／MCU 要求更高</td>
+        <td>電調不支援的協定＝馬達不轉或亂轉</td>
+      </tr>
+      <tr>
+        <td><b>馬達順序 1–4</b></td>
+        <td>哪個輸出腳對應哪個角的馬達</td>
+        <td>對了＝滾轉／俯仰方向正確</td>
+        <td>錯了＝一上油門就翻，幾乎必摔</td>
+      </tr>
+      <tr>
+        <td><b>馬達轉向</b></td>
+        <td>每顆馬達順時針或逆時針</td>
+        <td>符合 Props In／Out 圖＝扭力平衡正確</td>
+        <td>轉錯＝偏航失控或起飛就轉圈</td>
+      </tr>
+      <tr>
+        <td><b>dshot_bidir</b><br /><small>雙向 DShot</small></td>
+        <td>電調是否回傳真實轉速給飛控</td>
+        <td>開了才能做 RPM 濾波、Dynamic Idle</td>
+        <td>電調不支援卻開＝不起轉／解不了鎖</td>
+      </tr>
+      <tr>
+        <td><b>motor_poles</b><br /><small>磁鐵數</small></td>
+        <td>把電調訊號換算成正確 RPM</td>
+        <td>填對＝RPM 濾波打中正確頻率</td>
+        <td>填錯＝濾錯頻率，震動更明顯</td>
+      </tr>
+      <tr>
+        <td><b>motor_idle／dshot idle</b></td>
+        <td>解鎖後、油門最低時馬達還轉多快</td>
+        <td>較高＝較不容易失步，但低油門較「浮」；較低＝煞車較利、較省，但易失步</td>
+        <td>太低＝翻滾中途馬達停轉；太高＝收油剎不住、續航差</td>
+      </tr>
+      <tr>
+        <td><b>dyn_idle_min_rpm</b><br /><small>Dynamic Idle</small></td>
+        <td>依真實 RPM 動態維持最低轉速</td>
+        <td>減少急停／翻滾失步，又比固定高怠速更靈活</td>
+        <td>沒雙向 DShot 無效；設太低仍會失步，設太高像怠速偏高</td>
+      </tr>
+      <tr>
+        <td><b>motor_output_limit</b></td>
+        <td>限制每顆馬達最大輸出百分比</td>
+        <td>給「電池電壓超過馬達耐壓」時降功率用</td>
+        <td>本隊 4S 配 4S 通常不該動；亂降＝推力莫名變弱</td>
+      </tr>
+      <tr>
+        <td><b>throttle_limit</b><br /><small>油門上限</small></td>
+        <td>限制油門通道最大可用比例</td>
+        <td>SCALE 75%＝整段油門被壓縮，新手較好控</td>
+        <td>比賽忘了改回＝衝刺明顯變慢</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 id="bf-impact-pid">PID、濾波、手感（最容易被誤解）</h3>
+  <div class="note warn">
+    <b>PID 不是「越大越好飛」。</b>
+    PID 負責「跟手與穩定」；Filters 負責「把震動噪音拿掉」。先修硬體震動，再談調參。
+  </div>
+  <div class="wide">
+  <table>
+    <thead><tr><th>設定</th><th>它管什麼</th><th>調高／開啟的影響</th><th>調低／關閉的影響</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><b>P（比例）</b></td>
+        <td>姿態誤差出現時，立刻反應的力道</td>
+        <td>更跟手、更「硬」；太高會高頻抖動</td>
+        <td>變軟、反應慢；太低像湯圓不好控</td>
+      </tr>
+      <tr>
+        <td><b>I（積分）</b></td>
+        <td>長期維持姿態、對抗持續外力（風、頂球）</td>
+        <td>更貼指令、較不漂移；太高低速晃</td>
+        <td>容易慢慢偏離目標角度</td>
+      </tr>
+      <tr>
+        <td><b>D（微分）</b></td>
+        <td>抑制快速晃動、煞住過衝</td>
+        <td>較穩、較少彈跳；太高馬達發熱、噪音大</td>
+        <td>過彎／撞擊後較容易抖一下才穩</td>
+      </tr>
+      <tr>
+        <td><b>Feedforward（FF）</b></td>
+        <td>在誤差出現前，依搖桿動作預先出力</td>
+        <td>手感更跟手、滯後較小</td>
+        <td>太高會「超前」、過衝；球機通常先用預設</td>
+      </tr>
+      <tr>
+        <td><b>Anti Gravity</b></td>
+        <td>急拉／急收油門時暫時加強 I，減少低頭／抬頭</td>
+        <td>油門猛變時姿態較不容易掉</td>
+        <td>關了＝急加速時容易點頭或翹尾</td>
+      </tr>
+      <tr>
+        <td><b>陀螺儀／D 濾波</b></td>
+        <td>過濾震動噪音，避免 PID 追噪音</td>
+        <td>濾太重＝手感鈍、延遲感增加</td>
+        <td>濾太少／關閉＝馬達尖叫過熱，電調易燒</td>
+      </tr>
+      <tr>
+        <td><b>RPM 濾波</b></td>
+        <td>依真實馬達轉速，精準濾掉槳／馬達諧波</td>
+        <td>開對＝更穩、可把其他濾波放輕，手感更乾淨</td>
+        <td>硬體不支援卻開＝失效或不起轉；磁鐵數錯＝濾錯</td>
+      </tr>
+      <tr>
+        <td><b>Rates 中心靈敏度</b></td>
+        <td>搖桿在中間附近時，飛機轉多快</td>
+        <td>高＝微調更敏感，精準對抗較難</td>
+        <td>低＝中間好控，但小動作要推更多</td>
+      </tr>
+      <tr>
+        <td><b>Rates 最大轉速</b></td>
+        <td>搖桿打滿時，每秒最多轉幾度</td>
+        <td>高＝可快速翻滾、空中變向快</td>
+        <td>低＝較不容易失控，但極限動作變慢</td>
+      </tr>
+      <tr>
+        <td><b>Expo</b></td>
+        <td>中間與外圍的手感曲線</td>
+        <td>加 Expo＝中間更細、外側一樣可到最大轉速</td>
+        <td>不加＝全程接近線性，新手可能覺得中間太跳</td>
+      </tr>
+      <tr>
+        <td><b>angle_limit</b></td>
+        <td>ANGLE 模式下最多能傾幾度</td>
+        <td>較大＝自穩也能傾更多，轉彎較猛</td>
+        <td>較小＝更「平飛」、較不易側翻，但橫移較慢</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 id="bf-impact-power">電池、電流、燈光</h3>
+  <div class="wide">
+  <table>
+    <thead><tr><th>設定</th><th>它管什麼</th><th>改了會怎樣</th><th>改錯會怎樣</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><b>vbat_scale</b><br /><small>電壓校正</small></td>
+        <td>飛控顯示的電壓是否等於真實電壓</td>
+        <td>校準後，警告與紅閃時機才正確</td>
+        <td>偏高＝太晚警告會過放；偏低＝太早紅閃以為沒電</td>
+      </tr>
+      <tr>
+        <td><b>vbat_warning／min</b></td>
+        <td>幾伏特開始警告、幾伏特算危急</td>
+        <td>直接決定低壓紅閃與告警何時出現</td>
+        <td>設太低＝打穿電池；設太高＝每場飛很短就警報</td>
+      </tr>
+      <tr>
+        <td><b>ibata_scale</b><br /><small>電流計比例</small></td>
+        <td>電流讀數的倍率</td>
+        <td>影響耗電估計、黑匣子電流曲線</td>
+        <td>不準＝你以為還有電其實已經抽很兇（或相反）</td>
+      </tr>
+      <tr>
+        <td><b>bat_capacity</b></td>
+        <td>告訴飛控電池標稱容量</td>
+        <td>用來估算剩餘百分比</td>
+        <td>填錯＝百分比參考價值變差，不影響實際飛行推力</td>
+      </tr>
+      <tr>
+        <td><b>LED_STRIP 功能開關</b></td>
+        <td>飛控是否輸出燈條訊號</td>
+        <td>開＝可控制隊色／警示；關＝燈可能不依飛控規則變化</td>
+        <td>規則要求亮燈，關了可能檢錄不過</td>
+      </tr>
+      <tr>
+        <td><b>ledstrip_brightness</b></td>
+        <td>燈條整體亮度（也就是耗電）</td>
+        <td>越高越亮越耗電，也越吃 BEC</td>
+        <td>小 BEC 開 100＝壓降、重啟、飛控死機風險</td>
+      </tr>
+      <tr>
+        <td><b>低壓紅閃／視覺蜂鳴</b></td>
+        <td>用燈光表達警告</td>
+        <td>球機沒 OSD，這幾乎是唯一「該換電池」的現場訊號</td>
+        <td>沒設＝隊員看不到低電，容易過放</td>
+      </tr>
+      <tr>
+        <td><b>VTX BEC OFF</b><br /><small>Oxbot</small></td>
+        <td>關掉圖傳專用供電</td>
+        <td>沒裝圖傳時省電、少發熱、少干擾</td>
+        <td>沒關＝空接供電端浪費電力並增加風險</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 id="bf-impact-bb">黑匣子與其他</h3>
+  <div class="wide">
+  <table>
+    <thead><tr><th>設定</th><th>它管什麼</th><th>改了會怎樣</th><th>改錯會怎樣</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><b>Blackbox</b></td>
+        <td>飛行時記錄陀螺儀／馬達／PID 等資料</td>
+        <td>開＝事後可分析震動與調參；關＝省空間與 CPU</td>
+        <td>一直開＝空間滿了或增加負載；沒分析就開＝幫助有限</td>
+      </tr>
+      <tr>
+        <td><b>craft_name</b></td>
+        <td>這台飛控在電腦上顯示的名字</td>
+        <td>設機號＝接上立刻知道是幾號機</td>
+        <td>不設＝五台外觀相近，很容易改錯機</td>
+      </tr>
+      <tr>
+        <td><b>OSD</b></td>
+        <td>圖傳畫面疊字</td>
+        <td>有鏡頭才有意義</td>
+        <td>球機沒圖傳＝開了也看不到，徒增負擔</td>
+      </tr>
+      <tr>
+        <td><b>GPS／氣壓計相關</b></td>
+        <td>高度與定位輔助</td>
+        <td>有硬體才有用</td>
+        <td>沒裝卻開＝多出錯誤與開機延遲</td>
+      </tr>
+      <tr>
+        <td><b>3D 模式</b></td>
+        <td>馬達可正反轉做特技</td>
+        <td>特定特技機才需要</td>
+        <td>球機開了會與 Dynamic Idle 等設定衝突，且無必要</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="note critical">
+    <b>記一句話就夠：</b>
+    Rates 改「手感快慢」；PID 改「跟手與穩定」；Filters 改「噪音清不清楚」；Failsafe／ARM 改「安不安全」；電池／LED 改「能不能撐完一場且看得到警告」。
   </div>
 
   <h2 id="bf-must">一定要改（不改就有安全或比賽風險）</h2>
