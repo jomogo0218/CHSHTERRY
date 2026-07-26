@@ -378,7 +378,7 @@
 
   <div class="note info">
     <b>一句話結論：</b>攻擊用 <b>火神 VCI 1507</b> 或 DYH1408 ＋ <b>4S 高 C</b>（本隊有 OVONIC 960／1060、Tattu 球機 1100、Tattu V5 850）；
-    防禦用 火神 VCI 1408 ＋ 4S 高 C；壓重用 1404.5＋3S。槳統一 <b>2828-3</b>。
+    防禦用 火神 VCI 1408 ＋ 4S 高 C；輕量用 1404.5＋3S。槳統一 <b>2828-3</b>。
     LED 只裝 <b>22 顆</b>（主 16＋尾 6）；飛控三款 AIO（<b>Oxbot Flow AIO45</b>／RATE F4／HAKRC F411，孔距不同要注意）；檢錄本場 <b>5 球／9 電</b>。1060 上機前必實秤。
   </div>
 
@@ -455,9 +455,9 @@
       <span class="tag">整機</span>
       <h4>組裝重量</h4>
       <ul>
-        <li>賽前檢查清單</li>
+        <li>馬達＋電池能飛多久</li>
         <li>三種隊伍搭配</li>
-        <li>3 分鐘續航／300g</li>
+        <li>300g 預算</li>
       </ul>
       <button type="button" class="go" data-go="build">開啟組裝重量</button>
     </div>
@@ -1271,7 +1271,7 @@
     <span class="toc-label">本章目錄</span>
     <a href="#build-check">賽前必讀</a>
     <a href="#build-teams">三種搭配</a>
-    <a href="#build-endurance">3 分鐘續航</a>
+    <a href="#build-endurance">馬達＋電池能飛多久</a>
     <a href="#build-weight">300g 預算</a>
     <a href="#build-light">輕量 vs 299g</a>
   </nav>
@@ -1354,98 +1354,170 @@
     </div>
   </div>
 
-  <h2 id="build-endurance">能不能飛到 3 分鐘？</h2>
+  <h2 id="build-endurance">馬達＋電池能飛多久？</h2>
   <div class="note warn">
-    <b>算法：</b>可用電量 ≈ 標稱容量 × <b>80%</b>（比賽勿放電到過低）。
-    時間(分) ≈ 可用 mAh ÷ 平均總電流(A) ÷ 1000 × 60。
-    平均電流用測功中段推估，不是滿油門；實戰會因對抗強度上下浮動。
+    <b>怎麼估：</b>可用電量 ≈ 標稱容量 × <b>80%</b>（不要飛到過放）。
+    時間（分）≈ 可用 mAh ÷ 整機平均電流(A) ÷ 1000 × 60。
+    下表電流是四顆馬達合計的粗估值（不是滿油門），實戰會隨對抗強度變動；數字僅供排電池，不是保證值。
+  </div>
+
+  <div class="note info">
+    <b>三種飛法的平均電流（粗估）：</b>
+    <ul style="margin:8px 0 0;padding-left:1.2em">
+      <li><b>火神 VCI 1507</b>：控場約 14–17A；對抗約 22–26A；猛攻約 32–40A</li>
+      <li><b>DYH1408／火神 VCI 1408</b>：控場約 12–15A；對抗約 18–22A；猛攻約 28–35A</li>
+      <li><b>火神 VCI 1404.5（3S）</b>：控場約 10–13A；對抗約 15–18A；猛攻約 22–28A</li>
+    </ul>
   </div>
 
   <div class="wide">
   <table>
     <thead>
       <tr>
-        <th>搭配</th>
-        <th>推薦電池</th>
+        <th>馬達</th>
+        <th>電池</th>
         <th class="n">可用電量</th>
-        <th class="n">輕飛／控場<br>≈12–15A</th>
-        <th class="n">混合對抗<br>≈18–22A</th>
-        <th class="n">猛攻硬頂<br>≈28–35A</th>
-        <th>3 分鐘結論</th>
+        <th class="n">控場<br>（輕飛）</th>
+        <th class="n">對抗<br>（混合）</th>
+        <th class="n">猛攻<br>（硬頂）</th>
+        <th>一 set（約 3 分）怎麼看</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td><b>攻擊 · 火神 VCI 1507</b></td>
-        <td>Tattu V5 <b>850mAh</b> 4S 150C（100g）</td>
-        <td class="n">~680 mAh</td>
-        <td class="n ok">~2.7–3.4 分</td>
-        <td class="n">~1.9–2.3 分</td>
-        <td class="n no">~1.2–1.5 分</td>
-        <td><b class="no">猛攻撐不滿</b>；混合約 2 分。要穩 3 分需控油門或加容量（但會超重）</td>
+        <td rowspan="6"><b>火神 VCI 1507</b><br><span class="muted">4S</span></td>
+        <td>Tattu 650 4S 95C</td>
+        <td class="n">520 mAh</td>
+        <td class="n">約 1.8–2.2 分</td>
+        <td class="n no">約 1.2–1.4 分</td>
+        <td class="n no">約 0.8–1.0 分</td>
+        <td class="no">不夠；且 C 對 1507 偏緊，不建議</td>
       </tr>
       <tr>
-        <td><b>攻擊 · DYH1408</b></td>
-        <td>Tattu V5 <b>850mAh</b> 4S 150C（100g）</td>
-        <td class="n">~680 mAh</td>
-        <td class="n ok">~3.0–3.8 分</td>
-        <td class="n ok">~2.1–2.5 分</td>
-        <td class="n">~1.4–1.7 分</td>
-        <td>比 1507 省電；<b>混合對抗接近 2.5 分</b>，控場可過 3 分</td>
+        <td>Tattu 750 4S 95C</td>
+        <td class="n">600 mAh</td>
+        <td class="n">約 2.1–2.6 分</td>
+        <td class="n no">約 1.4–1.6 分</td>
+        <td class="n no">約 0.9–1.1 分</td>
+        <td class="no">不夠；C 也偏緊</td>
       </tr>
       <tr>
-        <td><b>硬防 · 火神 VCI 1408</b></td>
-        <td>Tattu <b>750mAh</b> 4S 95C（84g）</td>
-        <td class="n">~600 mAh</td>
-        <td class="n ok">~2.7–3.3 分</td>
-        <td class="n">~1.8–2.2 分</td>
-        <td class="n no">~1.2–1.4 分</td>
-        <td>輕防可過 3 分；硬對抗偏緊。要穩就改 <b>850／150C</b></td>
+        <td>Tattu V5／GNB <b>850</b> 4S（≥120–150C）</td>
+        <td class="n">680 mAh</td>
+        <td class="n">約 2.4–2.9 分</td>
+        <td class="n no">約 1.6–1.9 分</td>
+        <td class="n no">約 1.0–1.3 分</td>
+        <td>猛攻撐不滿 3 分；靠減油／換電。C 夠才敢掛 1507</td>
       </tr>
       <tr>
-        <td><b>硬防 · 火神 VCI 1408</b></td>
-        <td>Tattu V5 <b>850mAh</b> 4S 150C（100g）</td>
-        <td class="n">~680 mAh</td>
-        <td class="n ok">~3.2–4.0 分</td>
-        <td class="n ok">~2.2–2.6 分</td>
-        <td class="n">~1.5–1.8 分</td>
-        <td><b class="ok">最穩的防禦配</b>；控場穩過 3 分</td>
+        <td>OVONIC <b>960</b> 4S 150C</td>
+        <td class="n">768 mAh</td>
+        <td class="n ok">約 2.7–3.3 分</td>
+        <td class="n">約 1.8–2.1 分</td>
+        <td class="n no">約 1.2–1.4 分</td>
+        <td>控場勉強；對抗仍偏緊。攻擊機較常用這級</td>
       </tr>
       <tr>
-        <td><b>輕防 · 1404.5</b></td>
-        <td>3S <b>1100mAh</b> ≥100C（~115g）</td>
-        <td class="n">~880 mAh</td>
-        <td class="n ok">~4.0–5.0 分</td>
-        <td class="n ok">~2.8–3.5 分</td>
-        <td class="n ok">~2.0–2.5 分</td>
-        <td><b class="ok">最容易飛滿 3 分</b>；代價是推力弱</td>
+        <td>OVONIC <b>1060</b> 4S 150C</td>
+        <td class="n">848 mAh</td>
+        <td class="n ok">約 3.0–3.6 分</td>
+        <td class="n">約 2.0–2.3 分</td>
+        <td class="n no">約 1.3–1.6 分</td>
+        <td>比 850 寬裕；上機前一定要整機實秤 ≤300g</td>
       </tr>
       <tr>
-        <td><b>輕防 · 1404.5</b></td>
-        <td>3S <b>750mAh</b> ≥100C（~68g）</td>
-        <td class="n">~600 mAh</td>
-        <td class="n ok">~2.7–3.3 分</td>
-        <td class="n">~1.8–2.2 分</td>
-        <td class="n">~1.3–1.5 分</td>
-        <td>壓重用；混合對抗剛好卡邊</td>
+        <td>Tattu 球機 <b>1100</b> 4S</td>
+        <td class="n">880 mAh</td>
+        <td class="n ok">約 3.1–3.8 分</td>
+        <td class="n">約 2.0–2.4 分</td>
+        <td class="n no">約 1.3–1.6 分</td>
+        <td>與 1060 相近；確認包裝 C 數後再定攻擊／防禦</td>
+      </tr>
+
+      <tr>
+        <td rowspan="6"><b>DYH1408／火神 VCI 1408</b><br><span class="muted">4S</span></td>
+        <td>Tattu 650 4S 95C</td>
+        <td class="n">520 mAh</td>
+        <td class="n">約 2.1–2.6 分</td>
+        <td class="n no">約 1.4–1.7 分</td>
+        <td class="n no">約 0.9–1.1 分</td>
+        <td class="no">不夠，只適合極短測試</td>
+      </tr>
+      <tr>
+        <td>Tattu 750 4S 95C</td>
+        <td class="n">600 mAh</td>
+        <td class="n">約 2.4–3.0 分</td>
+        <td class="n">約 1.6–2.0 分</td>
+        <td class="n no">約 1.0–1.3 分</td>
+        <td>控場勉強；硬對抗偏緊</td>
+      </tr>
+      <tr>
+        <td>Tattu V5／GNB <b>850</b> 4S</td>
+        <td class="n">680 mAh</td>
+        <td class="n ok">約 2.7–3.4 分</td>
+        <td class="n">約 1.9–2.3 分</td>
+        <td class="n no">約 1.2–1.5 分</td>
+        <td>控場可過 3 分；對抗約 2 分上下。防禦常用</td>
+      </tr>
+      <tr>
+        <td>OVONIC <b>960</b> 4S 150C</td>
+        <td class="n">768 mAh</td>
+        <td class="n ok">約 3.1–3.8 分</td>
+        <td class="n">約 2.1–2.6 分</td>
+        <td class="n">約 1.3–1.6 分</td>
+        <td>比 850 寬一截；對抗較安心</td>
+      </tr>
+      <tr>
+        <td>OVONIC <b>1060</b> 4S 150C</td>
+        <td class="n">848 mAh</td>
+        <td class="n ok">約 3.4–4.2 分</td>
+        <td class="n ok">約 2.3–2.8 分</td>
+        <td class="n">約 1.5–1.8 分</td>
+        <td>續航較寬；仍要實秤，超重就改 960／850</td>
+      </tr>
+      <tr>
+        <td>Tattu 球機 <b>1100</b> 4S</td>
+        <td class="n">880 mAh</td>
+        <td class="n ok">約 3.5–4.4 分</td>
+        <td class="n ok">約 2.4–2.9 分</td>
+        <td class="n">約 1.5–1.9 分</td>
+        <td>與 1060 同級；猛攻仍難靠單顆撐滿 3 分</td>
+      </tr>
+
+      <tr>
+        <td rowspan="2"><b>火神 VCI 1404.5</b><br><span class="muted">3S</span></td>
+        <td>3S <b>750</b> ≥100C</td>
+        <td class="n">600 mAh</td>
+        <td class="n ok">約 2.8–3.6 分</td>
+        <td class="n">約 2.0–2.4 分</td>
+        <td class="n">約 1.3–1.6 分</td>
+        <td>輕量用；對抗卡邊。推力比 4S 弱</td>
+      </tr>
+      <tr>
+        <td>3S <b>1100</b> ≥100C</td>
+        <td class="n">880 mAh</td>
+        <td class="n ok">約 4.1–5.3 分</td>
+        <td class="n ok">約 2.9–3.5 分</td>
+        <td class="n">約 1.9–2.4 分</td>
+        <td class="ok">最容易飛滿 3 分；代價是推力較弱</td>
       </tr>
     </tbody>
   </table>
   </div>
+  <small>可用電量＝容量×80%。時間四捨五入到 0.1 分。1507 請配 ≥120–150C；650／750 的 95C 對 1507 供電偏緊，即使「算得出時間」也容易壓降落地。</small>
 
   <div class="note info">
-    <b>直答：</b>
+    <b>怎麼記：</b>
     <ul style="margin:8px 0 0;padding-left:1.2em">
-      <li><b>能穩飛 3 分鐘</b>：1408／DYH＋850mAh（控場／混合）、1404.5＋1100mAh 3S。</li>
-      <li><b>卡邊／偏緊</b>：1507＋850mAh 猛攻；1408＋750mAh 硬對抗。</li>
-      <li><b>局內提早紅閃</b>：1507 全程猛頂／滿油門——功率吃電快，不是「少換一顆」能解；set 結束本來就要換，局中只靠減油／回邊撐完。</li>
+      <li><b>1507</b>：掛 850 猛攻通常飛不滿 3 分；960／1060／1100 比較寬，但仍要控油門。</li>
+      <li><b>1408／DYH</b>：850 控場可過 3 分；要對抗較穩就用 960 以上。</li>
+      <li><b>1404.5＋3S 1100</b>：最容易飛滿 3 分，但射門／硬頂較弱。</li>
+      <li><b>比賽流程</b>：一 set 約 3 分鐘，結束就換電。表上「夠不夠」是指局內會不會提早紅閃，不是說一顆電連打多局。</li>
     </ul>
   </div>
 
   <div class="note warn">
-    <b>比賽實務：</b>一 set ≈ 3 分鐘，結束就換電；中間有死球、暫停，容量大只是局內比較寬裕。
-    射手（攻擊手）建議 <b>每 set 換一顆熱電</b>（備 4–6 顆同規格），不要指望單顆猛攻撐完整場。
-    防禦機用 850／150C 比 750 更安心。
+    <b>比賽實務：</b>射手（攻擊手）建議每 set 換一顆熱電（備 4–6 顆同規格），不要指望單顆猛攻撐完整場。
   </div>
 
   <h2 id="build-weight">300g 重量預算試算</h2>
