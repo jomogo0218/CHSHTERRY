@@ -198,11 +198,23 @@
   }
   .fx-item.is-critical{border-color:var(--bad);background:rgba(255,139,139,.07)}
   .fx-item > h4{
-    margin:0 0 4px;font-size:19px;line-height:1.35;
+    margin:0 0 8px;font-size:19px;line-height:1.35;
+    display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 12px;
   }
+  .fx-item > h4 .zh{font-weight:800}
   .fx-item > h4 .en{
-    display:block;font-size:13px;font-weight:600;color:var(--muted);
-    letter-spacing:.02em;margin-top:3px;
+    font-size:15px;font-weight:700;color:var(--accent);
+    letter-spacing:.01em;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  .fx-where{
+    margin:0 0 4px;padding:8px 10px;border-radius:8px;
+    background:rgba(94,200,255,.08);border:1px solid rgba(94,200,255,.18);
+    font-size:14.5px;line-height:1.55;color:var(--text);
+  }
+  .fx-where b{color:var(--accent);font-weight:800}
+  .fx-where code{
+    font-size:13px;padding:1px 5px;border-radius:4px;
+    background:rgba(0,0,0,.28);border:1px solid var(--line);
   }
   .fx-row{
     display:grid;grid-template-columns:104px 1fr;gap:10px;
@@ -221,6 +233,7 @@
   @media(max-width:620px){
     .fx-row{grid-template-columns:1fr;gap:3px}
     .fx-tag{padding-top:0}
+    .fx-item > h4{gap:4px 10px}
   }
 
   .ok{color:var(--ok);font-weight:700}
@@ -2236,9 +2249,11 @@ save</pre>
 
 
   <h2 id="bf-impact">功能影響字典（每個設定到底動到什麼）</h2>
-  <p class="lead" style="margin-top:0">這一段不是要你背指令，是要你真的聽懂：這個旋鈕轉了，飛起來手感會變成什麼樣子。能講清楚感受，才不會亂調。</p>
+  <p class="lead" style="margin-top:0">這一段不是要你背指令，是要你真的聽懂：這個旋鈕轉了，飛起來手感會變成什麼樣子。每張卡都用「中文說明＋英文介面名稱＋對照位置／CLI」並列，你才能一邊看 Betaflight、一邊對得起來。</p>
   <div class="note info">
     把整台球機想成一條流水線：你推遙控 → 接收機收到 → 飛控算該怎麼動 → 電調叫馬達轉 → 槳把球機推出去。每個設定都卡在這條線的某一個點；改錯點，整台就會飛得很怪，甚至危險。
+    <br /><br />
+    <b>怎麼對照：</b>藍色那行是 Betaflight Configurator 的英文名稱與分頁位置；<code>set xxx</code> 是 CLI 指令。中文是給人看的感受說明，英文是給你在軟體裡找到同一顆旋鈕。
   </div>
 
   <h3 id="bf-impact-flow">先看懂整條控制鏈</h3>
@@ -2262,14 +2277,16 @@ save</pre>
   <div class="fx">
 
     <article class="fx-item is-critical">
-      <h4>ARM（解鎖開關）<span class="en">Modes → ARM，建議放在 AUX1</span></h4>
+      <h4><span class="zh">解鎖開關</span><span class="en">ARM</span></h4>
+      <p class="fx-where"><b>對照位置：</b>Modes 分頁 → <code>ARM</code>　｜　建議通道 <code>AUX1</code>（ELRS 官方建議）　｜　CLI 看 <code>aux</code> 設定</p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>整台球機「准不准馬達轉動」的總開關。沒解鎖，推油門也不該轉；一上鎖，馬達要立刻停下來。</p></div>
       <div class="fx-row up"><span class="fx-tag">開的感覺</span><p>撥到解鎖，馬達開始怠速嗡嗡轉，你才推得動油門離地。撥回上鎖，四顆槳幾乎是瞬間停住，心裡會比較有底。</p></div>
       <div class="fx-row risk"><span class="fx-tag">設錯會怎樣</span><p>沒設 ARM，或通道對錯，會一直解不了鎖，看起來像壞掉。更可怕的是：ELRS 官方要求 ARM 放在 AUX1，因為這個通道幾乎每個封包都會送。你若把解鎖放在很後面的開關通道，訊號變差時，可能出現「想關關不掉、槳還在轉」的狀況。室內場地旁邊有人，這不能賭。</p></div>
     </article>
 
     <article class="fx-item">
-      <h4>解鎖角度限制（small_angle）<span class="en">機身歪超過幾度就不准解鎖</span></h4>
+      <h4><span class="zh">解鎖角度限制</span><span class="en">Small Angle</span></h4>
+      <p class="fx-where"><b>對照位置：</b>Configuration 分頁 → Arming → <code>Maximum Arm Angle</code>　｜　CLI：<code>set small_angle = 25</code></p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>飛控認為「夠平」才能解鎖。預設大概 25 度，意思是球機歪太多就不給你開轉，避免你在斜放、甚至接近側躺時解鎖衝出去。</p></div>
       <div class="fx-row up"><span class="fx-tag">調大的感覺</span><p>球框在地上歪一點也能解鎖，上場撿起來比較不會卡關。防禦機、球框比較軟、落地姿勢比較隨便的時候，隊員會覺得比較順手。</p></div>
       <div class="fx-row down"><span class="fx-tag">調小的感覺</span><p>一定要擺得很正才能解鎖。安全，但比賽節奏快時會很煩，一直解不開以為遙控壞了。</p></div>
@@ -2277,28 +2294,32 @@ save</pre>
     </article>
 
     <article class="fx-item">
-      <h4>失控起飛保護<span class="en">runaway_takeoff_prevention</span></h4>
+      <h4><span class="zh">失控起飛保護</span><span class="en">Runaway Takeoff Prevention</span></h4>
+      <p class="fx-where"><b>對照位置：</b>Configuration 分頁 → Arming　｜　CLI：<code>set runaway_takeoff_prevention = ON</code></p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>解鎖後如果飛控覺得「你根本沒要飛，但它自己暴衝」，會強制上鎖停槳。這是保護旁邊的人，不是保護成績。</p></div>
       <div class="fx-row up"><span class="fx-tag">開著的感覺</span><p>平常幾乎感覺不到它存在。真的遇到馬達順序錯、轉向錯、PID 爆掉那種「一解鎖就發瘋」的狀況，它有機會在事故變大前把槳停掉。</p></div>
       <div class="fx-row risk"><span class="fx-tag">關掉會怎樣</span><p>少了一層救命網。尤其學生機、剛重焊過的機、剛改過馬達線的機，關掉等於拿安全換一個你幾乎用不到的「方便」。預設開著就對了。</p></div>
     </article>
 
     <article class="fx-item">
-      <h4>加速度計校正<span class="en">Setup 分頁校正 Acc</span></h4>
+      <h4><span class="zh">加速度計校正</span><span class="en">Calibrate Accelerometer</span></h4>
+      <p class="fx-where"><b>對照位置：</b>Setup 分頁 → <code>Calibrate Accelerometer</code>　｜　也會影響 ANGLE 自穩準不準</p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>告訴飛控「什麼叫做水平」。ANGLE 自穩模式會一直想把機身拉回它認定的水平；水平基準歪了，整台自穩都會歪。</p></div>
       <div class="fx-row up"><span class="fx-tag">校正對的感覺</span><p>開 ANGLE 時，鬆開搖桿，球機會乖乖回正，懸停時比較不會一直往同一個方向偷偷爬走。你人站在旁邊看，機身視覺上也是平的。</p></div>
       <div class="fx-row risk"><span class="fx-tag">校正歪會怎樣</span><p>你明明覺得自己放很平，飛起來卻一直往某一側「自己想飛」。新手會以為是 Rates 太靈敏或 PID 壞掉，其實常常只是校正時桌子不平、手碰到機、或球框本身翹著。校正當下一定要平放、不要碰、等它跑完。</p></div>
     </article>
 
     <article class="fx-item">
-      <h4>飛控安裝方向補償<span class="en">Board Alignment</span></h4>
+      <h4><span class="zh">飛控安裝方向補償</span><span class="en">Board Alignment</span></h4>
+      <p class="fx-where"><b>對照位置：</b>Configuration 分頁 → Board and Sensor Alignment　｜　CLI：<code>align_board_roll / pitch / yaw</code></p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>飛控板如果不是「箭頭朝機頭、平平正裝」，就要在軟體裡把角度補回來，讓飛控知道哪邊才是前面。</p></div>
       <div class="fx-row up"><span class="fx-tag">補對的感覺</span><p>你推俯仰，機頭就往前傾；推滾轉，機身就往側倒。大腦跟手是同一套邏輯，飛起來才學得會。</p></div>
       <div class="fx-row risk"><span class="fx-tag">不補會怎樣</span><p>可能變成你推前，它往旁邊倒；你想左轉，它抬頭。這種錯位飛起來非常恐怖，幾乎沒有人能靠反應硬控。焊完飛控第一件事就是確認方向，不確定就看 Setup 畫面：把機頭往前傾，畫面上也要同步往前傾。</p></div>
     </article>
 
     <article class="fx-item">
-      <h4>不能解鎖時先看這裡<span class="en">Arming Disable Flags</span></h4>
+      <h4><span class="zh">不能解鎖原因看板</span><span class="en">Arming Disable Flags</span></h4>
+      <p class="fx-where"><b>對照位置：</b>Setup 分頁上方／中間的 <code>Arming Disable Flags</code>　｜　這不是旋鈕，是診斷訊息</p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>這不是旋鈕，是診斷看板。飛控會直接告訴你：現在是油門沒歸零、接收機沒訊號、角度太大、還是別的條件卡住。</p></div>
       <div class="fx-row up"><span class="fx-tag">會用的好處</span><p>省很多冤枉時間。很多人解不了鎖就開始亂改 PID、亂刷韌體，其實只是油門微微沒到底，或 ARM 開關方向反了。</p></div>
       <div class="fx-row risk"><span class="fx-tag">不看會怎樣</span><p>你會在錯誤的地方消耗整個下午，還可能把原本正常的設定改壞。</p></div>
@@ -2310,42 +2331,48 @@ save</pre>
   <div class="fx">
 
     <article class="fx-item">
-      <h4>Ports 的 Serial RX<span class="en">告訴飛控「接收機焊在哪個 UART」</span></h4>
+      <h4><span class="zh">接收機串列埠</span><span class="en">Serial RX</span></h4>
+      <p class="fx-where"><b>對照位置：</b>Ports 分頁 → 對應 UART 那一列勾選 <code>Serial RX</code>　｜　焊在 RX2／TX2 通常就是 UART2</p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>飛控有好幾個串列埠。你得告訴它：接收機的訊號線是接在哪一組 TX／RX 腳。</p></div>
       <div class="fx-row up"><span class="fx-tag">開對的感覺</span><p>Receiver 分頁的長條會跟著你的搖桿動，開關一撥就有反應。整台機「活過來」的感覺就是從這裡開始。</p></div>
       <div class="fx-row risk"><span class="fx-tag">開錯會怎樣</span><p>開錯埠＝完全沒遙控，怎麼推都沒條。多開一堆用不到的埠也不好，平白佔資源，還可能跟別的功能打架。Oxbot 若是內建 ELRS，接法跟外接接收機不一樣，不要照抄外接板的 UART 設定。</p></div>
     </article>
 
     <article class="fx-item">
-      <h4>接收協定（CRSF／SBUS）<span class="en">serialrx_provider</span></h4>
+      <h4><span class="zh">接收機協定</span><span class="en">Serial Receiver Provider</span></h4>
+      <p class="fx-where"><b>對照位置：</b>Receiver 分頁 → <code>Receiver Mode / Serial Receiver Provider</code>　｜　CLI：<code>set serialrx_provider = CRSF</code>（ELRS／TBS）或 <code>SBUS</code></p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>接收機輸出的「語言」。ELRS、TBS Crossfire 這類通常是 CRSF；比較老的接收機才比較常看到 SBUS。</p></div>
       <div class="fx-row up"><span class="fx-tag">選對的感覺</span><p>通道乾淨、跟手，延遲低。你推搖桿，飛機幾乎是立刻應聲。</p></div>
       <div class="fx-row risk"><span class="fx-tag">選錯會怎樣</span><p>通道會亂跳、卡死，或整排都沒訊號。看起來很像接收機壞掉或沒對頻，其實常常只是協定選錯。對頻成功但 Betaflight 沒反應時，先查這一項。</p></div>
     </article>
 
     <article class="fx-item">
-      <h4>通道方向與對應<span class="en">Receiver 分頁看四軸是否跟手</span></h4>
+      <h4><span class="zh">通道對應與方向</span><span class="en">Channel Map / Stick Channel</span></h4>
+      <p class="fx-where"><b>對照位置：</b>Receiver 分頁看 Roll／Pitch／Yaw／Throttle 長條　｜　CLI：<code>map</code>（例如 <code>map AETR1234</code>）</p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>哪一根搖桿負責滾轉、俯仰、偏航、油門；推過去是正的還是反的。</p></div>
       <div class="fx-row up"><span class="fx-tag">對的感覺</span><p>推右滾轉，球機就往右側倒；拉俯仰，機頭就抬起來。大腦不用額外翻譯，身體記憶才建得起來。</p></div>
       <div class="fx-row risk"><span class="fx-tag">反了會怎樣</span><p>一離地就往你指令的反方向衝，非常容易瞬間撞地或撞人。這不是「多練習就會」的問題，是設定錯，必須在桌上拆槳狀態先確認每根軸的方向。</p></div>
     </article>
 
     <article class="fx-item is-critical">
-      <h4>接收機端 Failsafe（斷訊要不要繼續吐訊號）<span class="en">要設成不輸出／no pulses</span></h4>
+      <h4><span class="zh">接收機端斷訊行為</span><span class="en">RX Failsafe = No Pulses / No Signal</span></h4>
+      <p class="fx-where"><b>對照位置：</b>不在 Betaflight 裡，在接收機／ELRS 設定　｜　正確是斷訊時<b>不要</b>繼續輸出最後搖桿值</p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>遙控訊號不見時，接收機自己的行為。它可以選擇「什麼都不輸出」，也可以笨笨地繼續輸出最後一次的搖桿值。</p></div>
       <div class="fx-row up"><span class="fx-tag">設對的感覺</span><p>你把遙控器關機測試時，飛控很快就知道斷訊了，接著進入保護，馬達停轉。心裡會知道：真的出事時，它會停。</p></div>
       <div class="fx-row risk"><span class="fx-tag">設錯有多可怕</span><p>如果接收機繼續輸出最後的油門與方向，飛控會以為「飛行員還在控」。結果就是：你遙控器沒電了、人或機被擋住斷訊了，球機卻還維持著最後的動作往前衝。這是足球機最致命的設定錯誤之一，也是一定要拆槳實測關遙控器的原因。</p></div>
     </article>
 
     <article class="fx-item is-critical">
-      <h4>飛控 Failsafe 動作（DROP）<span class="en">failsafe_procedure</span></h4>
+      <h4><span class="zh">飛控斷訊動作</span><span class="en">Failsafe Procedure = Drop</span></h4>
+      <p class="fx-where"><b>對照位置：</b>Failsafe 分頁 → Stage 2 → <code>Drop</code>　｜　CLI：<code>set failsafe_procedure = DROP</code></p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>飛控確認「真的斷訊了」之後要做什麼。球機正確答案幾乎只有一個：DROP，立刻停槳上鎖，讓它掉下來。</p></div>
       <div class="fx-row up"><span class="fx-tag">DROP 的感覺</span><p>斷訊後馬達停，球機落地。不好看，但可控、可預期，旁邊的人知道它不會自己滿場亂飛。</p></div>
       <div class="fx-row risk"><span class="fx-tag">用 Land／GPS Rescue 會怎樣</span><p>球機通常沒有 GPS，室內場地又小又有人。Land 類的模式可能讓馬達繼續轉、繼續位移，看起來像「斷訊了還自己找地方落地」，實際上就是一台失控的旋轉刀具在場內移動。足球機不要用。</p></div>
     </article>
 
     <article class="fx-item">
-      <h4>斷訊判定時間<span class="en">failsafe_delay，預設約 1.5 秒</span></h4>
+      <h4><span class="zh">斷訊判定時間（Stage 1）</span><span class="en">Guard Time for Stage 2</span></h4>
+      <p class="fx-where"><b>對照位置：</b>Failsafe 分頁 → <code>Guard time for stage 2 activation</code>　｜　CLI：<code>set failsafe_delay = 15</code>（單位 0.1 秒，15＝1.5 秒）</p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>訊號開始怪怪的之後，要等多久才認定「真的斷了，進入停槳」。</p></div>
       <div class="fx-row up"><span class="fx-tag">較長的感覺</span><p>短暫被干擾、瞬間掉一兩個封包時，比較不會立刻掉機。對抗場地有金屬架、多人遙控同時在場時，這種容忍度有時有幫助。</p></div>
       <div class="fx-row down"><span class="fx-tag">較短的感覺</span><p>真的斷訊會更快停槳，安全性直覺上更高；但太短時，訊號稍微抖一下也可能誤觸發，比賽中突然掉機很冤。</p></div>
@@ -2353,14 +2380,16 @@ save</pre>
     </article>
 
     <article class="fx-item">
-      <h4>Model Match（模型配對）<span class="en">ELRS 建議開</span></h4>
+      <h4><span class="zh">模型配對</span><span class="en">Model Match</span></h4>
+      <p class="fx-where"><b>對照位置：</b>ExpressLRS Lua／Web UI → <code>Model Match</code>　｜　這是 ELRS 端設定，不是 Betaflight 分頁名稱</p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>遙控器當下選的模型檔，必須跟這台接收機對得起來，才允許控制。</p></div>
       <div class="fx-row up"><span class="fx-tag">開了的感覺</span><p>你拿錯模型檔時，這台球機不會理你。當下會覺得「怎麼連不上」，但其實是它在保護你，避免你控到別台、或用錯機的設定去飛。</p></div>
       <div class="fx-row risk"><span class="fx-tag">不開的風險</span><p>五台球機外觀很像、同時在場邊充電待命時，最容易發生「我以為在控 3 號，其實訊號綁到 5 號」。輕則嚇一跳，重則別人正在拿著那台機或有人靠近時突然轉槳。</p></div>
     </article>
 
     <article class="fx-item">
-      <h4>ELRS 封包率與 Link Preset<span class="en">更新有多勤、抗干擾怎麼取捨</span></h4>
+      <h4><span class="zh">封包率與連線預設</span><span class="en">Packet Rate + ExpressLRS Link Preset</span></h4>
+      <p class="fx-where"><b>對照位置：</b>ELRS 端改 <code>Packet Rate</code>　｜　Betaflight → Presets 分頁搜尋並套用對應的 <code>ExpressLRS Link</code></p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>遙控器多常把你的手部動作送給飛控，以及這條無線連結在 Betaflight 裡該怎麼平滑、怎麼對延遲。</p></div>
       <div class="fx-row up"><span class="fx-tag">較高封包率</span><p>更跟手，動作比較「黏」在搖桿上；但在干擾多的場地，有時反而比較容易不穩。</p></div>
       <div class="fx-row down"><span class="fx-tag">較低封包率</span><p>抗干擾通常比較友善，連結較咬得住；手感上可能稍微沒那麼即時，但很多球類對抗其實更吃穩定，不一定要追最高。</p></div>
@@ -2373,7 +2402,8 @@ save</pre>
   <div class="fx">
 
     <article class="fx-item">
-      <h4>ANGLE 自穩模式<span class="en">放手會自己回平</span></h4>
+      <h4><span class="zh">自穩模式</span><span class="en">ANGLE</span></h4>
+      <p class="fx-where"><b>對照位置：</b>Modes 分頁 → <code>ANGLE</code>　｜　把某個 AUX 開關區間拉到 ANGLE 上</p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>飛控會限制最大傾角，並且在你放掉搖桿時，努力把機身拉回水平。它吃的是「角度」，不是單純讓你自由狂轉。</p></div>
       <div class="fx-row up"><span class="fx-tag">開了飛起來</span><p>新手最有感：撞一下、慌一下、手忙腳亂放掉搖桿，球機還有機會自己回正繼續飛。練習懸停、左右橫移、基本頂球時，心理壓力小很多。最大傾角預設大約 60 度，所以它不會讓你像特技機那樣整顆翻過去亂飛。</p></div>
       <div class="fx-row down"><span class="fx-tag">代價</span><p>動作天花板比較低。你想做很猛的側倒、快速翻轉、空中扭打，會覺得被什麼東西拉住，飛不久就會想切到 Acro。</p></div>
@@ -2381,28 +2411,32 @@ save</pre>
     </article>
 
     <article class="fx-item">
-      <h4>Acro 特技／手動模式<span class="en">搖桿控制轉速，放手不會自己回正</span></h4>
+      <h4><span class="zh">特技／手動模式</span><span class="en">Acro（沒開 ANGLE 時的預設）</span></h4>
+      <p class="fx-where"><b>對照位置：</b>不是單獨一個開關鍵　｜　Modes 裡<b>沒啟用</b> ANGLE／HORIZON 時，就是 Acro</p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>你推多少，它就依 Rates 去轉多少。你放掉搖桿，它大致維持當下的旋轉趨勢／姿態變化邏輯，不會像自穩那樣自動找水平。</p></div>
       <div class="fx-row up"><span class="fx-tag">飛起來的感覺</span><p>熟手會覺得世界打開了：翻滾、急轉、空中對抗都更自由，機子比較「聽你的」而不是「一直想幫你改動作」。足球對抗到後來，很多攻擊手會待在這個模式。</p></div>
       <div class="fx-row risk"><span class="fx-tag">新手常見狀況</span><p>一緊張就推過多，機身側過去以後自己回不來，接著越改越錯，最後落地或撞牆。不是機壞掉，是模式本身就不負責救你。所以新進隊員先用 ANGLE，不是丟臉，是讓你活得下來才能練。</p></div>
     </article>
 
     <article class="fx-item">
-      <h4>AIRMODE<span class="en">油門收到底時，姿態還能不能被主動控制</span></h4>
+      <h4><span class="zh">空中模式</span><span class="en">AIRMODE</span></h4>
+      <p class="fx-where"><b>對照位置：</b>Modes 分頁 → <code>AIRMODE</code>，或 Configuration 常開　｜　CLI 也可相關 feature／模式設定</p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>低油門、甚至油門收死的時候，PID 還要不要積極介入去穩姿態。球機對抗很常突然被撞、被壓、油門瞬間被你收掉，這一點非常關鍵。</p></div>
       <div class="fx-row up"><span class="fx-tag">開了的感覺</span><p>你被撞得往下掉、或自己急收油門時，機身比較不會立刻變成「失控自由落體亂翻」。空中還留著一點可控性，有機會把機頭扳回來再補油門。</p></div>
       <div class="fx-row down"><span class="fx-tag">關了的感覺</span><p>油門一收死，控制權像被抽走一半。碰撞後更容易進入亂滾，新手會覺得「怎麼一被撞就救不起來」。</p></div>
     </article>
 
     <article class="fx-item">
-      <h4>Turtle 翻正模式<span class="en">FLIP OVER AFTER CRASH</span></h4>
+      <h4><span class="zh">翻正模式（烏龜翻）</span><span class="en">FLIP OVER AFTER CRASH</span></h4>
+      <p class="fx-where"><b>對照位置：</b>Modes 分頁 → <code>FLIP OVER AFTER CRASH</code>　｜　需要 DShot；常見暱稱 Turtle Mode</p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>球機四腳朝天或側翻掛住時，讓部分馬達反向轉，用推力把自己翻回正面。省得每次都跑進場撿。</p></div>
       <div class="fx-row up"><span class="fx-tag">成功時的感覺</span><p>倒地後撥翻正開關，機身扭一下翻回來，再切回正常模式就能繼續打。節奏快的對抗裡，這真的能救回一波球權。</p></div>
       <div class="fx-row risk"><span class="fx-tag">千萬注意</span><p>一定要 DShot 才比較正常支援。更重要的是：槳如果卡死在球框、網子、地面異物上，你還硬開翻正，馬達／電調會在卡住的狀態猛出力，超容易燒。卡死就停手，進去把槳解開，不要跟物理硬剛。</p></div>
     </article>
 
     <article class="fx-item">
-      <h4>BEEPER 尋機<span class="en">蜂鳴器／LED 視覺提示</span></h4>
+      <h4><span class="zh">尋機蜂鳴</span><span class="en">BEEPER</span></h4>
+      <p class="fx-where"><b>對照位置：</b>Modes 分頁 → <code>BEEPER</code>　｜　LED 視覺蜂鳴：CLI <code>set ledstrip_visual_beeper = ON</code></p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>讓你在場邊用聲音或燈光找到球機。球一飛遠、滾到擋板後、或鑽進場邊雜物區時超有用。</p></div>
       <div class="fx-row up"><span class="fx-tag">有的感覺</span><p>撥尋機開關，聽到滴滴叫或看到燈在閃，整隊不用像找走失寵物一樣滿場爬。比賽換場、練習收操時特別感恩。</p></div>
       <div class="fx-row down"><span class="fx-tag">沒裝蜂鳴器</span><p>至少把 LED 視覺蜂鳴打開，讓燈幫你閃。總比完全沒提示好。</p></div>
@@ -2414,49 +2448,56 @@ save</pre>
   <div class="fx">
 
     <article class="fx-item">
-      <h4>DShot 協定<span class="en">DShot300／DShot600</span></h4>
+      <h4><span class="zh">電調通訊協定</span><span class="en">ESC/Motor Protocol</span></h4>
+      <p class="fx-where"><b>對照位置：</b>Motors 分頁 → <code>ESC/Motor Protocol</code>　｜　CLI：<code>set motor_pwm_protocol = DSHOT300</code> 或 <code>DSHOT600</code></p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>飛控跟電調溝通的數位語言。比起老式類比油門訊號，DShot 比較抗干擾，也才方便做 Turtle、雙向轉速回傳這類功能。</p></div>
       <div class="fx-row up"><span class="fx-tag">用起來的感覺</span><p>油門反應乾淨，功能也比較齊。一般球機用 DShot300 很穩；線路好、飛控也撐得住再考慮 DShot600。</p></div>
       <div class="fx-row risk"><span class="fx-tag">選錯會怎樣</span><p>電調不支援你選的協定時，馬達可能不轉、亂跳，或解鎖後行為怪異。這時不要先懷疑 PID，先回到 Motors 分頁確認協定跟電調實際能力。</p></div>
     </article>
 
     <article class="fx-item is-critical">
-      <h4>馬達順序與轉向<span class="en">哪一顆是 1／2／3／4，該正轉還是反轉</span></h4>
+      <h4><span class="zh">馬達順序與轉向</span><span class="en">Motor Order / Direction</span></h4>
+      <p class="fx-where"><b>對照位置：</b>Motors 分頁逐顆測試　｜　轉向可在電調設定（BLHeli／Bluejay／AM32）反轉，或資源對應調整</p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>飛控以為自己在叫「左前加快」，實際上加快的必須真的是左前那顆，而且旋轉方向還要符合你選的 Props In／Props Out 圖。</p></div>
       <div class="fx-row up"><span class="fx-tag">全對的感覺</span><p>輕輕推油門，球機平平離地；推滾轉、俯仰，方向正確且力量對稱。你會覺得這台機「很聽話」。</p></div>
       <div class="fx-row risk"><span class="fx-tag">錯了有多明顯</span><p>幾乎是一開油門就翻、原地轉、或往奇怪方向彈出去。這不是手殘，是設定／接線邏輯錯。標準流程一定是：拆槳、Motors 分頁逐顆點、看實際哪顆在轉、再對圖檢查轉向。不要裝著槳在那邊賭。</p></div>
     </article>
 
     <article class="fx-item">
-      <h4>雙向 DShot<span class="en">dshot_bidir，電調回報真實轉速</span></h4>
+      <h4><span class="zh">雙向 DShot（轉速回傳）</span><span class="en">Bidirectional DShot</span></h4>
+      <p class="fx-where"><b>對照位置：</b>Motors／Configuration 相關開關，或 PID Tuning 濾波區　｜　CLI：<code>set dshot_bidir = ON</code></p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>讓電調把每顆馬達當下轉多快，回傳給飛控。有了真實 RPM，才能做比較聰明的 RPM 濾波跟 Dynamic Idle。</p></div>
       <div class="fx-row up"><span class="fx-tag">開得成的感覺</span><p>後面濾波與怠速相關功能才有意義。對抗時震動大、常撞、常急停，開對了通常會明顯比較穩、比較不容易莫名失步。</p></div>
       <div class="fx-row risk"><span class="fx-tag">硬體不支援卻開</span><p>最常見後果是馬達不起轉、解不了鎖、或狀態怪異。本隊 HAKRC F411 原廠 BLHeli_S 就是這情況：不是「RPM 濾波邪門」，是原廠韌體根本沒有合格的雙向回傳能力。RATE／Oxbot 這類 32bit 電調才比較適合直接開。</p></div>
     </article>
 
     <article class="fx-item">
-      <h4>馬達磁鐵數（motor_poles）<span class="en">把訊號換算成正確 RPM 用的</span></h4>
+      <h4><span class="zh">馬達磁鐵數</span><span class="en">Motor Poles</span></h4>
+      <p class="fx-where"><b>對照位置：</b>Motors／Configuration 或 PID 相關區塊　｜　CLI：<code>set motor_poles = 14</code>（請實際數磁鐵）</p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>飛控要靠磁鐵數，才能把電調回傳換算成正確轉速。14xx／15xx 馬達很常見是 14，但還是要實際數鐘罩內磁鐵，不要用猜的。</p></div>
       <div class="fx-row up"><span class="fx-tag">填對的感覺</span><p>RPM 濾波會打在正確頻率上，震動被清掉的是該清的，手感比較乾淨。</p></div>
       <div class="fx-row risk"><span class="fx-tag">填錯會怎樣</span><p>飛控很認真地濾錯頻率，該留的訊號被傷到、該濾的噪音還在。結果常常是更抖、更難飛，然後有人又去猛加 PID，整台越調越糟。</p></div>
     </article>
 
     <article class="fx-item">
-      <h4>怠速（Idle）<span class="en">油門最低時，馬達還轉多快</span></h4>
+      <h4><span class="zh">怠速／最低油門</span><span class="en">Motor Idle / DShot Idle Value</span></h4>
+      <p class="fx-where"><b>對照位置：</b>Motors 分頁 → Idle／DShot Idle　｜　CLI：<code>set motor_idle = ...</code> 或對應 dshot idle 設定</p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>解鎖之後、你油門還在最低時，馬達不是歸零死停，而會維持一個基本轉速。這個基本轉速會大幅影響「收油後的穩定性」跟「能不能剎得住」。</p></div>
       <div class="fx-row up"><span class="fx-tag">怠速偏高</span><p>馬達比較不容易在急停、翻滾、被撞後失步停轉；但低油門會比較「浮」，收油剎不住、倒飛掛空感變差，也比較耗電。</p></div>
       <div class="fx-row down"><span class="fx-tag">怠速偏低</span><p>收油比較利、比較乾脆，直線煞車與快速變向會比較痛快；但太低時，翻滾中段或突然反向氣流一來，馬達可能轉太慢甚至停轉，接著就是失步、失控那一套。</p></div>
     </article>
 
     <article class="fx-item">
-      <h4>Dynamic Idle<span class="en">dyn_idle_min_rpm，依真實轉速動態撐住最低 RPM</span></h4>
+      <h4><span class="zh">動態怠速</span><span class="en">Dynamic Idle</span></h4>
+      <p class="fx-where"><b>對照位置：</b>PID Tuning 分頁 → Dynamic Idle　｜　CLI：<code>set dyn_idle_min_rpm = ...</code>，並 <code>set transient_throttle_limit = 0</code></p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>有雙向 DShot 時，飛控可以看著真實轉速說：「這顆太慢了，我幫你補一點，不要停死。」這樣就不用把固定怠速拉得很高。</p></div>
       <div class="fx-row up"><span class="fx-tag">開對的感覺</span><p>急停、快速翻面、空中被撞後再補動作，比較不容易突然某一顆馬達失步。同時因為不必靠很高的固定怠速，收油時又比「整段怠速都偏高」更乾脆。</p></div>
       <div class="fx-row risk"><span class="fx-tag">前提與坑</span><p>沒有雙向 DShot 就不要幻想它有用。官方也要求搭配時把 <code>transient_throttle_limit</code> 設成 0。數值不能抄 5 吋穿越機就結束：球機槳比較小、轉速區間不同，最好自己量怠速 RPM，再抓一個略低、但不會失步的點。</p></div>
     </article>
 
     <article class="fx-item">
-      <h4>油門上限（throttle limit）<span class="en">SCALE 70–80% 之類</span></h4>
+      <h4><span class="zh">油門上限</span><span class="en">Throttle Limit</span></h4>
+      <p class="fx-where"><b>對照位置：</b>Rateprofile／PID Tuning 相關區塊　｜　CLI：<code>set throttle_limit_type = SCALE</code>、<code>set throttle_limit_percent = 75</code></p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>把你遙控器油門的可用行程壓縮或封頂。新手練習時很常用。</p></div>
       <div class="fx-row up"><span class="fx-tag">限制後的感覺</span><p>就算你緊張把油門推到底，實際推力也到不了全開。室內場地會好控很多，比較不會一緊張就頂到天花板或射進擋板。</p></div>
       <div class="fx-row risk"><span class="fx-tag">比賽忘記改回</span><p>衝刺、射門、快速拉升都會變肉。看起來像電池沒力或馬達弱，其實只是軟體還鎖著。練習機可以鎖，正式上場前記得改回。</p></div>
@@ -2471,7 +2512,8 @@ save</pre>
   <div class="fx">
 
     <article class="fx-item">
-      <h4>P（比例）<span class="en">誤差一出現，立刻出力的力道</span></h4>
+      <h4><span class="zh">比例增益</span><span class="en">P Gain</span></h4>
+      <p class="fx-where"><b>對照位置：</b>PID Tuning 分頁 → Profile → <code>P</code>（Roll／Pitch／Yaw）　｜　CLI：<code>set p_pitch / p_roll / p_yaw</code></p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>飛控發現「現在姿態跟你要的不一樣」時，第一時間要補多用力。</p></div>
       <div class="fx-row up"><span class="fx-tag">調高的感覺</span><p>更跟手、機身比較「硬」、指令一到就往上貼。對抗時被撞一下，回正會比較乾脆。</p></div>
       <div class="fx-row down"><span class="fx-tag">調低的感覺</span><p>變軟、變慢半拍，像方向盤有點空。你推了，它好像想一下才動。</p></div>
@@ -2479,7 +2521,8 @@ save</pre>
     </article>
 
     <article class="fx-item">
-      <h4>I（積分）<span class="en">長時間把姿態慢慢修正回來</span></h4>
+      <h4><span class="zh">積分增益</span><span class="en">I Gain</span></h4>
+      <p class="fx-where"><b>對照位置：</b>PID Tuning 分頁 → Profile → <code>I</code>　｜　CLI：<code>set i_pitch / i_roll / i_yaw</code></p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>如果誤差一直存在，例如被風吹、被頂著、重心略偏，I 會持續累積修正，把機身慢慢扳回你要的狀態。</p></div>
       <div class="fx-row up"><span class="fx-tag">調高的感覺</span><p>比較貼指令，不太會慢慢漂走。懸停、對抗時被人持續擠壓，比較有「頂得住」的感覺。</p></div>
       <div class="fx-row down"><span class="fx-tag">調低的感覺</span><p>短時間還好，但飛久一點會發現它慢慢偏離，要你一直微調才能維持姿勢。</p></div>
@@ -2487,7 +2530,8 @@ save</pre>
     </article>
 
     <article class="fx-item">
-      <h4>D（微分）<span class="en">抑制快速晃動，幫忙煞住過衝</span></h4>
+      <h4><span class="zh">微分增益</span><span class="en">D Gain</span></h4>
+      <p class="fx-where"><b>對照位置：</b>PID Tuning 分頁 → Profile → <code>D</code>　｜　CLI：<code>set d_pitch / d_roll</code>（Yaw 通常較特殊）</p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>當機身正在快速晃、或動作要衝過頭時，D 負責把這股「過頭的動能」壓下來。</p></div>
       <div class="fx-row up"><span class="fx-tag">調高的感覺</span><p>比較穩，翻滾停得比較乾淨，被撞後比較不會彈兩下才停。整體看起來比較「收得住」。</p></div>
       <div class="fx-row down"><span class="fx-tag">調低的感覺</span><p>動作比較容易過一下再回來，像煞車偏軟。輕微時只是不夠俐落，嚴重時會一直小抖。</p></div>
@@ -2495,42 +2539,48 @@ save</pre>
     </article>
 
     <article class="fx-item">
-      <h4>Feedforward（FF）<span class="en">搖桿一動，先預先出力</span></h4>
+      <h4><span class="zh">前饋</span><span class="en">Feedforward (FF)</span></h4>
+      <p class="fx-where"><b>對照位置：</b>PID Tuning 分頁 → Profile → <code>Feedforward</code>　｜　CLI：<code>set f_pitch / f_roll / f_yaw</code></p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>不等誤差變大，只要看到你搖桿開始動，就先預估你要轉，提前叫馬達出力。它追求的是「更跟手、更少滯後」。</p></div>
       <div class="fx-row up"><span class="fx-tag">適中的感覺</span><p>推什麼就去什麼，手跟機之間的黏稠感變少，轉彎切入比較乾脆。</p></div>
       <div class="fx-row risk"><span class="fx-tag">太高會怎樣</span><p>會有「超前」感，像機子比你更急，容易過衝再被 PID 拉回來。球機通常先用官方預設就好，不要一開始就拿 FF 賭手感。</p></div>
     </article>
 
     <article class="fx-item">
-      <h4>Anti Gravity<span class="en">急拉／急收油門時，減少低頭翹尾</span></h4>
+      <h4><span class="zh">抗重力（油門劇變補償）</span><span class="en">Anti Gravity</span></h4>
+      <p class="fx-where"><b>對照位置：</b>PID Tuning 分頁 → Anti Gravity　｜　CLI：<code>set anti_gravity_gain = 80</code></p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>你突然大腳油門或突然收油時，機身很容易點頭、翹尾。Anti Gravity 會在這種油門劇變時暫時加強 I 的修正，把姿態留住。</p></div>
       <div class="fx-row up"><span class="fx-tag">開著的感覺</span><p>要衝刺射門、或碰撞後突然補油往上抽時，機頭比較不會先栽下去再起來。過渡比較乾淨。</p></div>
       <div class="fx-row down"><span class="fx-tag">關了／太弱</span><p>一催油就點頭，一收油就翹，看起來很像電池瞬間電壓下墜造成的姿態失控，其實有一部分是這塊沒做好。</p></div>
     </article>
 
     <article class="fx-item">
-      <h4>陀螺儀／D 濾波<span class="en">先把噪音濾掉，PID 才不會被騙</span></h4>
+      <h4><span class="zh">陀螺儀／D 項濾波</span><span class="en">Gyro Filter / D Term Filter</span></h4>
+      <p class="fx-where"><b>對照位置：</b>PID Tuning 分頁 → Filter Settings　｜　含 Dynamic Notch、D term LPF 等；先維持預設</p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>飛控陀螺儀很敏感，槳、馬達、球框共振都會製造高頻噪音。濾波的工作就是：真實姿態留下，雜訊丟掉。</p></div>
       <div class="fx-row up"><span class="fx-tag">濾太重</span><p>手感變鈍，像隔著一層布在飛。你推了，它慢半拍才到；看起來很穩，但其實犧牲了很多跟手程度。</p></div>
       <div class="fx-row down"><span class="fx-tag">濾太少／亂關</span><p>PID 開始追噪音，馬達尖叫、發燙，嚴重就燒電調。有些人為了「延遲低一點」把濾波砍光，這在球機上非常不划算，因為球框與碰撞本來就更髒、更震。</p></div>
     </article>
 
     <article class="fx-item">
-      <h4>RPM 濾波<span class="en">依真實轉速，精準砍掉槳／馬達諧波</span></h4>
+      <h4><span class="zh">RPM 濾波</span><span class="en">RPM Filter</span></h4>
+      <p class="fx-where"><b>對照位置：</b>PID Tuning 分頁 → Filters → <code>RPM Filter</code>　｜　前提：<code>dshot_bidir = ON</code>，且 <code>motor_poles</code> 填對</p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>知道馬達現在轉多快之後，飛控可以精準地對準那些跟轉速綁在一起的震動頻率來濾，而不是整段頻率一把抓。</p></div>
       <div class="fx-row up"><span class="fx-tag">開對的感覺</span><p>機身乾淨很多，其他濾波往往可以不用拉得那麼重，所以常常同時得到「更穩」跟「比較不鈍」。對抗這種高震動場景特別有感。</p></div>
       <div class="fx-row risk"><span class="fx-tag">開錯前提</span><p>沒雙向 DShot、電調不支援、或 <code>motor_poles</code> 填錯，效果就會走鐘：輕則沒幫助，重則不起轉或更抖。不要聽別人說「足球機一定要開」就無腦開，先看你那塊板辦不辦得到。</p></div>
     </article>
 
     <article class="fx-item">
-      <h4>Rates：中心靈敏度<span class="en">搖桿在中間附近時有多敏感</span></h4>
+      <h4><span class="zh">中心靈敏度</span><span class="en">RC Rate / Center Sensitivity</span></h4>
+      <p class="fx-where"><b>對照位置：</b>Rateprofile／PID Tuning → Rates　｜　ACTUAL 模式下對應中心速度；CLI：<code>roll_rc_rate / pitch_rc_rate / yaw_rc_rate</code></p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>你只輕輕推一點點時，飛機要轉多快。這直接決定「微調好不好做」。</p></div>
       <div class="fx-row up"><span class="fx-tag">偏高的感覺</span><p>輕輕碰搖桿就有明顯動作，看起來很靈，但懸停、對球、小幅平移會變難，手一緊張就推過頭。</p></div>
       <div class="fx-row down"><span class="fx-tag">偏低的感覺</span><p>中間很好控，像有緩衝區；可是你想做小幅度快速修正時，要推更多才有反應。很多人練球機會先把中間降到自己不會手抖亂飛。</p></div>
     </article>
 
     <article class="fx-item">
-      <h4>Rates：最大轉速<span class="en">搖桿打滿時，一秒最多轉幾度</span></h4>
+      <h4><span class="zh">最大轉速</span><span class="en">Max Rate / Super Rate</span></h4>
+      <p class="fx-where"><b>對照位置：</b>Rateprofile → Rates 圖右側最大 deg/s　｜　CLI：<code>roll_srate / pitch_srate / yaw_srate</code>（依 rates_type）</p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>極限動作有多猛。打滿滾轉／俯仰時，機身翻面、變向的速度上限就在這裡。</p></div>
       <div class="fx-row up"><span class="fx-tag">偏高的感覺</span><p>空中可以很快翻面、扭身、做比較激烈的脫身。上限高，但容錯低，一下子就轉過量。</p></div>
       <div class="fx-row down"><span class="fx-tag">偏低的感覺</span><p>整台變得比較溫馴，室內很好練；可是到了要快速擺脫纏鬥、快速調整機頭方向時，會覺得「轉不夠快」。</p></div>
@@ -2538,14 +2588,16 @@ save</pre>
     </article>
 
     <article class="fx-item">
-      <h4>Expo<span class="en">中間細、外側仍可到最大轉速</span></h4>
+      <h4><span class="zh">曲線緩和</span><span class="en">RC Expo</span></h4>
+      <p class="fx-where"><b>對照位置：</b>Rateprofile → <code>Expo</code>　｜　CLI：<code>set roll_expo / pitch_expo / yaw_expo</code></p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>搖桿行程的手感曲線。加 Expo 通常是讓中間更細膩，但外側打滿還是能到你設定的最大轉速。</p></div>
       <div class="fx-row up"><span class="fx-tag">加一點的感覺</span><p>懸停與微調變友善，不容易在中間區域抖動就越修越大；需要大動作時，還是可以把搖桿推出去用滿。</p></div>
       <div class="fx-row down"><span class="fx-tag">完全線性</span><p>好預測，但也比較「直」，新手在中間區容易覺得太跳。有人喜歡線性，有人喜歡中間軟一點，這沒有標準答案，屬於個人手感。</p></div>
     </article>
 
     <article class="fx-item">
-      <h4>ANGLE 最大傾角（angle_limit）<span class="en">自穩模式最多能側多少</span></h4>
+      <h4><span class="zh">自穩最大傾角</span><span class="en">Angle Limit</span></h4>
+      <p class="fx-where"><b>對照位置：</b>PID Tuning → Angle mode 相關　｜　CLI：<code>set angle_limit = 60</code></p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>ANGLE 模式下，飛控允許的最大傾斜角度。預設大約 60 度。</p></div>
       <div class="fx-row up"><span class="fx-tag">調大的感覺</span><p>自穩也能側得比較兇，左右橫移、壓低機身衝刺會比較有力。</p></div>
       <div class="fx-row down"><span class="fx-tag">調小的感覺</span><p>整台更「平飛」，較不容易側翻失控；但橫向移動與壓角度過彎會變慢、變肉，像被限制在一個淺淺的碗裡飛。</p></div>
@@ -2557,49 +2609,56 @@ save</pre>
   <div class="fx">
 
     <article class="fx-item">
-      <h4>電壓校正（vbat_scale）<span class="en">飛控顯示的電壓要等於三用電表</span></h4>
+      <h4><span class="zh">電壓校正</span><span class="en">Voltage Scale</span></h4>
+      <p class="fx-where"><b>對照位置：</b>Power &amp; Battery 分頁 → Voltage Meter → <code>Scale</code>　｜　CLI：<code>set vbat_scale = ...</code></p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>飛控自己量到的電池電壓，跟真實電壓中間的比例關係。不校正，後面所有低壓警告都是在猜。</p></div>
       <div class="fx-row up"><span class="fx-tag">校正準的感覺</span><p>紅閃與警告會在對的時間出現。你開始相信燈光，該換電池就換，電池也比较不容易被打穿。</p></div>
       <div class="fx-row risk"><span class="fx-tag">偏高／偏低</span><p>飛控以為電壓比實際高：警告太晚，電池已經受傷你還在打。飛控以為電壓比實際低：才飛一下子就紅閃，整隊會覺得續航很差、一直換電池。兩種都很煩，而且都會讓你做出錯誤判斷。</p></div>
     </article>
 
     <article class="fx-item">
-      <h4>警告電壓／最低電壓<span class="en">3.50V 警告、3.30V 最低（每芯）</span></h4>
+      <h4><span class="zh">警告電壓／最低電壓</span><span class="en">Warning / Minimum Cell Voltage</span></h4>
+      <p class="fx-where"><b>對照位置：</b>Power &amp; Battery 分頁　｜　CLI：<code>set vbat_warning_cell_voltage = 350</code>、<code>set vbat_min_cell_voltage = 330</code>（單位 0.01V）</p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>什麼時候開始提醒你「電不夠了」，什麼時候算危急。球機沒有圖傳 OSD，這件事通常得靠 LED 紅閃或其他提示表現出來。</p></div>
       <div class="fx-row up"><span class="fx-tag">設得合理時</span><p>對抗打到後段，燈開始警告，你還有時間把球權處理完再下場換電，不會突然整台無力墜機，也不會默默過放。</p></div>
       <div class="fx-row risk"><span class="fx-tag">設太低／太高</span><p>太低：燈都不叫，電池已被虐到後續容量與壽命變差。太高：每場飛一下就警報，節奏破碎，隊員開始不理會警告，久了反而更危險。</p></div>
     </article>
 
     <article class="fx-item">
-      <h4>電流計比例（ibata_scale）<span class="en">電流讀數的倍率</span></h4>
+      <h4><span class="zh">電流計比例</span><span class="en">Current Meter Scale</span></h4>
+      <p class="fx-where"><b>對照位置：</b>Power &amp; Battery 分頁 → Current Meter → <code>Scale</code>　｜　CLI：<code>set ibata_scale = ...</code>（F411 常見 210）</p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>飛控怎麼把感測到的訊號換算成「現在抽了多少安培」。它影響耗電估計、黑匣子曲線，也影響你對這台機「吃不吃電」的判斷。</p></div>
       <div class="fx-row up"><span class="fx-tag">準的時候</span><p>你看得出哪種飛法特別耗電，調完槳、換馬達、改飛法之後也比較知道有沒有變兇。</p></div>
       <div class="fx-row risk"><span class="fx-tag">不準時</span><p>你可能以為這台很省電其實很兇，或相反。它通常不會立刻讓你墜機，但會讓教練跟隊員對續航做出錯誤結論。HAKRC F411 常見要確認原廠比例（例如 210），別的板則要實測。</p></div>
     </article>
 
     <article class="fx-item">
-      <h4>電池容量填寫（bat_capacity）<span class="en">告訴飛控這顆標稱多少 mAh</span></h4>
+      <h4><span class="zh">電池容量</span><span class="en">Battery Capacity</span></h4>
+      <p class="fx-where"><b>對照位置：</b>Power &amp; Battery 分頁 → <code>Capacity</code>　｜　CLI：<code>set bat_capacity = 1060</code></p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>給飛控一個「這顆電池大概有多大」的參考，方便估算剩餘百分比。</p></div>
       <div class="fx-row up"><span class="fx-tag">填對的用途</span><p>看百分比比較有意義，尤其你有在看黑匣子或後台紀錄時。</p></div>
       <div class="fx-row down"><span class="fx-tag">填錯也不會改變推力</span><p>它不會讓馬達變強或變弱。只是參考值變差。真正決定能不能飛、安不安全的，還是電壓校正跟低壓警告。</p></div>
     </article>
 
     <article class="fx-item">
-      <h4>LED_STRIP 與亮度<span class="en">燈條功能開關、ledstrip_brightness</span></h4>
+      <h4><span class="zh">燈條功能與亮度</span><span class="en">LED_STRIP / LED Strip Brightness</span></h4>
+      <p class="fx-where"><b>對照位置：</b>Configuration → Features → <code>LED_STRIP</code>；LED Strip 分頁調色　｜　CLI：<code>feature LED_STRIP</code>、<code>set ledstrip_brightness = 40</code></p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>飛控要不要控制燈，以及燈要亮到什麼程度。亮度直接等於耗電，也直接等於 BEC 壓不壓得住。</p></div>
       <div class="fx-row up"><span class="fx-tag">亮麗的代價</span><p>場上很好認、很好看，攝影師也喜歡；但 22 顆燈全開到很亮時，小 BEC 會喘不過氣，可能造成壓降、飛控重啟、莫名斷控。看起來像飛控有鬼，其實是電力被燈吃垮。</p></div>
       <div class="fx-row down"><span class="fx-tag">適當調暗</span><p>還是看得到隊色與射手燈，但整台電力餘裕變大，飛起來比較安穩。F411 這種比較小的 BEC，務實一點，亮度乖乖降。</p></div>
     </article>
 
     <article class="fx-item">
-      <h4>低壓紅閃／視覺蜂鳴<span class="en">球機版的「沒電警告燈」</span></h4>
+      <h4><span class="zh">低壓警示燈／視覺蜂鳴</span><span class="en">Battery Warning + Visual Beeper</span></h4>
+      <p class="fx-where"><b>對照位置：</b>LED Strip 分頁功能色／警告色　｜　CLI：<code>set ledstrip_visual_beeper = ON</code>，並設好警告電壓</p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>把電池警告變成你在場上用肉眼就看得懂的訊號。沒有圖傳螢幕的球機，這幾乎是唯一即時警示。</p></div>
       <div class="fx-row up"><span class="fx-tag">有設的感覺</span><p>打到後段燈一變，替補就知道該準備換電；飛行員也知道該收，不要再硬打一波猛攻。</p></div>
       <div class="fx-row risk"><span class="fx-tag">沒設的結果</span><p>大家憑感覺飛，感覺通常會騙人。結果就是某台機突然無力、過放、或飛到一半電子行為開始怪異，事後才在那邊猜是不是電池問題。</p></div>
     </article>
 
     <article class="fx-item">
-      <h4>Oxbot 的 VTX BEC OFF<span class="en">沒裝圖傳就關掉圖傳供電</span></h4>
+      <h4><span class="zh">圖傳供電關閉</span><span class="en">VTX BEC OFF</span></h4>
+      <p class="fx-where"><b>對照位置：</b>Oxbot 板專用開關／說明（視韌體與板載選項）　｜　沒裝圖傳務必關閉，避免空接供電</p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>有些飛控板即使你沒插圖傳，圖傳那一路供電還是可能活著。關掉它，就是把用不到的電力與風險拿掉。</p></div>
       <div class="fx-row up"><span class="fx-tag">關掉的好處</span><p>少耗電、少發熱、少一個可能製造干擾的電源路徑。球機本來就沒圖傳，開著常態供電沒有好處。</p></div>
       <div class="fx-row risk"><span class="fx-tag">沒關會怎樣</span><p>不一定馬上壞，但屬於「明明用不到卻一直開著」的風險與浪費。能關就關。</p></div>
@@ -2611,21 +2670,24 @@ save</pre>
   <div class="fx">
 
     <article class="fx-item">
-      <h4>Blackbox 黑匣子<span class="en">把飛行過程錄成資料</span></h4>
+      <h4><span class="zh">黑匣子紀錄</span><span class="en">Blackbox</span></h4>
+      <p class="fx-where"><b>對照位置：</b>Blackbox 分頁 → 開啟／關閉與記錄裝置　｜　CLI：<code>set blackbox_device = SPIFLASH</code> 等</p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>記錄陀螺儀、馬達輸出、PID 行為等資料，讓你事後在電腦上看「當時到底為什麼抖、為什麼飄」。</p></div>
       <div class="fx-row up"><span class="fx-tag">調參時開</span><p>非常有價值。你可以看見震動頻率、馬達是不是在追噪音、油門一催姿態怎麼掉。這比憑感覺吵架準太多。</p></div>
       <div class="fx-row down"><span class="fx-tag">平常建議關</span><p>一直開會吃儲存空間跟系統資源。你若從來不看紀錄，開著只是增加負擔，對比賽本身沒幫助。</p></div>
     </article>
 
     <article class="fx-item">
-      <h4>機號命名（craft_name）<span class="en">接上電腦立刻知道是幾號機</span></h4>
+      <h4><span class="zh">機號命名</span><span class="en">Craft Name</span></h4>
+      <p class="fx-where"><b>對照位置：</b>Setup／Configuration 可見名稱，或 CLI　｜　CLI：<code>set craft_name = CHSH-1</code></p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>這台飛控在 Betaflight 裡顯示的名字。五台球機外觀愈像，這個愈重要。</p></div>
       <div class="fx-row up"><span class="fx-tag">有命名的好處</span><p>USB 一插就知道是 3 號還是 5 號，不會改錯機、備份也不會存錯檔。教練在場邊排障時會省很多命。</p></div>
       <div class="fx-row risk"><span class="fx-tag">不設的後果</span><p>大家憑記憶跟貼紙辨認，最後一定會有人把 A 機的參數貼到 B 機，然後說「奇怪怎麼愈改愈糟」。</p></div>
     </article>
 
     <article class="fx-item">
-      <h4>OSD、GPS、氣壓計、3D 模式<span class="en">球機大多用不到</span></h4>
+      <h4><span class="zh">通常不用開的功能</span><span class="en">OSD / GPS / Baro / 3D</span></h4>
+      <p class="fx-where"><b>對照位置：</b>Configuration → Features：<code>OSD</code>、<code>GPS</code> 等；Modes 的 GPS 相關模式；Configuration 的 <code>3D</code>　｜　球機沒硬體就不要開</p>
       <div class="fx-row"><span class="fx-tag">OSD</span><p>是圖傳畫面疊字。沒鏡頭、沒圖傳就看不見，開了也只是多一層負擔。</p></div>
       <div class="fx-row"><span class="fx-tag">GPS／氣壓計</span><p>有硬體才有意義。沒裝卻開啟相關模式，常會多出錯誤、延遲或莫名其妙的限制。</p></div>
       <div class="fx-row risk"><span class="fx-tag">3D 模式</span><p>那是讓馬達可正反轉做特定特技用的。球機不需要；還可能跟 Dynamic Idle 這類功能衝突。看到就略過，不要因為名字酷就打開。</p></div>
