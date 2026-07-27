@@ -2223,6 +2223,7 @@ save</pre>
       <span class="toc-group-label">影響</span>
       <a href="#bf-impact">功能影響字典</a>
       <a href="#bf-impact-arm">解鎖安全</a>
+      <a href="#bf-rearm">空中再解鎖</a>
       <a href="#bf-impact-rx">遙控斷訊</a>
       <a href="#bf-impact-modes">飛行模式</a>
       <a href="#bf-impact-motor">馬達電調</a>
@@ -2333,13 +2334,12 @@ save</pre>
       <div class="fx-row risk"><span class="fx-tag">設錯會怎樣</span><p>沒設 ARM，或通道對錯，會一直解不了鎖，看起來像壞掉。更可怕的是：ELRS 官方要求 ARM 放在 AUX1，因為這個通道幾乎每個封包都會送。</p><p>你若把解鎖放在很後面的開關通道，訊號變差時，可能出現「想關關不掉、槳還在轉」的狀況。室內場地旁邊有人，這不能賭。</p></div>
     </article>
 
-    <article class="fx-item">
-      <h4><span class="zh">解鎖角度限制</span><span class="en">Small Angle</span></h4>
-      <p class="fx-where"><b>對照位置：</b>Configuration 分頁 → Arming → <code>Maximum Arm Angle</code>　｜　CLI：<code>set small_angle = 25</code></p>
-      <div class="fx-row"><span class="fx-tag">它在管</span><p>飛控認為「夠平」才能解鎖。預設大概 25 度，意思是球機歪太多就不給你開轉，避免你在斜放、甚至接近側躺時解鎖衝出去。</p></div>
-      <div class="fx-row up"><span class="fx-tag">調大的感覺</span><p>球框在地上歪一點也能解鎖，上場撿起來比較不會卡關。防禦機、球框比較軟、落地姿勢比較隨便的時候，隊員會覺得比較順手。</p></div>
-      <div class="fx-row down"><span class="fx-tag">調小的感覺</span><p>一定要擺得很正才能解鎖。安全，但比賽節奏快時會很煩，一直解不開以為遙控壞了。</p></div>
-      <div class="fx-row risk"><span class="fx-tag">設錯會怎樣</span><p>直接設到 180 等於「倒著也能解鎖」。官方不建議這樣做。有人隨手撥到解鎖，球機若本來就側躺或倒扣，馬達一轉就可能往奇怪方向衝。</p><p>球機要放大角度可以，但操作習慣要更嚴格：先確認姿態，再解鎖。</p></div>
+    <article class="fx-item is-critical">
+      <h4><span class="zh">解鎖角度限制</span><span class="en">Small Angle / Maximum Arm Angle</span></h4>
+      <p class="fx-where"><b>對照位置：</b>Configuration → Arming → <code>Maximum Arm Angle</code>　｜　CLI：<code>set small_angle = 180</code>（介面名稱與 CLI 變數名不同，改的是同一個）</p>
+      <div class="fx-row"><span class="fx-tag">它在管</span><p>機身歪超過這個角度就不准解鎖。預設約 25 度。空中翻滾、側倒、倒扣時若仍是 25，你會看到開關切了卻解不了鎖——比賽裡非常致命。</p></div>
+      <div class="fx-row up"><span class="fx-tag">球機比賽建議</span><p>設成 <b>180</b>：任何姿態都能 Re-Arm，才能做「空中上鎖→收油→再解鎖→補油」的連貫救機。</p></div>
+      <div class="fx-row risk"><span class="fx-tag">安全代價</span><p>180 等於倒著也能解鎖。地面上若有人靠近、機身側躺卻誤觸 ARM，馬達可能往怪方向衝。</p><p>因此球機設 180 時，<b>PREARM 強烈建議</b>，並練成「油門先到底再 ARM」的肌肉記憶。詳見 <a href="#bf-rearm">空中再解鎖</a>。</p></div>
     </article>
 
     <article class="fx-item">
@@ -2368,12 +2368,95 @@ save</pre>
 
     <article class="fx-item">
       <h4><span class="zh">不能解鎖原因看板</span><span class="en">Arming Disable Flags</span></h4>
-      <p class="fx-where"><b>對照位置：</b>Setup 分頁上方／中間的 <code>Arming Disable Flags</code>　｜　這不是旋鈕，是診斷訊息</p>
-      <div class="fx-row"><span class="fx-tag">它在管</span><p>這不是旋鈕，是診斷看板。飛控會直接告訴你：現在是油門沒歸零、接收機沒訊號、角度太大、還是別的條件卡住。</p></div>
-      <div class="fx-row up"><span class="fx-tag">會用的好處</span><p>省很多冤枉時間。很多人解不了鎖就開始亂改 PID、亂刷韌體，其實只是油門微微沒到底，或 ARM 開關方向反了。</p></div>
-      <div class="fx-row risk"><span class="fx-tag">不看會怎樣</span><p>你會在錯誤的地方消耗整個下午，還可能把原本正常的設定改壞。</p></div>
+      <p class="fx-where"><b>對照位置：</b>Setup 分頁的 <code>Arming Disable Flags</code>　｜　空中 Re-Arm 失敗時第一個看這裡</p>
+      <div class="fx-row"><span class="fx-tag">它在管</span><p>飛控直接告訴你為什麼不准解鎖：角度、油門、校正中、接收機……不是壞掉，是某道保護還沒過。</p></div>
+      <div class="fx-row up"><span class="fx-tag">球機常見旗標</span><p><b>ANGLE</b>＝歪超過 small_angle（比賽建議改 180）；<b>THROTTLE</b>＝油門沒收到低於 min_check；<b>CALIB</b>＝感測器還在校正；還有 RX／CLI／MSP 等。</p></div>
+      <div class="fx-row risk"><span class="fx-tag">不看會怎樣</span><p>你會在錯誤的地方消耗整個下午，還可能把原本正常的設定改壞。空中解不開時，先記旗標再改設定。</p></div>
     </article>
 
+  </div>
+
+  <h3 id="bf-rearm">空中 Disarm 後無法瞬間 Re-Arm（比賽致命）</h3>
+  <div class="note critical">
+    <p><b>症狀：</b>空中切上鎖（Disarm）後，想立刻再解鎖起飛，卻卡住 1～2 秒，甚至完全解不開。</p>
+    <p>這通常<b>不是飛控壞掉</b>，而是 Betaflight 的安全條件或電調還沒就緒。足球對抗常在歪斜、翻滾、急收油時要再解鎖——這條一定要練熟、設對。</p>
+  </div>
+  <div class="note info">
+    <p><b>操作口訣（肌肉記憶）：</b>Disarm → <b>油門瞬間收到底</b> → Re-Arm → 再補油門。</p>
+    <p>不要油門還在半空就撥 ARM；也不要在機身還在狂轉的同一毫秒硬切（留約 0.1～0.2 秒讓積分清空）。</p>
+  </div>
+
+  <h4>五大原因與作法</h4>
+  <div class="wide">
+  <table>
+    <thead><tr><th class="n">#</th><th>原因</th><th>你會看到／感覺到</th><th>球機怎麼處理</th></tr></thead>
+    <tbody>
+      <tr class="critical-row">
+        <td class="n">1</td>
+        <td><b>解鎖角度太小</b><br /><code>small_angle</code>（介面 Maximum Arm Angle）</td>
+        <td>機身歪／側／倒時切不開；Setup 常出現 <b>ANGLE</b></td>
+        <td>比賽機設 <b>180</b>。CLI 只改 <code>set small_angle = 180</code>（沒有獨立的 max_arm_angle）。必搭 PREARM＋油門到底習慣</td>
+      </tr>
+      <tr class="critical-row">
+        <td class="n">2</td>
+        <td><b>油門沒收到底</b><br />Throttle 安全門檻／<code>min_check</code></td>
+        <td>開關切了沒轉；旗標 <b>THROTTLE</b></td>
+        <td>Re-Arm 前油門必須低於 <code>min_check</code>（預設約 1050）。確認遙控器油門到底時通道值夠低；口訣見上</td>
+      </tr>
+      <tr>
+        <td class="n">3</td>
+        <td><b>陀螺儀還在狂甩／校正</b></td>
+        <td>碰撞後瞬間切不開；偶發 <b>CALIB</b></td>
+        <td>Disarm→Re-Arm 留極短停頓。確認 <code>gyro_cal_on_first_arm = OFF</code>（不要每次解鎖都校正）。機體靜置才做加速度校正</td>
+      </tr>
+      <tr>
+        <td class="n">4</td>
+        <td><b>DShot／電調還沒就緒</b><br />煞車、Beacon、翻正後</td>
+        <td>開關已解鎖，馬達晚 0.5～1 秒才轉</td>
+        <td>電調韌體保持較新；Motors 怠速約 <b>4.5%～5.5%</b>；開 AIRMODE。翻正卡住槳時不要硬推</td>
+      </tr>
+      <tr>
+        <td class="n">5</td>
+        <td><b>其他 Arming Disable Flags</b></td>
+        <td>Setup／OSD 顯示各種旗標</td>
+        <td>對照下表逐項消；先消 ANGLE／THROTTLE，再查 RX、CLI、MSP、RUNAWAY 等</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h4>Arming Disable Flags 速查（空中再解鎖）</h4>
+  <div class="wide">
+  <table>
+    <thead><tr><th>旗標</th><th>意思</th><th>球機怎麼做</th></tr></thead>
+    <tbody>
+      <tr class="critical-row"><td><b>ANGLE</b></td><td>傾角超過 Maximum Arm Angle</td><td><code>set small_angle = 180</code></td></tr>
+      <tr class="critical-row"><td><b>THROTTLE</b></td><td>油門高於 min_check</td><td>油門收到底；檢查遙控器行程與 <code>min_check</code></td></tr>
+      <tr><td><b>CALIB</b></td><td>感測器校正中</td><td>等它跑完；關閉不必要的每次解鎖校正</td></tr>
+      <tr><td>ARM／開關</td><td>ARM 通道不在解鎖區間</td><td>確認 AUX1 高低方向；PREARM 是否已開</td></tr>
+      <tr><td>RX／FAILSAFE</td><td>接收機異常或斷訊狀態</td><td>先恢復連線；不要在 Failsafe 中硬解鎖</td></tr>
+      <tr><td>CLI</td><td>還在 CLI 連線模式</td><td>拔掉 USB／離開 CLI</td></tr>
+      <tr><td>MSP</td><td>電腦／MSP 佔用</td><td>斷開 Configurator 再飛</td></tr>
+      <tr><td>RUNAWAY</td><td>失控起飛保護觸發後</td><td>先 Disarm、放平、確認沒有暴衝原因再解鎖</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h4>建議 CLI（比賽球機）</h4>
+  <div class="note warn">
+    <p><b>注意：</b>官方文件會寫 small_angle＝180「不建議」——那是一般穿越機／地面安全邏輯。</p>
+    <p>足球機空中救機需要任意角度 Re-Arm，本隊比賽機改用 180，但用 <b>PREARM＋油門到底＋場邊禁誤觸</b> 補回安全。</p>
+    <p>CLI 變數名是 <code>small_angle</code>；介面才叫 Maximum Arm Angle。<b>不要</b>貼不存在的 <code>max_arm_angle</code>。</p>
+  </div>
+  <pre># 空中可任意角度再解鎖（球機比賽向）
+set small_angle = 180
+set gyro_cal_on_first_arm = OFF
+# 確認油門到底低於 min_check（預設通常夠用）
+# set min_check = 1050
+save</pre>
+  <div class="note info">
+    <p>怠速／Air Mode 一併檢查：Motors 頁 DShot Idle 約 4.5%～5.5%；Configuration／Modes 確認 AIRMODE 有開，Re-Arm 後比較容易立刻接手。</p>
+    <p>改完一定在<b>拆槳或架高</b>狀態練口訣：Disarm → 油門到底 → Re-Arm → 補油，確認歪斜姿態也能秒解鎖。</p>
   </div>
 
   <h3 id="bf-impact-rx">遙控、接收機、斷訊：你的手跟飛機中間那條線</h3>
@@ -2929,7 +3012,7 @@ save</pre>
       <tr><td>Dynamic Idle</td><td>有雙向 DShot 才開；起點 <b>40</b></td><td>無雙向就 <b>不要設</b></td></tr>
       <tr><td>LED 亮度</td><td><b>40–45</b>（BEC 較大可略高）</td><td><b>35–40</b>（F411 BEC 2A，寧可暗一點）</td></tr>
       <tr><td>電流計比例</td><td>Oxbot 用板預設；RATE 實測</td><td>F411：<b>210</b></td></tr>
-      <tr><td>解鎖角度 <code>small_angle</code></td><td><b>25–35</b></td><td><b>35–45</b>（落地歪一點也要救得起來）</td></tr>
+      <tr class="critical-row"><td>解鎖角度 <code>small_angle</code></td><td><b>180</b>（空中任意姿態可再解鎖）</td><td><b>180</b>（同上；<b>必搭 PREARM</b>＋油門到底）</td></tr>
       <tr><td>ANGLE 最大傾角</td><td>若有開：<b>55–60</b></td><td><b>50–55</b>（先求穩，再慢慢加大）</td></tr>
       <tr><td>比賽油門上限</td><td><b>OFF／100%</b>（要得出力）</td><td>正式賽通常也 <b>100%</b>；練習可先鎖 80%</td></tr>
       <tr><td>Rates 方向</td><td>較快、較兇，方便甩開與射門變向</td><td>較慢、中間較細，方便追球微調</td></tr>
@@ -3008,7 +3091,7 @@ save</pre>
       <tr><td>雙向 DShot</td><td><code>dshot_bidir</code></td><td><b>ON</b></td><td>F411 原廠 <b>OFF</b></td></tr>
       <tr><td>Dynamic Idle 最小 RPM</td><td><code>dyn_idle_min_rpm</code></td><td>有 bidir 先 <b>40</b></td><td><b>0</b>（關閉）</td></tr>
       <tr><td>暫時油門限制</td><td><code>transient_throttle_limit</code></td><td>開 Dynamic Idle 時必設 <b>0</b></td><td>維持預設／0</td></tr>
-      <tr><td>解鎖角度</td><td><code>small_angle</code></td><td><b>30</b></td><td><b>40</b></td></tr>
+      <tr class="critical-row"><td>解鎖角度</td><td><code>small_angle</code></td><td><b>180</b></td><td><b>180</b>（空中再解鎖；見 <a href="#bf-rearm">空中再解鎖</a>）</td></tr>
       <tr><td>ANGLE 最大傾角</td><td><code>angle_limit</code></td><td><b>60</b></td><td><b>55</b></td></tr>
       <tr><td>練習用油門上限</td><td><code>throttle_limit_*</code></td><td>新進攻擊手可先 <b>SCALE 85</b></td><td>新進防守手可先 <b>SCALE 75–80</b></td></tr>
       <tr class="critical-row"><td>油門中點</td><td><code>thr_mid</code></td><td>對準懸停％（重機常 40–50）</td><td><b>防守必設</b>：對準該機懸停％（常 25–35）</td></tr>
@@ -3039,7 +3122,8 @@ set runaway_takeoff_prevention = ON
 set motor_pwm_protocol = DSHOT300
 set rates_type = ACTUAL
 set motor_poles = 14
-set small_angle = 30
+set small_angle = 180
+set gyro_cal_on_first_arm = OFF
 set angle_limit = 60
 set dshot_bidir = ON
 set transient_throttle_limit = 0
@@ -3065,7 +3149,8 @@ set runaway_takeoff_prevention = ON
 set motor_pwm_protocol = DSHOT300
 set rates_type = ACTUAL
 set motor_poles = 14
-set small_angle = 40
+set small_angle = 180
+set gyro_cal_on_first_arm = OFF
 set angle_limit = 55
 set ibata_scale = 210
 set dshot_bidir = OFF
@@ -3087,8 +3172,8 @@ save</pre>
   <div class="note info">
     <p><b>一句話記住差異：</b>
     攻擊手＝較快 Rates＋Acro 為主＋開轉速回傳／RPM 濾波＋亮度可略高；
-    防守手＝較慢 Rates＋ANGLE 優先＋F411 先別硬開 bidir＋亮度與解鎖角度更務實＋<b>假定高油門（Mid／Expo）必調</b>。</p>
-    <p>兩邊的 Failsafe、電壓警告、ARM＝AUX1 <b>完全一樣，沒有角色差</b>。</p>
+    防守手＝較慢 Rates＋ANGLE 優先＋F411 先別硬開 bidir＋假定高油門必調。</p>
+    <p>兩邊的 Failsafe、電壓警告、ARM＝AUX1、<b>small_angle＝180（空中再解鎖）</b> <b>完全一樣，沒有角色差</b>。</p>
   </div>
 
   <h2 id="bf-must">一定要改（不改就有安全或比賽風險）</h2>
@@ -3101,6 +3186,12 @@ save</pre>
         <td><b>AUX1（第 5 通道）</b>；低＝上鎖、高＝解鎖</td>
         <td>Modes</td>
         <td><b>ELRS 官方規定</b>：AUX1 每一個封包都會送出，訊號差時仍能可靠上鎖。放在其他通道可能<b>關不掉馬達</b></td>
+      </tr>
+      <tr class="critical-row">
+        <td><b>空中再解鎖角度</b></td>
+        <td><code>small_angle = 180</code>（Maximum Arm Angle）</td>
+        <td>Configuration → Arming</td>
+        <td>預設 25 度時，空中歪斜／翻滾後會解不開鎖，比賽致命。設 180 必搭 <b>PREARM</b>＋油門到底再 ARM。見 <a href="#bf-rearm">空中再解鎖</a></td>
       </tr>
       <tr class="critical-row">
         <td><b>接收機端 Failsafe</b></td>
@@ -3200,11 +3291,11 @@ save</pre>
         <td>全隊</td>
         <td>油門收到底仍保有姿態控制力，碰撞後比較不會失控翻滾</td>
       </tr>
-      <tr>
-        <td><b>解鎖角度限制</b></td>
-        <td><code>small_angle</code> 預設 25 度；球體歪著放會鎖住</td>
-        <td>視球框而定</td>
-        <td>放大才能歪著解鎖，但也代表<b>倒著也能解鎖</b>，操作要更小心。官方不建議直接設 180</td>
+      <tr class="critical-row">
+        <td><b>解鎖角度／空中再解鎖</b></td>
+        <td><code>small_angle = 180</code>；口訣：Disarm→油門到底→Re-Arm</td>
+        <td>全隊比賽機</td>
+        <td>預設 25 會在歪斜時鎖死。180 才能空中秒解鎖；必搭 PREARM。詳見 <a href="#bf-rearm">空中再解鎖</a></td>
       </tr>
       <tr>
         <td><b>雙向 DShot ＋ RPM 濾波</b></td>
@@ -3536,7 +3627,8 @@ save</pre>
   <table>
     <thead><tr><th>狀況</th><th>先看哪裡</th><th>常見原因</th></tr></thead>
     <tbody>
-      <tr><td>不能解鎖</td><td>Setup 的 Arming Disable Flags</td><td>油門沒歸零、開關位置不對、角度超過限制、沒校正</td></tr>
+      <tr><td>不能解鎖</td><td>Setup 的 Arming Disable Flags</td><td>油門沒歸零（THROTTLE）、開關位置不對、角度超過限制（ANGLE；比賽應設 small_angle=180）、沒校正、還在 CLI</td></tr>
+      <tr class="critical-row"><td>空中 Disarm 後無法瞬間 Re-Arm</td><td><a href="#bf-rearm">空中再解鎖</a>＋Flags</td><td>最常見：small_angle 太小、油門沒到底；其次陀螺儀狂甩、電調延遲</td></tr>
       <tr><td>一解鎖就翻</td><td>Motors 分頁</td><td>馬達順序或轉向錯誤</td></tr>
       <tr><td>馬達不轉或抖動</td><td>協定與雙向 DShot</td><td>電調不支援卻開了 <code>dshot_bidir</code></td></tr>
       <tr><td>飛起來抖／中油門震</td><td>震動源</td><td>槳裂、螺絲鬆、減震球沒裝；先修硬體再談 PID</td></tr>

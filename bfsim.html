@@ -314,7 +314,9 @@ const TEAM_AUX = {
 
 const SOCCER_HINTS = {
   failsafe_procedure:'球機用 DROP',
-  small_angle:'攻擊約30、防守約40',
+  small_angle:'比賽設180（空中再解鎖）',
+  gyro_cal_on_first_arm:'保持OFF，避免再解鎖延遲',
+  min_check:'油門到底須低於此值才能ARM',
   dshot_bidir:'Oxbot/RATE可開；F411原廠先別開',
   dyn_idle_min_rpm:'有bidir才設；攻擊起點40',
   ledstrip_brightness:'攻擊45、防守40',
@@ -338,7 +340,7 @@ const PRESETS = {
   atk:{
     craft_name:'CHSH-ATK-1', name:'CHSH-ATK-1',
     failsafe_procedure:'DROP', failsafe_delay:15,
-    small_angle:30, angle_limit:60,
+    small_angle:180, gyro_cal_on_first_arm:'OFF', angle_limit:60,
     runaway_takeoff_prevention:'ON',
     motor_pwm_protocol:'DSHOT300', dshot_bidir:'ON', motor_poles:14,
     dyn_idle_min_rpm:40, transient_throttle_limit:0,
@@ -354,7 +356,7 @@ const PRESETS = {
   def:{
     craft_name:'CHSH-DEF-1', name:'CHSH-DEF-1',
     failsafe_procedure:'DROP', failsafe_delay:15,
-    small_angle:40, angle_limit:55,
+    small_angle:180, gyro_cal_on_first_arm:'OFF', angle_limit:55,
     runaway_takeoff_prevention:'ON',
     motor_pwm_protocol:'DSHOT300', dshot_bidir:'OFF', motor_poles:14,
     dyn_idle_min_rpm:0, transient_throttle_limit:0,
@@ -632,7 +634,7 @@ function panelSetup(){
   </div>
   <div class="card"><h2>Sensors 狀態（示意）</h2>
     <p>Gyro OK · Acc OK · Baro 可忽略 · Mag 未使用 · GPS 未使用</p>
-    <p>Arming Disable Flags：依目前設定即時檢查（見 Failsafe／Modes／MOTOR_STOP）。</p>
+    <p>Arming Disable Flags：空中再解鎖失敗時先看這裡（ANGLE／THROTTLE 最常見）。比賽機 <code>small_angle=180</code>；口訣 Disarm→油門到底→Re-Arm。</p>
   </div>`;
 }
 
@@ -1054,7 +1056,7 @@ addEventListener('popstate', (e)=>{
   }
 });
 
-const bust = 'v=20260727defhover1';
+const bust = 'v=20260727rearm1';
 fetch('assets/bfsim/catalog.json?' + bust)
   .then(r=>{ if(!r.ok) throw new Error('catalog HTTP '+r.status); return r.json(); })
   .then(data=>{

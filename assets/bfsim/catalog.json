@@ -407,9 +407,9 @@
           "default": "25",
           "range": "0–180",
           "desc": "Maximum tilt angle (degrees) to permit arming. Set to 180 to arm at any angle (not recommended). During PID tuning set to 30 for safe angle-mode indoor flights.",
-          "zh": "解鎖角度限制",
-          "detail": "機身歪超過這個角度就不准解鎖，避免側躺或倒扣時誤觸解鎖衝出去。預設約 25 度。設到 180 等於任何姿勢都能解鎖，很危險。",
-          "soccer": "攻擊建議 30、防守建議 40。不要設 180。"
+          "zh": "解鎖角度限制（Maximum Arm Angle）",
+          "detail": "機身傾角超過此值不准解鎖。預設約 25 度。介面叫 Maximum Arm Angle，CLI 變數是 small_angle。設 180＝任何姿態都能解鎖，空中再解鎖才做得到。",
+          "soccer": "比賽機設 180，否則空中歪斜／翻滾後解不開。必搭 PREARM＋油門到底再 ARM。沒有 max_arm_angle 這個 CLI。"
         },
         {
           "key": "pid_process_denom",
@@ -426,8 +426,8 @@
           "range": "OFF, ON",
           "desc": "Recalibrates gyro on first arm after power-up. Useful if the FC warms up and gyro drifts before the first arm.",
           "zh": "首次解鎖校正陀螺儀",
-          "detail": "開機後第一次解鎖時再校正陀螺儀。若飛控會熱飄可開；校正當下機體要靜置。",
-          "soccer": "可選。開機後先平放幾秒再解鎖更重要。"
+          "detail": "開機後第一次解鎖時校正陀螺儀。若開啟，可能讓解鎖當下多一段等待。",
+          "soccer": "比賽機保持 OFF，避免空中再解鎖被校正拖慢。"
         },
         {
           "key": "prearm_allow_rearm",
@@ -1856,7 +1856,7 @@
           "desc": "Idle throttle value sent to ESCs when armed (units depend on protocol). Used as the minimum non-zero motor command.",
           "zh": "馬達怠速",
           "detail": "解鎖後最低馬達輸出。影響收油穩定性、失步風險與煞車感。",
-          "soccer": "沒特殊需求先預設；配合 Dynamic Idle 再調。"
+          "soccer": "DShot 怠速約 4.5%～5.5% 有助 Re-Arm 後快速接手；搭配 AIRMODE。"
         },
         {
           "key": "min_command",
@@ -2249,7 +2249,7 @@
           "desc": "RC channel value below which arm/disarm and stick commands are recognized.",
           "zh": "最低行程檢查",
           "detail": "搖桿低於這個值才算「最低」。解鎖常要求油門低於 min_check。",
-          "soccer": "維持預設；解鎖前油門打到底"
+          "soccer": "Re-Arm 前油門必須低於此值。口訣：Disarm→油門到底→Re-Arm。遙控器到底時通道值要夠低。"
         },
         {
           "key": "max_check",
