@@ -314,6 +314,9 @@ const TEAM_AUX = {
 
 const SOCCER_HINTS = {
   failsafe_procedure:'球機用 DROP',
+  anti_gravity_gain:'吸網向200–250；晃則降',
+  anti_gravity_cutoff_hz:'吸網向10–15（不是cutoff_freq）',
+  iterm_windup:'貼網建議40–50，抑制I飆',
   small_angle:'比賽設180（空中再解鎖）',
   gyro_cal_on_first_arm:'保持OFF，避免再解鎖延遲',
   min_check:'油門到底須低於此值才能ARM',
@@ -348,6 +351,7 @@ const PRESETS = {
     vbat_warning_cell_voltage:350, vbat_min_cell_voltage:330,
     bat_capacity:1060, serialrx_provider:'CRSF', rates_type:'ACTUAL',
     throttle_limit_type:'OFF', throttle_limit_percent:100,
+    anti_gravity_gain:250, anti_gravity_cutoff_hz:15, iterm_windup:40,
     thr_mid:45, thr_expo:40, thr_hover:45,
     roll_rc_rate:9, pitch_rc_rate:9, yaw_rc_rate:8,
     roll_srate:60, pitch_srate:60, yaw_srate:50,
@@ -364,6 +368,7 @@ const PRESETS = {
     vbat_warning_cell_voltage:350, vbat_min_cell_voltage:330, ibata_scale:210,
     bat_capacity:850, serialrx_provider:'CRSF', rates_type:'ACTUAL',
     throttle_limit_type:'OFF', throttle_limit_percent:100,
+    anti_gravity_gain:250, anti_gravity_cutoff_hz:15, iterm_windup:40,
     thr_mid:35, thr_expo:50, thr_hover:35,
     roll_rc_rate:7, pitch_rc_rate:7, yaw_rc_rate:7,
     roll_srate:45, pitch_srate:45, yaw_srate:40,
@@ -1056,7 +1061,7 @@ addEventListener('popstate', (e)=>{
   }
 });
 
-const bust = 'v=20260727rearm1';
+const bust = 'v=20260727mesh1';
 fetch('assets/bfsim/catalog.json?' + bust)
   .then(r=>{ if(!r.ok) throw new Error('catalog HTTP '+r.status); return r.json(); })
   .then(data=>{

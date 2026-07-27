@@ -935,8 +935,8 @@
           "range": "0–250 (profile)",
           "desc": "Boosts I-term on rapid throttle changes to prevent yaw/pitch dip on punch. Reduce if throttle-punch wobbles appear.",
           "zh": "抗重力強度",
-          "detail": "急拉／急收油門時暫時加強 I，減少點頭翹尾。預設通常已堪用。",
-          "soccer": "先預設 80 等級，不要亂關。"
+          "detail": "急拉／急收油門時暫時加強修正，減少點頭翹尾。球機吸網點噴脫困時常把 gain 拉高。",
+          "soccer": "吸網向可試 200～250；催油劇晃就往回降。詳見手冊吸網效應。"
         },
         {
           "key": "anti_gravity_p_gain",
@@ -952,9 +952,9 @@
           "default": "5",
           "range": "2–50 (profile)",
           "desc": "LPF cutoff for throttle derivative used by anti-gravity. Adjust for very large or small builds (larger = faster, smaller = slower response).",
-          "zh": "抗重力截止頻率",
-          "detail": "「抗重力截止頻率」調整PID 姿態控制中對機身姿態的修正力道。數值提高通常能讓姿態更快跟上指令，但過高會產生抖動、反彈或馬達過熱；過低則會顯得鬆散、抗干擾不足。請每次只小幅調整並在安全區域試飛，發現持續震盪應立即回退。",
-          "soccer": "球機先維持預設；僅依黑匣子與馬達溫度小幅微調。"
+          "zh": "抗重力截止頻率（Hz）",
+          "detail": "Anti Gravity 對油門變化的反應速度。數值較高＝反應較快。CLI 名稱是 cutoff_hz，不是 cutoff_freq。",
+          "soccer": "吸網向可試 10～15；過高可能催油晃。"
         },
         {
           "key": "iterm_rotation",
@@ -997,9 +997,9 @@
           "default": "80",
           "range": "20–100 (profile)",
           "desc": "Suppresses I accumulation (in %) when motors are near saturation. Default 80 is sensible.",
-          "zh": "I項累積",
-          "detail": "「I項累積」調整PID 姿態控制中對機身姿態的修正力道。數值提高通常能讓姿態更快跟上指令，但過高會產生抖動、反彈或馬達過熱；過低則會顯得鬆散、抗干擾不足。請每次只小幅調整並在安全區域試飛，發現持續震盪應立即回退。",
-          "soccer": "球機先維持預設；僅依黑匣子與馬達溫度小幅微調。"
+          "zh": "I項防飽和（Windup）",
+          "detail": "馬達輸出接近飽和時，抑制 I 積分繼續累積的門檻。數值愈低愈早抑制。",
+          "soccer": "貼網建議 40～50，減少卡住時 I 狂飆導致馬達發瘋。"
         }
       ],
       "tab": "pid_tuning",

@@ -2227,8 +2227,9 @@ save</pre>
       <a href="#bf-impact-rx">遙控斷訊</a>
       <a href="#bf-impact-modes">飛行模式</a>
       <a href="#bf-impact-motor">馬達電調</a>
-      <a href="#bf-impact-pid">PID手感</a>
       <a href="#bf-hover-feel">假定高油門</a>
+      <a href="#bf-mesh">吸網效應</a>
+      <a href="#bf-impact-pid">PID手感</a>
       <a href="#bf-impact-power">電池燈光</a>
     </div>
     <div class="toc-group">
@@ -2767,6 +2768,107 @@ save</pre>
     <li>練習若有開 SCALE，比賽前改回 <code>throttle_limit_type = OFF</code>。</li>
   </ol>
 
+  <h3 id="bf-mesh">吸網效應（Wall／Mesh Effect）</h3>
+  <div class="note critical">
+    <p><b>這不是遙控干擾。</b>球機貼近球網或牆面時被「吸住」、油門推到底也拔不開——多半是氣流造成的物理吸附（白努利／高低壓差，也常跟 Coandă 效應一起被討論）。</p>
+    <p>不懂原理就死推油門，通常會<b>吸得更緊</b>，甚至把 I-Term 飆滿、馬達過載發燙。</p>
+  </div>
+
+  <h4>為什麼會被網子吸住？</h4>
+  <div class="wide">
+  <table>
+    <thead><tr><th>機制</th><th>發生什麼事</th><th>你看到的現象</th></tr></thead>
+    <tbody>
+      <tr class="critical-row">
+        <td><b>白努利／高低壓差</b></td>
+        <td>槳高速抽氣；網面阻擋順暢補氣，機身與網之間形成<strong>低壓區</strong>，外側大氣壓把機「推／吸」向網</td>
+        <td>越靠近網越像被磁鐵黏住；滿油門仍拔不開</td>
+      </tr>
+      <tr>
+        <td><b>球籠＋網的摩擦／渦流</b></td>
+        <td>圓形球籠一碰網，旋轉氣流在籠與網之間形成渦流，再加上外殼與網繩摩擦</td>
+        <td>在網上「爬網」、卡住、滾動卻離不開</td>
+      </tr>
+      <tr>
+        <td><b>飛控 I-Term 累積</b></td>
+        <td>機身被卡住達不到預期姿態，I 積分狂飆，馬達指令越加越兇</td>
+        <td>貼網時馬達聲突然極尖、發熱、更難脫困</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h4>一、硬體：推力與球籠</h4>
+  <div class="note info">
+    <p><b>為什麼攻擊常選 1507：</b>吸網後的低壓＋風阻，小扭力馬達（如部分 1408 輕配）滿油門也可能掙脫不開。</p>
+    <p>1507／同級大推力的瞬間爆發（punch-out）比較有機會強行拉開吸力。防守用較小馬達時，更要靠手法與參數，不能只靠硬衝。</p>
+  </div>
+  <ul>
+    <li>攻擊／硬頂：優先 <b>火神 VCI 1507</b> 或同級高推力＋高 C 電池（見馬達章）。</li>
+    <li>球籠外側摩擦力越大越容易卡網；有隊伍會在外層噴薄薄乾式矽光油或光滑塗層（注意規則／檢錄，勿厚塗增重）。</li>
+    <li>槳裂、球籠變形會讓氣流更亂，吸網與震動都會變糟——先修硬體。</li>
+  </ul>
+
+  <h4>二、Betaflight：Anti Gravity＋限制 I 累積</h4>
+  <p>貼網時姿態誤差一直在，I-Term 容易累到接近飽和。搭配較積極的 Anti Gravity，急推／點噴油門時比較不會又點頭又瘋轉。</p>
+  <div class="note warn">
+    <p><b>CLI 名稱：</b>截止頻率是 <code>anti_gravity_cutoff_hz</code>，不是 <code>anti_gravity_cutoff_freq</code>。</p>
+    <p>改完若出現催油劇烈晃動，先把 gain 往回降（例如 200→150），不要硬留在上限。</p>
+  </div>
+  <pre># 吸網／點噴油門向（先備份 diff all）
+set anti_gravity_gain = 250
+set anti_gravity_cutoff_hz = 15
+set iterm_windup = 40
+save</pre>
+  <div class="wide">
+  <table>
+    <thead><tr><th>參數</th><th>預設約</th><th>吸網向建議</th><th>作用</th></tr></thead>
+    <tbody>
+      <tr><td><code>anti_gravity_gain</code></td><td>80</td><td><b>200～250</b></td><td>油門劇變時加強修正，點噴脫網比較跟手</td></tr>
+      <tr><td><code>anti_gravity_cutoff_hz</code></td><td>5</td><td><b>10～15</b></td><td>對油門變化反應更快（過高可能催油晃）</td></tr>
+      <tr><td><code>iterm_windup</code></td><td>80</td><td><b>40～50</b></td><td>馬達接近飽和時更早抑制 I 累積，減少貼網瘋轉</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h4>三、操作連招（隊員必練）</h4>
+  <div class="note critical">
+    <p><b>錯誤：</b>一直滿油門硬衝 → 低壓更穩、吸得更死。</p>
+  </div>
+  <div class="wide">
+  <table>
+    <thead><tr><th>連招</th><th>動作</th><th>原理</th></tr></thead>
+    <tbody>
+      <tr class="critical-row">
+        <td><b>A. 點噴油門</b><br />Throttle Tapping</td>
+        <td>瞬間點一下接近滿油 → <b>立刻收油</b> → 再點一下（可重複）</td>
+        <td>短促大推力打破低壓平衡；收油瞬間壓力恢復，機較易離網下落</td>
+      </tr>
+      <tr class="critical-row">
+        <td><b>B. Disarm／Re-Arm 閃脫</b></td>
+        <td>吸住瞬間：Disarm → 油門到底 → 零點幾秒內 Re-Arm → 補油<br />（需 <a href="#bf-rearm">small_angle=180</a>）</td>
+        <td>馬達一停，吸附低壓立刻消失並開始掉落；再解鎖後以新姿態拉走</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note info">
+    <p><b>建議訓練順序：</b>場邊對網練習「點噴」→ 再練「閃脫」→ 最後才在對抗裡用。</p>
+    <p>閃脫前必須已設好空中再解鎖（角度 180、油門到底習慣），否則 Disarm 後會解不回來，比吸網更糟。</p>
+  </div>
+
+  <h4>吸網速查</h4>
+  <div class="wide">
+  <table>
+    <thead><tr><th>層級</th><th>做什麼</th></tr></thead>
+    <tbody>
+      <tr><td>硬體</td><td>攻擊用夠推力的馬達（如 1507）；球籠減摩擦；槳與籠完好</td></tr>
+      <tr><td>飛控</td><td>Anti Gravity 加強＋<code>iterm_windup</code> 降低；空中可再解鎖</td></tr>
+      <tr><td>手法</td><td>禁止死推滿油；用點噴或 Disarm／Re-Arm 閃脫</td></tr>
+    </tbody>
+  </table>
+  </div>
+
   <h3 id="bf-impact-pid">PID、濾波、Rates：手感從哪裡來</h3>
   <div class="note warn">
     <b>先講清楚先後順序：</b>槳裂、螺絲鬆、減震球沒裝好、馬達鈴歪，這些硬體問題不修，調 PID 只是在幫噪音「追得更用力」。先讓機身乾淨，再談手感。
@@ -2810,10 +2912,19 @@ save</pre>
 
     <article class="fx-item">
       <h4><span class="zh">抗重力（油門劇變補償）</span><span class="en">Anti Gravity</span></h4>
-      <p class="fx-where"><b>對照位置：</b>PID Tuning 分頁 → Anti Gravity　｜　CLI：<code>set anti_gravity_gain = 80</code></p>
-      <div class="fx-row"><span class="fx-tag">它在管</span><p>你突然大腳油門或突然收油時，機身很容易點頭、翹尾。Anti Gravity 會在這種油門劇變時暫時加強 I 的修正，把姿態留住。</p></div>
-      <div class="fx-row up"><span class="fx-tag">開著的感覺</span><p>要衝刺射門、或碰撞後突然補油往上抽時，機頭比較不會先栽下去再起來。過渡比較乾淨。</p></div>
-      <div class="fx-row down"><span class="fx-tag">關了／太弱</span><p>一催油就點頭，一收油就翹，看起來很像電池瞬間電壓下墜造成的姿態失控，其實有一部分是這塊沒做好。</p></div>
+      <p class="fx-where"><b>對照位置：</b>PID Tuning → Anti Gravity　｜　CLI：<code>set anti_gravity_gain = 250</code>、<code>set anti_gravity_cutoff_hz = 15</code></p>
+      <div class="fx-row"><span class="fx-tag">它在管</span><p>你突然大腳油門或突然收油時，機身很容易點頭、翹尾。Anti Gravity 會在油門劇變時暫時加強修正，把姿態留住。</p></div>
+      <div class="fx-row up"><span class="fx-tag">開著／加強的感覺</span><p>衝刺射門、碰撞後補油、以及<a href="#bf-mesh">吸網點噴脫困</a>時，過渡比較乾淨，比較不會先栽頭再起來。</p></div>
+      <div class="fx-row down"><span class="fx-tag">關了／太弱</span><p>一催油就點頭，一收油就翹。貼網點噴時也更容易失控。</p></div>
+      <div class="fx-row risk"><span class="fx-tag">吸網向調法</span><p>預設 gain 約 80；吸網向可試 200～250，cutoff 10～15 Hz。催油開始劇晃就往回降。截止頻率 CLI 是 <code>anti_gravity_cutoff_hz</code>。</p></div>
+    </article>
+
+    <article class="fx-item">
+      <h4><span class="zh">I 項防飽和（貼網）</span><span class="en">I-Term Windup</span></h4>
+      <p class="fx-where"><b>對照位置：</b>PID Tuning 進階／CLI　｜　<code>set iterm_windup = 40</code></p>
+      <div class="fx-row"><span class="fx-tag">它在管</span><p>馬達輸出接近飽和時，還要不要繼續讓 I 積分往上堆。數值愈低，愈早開始抑制 I 累積。</p></div>
+      <div class="fx-row up"><span class="fx-tag">貼網時調低的感覺</span><p>被網卡住、姿態到不了目標時，比較不會把 I 飆到讓馬達發瘋空轉／過熱。</p></div>
+      <div class="fx-row risk"><span class="fx-tag">太低</span><p>正常飛行抗持續外力（被人頂著）可能變弱。球機吸網向常見 40～50；若空中變「頂不住」再略調回。</p></div>
     </article>
 
     <article class="fx-item">
@@ -3092,6 +3203,9 @@ save</pre>
       <tr><td>Dynamic Idle 最小 RPM</td><td><code>dyn_idle_min_rpm</code></td><td>有 bidir 先 <b>40</b></td><td><b>0</b>（關閉）</td></tr>
       <tr><td>暫時油門限制</td><td><code>transient_throttle_limit</code></td><td>開 Dynamic Idle 時必設 <b>0</b></td><td>維持預設／0</td></tr>
       <tr class="critical-row"><td>解鎖角度</td><td><code>small_angle</code></td><td><b>180</b></td><td><b>180</b>（空中再解鎖；見 <a href="#bf-rearm">空中再解鎖</a>）</td></tr>
+      <tr><td>抗重力強度</td><td><code>anti_gravity_gain</code></td><td colspan="2"><b>200～250</b>（吸網／點噴；晃則降）</td></tr>
+      <tr><td>抗重力截止</td><td><code>anti_gravity_cutoff_hz</code></td><td colspan="2"><b>10～15</b></td></tr>
+      <tr><td>I 項防飽和</td><td><code>iterm_windup</code></td><td colspan="2"><b>40～50</b>（貼網抑制 I 飆）</td></tr>
       <tr><td>ANGLE 最大傾角</td><td><code>angle_limit</code></td><td><b>60</b></td><td><b>55</b></td></tr>
       <tr><td>練習用油門上限</td><td><code>throttle_limit_*</code></td><td>新進攻擊手可先 <b>SCALE 85</b></td><td>新進防守手可先 <b>SCALE 75–80</b></td></tr>
       <tr class="critical-row"><td>油門中點</td><td><code>thr_mid</code></td><td>對準懸停％（重機常 40–50）</td><td><b>防守必設</b>：對準該機懸停％（常 25–35）</td></tr>
@@ -3133,8 +3247,12 @@ set throttle_limit_type = OFF
 set thr_mid = 45
 set thr_expo = 40
 set thr_hover = 45
+# 吸網／點噴脫困（見「吸網效應」）
+set anti_gravity_gain = 250
+set anti_gravity_cutoff_hz = 15
+set iterm_windup = 40
 save</pre>
-  <small>接著到 Rateprofile：ACTUAL；Roll／Pitch 中心 90、最大 600；Yaw 中心 80、最大 500；Expo 約 12。Throttle Mid／Expo 以該機真實懸停為準（見 <a href="#bf-hover-feel">假定高油門</a>）。Modes：ARM＝AUX1，建議再加 PREARM、BEEPER、FLIP OVER AFTER CRASH；ANGLE 可放另一個開關當備用。Configuration 確認 Mixer＝Quad X，且 MOTOR_STOP 關閉。</small>
+  <small>接著到 Rateprofile：ACTUAL；Roll／Pitch 中心 90、最大 600；Yaw 中心 80、最大 500；Expo 約 12。Throttle Mid／Expo 以該機真實懸停為準（見 <a href="#bf-hover-feel">假定高油門</a>）。吸網連招見 <a href="#bf-mesh">吸網效應</a>。Modes：ARM＝AUX1，建議再加 PREARM、BEEPER、FLIP OVER AFTER CRASH；ANGLE 可放另一個開關當備用。Configuration 確認 Mixer＝Quad X，且 MOTOR_STOP 關閉。</small>
 
   <h4>防守手起點（HAKRC F411 原廠）</h4>
   <pre>set craft_name = CHSH-DEF-1
@@ -3160,6 +3278,10 @@ set throttle_limit_type = OFF
 set thr_mid = 35
 set thr_expo = 50
 set thr_hover = 35
+# 吸網／點噴脫困（推力較小更要靠手法＋參數）
+set anti_gravity_gain = 250
+set anti_gravity_cutoff_hz = 15
+set iterm_windup = 40
 save</pre>
   <small>接著到 Rateprofile：ACTUAL；Roll／Pitch 中心 70、最大 450；Yaw 中心 70、最大 400；Expo 約 20。<b>防守：Throttle Mid／Expo 務必依該機真實懸停微調</b>（見 <a href="#bf-hover-feel">假定高油門</a>）。Modes：ARM＝AUX1，建議加 PREARM；ANGLE 常開或容易撥到，再加 BEEPER、FLIP OVER AFTER CRASH。Configuration 確認 Mixer＝Quad X，且 MOTOR_STOP 關閉。</small>
 
@@ -3342,7 +3464,8 @@ save</pre>
     <tbody>
       <tr><td>PID 數值</td><td>官方預設</td><td>預設對小四軸已相當堪用；沒有黑匣子資料就改，多半越改越糟</td></tr>
       <tr><td>濾波器（Filters）</td><td>官方預設</td><td>亂關濾波會讓馬達過熱燒毀；亂加濾波會變鈍</td></tr>
-      <tr><td>Anti Gravity</td><td>開，gain 80</td><td>急拉油門時抑制掉頭下沉，預設就好</td></tr>
+      <tr><td>Anti Gravity</td><td>gain <b>200～250</b>；cutoff <b>10～15</b> Hz</td><td>急拉油門與<a href="#bf-mesh">吸網點噴</a>；晃再降</td></tr>
+      <tr><td>I-Term Windup</td><td><b>40～50</b></td><td>貼網時抑制 I 狂飆；見吸網效應</td></tr>
       <tr><td>失控起飛保護</td><td><code>runaway_takeoff_prevention = ON</code></td><td>解鎖後暴衝會自動上鎖，是保護人的功能</td></tr>
       <tr><td>陀螺儀溢位偵測</td><td><code>gyro_overflow_detect = ALL</code></td><td>官方建議值</td></tr>
       <tr><td>Failsafe 判定時間</td><td>1.5 秒（Stage 1）</td><td>太短會被瞬斷誤觸發；官方最短建議 0.2 秒</td></tr>
@@ -3629,6 +3752,7 @@ save</pre>
     <tbody>
       <tr><td>不能解鎖</td><td>Setup 的 Arming Disable Flags</td><td>油門沒歸零（THROTTLE）、開關位置不對、角度超過限制（ANGLE；比賽應設 small_angle=180）、沒校正、還在 CLI</td></tr>
       <tr class="critical-row"><td>空中 Disarm 後無法瞬間 Re-Arm</td><td><a href="#bf-rearm">空中再解鎖</a>＋Flags</td><td>最常見：small_angle 太小、油門沒到底；其次陀螺儀狂甩、電調延遲</td></tr>
+      <tr class="critical-row"><td>被球網「吸住」拔不開</td><td><a href="#bf-mesh">吸網效應</a></td><td>氣流低壓吸附，不是干擾；勿死推滿油。用點噴或 Disarm／Re-Arm；硬體推力＋Anti Gravity／iterm_windup</td></tr>
       <tr><td>一解鎖就翻</td><td>Motors 分頁</td><td>馬達順序或轉向錯誤</td></tr>
       <tr><td>馬達不轉或抖動</td><td>協定與雙向 DShot</td><td>電調不支援卻開了 <code>dshot_bidir</code></td></tr>
       <tr><td>飛起來抖／中油門震</td><td>震動源</td><td>槳裂、螺絲鬆、減震球沒裝；先修硬體再談 PID</td></tr>
