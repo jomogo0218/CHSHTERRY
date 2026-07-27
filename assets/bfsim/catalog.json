@@ -1533,26 +1533,26 @@
           "range": "0–100 (rateprofile)",
           "desc": "Throttle curve mid-point — sets the thrust at 50% stick.",
           "zh": "油門中點",
-          "detail": "「油門中點」決定操縱桿速率的曲線、上限或方向。提高速率會讓相同桿量帶來更快轉動，降低則更細緻易控；過高會增加室內控球時的誤操作風險。球機建議先採較保守的速率，再依場地大小和操作者習慣微調。",
-          "soccer": "球機採保守速率，依室內場地與操作者手感微調。"
+          "detail": "油門曲線的彎折中心。把它設成你實際懸停時的油門百分比，懸停附近才會最好控。介面常顯示 0.45，CLI 則寫 thr_mid = 45。",
+          "soccer": "先飛測懸停％再設；重機常 40–50，輕機常 25–35。這是假定高手感的核心，不是真定高。"
         },
         {
           "key": "thr_expo",
           "default": "0",
           "range": "0–100 (rateprofile)",
           "desc": "Throttle expo.",
-          "zh": "油門指數",
-          "detail": "「油門指數」決定操縱桿速率的曲線、上限或方向。提高速率會讓相同桿量帶來更快轉動，降低則更細緻易控；過高會增加室內控球時的誤操作風險。球機建議先採較保守的速率，再依場地大小和操作者習慣微調。",
-          "soccer": "球機採保守速率，依室內場地與操作者手感微調。"
+          "zh": "油門曲線（Expo）",
+          "detail": "在油門中點附近把響應壓平的程度。數值越高，懸停區微調越細膩、越不容易忽上忽下；外側仍可推到較大推力。介面 0.40＝CLI 40。",
+          "soccer": "球機先試 30–50；新手可先 40。不要與遙控器 S 曲線兩邊疊太兇。"
         },
         {
           "key": "thr_hover",
           "default": "50",
           "range": "0–100 (rateprofile)",
           "desc": "Estimated hover throttle percentage. Used by alt-hold and some internal calculations.",
-          "zh": "油門懸停",
-          "detail": "「油門懸停」決定操縱桿速率的曲線、上限或方向。提高速率會讓相同桿量帶來更快轉動，降低則更細緻易控；過高會增加室內控球時的誤操作風險。球機建議先採較保守的速率，再依場地大小和操作者習慣微調。",
-          "soccer": "球機採保守速率，依室內場地與操作者手感微調。"
+          "zh": "估計懸停油門",
+          "detail": "告訴飛控「大概多少％在懸停」的估計值，供部分內部計算。它不會讓球機像航拍機一樣鎖高度。",
+          "soccer": "可填接近真實懸停％；真・定高手感仍靠 thr_mid＋thr_expo。室內不要開氣壓定高。"
         },
         {
           "key": "throttle_limit_type",
@@ -1560,8 +1560,8 @@
           "range": "OFF, SCALE, CLIP (rateprofile)",
           "desc": "Limits maximum throttle output. SCALE = proportionally scales all outputs; CLIP = hard ceiling.",
           "zh": "油門上限類型",
-          "detail": "OFF＝不限制；SCALE＝把整段油門行程壓縮；CLIP＝硬切頂。新手練習常用 SCALE。",
-          "soccer": "練習可 SCALE；正式比賽改 OFF。"
+          "detail": "OFF＝不限制；SCALE＝把整段油門行程等比壓縮（練習懸停很好用）；CLIP＝硬切頂。",
+          "soccer": "練習可 SCALE 80 左右；正式比賽改 OFF。可與 thr_mid／thr_expo 搭配做出假定高手感。"
         },
         {
           "key": "throttle_limit_percent",
