@@ -328,8 +328,8 @@ const SOCCER_HINTS = {
   runaway_takeoff_prevention:'建議ON',
   angle_limit:'攻擊60、防守55',
   throttle_limit_type:'練習SCALE、比賽OFF',
-  thr_mid:'對準真實懸停％（重機常40–50）',
-  thr_expo:'先30–50，懸停區壓平（假定高）',
+  thr_mid:'對準真實懸停％；防守必設',
+  thr_expo:'防守優先45–50；攻擊可35–45',
   thr_hover:'可填懸停％；不會真定高',
   rates_type:'用ACTUAL'
 };
@@ -362,7 +362,7 @@ const PRESETS = {
     vbat_warning_cell_voltage:350, vbat_min_cell_voltage:330, ibata_scale:210,
     bat_capacity:850, serialrx_provider:'CRSF', rates_type:'ACTUAL',
     throttle_limit_type:'OFF', throttle_limit_percent:100,
-    thr_mid:35, thr_expo:45, thr_hover:35,
+    thr_mid:35, thr_expo:50, thr_hover:35,
     roll_rc_rate:7, pitch_rc_rate:7, yaw_rc_rate:7,
     roll_srate:45, pitch_srate:45, yaw_srate:40,
     roll_expo:20, pitch_expo:20, yaw_expo:20
@@ -508,7 +508,7 @@ function applyPreset(which){
   document.getElementById('btnAtk').classList.toggle('on', which==='atk');
   document.getElementById('btnDef').classList.toggle('on', which==='def');
   renderAll();
-  help(`已套用${which==='atk'?'攻擊手':'防守手'}建議值（含本隊 AUX 對照與 map AETR）。`);
+  help(`已套用${which==='atk'?'攻擊手':'防守手'}建議值（含本隊 AUX 對照與 map AETR）${which==='def'?'。防守：thr_mid／thr_expo 幾乎必調，請再依真實懸停％微調。':''}`);
 }
 
 function help(t){ document.getElementById('help').textContent=t; }
@@ -901,7 +901,7 @@ function renderPanel(){
     case 'cli': html=panelCli(); break;
     case 'power': html=panelGeneric('power','Power & Battery','電源與電池','電壓、電流、容量等官方 Battery CLI 全組。'); break;
     case 'failsafe': html=panelGeneric('failsafe','Failsafe','斷訊保護','含 Failsafe 與 GPS Rescue 參數。球機只用 DROP，不要開 GPS Rescue。'); break;
-    case 'pid_tuning': html=panelGeneric('pid_tuning','PID Tuning','PID／濾波／Rates','含 PID、濾波、Rates、Dynamic Idle、RPM Filter、TPA、Crash Recovery 等全部相關 CLI。<br><b>假定高手感：</b>先測懸停油門％ → 設 <code>thr_mid</code> → 再設 <code>thr_expo</code> 30–50。這不是氣壓定高，詳見手冊「假定高油門」。'); break;
+    case 'pid_tuning': html=panelGeneric('pid_tuning','PID Tuning','PID／濾波／Rates','含 PID、濾波、Rates、Dynamic Idle、RPM Filter、TPA、Crash Recovery 等全部相關 CLI。<br><b>假定高手感：</b>先測懸停油門％ → 設 <code>thr_mid</code> → 再設 <code>thr_expo</code>。<b>防守球員幾乎必調</b>（Expo 建議 45–50）；這不是氣壓定高，詳見手冊「假定高油門」。'); break;
     case 'receiver': html=panelReceiver(); break;
     case 'motors': html=panelGeneric('motors','Motors','馬達／電調','Motor & ESC 全組 CLI。測試請看 Motors Test，並記得拆槳。'); break;
     case 'onboard_logging': html=panelGeneric('onboard_logging','Blackbox','機載紀錄','Blackbox 裝置與取樣等。'); break;
@@ -1054,7 +1054,7 @@ addEventListener('popstate', (e)=>{
   }
 });
 
-const bust = 'v=20260727hover1';
+const bust = 'v=20260727defhover1';
 fetch('assets/bfsim/catalog.json?' + bust)
   .then(r=>{ if(!r.ok) throw new Error('catalog HTTP '+r.status); return r.json(); })
   .then(data=>{

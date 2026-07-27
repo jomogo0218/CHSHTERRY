@@ -2558,6 +2558,7 @@ save</pre>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>油門曲線的「彎折中心」。你要把這個點對準自己實際懸停時的油門位置，懸停附近才會最好控。</p></div>
       <div class="fx-row up"><span class="fx-tag">對準的感覺</span><p>搖桿停在懸停附近時，微幅上下晃，高度不會一下子衝一下掉。體感很像「有定高」，但其實只是曲線被壓平了。</p></div>
       <div class="fx-row risk"><span class="fx-tag">設錯會怎樣</span><p>Mid 設太低或太高，平緩區會偏離真正懸停點，你反而要一直補油門，手感比沒調更怪。一定要先飛測懸停％，再填數字。</p></div>
+      <div class="fx-row up"><span class="fx-tag">防守特別重要</span><p>防守要控場、追球、卡位，油門幾乎一直待在懸停附近。Mid 沒對準，整場都會忽上忽下——這對防守球員幾乎是必調項。</p></div>
     </article>
 
     <article class="fx-item is-critical">
@@ -2565,12 +2566,18 @@ save</pre>
       <p class="fx-where"><b>對照位置：</b>PID Tuning → Rates → Throttle → <code>Expo</code>　｜　CLI：<code>set thr_expo = 40</code>（介面常顯示 0.40）</p>
       <div class="fx-row"><span class="fx-tag">它在管</span><p>在 Mid 附近把油門響應「壓平」的程度。Expo 越高，懸停區越鈍、越細膩；外側仍可推到較大推力。</p></div>
       <div class="fx-row up"><span class="fx-tag">0.30～0.50 的感覺</span><p>懸停微調變友善，不容易忽上忽下。新手與大推力攻擊機特別有感。</p></div>
+      <div class="fx-row up"><span class="fx-tag">防守怎麼設</span><p>防守優先把 Expo 拉到 <b>45～50</b>，讓懸停區更平。攻擊可略低（35～45），因為更常打高油門衝刺。</p></div>
       <div class="fx-row down"><span class="fx-tag">太高／太低</span><p>Expo＝0 是接近線性，懸停區很跳。Expo 拉太高，要突然爬升或射門時會覺得油門「後半段才突然用力」，需要再微調回舒服點。</p></div>
     </article>
 
   </div>
 
   <h3 id="bf-hover-feel">假定高油門手感（不是真定高）</h3>
+  <div class="note critical">
+    <p><b>防守球員：這一項幾乎是必調。</b></p>
+    <p>防守要長時間控場、追球、卡位、小幅平移——油門一直在懸停附近晃。Mid／Expo 沒對準，高度就會忽上忽下，看起來像手抖、像機不穩，其實是油門曲線沒幫你。</p>
+    <p>攻擊手衝刺射門時比較常打高油門，假定高有幫助但沒那麼致命；<b>防守手沒調好，整場都會難飛。</b></p>
+  </div>
   <div class="note warn">
     <p><b>先講清楚：</b>足球機用的 Betaflight，預設是手動油門（Acro／Angle）。</p>
     <p>它<b>沒有</b>像消費級航拍機那樣靠氣壓計或超音波「鎖住高度」的真定高。室內氣壓亂，也不該靠 Baro／Altitude Hold 打球。</p>
@@ -2610,7 +2617,7 @@ save</pre>
         <td><b>Throttle Expo</b></td>
         <td>先試 <b>0.30～0.50</b></td>
         <td><code>set thr_expo = 30</code>～<code>50</code></td>
-        <td>越高＝懸停區越平緩；新手可先 40，再依手感加減</td>
+        <td><b>防守優先調高</b>（先 45～50）；攻擊可 35～45。越高＝懸停區越平緩</td>
       </tr>
       <tr>
         <td>Throttle Hover（thr_hover）</td>
@@ -2666,11 +2673,14 @@ save</pre>
   </div>
 
   <h4>調完怎麼驗收</h4>
+  <div class="note info">
+    <p><b>防守手驗收標準更嚴：</b>要能在半場高度穩穩「站住」，左右橫移追球時幾乎不用狂修油門；被撞一下後補油門回來，高度也不應暴衝。</p>
+  </div>
   <ol>
     <li>半電狀態，懸停 10～20 秒：手微微抖，高度不應明顯抽動。</li>
     <li>從懸停輕推爬升、再收回：過渡要順，不要「後半段突然噴」。</li>
-    <li>做左右橫移與小幅頂球：油門不必一直狂修。</li>
-    <li>若仍忽上忽下：先確認 Mid 是否真的對準懸停％，再小幅加減 Expo（一次 ±5）。</li>
+    <li>做左右橫移與小幅頂球／卡位：油門不必一直狂修（防守必測）。</li>
+    <li>若仍忽上忽下：先確認 Mid 是否真的對準懸停％，再小幅加減 Expo（一次 ±5；防守可往 50 靠）。</li>
     <li>練習若有開 SCALE，比賽前改回 <code>throttle_limit_type = OFF</code>。</li>
   </ol>
 
@@ -2923,6 +2933,7 @@ save</pre>
       <tr><td>ANGLE 最大傾角</td><td>若有開：<b>55–60</b></td><td><b>50–55</b>（先求穩，再慢慢加大）</td></tr>
       <tr><td>比賽油門上限</td><td><b>OFF／100%</b>（要得出力）</td><td>正式賽通常也 <b>100%</b>；練習可先鎖 80%</td></tr>
       <tr><td>Rates 方向</td><td>較快、較兇，方便甩開與射門變向</td><td>較慢、中間較細，方便追球微調</td></tr>
+      <tr class="critical-row"><td><b>假定高油門</b><br /><small>thr_mid／thr_expo</small></td><td>有幫助；衝刺為主，Expo 可略低（35–45）</td><td><b>幾乎必調</b>。控場／追球長時間待在懸停區，Expo 建議 <b>45–50</b>，Mid 一定對準該機懸停％</td></tr>
       <tr><td>Turtle 翻正</td><td><b>建議開</b>（對抗後常倒地）</td><td><b>建議開</b>（追球翻車也多）</td></tr>
       <tr><td>Profile 建議</td><td>PID Profile 1＋Rateprofile 1 當攻擊</td><td>PID Profile 2＋Rateprofile 2 當防守；或乾脆分機設定</td></tr>
     </tbody>
@@ -2969,14 +2980,15 @@ save</pre>
       </tr>
       <tr class="critical-row">
         <td>Throttle Mid<br /><small>油門中點</small></td>
-        <td colspan="2">對準該機真實懸停％（介面 0.40＝CLI 40）</td>
-        <td>重機常 40–50；輕機常 25–35。見 <a href="#bf-hover-feel">假定高油門</a></td>
+        <td>對準懸停％（重機常 40–50）</td>
+        <td><b>必測必設</b>（輕機常 25–35）</td>
+        <td>防守長時間待在懸停區；Mid 偏了整場高度會飄。見 <a href="#bf-hover-feel">假定高油門</a></td>
       </tr>
       <tr class="critical-row">
         <td>Throttle Expo<br /><small>油門曲線</small></td>
         <td>先 <b>0.35～0.45</b></td>
-        <td>先 <b>0.40～0.50</b></td>
-        <td>懸停區壓平；不是真定高。一次只改 ±5</td>
+        <td>先 <b>0.45～0.50</b></td>
+        <td><b>防守優先調高</b>，懸停區壓平；不是真定高</td>
       </tr>
     </tbody>
   </table>
@@ -2999,8 +3011,8 @@ save</pre>
       <tr><td>解鎖角度</td><td><code>small_angle</code></td><td><b>30</b></td><td><b>40</b></td></tr>
       <tr><td>ANGLE 最大傾角</td><td><code>angle_limit</code></td><td><b>60</b></td><td><b>55</b></td></tr>
       <tr><td>練習用油門上限</td><td><code>throttle_limit_*</code></td><td>新進攻擊手可先 <b>SCALE 85</b></td><td>新進防守手可先 <b>SCALE 75–80</b></td></tr>
-      <tr><td>油門中點</td><td><code>thr_mid</code></td><td colspan="2">對準該機懸停％（常見重機 40–50）</td></tr>
-      <tr><td>油門曲線</td><td><code>thr_expo</code></td><td>先 <b>35–45</b></td><td>先 <b>40–50</b>（懸停區更平）</td></tr>
+      <tr class="critical-row"><td>油門中點</td><td><code>thr_mid</code></td><td>對準懸停％（重機常 40–50）</td><td><b>防守必設</b>：對準該機懸停％（常 25–35）</td></tr>
+      <tr class="critical-row"><td>油門曲線</td><td><code>thr_expo</code></td><td>先 <b>35–45</b></td><td><b>防守優先</b>：先 <b>45–50</b>（懸停區更平）</td></tr>
       <tr><td>比賽油門上限</td><td>同上</td><td><b>OFF</b></td><td><b>OFF</b></td></tr>
       <tr><td>電流計比例</td><td><code>ibata_scale</code></td><td>依板；Oxbot 用預設</td><td>F411：<b>210</b></td></tr>
       <tr><td>電池容量填寫</td><td><code>bat_capacity</code></td><td>依實際：850／960／1060／1100</td><td>依實際：750／850／1100（3S）</td></tr>
@@ -3059,12 +3071,12 @@ set ibata_scale = 210
 set dshot_bidir = OFF
 set dyn_idle_min_rpm = 0
 set throttle_limit_type = OFF
-# 假定高手感：輕機懸停常較低，先測再改（範例 35%）
+# 假定高手感（防守幾乎必調）：先飛測懸停％再改（範例輕機 35%）
 set thr_mid = 35
-set thr_expo = 45
+set thr_expo = 50
 set thr_hover = 35
 save</pre>
-  <small>接著到 Rateprofile：ACTUAL；Roll／Pitch 中心 70、最大 450；Yaw 中心 70、最大 400；Expo 約 20。Throttle Mid／Expo 以該機真實懸停為準。Modes：ARM＝AUX1，建議加 PREARM；ANGLE 常開或容易撥到，再加 BEEPER、FLIP OVER AFTER CRASH。Configuration 確認 Mixer＝Quad X，且 MOTOR_STOP 關閉。</small>
+  <small>接著到 Rateprofile：ACTUAL；Roll／Pitch 中心 70、最大 450；Yaw 中心 70、最大 400；Expo 約 20。<b>防守：Throttle Mid／Expo 務必依該機真實懸停微調</b>（見 <a href="#bf-hover-feel">假定高油門</a>）。Modes：ARM＝AUX1，建議加 PREARM；ANGLE 常開或容易撥到，再加 BEEPER、FLIP OVER AFTER CRASH。Configuration 確認 Mixer＝Quad X，且 MOTOR_STOP 關閉。</small>
 
   <h4>新手練習（兩種角色都能先套）</h4>
   <pre>set throttle_limit_type = SCALE
@@ -3075,7 +3087,7 @@ save</pre>
   <div class="note info">
     <p><b>一句話記住差異：</b>
     攻擊手＝較快 Rates＋Acro 為主＋開轉速回傳／RPM 濾波＋亮度可略高；
-    防守手＝較慢 Rates＋ANGLE 優先＋F411 先別硬開 bidir＋亮度與解鎖角度更務實。</p>
+    防守手＝較慢 Rates＋ANGLE 優先＋F411 先別硬開 bidir＋亮度與解鎖角度更務實＋<b>假定高油門（Mid／Expo）必調</b>。</p>
     <p>兩邊的 Failsafe、電壓警告、ARM＝AUX1 <b>完全一樣，沒有角色差</b>。</p>
   </div>
 
@@ -3164,11 +3176,11 @@ save</pre>
         <td>新手練習機</td>
         <td>室內場地小，限制最大油門比較好控。<b>正式比賽記得改回 OFF</b></td>
       </tr>
-      <tr>
+      <tr class="critical-row">
         <td><b>假定高油門手感</b></td>
-        <td><code>thr_mid</code>＝懸停％；<code>thr_expo</code>＝30–50</td>
-        <td>懸停不穩、大推力機</td>
-        <td>不是真定高。先測懸停再設 Mid。詳見 <a href="#bf-hover-feel">假定高油門</a></td>
+        <td><code>thr_mid</code>＝懸停％；防守 <code>thr_expo</code>＝45–50</td>
+        <td><b>防守球員幾乎必調</b>；攻擊也建議</td>
+        <td>控場／追球長時間在懸停區。不是真定高。詳見 <a href="#bf-hover-feel">假定高油門</a></td>
       </tr>
       <tr>
         <td><b>Rates（轉動速度）</b></td>
