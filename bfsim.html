@@ -122,8 +122,14 @@ a{color:var(--bf-accent)}
 .row .k em{display:block;font-style:normal;color:#9aa2ab;font-size:11px;font-weight:600;margin-top:2px}
 .row .v input,.row .v select{width:100%;max-width:220px}
 .row .d{color:#f3f5f7;line-height:1.65;font-size:14px}
-.row .d .zhdetail{color:#f3f5f7;font-size:14px;line-height:1.65;font-weight:550}
-.row .d .soccer{margin-top:6px;color:#ffe6a8;font-weight:800;font-size:13px}
+.row .d .zhdetail{color:#f3f5f7;font-size:14px;line-height:1.75;font-weight:550}
+.row .d .zhdetail p{margin:0 0 8px}
+.row .d .zhdetail p:last-child{margin-bottom:0}
+.row .d .soccer{margin-top:8px;color:#ffe6a8;font-weight:800;font-size:13px;line-height:1.6}
+.card .intro p{margin:0 0 8px;line-height:1.7}
+.card .intro p:last-child{margin-bottom:0}
+.detail .block p{margin:0 0 8px;line-height:1.7}
+.detail .block p:last-child{margin-bottom:0}
 .row .d .enwrap{margin-top:6px}
 .row .d .enwrap summary{cursor:pointer;color:#9aa2ab;font-size:11px;font-weight:700}
 .row .d .en{margin-top:4px;color:#8e959e;font-size:11px;line-height:1.4}
@@ -582,10 +588,10 @@ function showDetail(kind, key, fallback){
     title = key; detail = z.detail || fallback || FEATURE_ZH[key] || ''; soccer = z.soccer || '';
   }
   box.innerHTML = `<h3>${escapeHtml(title)}</h3><div class="enkey">${escapeHtml(enkey)}</div>
-    <div class="block"><b>這是什麼／會影響什麼</b>${escapeHtml(detail)}</div>
-    ${soccer?`<div class="block"><b>球機怎麼做</b>${escapeHtml(soccer)}</div>`:''}
+    <div class="block"><b>這是什麼／會影響什麼</b>${zhParas(detail)}</div>
+    ${soccer?`<div class="block"><b>球機怎麼做</b>${zhParas(soccer)}</div>`:''}
     ${extra}
-    <div class="block"><b>怎麼用這一頁</b>左邊保留英文名稱，方便對真實 Configurator；中文是給人看的說明。改數值不會寫入飛控。</div>`;
+    <div class="block"><b>怎麼用這一頁</b>${zhParas('左邊保留英文名稱，方便對真實 Configurator；中文是給人看的說明。改數值不會寫入飛控。')}</div>`;
   document.querySelectorAll('.row.active').forEach(r=>r.classList.remove('active'));
   const row=document.querySelector('.row[data-key="'+CSS.escape(key)+'"]');
   if (row) row.classList.add('active');
@@ -601,9 +607,9 @@ function varRow(v){
     <div class="k">${v.key}${tag}<span class="zhname">${zhName || v.key}</span>${hint?`<em>建議：${hint}</em>`:''}</div>
     <div class="v" onclick="event.stopPropagation()">${controlFor(v)}</div>
     <div class="d">
-      <div class="zhdetail">${mainZh}</div>
-      ${hint?`<div class="soccer">球機：${hint}</div>`:''}
-      <details class="enwrap" onclick="event.stopPropagation()"><summary>顯示英文原文 / Default</summary><div class="en">${v.desc||''}</div><div class="def">Default: ${v.default} · ${v.range}</div></details>
+      <div class="zhdetail">${zhParas(mainZh)}</div>
+      ${hint?`<div class="soccer">球機：${escapeHtml(hint)}</div>`:''}
+      <details class="enwrap" onclick="event.stopPropagation()"><summary>顯示英文原文 / Default</summary><div class="en">${escapeHtml(v.desc||'')}</div><div class="def">Default: ${escapeHtml(String(v.default||''))} · ${escapeHtml(String(v.range||''))}</div></details>
     </div>
   </div>`;
 }
@@ -663,7 +669,7 @@ function panelConfiguration(){
     else if (soccer) tag='<span class="tag skip">'+soccer+'</span>';
     return `<label onclick="showDetail('feature','${f}')"><input type="checkbox" data-k="feature_${f}" ${state['feature_'+f]?'checked':''} onclick="event.stopPropagation()"><span><b>${f}</b><br>${zh} ${tag}</span></label>`;
   }).join('');
-  const groups=groupsForTab('configuration').map(g=>{const s=zhSec(g); return `<div class="card"><h2>${g.section}<span class="zhsec">${s.zh||g.zh||''}</span><span> · ${g.vars.length} 項</span></h2>${(s.intro||g.intro)?`<p class="intro">${s.intro||g.intro}</p>`:''}<div class="rows">${g.vars.map(varRow).join('')}</div></div>`;}).join('');
+  const groups=groupsForTab('configuration').map(g=>{const s=zhSec(g); return `<div class="card"><h2>${g.section}<span class="zhsec">${s.zh||g.zh||''}</span><span> · ${g.vars.length} 項</span></h2>${(s.intro||g.intro)?`<div class="intro">${zhParas(s.intro||g.intro)}</div>`:''}<div class="rows">${g.vars.map(varRow).join('')}</div></div>`;}).join('');
   return `<div class="panel-h"><div><h1>Configuration <small>配置</small></h1>
   <p>Features、系統、板向、蜂鳴、遙測等。此分頁含官方文件對應到 Configuration 的全部 CLI 參數。</p></div></div>
   <div class="card"><h2>Mixer / Receiver Mode</h2>
@@ -678,7 +684,7 @@ function panelConfiguration(){
 
 function panelGeneric(tabId, title, zh, blurb){
   const groups=groupsForTab(tabId);
-  const body=groups.map(g=>{const s=zhSec(g); return `<div class="card"><h2>${g.section}<span class="zhsec">${s.zh||g.zh||''}</span><span> · ${g.vars.length} 項</span></h2>${(s.intro||g.intro)?`<p class="intro">${s.intro||g.intro}</p>`:''}<div class="rows">${g.vars.map(varRow).join('')}</div></div>`;}).join('')
+  const body=groups.map(g=>{const s=zhSec(g); return `<div class="card"><h2>${g.section}<span class="zhsec">${s.zh||g.zh||''}</span><span> · ${g.vars.length} 項</span></h2>${(s.intro||g.intro)?`<div class="intro">${zhParas(s.intro||g.intro)}</div>`:''}<div class="rows">${g.vars.map(varRow).join('')}</div></div>`;}).join('')
     || `<div class="card"><p>此分頁在真實 Configurator 存在；若官方 CLI 文件沒有獨立變數組，會顯示說明／佔位。</p></div>`;
   return `<div class="panel-h"><div><h1>${title} <small>${zh}</small></h1><p>${blurb}</p></div>
   <span class="stat">${groups.reduce((n,g)=>n+g.vars.length,0)} 參數</span></div>${body}`;
@@ -710,7 +716,7 @@ function panelReceiver(){
     chBar('AUX5 / CH9', stickDemo.aux5, 'aux5'),
   ].join('');
   const groups=groupsForTab('receiver');
-  const body=groups.map(g=>{const s=zhSec(g); return `<div class="card"><h2>${g.section}<span class="zhsec">${s.zh||g.zh||''}</span><span> · ${g.vars.length} 項</span></h2>${(s.intro||g.intro)?`<p class="intro">${s.intro||g.intro}</p>`:''}<div class="rows">${g.vars.map(varRow).join('')}</div></div>`;}).join('');
+  const body=groups.map(g=>{const s=zhSec(g); return `<div class="card"><h2>${g.section}<span class="zhsec">${s.zh||g.zh||''}</span><span> · ${g.vars.length} 項</span></h2>${(s.intro||g.intro)?`<div class="intro">${zhParas(s.intro||g.intro)}</div>`:''}<div class="rows">${g.vars.map(varRow).join('')}</div></div>`;}).join('');
   return `<div class="panel-h"><div><h1>Receiver <small>接收機／通道</small></h1>
   <p>檢查每一條通道：搖桿方向、AUX 開關高低、Channel Map。ELRS 協定選 CRSF；RSSI 通道維持 0（用遙測）。</p></div>
   <span class="stat">通道示意可拖動</span></div>
@@ -780,7 +786,7 @@ function panelModes(){
         <label>迄 <input type="number" min="900" max="2100" step="25" data-mode-end="${m.en}" value="${cfg.end}" ${on?'':'disabled'} style="width:72px;background:#1f2226;border:1px solid #555;border-radius:3px;color:#fff;padding:4px"></label>
         <span style="color:#9aa2ab;font-size:11px">BF 通道＝AUX+4（AUX1→CH5）</span>
       </div>
-      <div style="grid-column:1/-1;color:#dde2e7;line-height:1.5;font-size:12.5px">${detail}${soccer?`<div style="color:#ffe6a8;font-weight:700;margin-top:3px">球機：${soccer}</div>`:''}</div>
+      <div style="grid-column:1/-1;color:#dde2e7;line-height:1.65;font-size:12.5px" class="zhdetail">${zhParas(detail)}${soccer?`<div class="soccer">球機：${escapeHtml(soccer)}</div>`:''}</div>
     </div>`;
   }).join('');
   return `<div class="panel-h"><div><h1>Modes <small>模式與 AUX 通道</small></h1>
@@ -823,6 +829,27 @@ function panelCli(){
 }
 
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));}
+function zhParas(s){
+  const raw=String(s||'').trim();
+  if (!raw) return '';
+  const parts=raw.split(/(?<=[。！？])/).map(x=>x.trim()).filter(Boolean);
+  if (parts.length<=1) return `<p>${escapeHtml(raw)}</p>`;
+  const cleaned=[];
+  for (const p of parts){
+    if (cleaned.length && p.replace(/\s/g,'').length<10) cleaned[cleaned.length-1]+=p;
+    else cleaned.push(p);
+  }
+  const groups=[];
+  for (let i=0;i<cleaned.length;){
+    if (i+1<cleaned.length){ groups.push(cleaned[i]+cleaned[i+1]); i+=2; }
+    else {
+      if (groups.length && cleaned[i].replace(/\s/g,'').length<18) groups[groups.length-1]+=cleaned[i];
+      else groups.push(cleaned[i]);
+      i++;
+    }
+  }
+  return groups.map(g=>`<p>${escapeHtml(g)}</p>`).join('');
+}
 
 function buildCliLines(){
   const lines=['# diff all （模擬）', `# role ${role}`, `set craft_name = ${state.craft_name||state.name||'CHSH'}`];
@@ -1022,7 +1049,7 @@ addEventListener('popstate', (e)=>{
   }
 });
 
-const bust = 'v=20260727ch1';
+const bust = 'v=20260727para1';
 fetch('assets/bfsim/catalog.json?' + bust)
   .then(r=>{ if(!r.ok) throw new Error('catalog HTTP '+r.status); return r.json(); })
   .then(data=>{
