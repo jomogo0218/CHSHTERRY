@@ -126,10 +126,26 @@ a{color:var(--bf-accent)}
 .row .d .zhdetail p{margin:0 0 8px}
 .row .d .zhdetail p:last-child{margin-bottom:0}
 .row .d .soccer{margin-top:8px;color:#ffe6a8;font-weight:800;font-size:13px;line-height:1.6}
+.row .d .fx{margin-top:8px;display:grid;gap:4px;font-size:12.5px;line-height:1.55}
+.row .d .fx .up{color:#9fd6ff}
+.row .d .fx .down{color:#c9b8ff}
+.row .d .fx b{font-weight:800;margin-right:4px}
+.row .d .scene{
+  margin-top:10px;padding:8px 10px;border-radius:4px;
+  background:#24303a;border-left:3px solid #5eb0ff;
+  color:#d7e8f7;font-size:13px;line-height:1.7;font-weight:550;
+}
+.row .d .scene b{display:block;color:#8ec8ff;font-size:11px;margin-bottom:4px;letter-spacing:.02em}
 .card .intro p{margin:0 0 8px;line-height:1.7}
 .card .intro p:last-child{margin-bottom:0}
 .detail .block p{margin:0 0 8px;line-height:1.7}
 .detail .block p:last-child{margin-bottom:0}
+.detail .block.up b{color:#9fd6ff}
+.detail .block.down b{color:#c9b8ff}
+.detail .block.scene{
+  background:#24303a;border:1px solid #3a5a78;
+}
+.detail .block.scene b{color:#8ec8ff}
 .row .d .enwrap{margin-top:6px}
 .row .d .enwrap summary{cursor:pointer;color:#9aa2ab;font-size:11px;font-weight:700}
 .row .d .en{margin-top:4px;color:#8e959e;font-size:11px;line-height:1.4}
@@ -240,16 +256,16 @@ a{color:var(--bf-accent)}
   <input class="search" id="search" type="search" placeholder="搜尋設定英文名稱／說明… 例如 failsafe、dshot、angle" />
 </div>
 <div class="note-banner">
-  這是依 <b>Betaflight 官方 CLI 文件</b>展開的完整設定模擬。每一項<strong>主說明都是繁體中文</strong>；英文原文預設收合。若你還看到整排英文，請按 Ctrl+Shift+R 強制重新整理。外觀對齊 Configurator，但<b>不會寫入飛控</b>。目前載入 <span id="statCount" class="stat">…</span>
+  這是依 <b>Betaflight 官方 CLI 文件</b>展開的完整設定模擬。每一項會用<strong>飛行情境</strong>說明場上會發生什麼，並附<strong>調高／調低／球機怎麼做</strong>。改數值時右側與底欄會立刻更新。若看到舊版，請 Ctrl+Shift+R。外觀對齊 Configurator，但<b>不會寫入飛控</b>。目前載入 <span id="statCount" class="stat">…</span>
 </div>
 <div class="app">
   <nav class="side" id="side" aria-label="Configurator tabs"></nav>
   <main class="main" id="main"></main>
   <aside class="detail" id="detail" aria-live="polite">
-    <div class="empty">點左側任一設定列，這裡會顯示完整中文說明：它在管什麼、改了會怎樣、球機怎麼建議。</div>
+    <div class="empty">點左側設定或直接改數值：這裡會用「飛行情境／模擬狀況」描述場上會發生什麼，再說明調高／調低與球機建議。</div>
   </aside>
 </div>
-<div class="help" id="help">點左側分頁開始。上方可套用攻擊／防守建議值；開啟 Expert Mode 會顯示 GPS／OSD／VTX／Servos 等進階分頁。</div>
+<div class="help" id="help">點左側分頁開始。改任何數值時，底欄會摘要「飛行情境」；右側有完整故事說明。上方可套用攻擊／防守建議值。</div>
 
 <script>
 const TABS = [
@@ -317,7 +333,7 @@ const SOCCER_HINTS = {
   anti_gravity_gain:'吸網向200–250；晃則降',
   anti_gravity_cutoff_hz:'吸網向10–15（不是cutoff_freq）',
   iterm_windup:'貼網建議40–50，抑制I飆',
-  small_angle:'比賽設180（空中再解鎖）',
+  small_angle:'比賽設180（滾動中先上鎖、歪斜中再解鎖）',
   gyro_cal_on_first_arm:'保持OFF，避免再解鎖延遲',
   min_check:'油門到底須低於此值才能ARM',
   dshot_bidir:'Oxbot/RATE可開；F411原廠先別開',
@@ -560,10 +576,33 @@ function controlFor(v){
 function zhVar(key){
   // prefer fields merged into catalog; fallback to zhExplain
   const fromCat = (catalog && catalog.groups || []).flatMap(g=>g.vars).find(x=>x.key===key);
-  if (fromCat && (fromCat.detail || fromCat.zh)) {
-    return {zh: fromCat.zh||'', detail: fromCat.detail||'', soccer: fromCat.soccer||''};
+  const fromZh = (zhExplain && zhExplain.vars && zhExplain.vars[key]) || {};
+  if (fromCat && (fromCat.detail || fromCat.zh || fromCat.up || fromCat.down || fromCat.scene)) {
+    return {
+      zh: fromCat.zh || fromZh.zh || '',
+      detail: fromCat.detail || fromZh.detail || '',
+      soccer: fromCat.soccer || fromZh.soccer || '',
+      up: fromCat.up || fromZh.up || '',
+      down: fromCat.down || fromZh.down || '',
+      scene: fromCat.scene || fromZh.scene || ''
+    };
   }
-  return (zhExplain && zhExplain.vars && zhExplain.vars[key]) || {};
+  return fromZh;
+}
+function effectHelp(key){
+  const z=zhVar(key);
+  const name=z.zh||key;
+  if (z.scene) {
+    const short=z.scene.replace(/^【模擬狀況】/,'').trim();
+    return name+'｜飛行情境：'+short.slice(0,160)+(short.length>160?'…':'');
+  }
+  const bits=[];
+  if (z.up && z.up!=='—') bits.push('調高→'+z.up);
+  if (z.down && z.down!=='—') bits.push('調低→'+z.down);
+  if (z.soccer) bits.push('球機：'+z.soccer);
+  if (bits.length) return name+'：'+bits.join(' ｜ ');
+  if (z.detail) return name+'：'+z.detail;
+  return name+'：已更新數值（模擬，不會寫入飛控）';
 }
 function zhSec(gOrName){
   if (gOrName && typeof gOrName === 'object') {
@@ -575,35 +614,74 @@ function zhSec(gOrName){
 }
 function zhMode(en){
   const m = (catalog && catalog.modes || []).find(x=>x.en===en);
-  if (m && m.detail) return {detail:m.detail, soccer:m.soccer||''};
-  return (zhExplain && zhExplain.modes && zhExplain.modes[en]) || {};
+  const fromZh = (zhExplain && zhExplain.modes && zhExplain.modes[en]) || {};
+  if (m && (m.detail || m.scene)) {
+    return {detail:m.detail||fromZh.detail||'', soccer:m.soccer||fromZh.soccer||'', scene:m.scene||fromZh.scene||''};
+  }
+  return fromZh;
 }
 function zhFeat(en){
-  if (catalog && catalog.feature_explain && catalog.feature_explain[en]) return catalog.feature_explain[en];
-  return (zhExplain && zhExplain.features && zhExplain.features[en]) || {};
+  const fromCat = (catalog && catalog.feature_explain && catalog.feature_explain[en]) || {};
+  const fromZh = (zhExplain && zhExplain.features && zhExplain.features[en]) || {};
+  return {
+    zh: fromCat.zh || fromZh.zh || FEATURE_ZH[en] || '',
+    detail: fromCat.detail || fromZh.detail || FEATURE_ZH[en] || '',
+    soccer: fromCat.soccer || fromZh.soccer || '',
+    up: fromCat.up || fromZh.up || '',
+    down: fromCat.down || fromZh.down || '',
+    scene: fromCat.scene || fromZh.scene || ''
+  };
+}
+function featureHelp(key){
+  const z=zhFeat(key);
+  const on=!!state['feature_'+key];
+  const name=z.zh||key;
+  if (z.scene) {
+    const short=z.scene.replace(/^【模擬狀況】/,'').trim();
+    return name+'（'+(on?'已開':'已關')+'）｜飛行情境：'+short.slice(0,150)+(short.length>150?'…':'');
+  }
+  const bits=[on?'目前：已啟用':'目前：已關閉'];
+  if (on && z.up) bits.push(z.up);
+  else if (!on && z.down) bits.push(z.down);
+  if (z.soccer) bits.push('球機：'+z.soccer);
+  return name+'：'+bits.join(' ｜ ');
 }
 function showDetail(kind, key, fallback){
   selectedKey = key;
   const box = document.getElementById('detail');
-  let title='', enkey=key, detail='', soccer='', extra='';
+  let title='', enkey=key, detail='', soccer='', up='', down='', scene='', extra='';
   if (kind==='var'){
     const z=zhVar(key); const v=(catalog.groups.flatMap(g=>g.vars).find(x=>x.key===key))||{};
     title = z.zh || key; enkey = key;
     detail = z.detail || fallback || v.desc || '尚無中文說明';
     soccer = z.soccer || '';
-    extra = `<div class="block"><b>英文原文</b>${escapeHtml(v.desc||'')}<div style="margin-top:6px;color:#9aa2ab">Default: ${escapeHtml(String(v.default||''))} · ${escapeHtml(String(v.range||''))}</div></div>`;
+    up = z.up || '';
+    down = z.down || '';
+    scene = z.scene || '';
+    const cur = state[key];
+    extra = `<div class="block"><b>目前模擬值</b>${escapeHtml(String(cur??'（尚未設定）'))}<div style="margin-top:6px;color:#9aa2ab">Default: ${escapeHtml(String(v.default||''))} · ${escapeHtml(String(v.range||''))}</div></div>
+    <div class="block"><b>英文原文</b>${escapeHtml(v.desc||'（無）')}</div>`;
   } else if (kind==='mode'){
     const z=zhMode(key);
-    title = key; detail = z.detail || fallback || ''; soccer = z.soccer || '';
+    title = key; detail = z.detail || fallback || ''; soccer = z.soccer || ''; scene = z.scene || '';
   } else if (kind==='feature'){
     const z=zhFeat(key);
-    title = key; detail = z.detail || fallback || FEATURE_ZH[key] || ''; soccer = z.soccer || '';
+    title = z.zh || key;
+    detail = z.detail || fallback || FEATURE_ZH[key] || '';
+    soccer = z.soccer || '';
+    up = z.up || '';
+    down = z.down || '';
+    scene = z.scene || '';
+    extra = `<div class="block"><b>目前模擬狀態</b>${state['feature_'+key]?'ON（已啟用）':'OFF（已關閉）'}</div>`;
   }
   box.innerHTML = `<h3>${escapeHtml(title)}</h3><div class="enkey">${escapeHtml(enkey)}</div>
     <div class="block"><b>這是什麼／會影響什麼</b>${zhParas(detail)}</div>
+    ${scene?`<div class="block scene"><b>飛行情境／模擬狀況</b>${zhParas(scene)}</div>`:''}
+    ${up&&up!=='—'?`<div class="block up"><b>調高／啟用會怎樣</b>${zhParas(up)}</div>`:''}
+    ${down&&down!=='—'?`<div class="block down"><b>調低／關閉會怎樣</b>${zhParas(down)}</div>`:''}
     ${soccer?`<div class="block"><b>球機怎麼做</b>${zhParas(soccer)}</div>`:''}
     ${extra}
-    <div class="block"><b>怎麼用這一頁</b>${zhParas('左邊保留英文名稱，方便對真實 Configurator；中文是給人看的說明。改數值不會寫入飛控。')}</div>`;
+    <div class="block"><b>怎麼用這一頁</b>${zhParas('點參數或改數值，右側會出現「飛行情境」：用場上會遇到的狀況說明你在調什麼。改數值不會寫入飛控。')}</div>`;
   document.querySelectorAll('.row.active').forEach(r=>r.classList.remove('active'));
   const row=document.querySelector('.row[data-key="'+CSS.escape(key)+'"]');
   if (row) row.classList.add('active');
@@ -613,13 +691,19 @@ function varRow(v){
   const zhName = z.zh || v.zh || '';
   const detail = z.detail || v.detail || '';
   const hint = z.soccer || v.soccer || SOCCER_HINTS[v.key] || '';
-  const tag = hint ? `<span class="tag need">球機</span>` : (detail ? `<span class="tag">中文說明</span>` : `<span class="tag bad">缺中文</span>`);
+  const up = z.up || v.up || '';
+  const down = z.down || v.down || '';
+  const scene = z.scene || v.scene || '';
+  const tag = hint ? `<span class="tag need">球機</span>` : (scene ? `<span class="tag">飛行情境</span>` : ((up||down||detail) ? `<span class="tag">調高／調低說明</span>` : `<span class="tag bad">缺中文</span>`));
   const mainZh = detail || ('（尚無中文說明，請看英文原文）');
-  return `<div class="row" data-key="${v.key}" data-search="${(v.key+' '+zhName+' '+mainZh+' '+hint+' '+v.desc).toLowerCase()}" onclick="showDetail('var','${v.key}')">
+  const searchBlob = [v.key, zhName, mainZh, hint, up, down, scene, v.desc].join(' ').toLowerCase();
+  return `<div class="row" data-key="${v.key}" data-search="${escapeHtml(searchBlob)}" onclick="showDetail('var','${v.key}')">
     <div class="k">${v.key}${tag}<span class="zhname">${zhName || v.key}</span>${hint?`<em>建議：${hint}</em>`:''}</div>
     <div class="v" onclick="event.stopPropagation()">${controlFor(v)}</div>
     <div class="d">
       <div class="zhdetail">${zhParas(mainZh)}</div>
+      ${scene?`<div class="scene"><b>飛行情境／模擬狀況</b>${zhParas(scene)}</div>`:''}
+      ${(up&&up!=='—')||(down&&down!=='—')?`<div class="fx">${up&&up!=='—'?`<div class="up"><b>調高：</b>${escapeHtml(up)}</div>`:''}${down&&down!=='—'?`<div class="down"><b>調低：</b>${escapeHtml(down)}</div>`:''}</div>`:''}
       ${hint?`<div class="soccer">球機：${escapeHtml(hint)}</div>`:''}
       <details class="enwrap" onclick="event.stopPropagation()"><summary>顯示英文原文 / Default</summary><div class="en">${escapeHtml(v.desc||'')}</div><div class="def">Default: ${escapeHtml(String(v.default||''))} · ${escapeHtml(String(v.range||''))}</div></details>
     </div>
@@ -639,7 +723,7 @@ function panelSetup(){
   </div>
   <div class="card"><h2>Sensors 狀態（示意）</h2>
     <p>Gyro OK · Acc OK · Baro 可忽略 · Mag 未使用 · GPS 未使用</p>
-    <p>Arming Disable Flags：空中再解鎖失敗時先看這裡（ANGLE／THROTTLE 最常見）。比賽機 <code>small_angle=180</code>；口訣 Disarm→油門到底→Re-Arm。</p>
+    <p>Arming Disable Flags：滾動中上鎖再解鎖失敗時先看這裡（ANGLE＝不夠平／THROTTLE 最常見）。比賽機 <code>small_angle=180</code>；口訣 Disarm→油門到底→Re-Arm。ANGLE 旗標≠ANGLE 自穩模式。</p>
   </div>`;
 }
 
@@ -672,25 +756,26 @@ function panelPorts(){
 function panelConfiguration(){
   const feats=catalog.features.map(f=>{
     const z=zhFeat(f);
+    const title=z.zh || FEATURE_ZH[f] || f;
     const zh=z.detail || FEATURE_ZH[f]||'';
     const soccer=z.soccer||'';
     let tag='';
     if (f==='MOTOR_STOP') tag='<span class="tag bad">球機建議關</span>';
     else if (f==='LED_STRIP'||f==='AIRMODE'||f==='ANTI_GRAVITY') tag='<span class="tag need">球機建議開</span>';
     else if (['GPS','3D','OSD'].includes(f)) tag='<span class="tag skip">球機略過</span>';
-    else if (soccer) tag='<span class="tag skip">'+soccer+'</span>';
-    return `<label onclick="showDetail('feature','${f}')"><input type="checkbox" data-k="feature_${f}" ${state['feature_'+f]?'checked':''} onclick="event.stopPropagation()"><span><b>${f}</b><br>${zh} ${tag}</span></label>`;
+    else if (soccer) tag='<span class="tag skip">'+escapeHtml(soccer)+'</span>';
+    return `<label onclick="showDetail('feature','${f}')"><input type="checkbox" data-k="feature_${f}" ${state['feature_'+f]?'checked':''} onclick="event.stopPropagation()"><span><b>${f}</b> · ${escapeHtml(title)} ${tag}<br>${escapeHtml(zh)}${soccer?`<br><em style="color:#ffe6a8;font-style:normal">球機：${escapeHtml(soccer)}</em>`:''}${z.scene?`<br><em style="color:#8ec8ff;font-style:normal;line-height:1.5">情境：${escapeHtml(z.scene.replace(/^【模擬狀況】/,'').slice(0,90))}…</em>`:''}</span></label>`;
   }).join('');
   const groups=groupsForTab('configuration').map(g=>{const s=zhSec(g); return `<div class="card"><h2>${g.section}<span class="zhsec">${s.zh||g.zh||''}</span><span> · ${g.vars.length} 項</span></h2>${(s.intro||g.intro)?`<div class="intro">${zhParas(s.intro||g.intro)}</div>`:''}<div class="rows">${g.vars.map(varRow).join('')}</div></div>`;}).join('');
   return `<div class="panel-h"><div><h1>Configuration <small>配置</small></h1>
-  <p>Features、系統、板向、蜂鳴、遙測等。此分頁含官方文件對應到 Configuration 的全部 CLI 參數。</p></div></div>
+  <p>Features、系統、板向、蜂鳴、遙測等。<b>點任一功能或改勾選</b>，右側會說明「這是什麼／開了怎樣／關了怎樣／球機怎麼做」。</p></div></div>
   <div class="card"><h2>Mixer / Receiver Mode</h2>
     <div class="rows">
       <div class="row"><div class="k">mixer<em>機架</em></div><div class="v"><select data-k="mixer"><option>QUADX</option><option>QUADP</option></select></div><div class="d">足球機固定 Quad X</div></div>
       <div class="row"><div class="k">receiver_mode</div><div class="v"><select data-k="receiver_mode"><option value="SERIAL">Serial (via UART)</option><option value="SPI">SPI Rx</option></select></div><div class="d">ELRS 外接通常 Serial</div></div>
     </div>
   </div>
-  <div class="card"><h2>Features 全清單</h2><div class="features">${feats}</div></div>
+  <div class="card"><h2>Features 功能開關（點一下看說明）</h2><div class="features">${feats}</div></div>
   ${groups}`;
 }
 
@@ -798,7 +883,7 @@ function panelModes(){
         <label>迄 <input type="number" min="900" max="2100" step="25" data-mode-end="${m.en}" value="${cfg.end}" ${on?'':'disabled'} style="width:72px;background:#1f2226;border:1px solid #555;border-radius:3px;color:#fff;padding:4px"></label>
         <span style="color:#9aa2ab;font-size:11px">BF 通道＝AUX+4（AUX1→CH5）</span>
       </div>
-      <div style="grid-column:1/-1;color:#dde2e7;line-height:1.65;font-size:12.5px" class="zhdetail">${zhParas(detail)}${soccer?`<div class="soccer">球機：${escapeHtml(soccer)}</div>`:''}</div>
+      <div style="grid-column:1/-1;color:#dde2e7;line-height:1.65;font-size:12.5px" class="zhdetail">${zhParas(detail)}${(z.scene||m.scene)?`<div class="scene"><b>飛行情境／模擬狀況</b>${zhParas(z.scene||m.scene)}</div>`:''}${soccer?`<div class="soccer">球機：${escapeHtml(soccer)}</div>`:''}</div>
     </div>`;
   }).join('');
   return `<div class="panel-h"><div><h1>Modes <small>模式與 AUX 通道</small></h1>
@@ -932,10 +1017,14 @@ function renderPanel(){
       else state[k]=el.value;
       const name=state.craft_name||state.name||'CHSH';
       document.getElementById('connLabel').textContent=`模擬已連線 · ${name}`;
-      if (SOCCER_HINTS[k]) help(`${k}：${SOCCER_HINTS[k]}`);
-      else if (k.startsWith('mode_')) { help(`Modes → ${k.slice(5)}`); showDetail('mode', k.slice(5)); }
-      else if (k.startsWith('feature_')) { help(`Features → ${k.slice(8)}`); showDetail('feature', k.slice(8)); }
-      else       if (zhVar(k).detail) { showDetail('var', k); help(`${zhVar(k).zh||k}：已更新數值（模擬）`); }
+      if (k.startsWith('mode_')) {
+        const mk=k.slice(5); showDetail('mode', mk);
+        const z=zhMode(mk);
+        if (z.scene) help(`${mk}｜飛行情境：${z.scene.replace(/^【模擬狀況】/,'').trim().slice(0,150)}…`);
+        else help(`Modes → ${mk}（已切換，請看右側說明）`);
+      }
+      else if (k.startsWith('feature_')) { showDetail('feature', k.slice(8)); help(featureHelp(k.slice(8))); }
+      else { showDetail('var', k); help(effectHelp(k)); }
       if (active==='cli') {/* keep */}
       if (active==='modes' && k.startsWith('mode_')) renderPanel();
     };
@@ -1061,7 +1150,7 @@ addEventListener('popstate', (e)=>{
   }
 });
 
-const bust = 'v=20260727mesh1';
+const bust = 'v=20260729rearm1';
 fetch('assets/bfsim/catalog.json?' + bust)
   .then(r=>{ if(!r.ok) throw new Error('catalog HTTP '+r.status); return r.json(); })
   .then(data=>{
