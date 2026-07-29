@@ -2219,6 +2219,7 @@ save</pre>
     <div class="toc-group">
       <span class="toc-group-label">開始</span>
       <a href="#bf-safety">安全鐵則</a>
+      <a href="#bf-app">安裝軟體</a>
       <a href="#bf-order">設定順序</a>
     </div>
     <div class="toc-group">
@@ -2277,6 +2278,60 @@ save</pre>
   <div class="note info">
     <b>怎麼備份：</b>Betaflight 的 CLI 分頁輸入 <code>diff all</code> → 按「Save to file」，或整段選取複製。
     每台球機一個檔，檔名寫 <b>機號＋日期</b>（例：<code>3號機_0726.txt</code>）。
+  </div>
+
+  <h2 id="bf-app">安裝 Betaflight Configurator（調參軟體）</h2>
+  <div class="note critical">
+    <p><b>官方發行頁（一手來源）：</b>
+    <a href="https://github.com/betaflight/betaflight-configurator/releases" target="_blank" rel="noopener">github.com/betaflight/betaflight-configurator/releases</a></p>
+    <p>有疑問以這個頁面標的 Latest／Pre-release 為準；不要隨便下載來路不明的「破解版 Configurator」。</p>
+  </div>
+
+  <h3>本隊建議怎麼裝（2025 之後）</h3>
+  <p>新版 Betaflight App 已改成 <b>PWA（網頁應用）</b>，不再主推傳統 Windows 安裝檔當最新穩定版。</p>
+  <div class="wide">
+  <table>
+    <thead><tr><th>方式</th><th>連結</th><th>適合誰</th><th>注意</th></tr></thead>
+    <tbody>
+      <tr class="critical-row">
+        <td><b>官方網頁 App（建議）</b></td>
+        <td><a href="https://app.betaflight.com" target="_blank" rel="noopener">app.betaflight.com</a></td>
+        <td>全隊平時調參</td>
+        <td>用 Chrome／Edge 開啟；瀏覽器選單可「安裝應用程式」變桌面捷徑。穩定版參考發行標籤 <b>2025.12.2</b></td>
+      </tr>
+      <tr>
+        <td>發行說明／歷史檔</td>
+        <td><a href="https://github.com/betaflight/betaflight-configurator/releases" target="_blank" rel="noopener">GitHub Releases</a></td>
+        <td>查版本、下 APK、找舊安裝檔</td>
+        <td><b>2026.6.0-RC*</b> 是測試版（Pre-release）；學生機先不要用 RC，等標成正式版再升</td>
+      </tr>
+      <tr>
+        <td>下載總覽</td>
+        <td><a href="https://downloads.betaflight.com/" target="_blank" rel="noopener">downloads.betaflight.com</a></td>
+        <td>看最新／夜間建置</td>
+        <td>夜間版、alpha 僅供進階測試</td>
+      </tr>
+      <tr>
+        <td>舊式桌面安裝檔</td>
+        <td>Releases 裡的 <b>10.10.0</b> 等</td>
+        <td>學校電腦不能裝 PWA、或習慣傳統 .exe</td>
+        <td>仍可用，但介面／功能可能比網頁 App 舊；新飛控韌體建議優先網頁 App</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>第一次連線檢查清單</h3>
+  <ol>
+    <li>拆槳；用可傳資料的 USB 線（不要用「只能充電」的線）。</li>
+    <li>開 <a href="https://app.betaflight.com" target="_blank" rel="noopener">app.betaflight.com</a> → 選埠 → Connect。</li>
+    <li>Windows 若找不到板子：裝飛控 USB 驅動（依板卡／晶片；常見要 STM／DFU 相關驅動）。</li>
+    <li>連上後立刻 CLI：<code>diff all</code> 存檔（機號＋日期）。</li>
+    <li>記下畫面的 <b>Firmware version</b> 與 <b>Target</b>，五台機各自建檔。</li>
+  </ol>
+  <div class="note warn">
+    <p><b>本站「設定模擬器」</b>長得很像 Configurator，但<b>不會寫入飛控</b>。真正改參數一定要用官方 App 連真機。</p>
+    <p>官方 App 使用說明：<a href="https://www.betaflight.com/docs/wiki/app" target="_blank" rel="noopener">betaflight.com/docs/wiki/app</a></p>
   </div>
 
   <h2 id="bf-order">設定順序（照這個順序做，不會漏）</h2>
@@ -3934,6 +3989,9 @@ save</pre>
 
   <h2 id="bf-docs">官方文件（有疑問以這些為準）</h2>
   <ul>
+    <li><a href="https://github.com/betaflight/betaflight-configurator/releases" target="_blank" rel="noopener">Betaflight Configurator／App 發行頁（下載）</a> ← 本隊入口見 <a href="#bf-app">安裝軟體</a></li>
+    <li><a href="https://app.betaflight.com" target="_blank" rel="noopener">Betaflight App（網頁版，建議日常使用）</a></li>
+    <li><a href="https://www.betaflight.com/docs/wiki/app" target="_blank" rel="noopener">Betaflight App 說明（PWA）</a></li>
     <li><a href="https://betaflight.com/docs/wiki/getting-started/setup-guide" target="_blank" rel="noopener">Betaflight 設定總指南</a></li>
     <li><a href="https://betaflight.com/docs/wiki/guides/current/Failsafe" target="_blank" rel="noopener">Failsafe 斷訊保護</a></li>
     <li><a href="https://betaflight.com/docs/wiki/guides/current/DSHOT-RPM-Filtering" target="_blank" rel="noopener">DShot RPM 濾波</a></li>
