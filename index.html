@@ -93,6 +93,7 @@
     .hero-brand .crest-wrap{justify-self:center;width:100%}
   }
   .hero-brand .crest-wrap{
+    position:relative;
     width:min(88vw,420px);max-width:100%;
     aspect-ratio:1024 / 559;
     display:grid;place-items:center;
@@ -104,6 +105,27 @@
     filter:drop-shadow(0 12px 36px rgba(0,0,0,.45));
     animation:crest-in .7s ease-out both;
   }
+  .crest-props{
+    position:absolute;inset:0;pointer-events:none;z-index:2;
+  }
+  .crest-prop{
+    position:absolute;
+    width:12.5%;
+    aspect-ratio:1;
+    transform:translate(-50%,-50%);
+    color:rgba(210,235,255,.9);
+    filter:drop-shadow(0 0 5px rgba(61,180,255,.8)) drop-shadow(0 0 10px rgba(240,201,58,.4));
+    opacity:.9;
+    mix-blend-mode:screen;
+  }
+  .crest-prop svg{display:block;width:100%;height:100%}
+  /* 對齊隊徽四槳光暈位置 */
+  .crest-prop--fl{left:43%;top:35.5%;animation:prop-spin-cw .26s linear infinite}
+  .crest-prop--fr{left:62.5%;top:37.5%;animation:prop-spin-ccw .26s linear infinite}
+  .crest-prop--rl{left:39%;top:51%;animation:prop-spin-ccw .26s linear infinite}
+  .crest-prop--rr{left:59%;top:59%;animation:prop-spin-cw .26s linear infinite}
+  @keyframes prop-spin-cw{to{transform:translate(-50%,-50%) rotate(360deg)}}
+  @keyframes prop-spin-ccw{to{transform:translate(-50%,-50%) rotate(-360deg)}}
   @keyframes crest-in{from{opacity:0;transform:translateY(10px) scale(.96)}to{opacity:1;transform:none}}
   .hero-brand .eyebrow{
     margin:0 0 8px;font-size:14px;font-weight:800;letter-spacing:.08em;
@@ -541,6 +563,7 @@
     header nav button,header nav a.nav-sim{padding:8px 12px;font-size:13px;min-height:36px}
     .hero-brand{margin:10px 0 4px;padding-top:4px;gap:10px}
     .hero-brand .crest-wrap{width:min(72vw,280px)}
+    .crest-prop{width:13.5%}
     .hero-brand .eyebrow{font-size:11px;margin-bottom:4px}
     .hero-brand h1{font-size:clamp(24px,7vw,30px);margin-bottom:8px}
     .bg-logo{opacity:.07;background-size:min(88vw,360px) auto;background-position:center 6%}
@@ -581,6 +604,7 @@
     *,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}
     .hero-brand .crest{animation:none}
     .bolt{opacity:.9;transform:none;filter:drop-shadow(0 0 4px rgba(61,180,255,.4))}
+    .crest-props{display:none}
   }
 </style>
 </head>
@@ -646,6 +670,12 @@
   <div class="hero-brand">
     <div class="crest-wrap">
       <img class="crest" src="assets/brand/chia-hwa-drone-team.png?v=7" alt="嘉華中學足球無人機俱樂部 logo" width="1024" height="559" />
+      <div class="crest-props" aria-hidden="true">
+        <span class="crest-prop crest-prop--fl"><svg viewBox="0 0 64 64" focusable="false"><g fill="currentColor"><ellipse cx="32" cy="14" rx="7" ry="16" opacity=".95"/><ellipse cx="32" cy="50" rx="7" ry="16" opacity=".95"/><ellipse cx="14" cy="32" rx="16" ry="7" opacity=".55"/><ellipse cx="50" cy="32" rx="16" ry="7" opacity=".55"/><circle cx="32" cy="32" r="5.5" fill="#f0c93a"/><circle cx="32" cy="32" r="2.2" fill="#0a121c"/></g></svg></span>
+        <span class="crest-prop crest-prop--fr"><svg viewBox="0 0 64 64" focusable="false"><g fill="currentColor"><ellipse cx="32" cy="14" rx="7" ry="16" opacity=".95"/><ellipse cx="32" cy="50" rx="7" ry="16" opacity=".95"/><ellipse cx="14" cy="32" rx="16" ry="7" opacity=".55"/><ellipse cx="50" cy="32" rx="16" ry="7" opacity=".55"/><circle cx="32" cy="32" r="5.5" fill="#f0c93a"/><circle cx="32" cy="32" r="2.2" fill="#0a121c"/></g></svg></span>
+        <span class="crest-prop crest-prop--rl"><svg viewBox="0 0 64 64" focusable="false"><g fill="currentColor"><ellipse cx="32" cy="14" rx="7" ry="16" opacity=".95"/><ellipse cx="32" cy="50" rx="7" ry="16" opacity=".95"/><ellipse cx="14" cy="32" rx="16" ry="7" opacity=".55"/><ellipse cx="50" cy="32" rx="16" ry="7" opacity=".55"/><circle cx="32" cy="32" r="5.5" fill="#f0c93a"/><circle cx="32" cy="32" r="2.2" fill="#0a121c"/></g></svg></span>
+        <span class="crest-prop crest-prop--rr"><svg viewBox="0 0 64 64" focusable="false"><g fill="currentColor"><ellipse cx="32" cy="14" rx="7" ry="16" opacity=".95"/><ellipse cx="32" cy="50" rx="7" ry="16" opacity=".95"/><ellipse cx="14" cy="32" rx="16" ry="7" opacity=".55"/><ellipse cx="50" cy="32" rx="16" ry="7" opacity=".55"/><circle cx="32" cy="32" r="5.5" fill="#f0c93a"/><circle cx="32" cy="32" r="2.2" fill="#0a121c"/></g></svg></span>
+      </div>
     </div>
     <div>
       <p class="eyebrow"><span class="bolt bolt--hero" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor" focusable="false"><path d="M13.2 2.1 4.8 13.4c-.35.47-.02 1.15.57 1.15H11l-1.35 7.2c-.12.66.7 1.08 1.18.6l9.1-10.5c.4-.46.07-1.2-.55-1.2H14.3l1.2-7.35c.1-.65-.72-1.06-1.3-.6z"/></svg></span>CHIA HWA SENIOR HIGH · DRONE TEAM</p>
