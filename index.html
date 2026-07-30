@@ -108,6 +108,26 @@
   .crest-props{
     position:absolute;inset:0;pointer-events:none;z-index:2;
   }
+  .crest-school{
+    position:absolute;left:50%;bottom:11%;
+    transform:translateX(-50%);
+    z-index:3;pointer-events:none;
+    margin:0;padding:4px 14px 6px;
+    font-size:clamp(28px,7.2vw,42px);
+    font-weight:900;letter-spacing:.18em;
+    line-height:1.1;white-space:nowrap;
+    color:#fff;
+    text-shadow:
+      0 0 8px rgba(0,0,0,.95),
+      0 2px 4px rgba(0,0,0,.9),
+      0 0 18px rgba(61,180,255,.55),
+      0 0 2px #000;
+    background:linear-gradient(180deg, rgba(8,12,18,.15), rgba(8,12,18,.72));
+    border-radius:8px;
+  }
+  @media(min-width:760px){
+    .crest-school{font-size:40px;letter-spacing:.22em;bottom:12%;padding:5px 18px 7px}
+  }
   .crest-prop{
     position:absolute;
     width:12.5%;
@@ -564,6 +584,7 @@
     .hero-brand{margin:10px 0 4px;padding-top:4px;gap:10px}
     .hero-brand .crest-wrap{width:min(72vw,280px)}
     .crest-prop{width:13.5%}
+    .crest-school{font-size:clamp(26px,9vw,34px);letter-spacing:.16em;bottom:10%}
     .hero-brand .eyebrow{font-size:11px;margin-bottom:4px}
     .hero-brand h1{font-size:clamp(24px,7vw,30px);margin-bottom:8px}
     .bg-logo{opacity:.07;background-size:min(88vw,360px) auto;background-position:center 6%}
@@ -676,6 +697,7 @@
         <span class="crest-prop crest-prop--rl"><svg viewBox="0 0 64 64" focusable="false"><g fill="currentColor"><ellipse cx="32" cy="14" rx="7" ry="16" opacity=".95"/><ellipse cx="32" cy="50" rx="7" ry="16" opacity=".95"/><ellipse cx="14" cy="32" rx="16" ry="7" opacity=".55"/><ellipse cx="50" cy="32" rx="16" ry="7" opacity=".55"/><circle cx="32" cy="32" r="5.5" fill="#f0c93a"/><circle cx="32" cy="32" r="2.2" fill="#0a121c"/></g></svg></span>
         <span class="crest-prop crest-prop--rr"><svg viewBox="0 0 64 64" focusable="false"><g fill="currentColor"><ellipse cx="32" cy="14" rx="7" ry="16" opacity=".95"/><ellipse cx="32" cy="50" rx="7" ry="16" opacity=".95"/><ellipse cx="14" cy="32" rx="16" ry="7" opacity=".55"/><ellipse cx="50" cy="32" rx="16" ry="7" opacity=".55"/><circle cx="32" cy="32" r="5.5" fill="#f0c93a"/><circle cx="32" cy="32" r="2.2" fill="#0a121c"/></g></svg></span>
       </div>
+      <p class="crest-school" aria-hidden="true">嘉華中學</p>
     </div>
     <div>
       <p class="eyebrow"><span class="bolt bolt--hero" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor" focusable="false"><path d="M13.2 2.1 4.8 13.4c-.35.47-.02 1.15.57 1.15H11l-1.35 7.2c-.12.66.7 1.08 1.18.6l9.1-10.5c.4-.46.07-1.2-.55-1.2H14.3l1.2-7.35c.1-.65-.72-1.06-1.3-.6z"/></svg></span>CHIA HWA SENIOR HIGH · DRONE TEAM</p>
