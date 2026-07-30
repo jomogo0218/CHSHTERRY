@@ -3,6 +3,8 @@
 > 資料來源：FAI Sporting Code Section 4 – Aeromodelling, Volume F9 Drone Sport（2026 年 1 月 1 日生效版）。
 > 官方連結：https://www.fai.org/dronesoccer-rules
 > 適用本專案目標：**F9A-B（20cm 球，框架須裝進 22cm 圈內）**。
+>
+> **2026 第 B 章全文繁中譯本：** [FAI_F9_2026_F9A_無人機足球規則_繁中譯本.md](./FAI_F9_2026_F9A_無人機足球規則_繁中譯本.md) · 投影頁 `pages/FAI_F9A_2026_繁中譯本.html`
 
 ## 一、F9A 分級
 
