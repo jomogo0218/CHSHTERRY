@@ -459,6 +459,19 @@
   .home-cta button.go:hover,.home-cta a.go:hover{background:rgba(110,168,254,.12)}
   @media(max-width:680px){
     .verdict-row{grid-template-columns:1fr;gap:4px}
+    .verdict-row span{font-size:15px}
+    .db-list a{
+      flex-wrap:wrap;align-items:flex-start;gap:6px 12px;
+      padding:13px 14px;min-height:48px;
+    }
+    .db-list a small{display:block;width:100%;order:2;line-height:1.4}
+    .db-list a .arrow{margin-left:auto;align-self:center}
+    .home-cta button.go,.home-cta a.go{
+      min-height:44px;padding:10px 14px;font-size:15px;
+    }
+    .phase .links button.go{
+      min-height:40px;padding:8px 12px;font-size:14px;
+    }
   }
   pre{background:#0f172a;color:#e2e8f0;padding:12px;border-radius:8px;overflow:auto;font-size:13px}
   #back-top{
@@ -472,30 +485,34 @@
   #back-top:hover{border-color:var(--accent);color:var(--accent)}
 
   @media(max-width:680px){
-    :root{--header-h:112px}
+    :root{--header-h:96px}
     body{font-size:16px;line-height:1.58}
     .wrap{padding-left:14px;padding-right:14px;padding-bottom:72px}
-    header{padding-top:9px}
-    .brand{gap:10px;margin-bottom:8px}
-    .brand img{width:52px;height:28px}
-    .brand strong{font-size:14px}
+    header{padding-top:8px}
+    .brand{gap:10px;margin-bottom:6px}
+    .brand img{width:48px;height:26px}
+    .brand strong{font-size:13px}
     .brand span{font-size:11px;white-space:normal;line-height:1.35}
-    .hero-brand{margin-top:18px;padding-top:12px;gap:14px}
-    .hero-brand .crest-wrap{width:min(92vw,360px)}
-    .bg-logo{opacity:.09;background-size:min(92vw,420px) auto;background-position:center 8%}
-    header nav{gap:10px;padding-bottom:9px}
-    .nav-group{gap:3px}
-    .nav-group-label{font-size:9px}
-    header nav button{padding:6px 11px;font-size:13px}
-    h1{margin-top:30px;font-size:30px}
-    h2{margin-top:38px;font-size:21px}
-    h3{font-size:18px}
-    .lead{font-size:16px}
-    .card{padding:16px;border-radius:12px}
+    /* 手機：導覽只留按鈕，拿掉分組標籤省高度 */
+    .nav-group-label{display:none}
+    .nav-group{gap:0}
+    header nav{gap:6px;padding-bottom:8px;align-items:center}
+    header nav button,header nav a.nav-sim{padding:8px 12px;font-size:13px;min-height:36px}
+    .hero-brand{margin:10px 0 4px;padding-top:4px;gap:10px}
+    .hero-brand .crest-wrap{width:min(72vw,280px)}
+    .hero-brand .eyebrow{font-size:11px;margin-bottom:4px}
+    .hero-brand h1{font-size:clamp(24px,7vw,30px);margin-bottom:8px}
+    .bg-logo{opacity:.07;background-size:min(88vw,360px) auto;background-position:center 6%}
+    h1{margin-top:22px;font-size:28px}
+    h2{margin-top:32px;font-size:20px}
+    h3{font-size:17px}
+    .lead{font-size:15px}
+    .card{padding:14px;border-radius:12px}
     .card:hover{transform:none}
+    .card h4{font-size:18px}
     .stats{grid-template-columns:repeat(2,1fr)}
     .stat b{font-size:21px}
-    .note{padding:14px;font-size:15px}
+    .note{padding:12px 14px;font-size:15px}
     .toc{position:static;padding:10px;gap:6px;box-shadow:none}
     .toc-label{width:100%}
     .toc-group{width:100%;margin:0;padding:5px 0;gap:5px}
@@ -504,13 +521,14 @@
     .toc a,.toc button.go{font-size:12px;padding:5px 9px}
     .bf-roadmap{grid-template-columns:1fr 1fr;gap:8px}
     .bf-step{margin:22px 0 12px}
-    table{font-size:14px}
-    th,td{padding:9px 10px;min-width:82px}
-    td.n,th.n{font-size:15px}
-    .bars-peak .row{grid-template-columns:minmax(92px,1.15fr) minmax(70px,1.6fr) 55px;gap:7px}
-    .bars-peak.bars-lab-wide .row{grid-template-columns:minmax(110px,1.35fr) minmax(60px,1.4fr) 64px;gap:6px}
+    table{font-size:13px}
+    th,td{padding:8px 9px;min-width:72px}
+    td.n,th.n{font-size:14px}
+    .wide{-webkit-overflow-scrolling:touch}
+    .bars-peak .row{grid-template-columns:minmax(84px,1.1fr) minmax(56px,1.6fr) 48px;gap:6px}
+    .bars-peak.bars-lab-wide .row{grid-template-columns:minmax(100px,1.25fr) minmax(52px,1.4fr) 56px;gap:6px}
     .bars-peak .lab{font-size:12px}
-    .bars-peak .val{font-size:13px}
+    .bars-peak .val{font-size:12px}
     .chart-wrap svg{min-width:520px}
     .figs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
     .fig{width:auto}
@@ -598,7 +616,7 @@
     <div class="verdict">
       <div class="verdict-row"><b>攻擊</b><span>火神 VCI 1507 或 DYH1408 ＋ 4S 高 C（OVONIC 960／1060、Tattu 球機 1100、V5 850）</span></div>
       <div class="verdict-row"><b>防禦</b><span>火神 VCI 1408 ＋ 4S 高 C；輕量用 1404.5＋3S</span></div>
-      <div class="verdict-row"><b>統一</b><span>槳 GF 2828-3 · LED 22 顆 · 飛控 Oxbot／RATE／HAKRC（孔距不同）· 本場 5 球／9 電 · 1060 必實秤</span></div>
+      <div class="verdict-row"><b>統一</b><span>槳 GF 2828-3 · LED 22 顆 · 飛控三款 AIO（孔距不同）· 5 球／9 電 · 1060 必實秤</span></div>
     </div>
   </div>
 
