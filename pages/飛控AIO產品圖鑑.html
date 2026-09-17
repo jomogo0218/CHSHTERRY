@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
+  <title>飛控 AIO 40A 收集 · F9A-B 球機</title>
+  <style>
+    :root {
+      --bg: #eef2f6;
+      --card: #ffffff;
+      --text: #0f1724;
+      --muted: #64748b;
+      --line: #d5dee8;
+      --accent: #0477a8;
+      --ok: #0f7a4d;
+      --warn: #9a6700;
+      --no: #b42318;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Noto Sans TC", "Sora", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      background: linear-gradient(180deg, rgba(4,119,168,.06), transparent 28%), var(--bg);
+      color: var(--text);
+      font-size: 17px;
+      line-height: 1.55;
+      padding: 0 0 64px;
+    }
+    .topbar {
+      position: sticky; top: 0; z-index: 10;
+      background: rgba(247,249,252,.94);
+      border-bottom: 1px solid var(--line);
+      padding: 10px 16px;
+      display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center;
+    }
+    .topbar a { color: var(--accent); text-decoration: none; font-weight: 600; font-size: 15px; }
+    .topbar .brand { font-weight: 800; margin-right: 6px; }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 28px 20px 0; }
+    h1 { font-size: 28px; margin: 0 0 8px; line-height: 1.3; }
+    h2 { font-size: 22px; margin: 36px 0 14px; }
+    .sub { color: var(--muted); font-size: 16px; margin: 0 0 22px; }
+    .note {
+      border: 1px solid var(--line);
+      background: var(--card);
+      padding: 14px 16px;
+      border-radius: 10px;
+      margin-bottom: 22px;
+    }
+    .note.warn { border-color: rgba(230,184,77,.45); }
+    .filters {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin: 0 0 20px;
+    }
+    .filters button {
+      font: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      border: 1px solid var(--line);
+      background: #12151b;
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+    .filters button.on {
+      color: var(--accent);
+      border-color: rgba(110,168,254,.5);
+      background: rgba(110,168,254,.12);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    @media (min-width: 720px) {
+      .grid { grid-template-columns: 1fr 1fr; }
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px 18px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .card .thumb {
+      display: block;
+      margin: -4px -6px 4px;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+    .card .thumb img {
+      display: block;
+      width: 100%;
+      height: 160px;
+      object-fit: contain;
+    }
+    .card[hidden] { display: none; }
+    .card.team { border-color: rgba(62,207,142,.45); }
+    .card.skip { opacity: .78; }
+    .rank {
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .02em;
+    }
+    .card.team .rank { color: var(--ok); }
+    .name { font-size: 20px; font-weight: 800; margin: 0; line-height: 1.3; }
+    .meta { color: var(--muted); font-size: 14px; margin: 0; }
+    .specs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin: 6px 0 2px;
+    }
+    .spec {
+      background: #12151b;
+      border-radius: 8px;
+      padding: 8px 6px;
+      text-align: center;
+    }
+    .spec b { display: block; font-size: 15px; margin-bottom: 2px; }
+    .spec span { color: var(--muted); font-size: 12px; }
+    .use { margin: 0; font-size: 15px; color: #c8d2e0; }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
+    .tag {
+      font-size: 12px;
+      font-weight: 700;
+      border-radius: 999px;
+      padding: 3px 8px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+    }
+    .tag.ok { color: var(--ok); border-color: rgba(62,207,142,.4); }
+    .tag.warn { color: var(--warn); border-color: rgba(230,184,77,.4); }
+    .tag.no { color: var(--no); border-color: rgba(255,123,114,.4); }
+    .price {
+      margin-top: auto;
+      padding-top: 8px;
+      font-weight: 800;
+      font-size: 18px;
+    }
+    .price small { color: var(--muted); font-weight: 600; font-size: 13px; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      margin: 8px 0 24px;
+    }
+    th, td {
+      border: 1px solid var(--line);
+      padding: 8px 9px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th { background: #151922; color: #c8d2e0; }
+    .wide { overflow-x: auto; }
+    .ok { color: var(--ok); font-weight: 700; }
+    .no { color: var(--no); font-weight: 700; }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: .9em;
+      background: #12151b;
+      padding: .1em .35em;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <a href="../index.html">首頁</a>
+    <a href="上場清單.html">上場清單</a>
+
+    <span class="brand">飛控 AIO 收集</span>
+    <a href="飛控硬體.html">← 飛控硬體</a>
+    <a href="#criteria">球機挑板</a>
+    <a href="#team">本隊</a>
+    <a href="#candidates">候選</a>
+    <a href="#compare">對照表</a>
+  </div>
+
+  <div class="wrap">
+    <h1>飛控 AIO 40A 產品收集</h1>
+    <p class="sub">來源：淘寶「AIO+40A」搜尋第 1–2 頁整理（券後約價，會變）。用途：F9A-B 室內球機備料／對照，不是要你全買。</p>
+
+    <div class="note" id="criteria">
+      <b>球機挑板優先順序：</b>
+      ① 重量（越輕越好，約 ≤13g）　
+      ② BEC 夠 LED（建議 ≥5V 3A；F411 僅 2A 要調暗）　
+      ③ 32bit 電調（可雙向 DShot／RPM 濾波；攻擊機優先）　
+      ④ 孔距對得上機架（本隊常見 25／25.5）　
+      ⑤ 4S 合規（2–6S／3–6S 皆可）　
+      ⑥ 球機無圖傳 → HD／O3／O4 直插不是加分，別為圖傳功能加價。
+    </div>
+
+    <div class="note warn">
+      價格為你貼的搜尋頁<strong>券後約價 RMB</strong>，同一型號多家店差很多。下單前請核對：實際電流（40A）、孔距、BEC、電調韌體（BLHeli_S／Bluejay／AM32）、是否含 XT30／電容。
+      <br/>搜尋雜訊：<b>好盈／樂天 40A 單電調</b>（約 ¥45）不是飛控 AIO，別誤點進購物車。
+    </div>
+
+    <div class="filters" id="filters" aria-label="篩選">
+      <button type="button" class="on" data-filter="all">全部</button>
+      <button type="button" data-filter="team">本隊已購</button>
+      <button type="button" data-filter="soccer">標榜足球</button>
+      <button type="button" data-filter="pick">球機值得看</button>
+      <button type="button" data-filter="f4">F4／F411／F405</button>
+      <button type="button" data-filter="f7">F7／F722／F435</button>
+      <button type="button" data-filter="skip">球機可跳過</button>
+    </div>
+
+    <h2 id="team">本隊已購</h2>
+    <div class="grid">
+      <article class="card team" data-tags="team pick f4">
+        <a class="thumb" href="../assets/fc/hakrc-f411-40a-board.png" target="_blank" rel="noopener"><img src="../assets/fc/hakrc-f411-40a-board.png" alt="HAKRC F411 40A AIO" loading="lazy" /></a>
+        <div class="rank">本隊 · 防禦／輕量</div>
+        <h3 class="name">HAKRC F411 40A AIO</h3>
+        <p class="meta">海科 · BLHeli_S · 搜尋常見 ¥315–329（亦見更低價店）</p>
+        <div class="specs">
+          <div class="spec"><b>F411</b><span>主控</span></div>
+          <div class="spec"><b>40A</b><span>ESC</span></div>
+          <div class="spec"><b>8.5g</b><span>重量</span></div>
+          <div class="spec"><b>25.5</b><span>孔距</span></div>
+        </div>
+        <p class="use">最輕；BEC 僅 5V／2A → LED 亮度 30–40%。原廠 BLHeli_S 無雙向 DShot（要刷 Bluejay 才有機會）。</p>
+        <div class="tags">
+          <span class="tag ok">已購</span>
+          <span class="tag warn">BEC 2A</span>
+          <span class="tag warn">BLHeli_S</span>
+        </div>
+        <div class="price">¥315–329 <small>多家</small></div>
+      </article>
+
+      <article class="card team" data-tags="team pick f7">
+        <a class="thumb" href="../assets/fc/rate-f4v4-hero.png" target="_blank" rel="noopener"><img src="../assets/fc/rate-f4v4-hero.png" alt="RATE F4V4 40A AIO" loading="lazy" /></a>
+        <div class="rank">本隊 · 攻擊／主力</div>
+        <h3 class="name">RATE 瑞速 F4V4 40A AIO</h3>
+        <p class="meta">瑞速 · 32bit ESC · 搜尋常見 ¥299–335</p>
+        <div class="specs">
+          <div class="spec"><b>F435</b><span>主控</span></div>
+          <div class="spec"><b>40A</b><span>32bit</span></div>
+          <div class="spec"><b>8–9.6g</b><span>重量</span></div>
+          <div class="spec"><b>25×25</b><span>孔距</span></div>
+        </div>
+        <p class="use">雙向 DShot、藍牙調參款常見；BEC 5V 3A 較 F411 寬裕。孔距 25×25，換板要注意機架。</p>
+        <p class="meta" style="margin-top:6px">接線圖：
+          <a href="飛控硬體.html#led-rate-wire">飛控硬體 · RATE 接線</a> ·
+          <a href="../assets/fc/rate-f4v4-wiring.png" target="_blank" rel="noopener">完整接線</a> ·
+          <a href="../assets/fc/rate-f4v4-features.png" target="_blank" rel="noopener">特點圖</a>
+        </p>
+        <div class="tags">
+          <span class="tag ok">已購</span>
+          <span class="tag ok">32bit ESC</span>
+          <span class="tag">藍牙調參</span>
+        </div>
+        <div class="price">¥299–335 <small>RATE 店／經銷</small></div>
+      </article>
+
+      <article class="card team" data-tags="team pick f7">
+        <a class="thumb" href="../assets/fc/oxbot-flow-aio45.png" target="_blank" rel="noopener"><img src="../assets/fc/oxbot-flow-aio45.png" alt="Oxbot Flow AIO45" loading="lazy" /></a>
+        <div class="rank">本隊 · 攻擊／LED 最穩</div>
+        <h3 class="name">Oxbot Flow AIO45</h3>
+        <p class="meta">牛博特 · 內建 ELRS · 本隊已購</p>
+        <div class="specs">
+          <div class="spec"><b>F435</b><span>主控</span></div>
+          <div class="spec"><b>45A</b><span>OX32</span></div>
+          <div class="spec"><b>12.6g</b><span>重量</span></div>
+          <div class="spec"><b>25.5</b><span>孔距</span></div>
+        </div>
+        <p class="use">內建 ELRS、BEC 5V 4A、雙向 DShot。球機無圖傳務必關 VTX BEC。稍重但省接收機。</p>
+        <p class="meta" style="margin-top:6px">接線圖：
+          <a href="飛控硬體.html#led-oxbot-wire">飛控硬體 · Oxbot 接線</a> ·
+          <a href="../assets/fc/oxbot-pinout.jpg" target="_blank" rel="noopener">接口定義</a> ·
+          <a href="../assets/fc/oxbot-led-plug.jpg" target="_blank" rel="noopener">LED 直插</a>
+        </p>
+        <div class="tags">
+          <span class="tag ok">已購</span>
+          <span class="tag ok">內建 ELRS</span>
+          <span class="tag ok">BEC 4A</span>
+        </div>
+        <div class="price">（另查） <small>非本次搜尋主列</small></div>
+      </article>
+    </div>
+
+    <h2 id="candidates">淘寶搜尋整理（去重 · 含第 2 頁）</h2>
+    <div class="grid" id="list">
+      <article class="card" data-tags="soccer pick f7">
+        <div class="rank">標榜足球 · 優先核規格</div>
+        <h3 class="name">TRAIL WISP F7 40A AIO</h3>
+        <p class="meta">飛冠科技 · 標題寫「無人機足球專用」· 約 ¥395</p>
+        <div class="specs">
+          <div class="spec"><b>F7</b><span>主控</span></div>
+          <div class="spec"><b>40A</b><span>ESC</span></div>
+          <div class="spec"><b>足球</b><span>定位</span></div>
+          <div class="spec"><b>—</b><span>重量待核</span></div>
+        </div>
+        <p class="use">搜尋裡少數直接寫足球專用。下單前必核：淨重、孔距、BEC、電調韌體、是否內建接收機、有無多餘圖傳電路。對得上規格才值得取代本隊 RATE／Oxbot。</p>
+        <div class="tags">
+          <span class="tag ok">足球標榜</span>
+          <span class="tag warn">規格要拆開看</span>
+        </div>
+        <div class="price">¥395 <small>TRAIL WISP</small></div>
+      </article>
+
+      <article class="card" data-tags="soccer pick f4 f7">
+        <div class="rank">標榜足球 · 價位可談</div>
+        <h3 class="name">XFLight 炫飛 F405／F722 AIO 40A</h3>
+        <p class="meta">炫飛 · 標題含「FPV足球」· 封裝飛塔 · 約 ¥305</p>
+        <div class="specs">
+          <div class="spec"><b>F405／F722</b><span>可選</span></div>
+          <div class="spec"><b>40A</b><span>ESC</span></div>
+          <div class="spec"><b>2–6S</b><span>輸入</span></div>
+          <div class="spec"><b>足球</b><span>文案</span></div>
+        </div>
+        <p class="use">比 TRAIL WISP 便宜一截。確認實際 MCU、重量、BEC；「封裝飛塔」是否方便塞進 20cm 球框。適合當備板候選。</p>
+        <div class="tags">
+          <span class="tag ok">足球標榜</span>
+          <span class="tag ok">可當備板</span>
+        </div>
+        <div class="price">¥305 <small>券後約價</small></div>
+      </article>
+
+      <article class="card" data-tags="pick f7">
+        <div class="rank">候選 · 價／BL32</div>
+        <h3 class="name">HGLRC 化骨龍 F722 40A V2 AIO</h3>
+        <p class="meta">化骨龍 · BL32 · 2–6S · 約 ¥299</p>
+        <div class="specs">
+          <div class="spec"><b>F722</b><span>主控</span></div>
+          <div class="spec"><b>40A</b><span>BL32</span></div>
+          <div class="spec"><b>2–5″</b><span>標稱</span></div>
+          <div class="spec"><b>2–6S</b><span>輸入</span></div>
+        </div>
+        <p class="use">第 2 頁出現的高性價比 F7＋BL32。球機視角要核淨重與孔距；若明顯輕於 Oxbot 且 BEC 夠，可列攻擊備板。</p>
+        <div class="tags">
+          <span class="tag ok">BL32</span>
+          <span class="tag ok">價可談</span>
+        </div>
+        <div class="price">¥299 <small>魯班 RC 等</small></div>
+      </article>
+
+      <article class="card" data-tags="pick f4">
+        <div class="rank">候選 · 生態完整</div>
+        <h3 class="name">SpeedyBee F405 AIO／V2 35–40A</h3>
+        <p class="meta">快蜂 · 25.5×25.5 · 3–6S · 搜尋約 ¥381–400</p>
+        <div class="specs">
+          <div class="spec"><b>F405</b><span>主控</span></div>
+          <div class="spec"><b>35／40A</b><span>ESC</span></div>
+          <div class="spec"><b>25.5</b><span>孔距</span></div>
+          <div class="spec"><b>Bluejay</b><span>常見</span></div>
+        </div>
+        <p class="use">無線調參／App 方便上課；球機可當備選。確認買到 40A 版、重量與 BEC 標示；HD／O4「支援」對無圖傳球機無加成。</p>
+        <div class="tags">
+          <span class="tag ok">球機可考慮</span>
+          <span class="tag">無線調參</span>
+          <span class="tag warn">價偏高</span>
+        </div>
+        <div class="price">¥381–400 <small>V2 常見；偶見更高</small></div>
+      </article>
+
+      <article class="card" data-tags="pick f4">
+        <div class="rank">候選 · 價位親民</div>
+        <h3 class="name">FDi 锋鏑 F405／F722 40A AIO</h3>
+        <p class="meta">锋鏑 · 2–6S · 搜尋約 ¥279</p>
+        <div class="specs">
+          <div class="spec"><b>F405／F722</b><span>可選</span></div>
+          <div class="spec"><b>40A</b><span>ESC</span></div>
+          <div class="spec"><b>—</b><span>重量待核</span></div>
+          <div class="spec"><b>2–6S</b><span>輸入</span></div>
+        </div>
+        <p class="use">搜尋裡較便宜的一檔。下單前一定要核：實際 MCU、電調韌體、孔距、淨重、BEC。適合「備用板」預算。</p>
+        <div class="tags">
+          <span class="tag ok">可當備板</span>
+          <span class="tag warn">規格要核對</span>
+        </div>
+        <div class="price">¥279 <small>券後約價</small></div>
+      </article>
+
+      <article class="card" data-tags="pick f4">
+        <div class="rank">候選 · 牙簽系輕板</div>
+        <h3 class="name">JHEMCU GHF405AIO-HD 40A</h3>
+        <p class="meta">津航 · F4 · 2–6S · 約 ¥291–327（熱銷店約 ¥302）</p>
+        <div class="specs">
+          <div class="spec"><b>F405</b><span>主控</span></div>
+          <div class="spec"><b>40A</b><span>ESC</span></div>
+          <div class="spec"><b>牙簽</b><span>取向</span></div>
+          <div class="spec"><b>HD</b><span>接口</span></div>
+        </div>
+        <p class="use">F4＋40A 對球機夠用。HD 直插對無圖傳無用；看淨重／BEC／孔距是否對機架。</p>
+        <div class="tags">
+          <span class="tag ok">可考慮</span>
+          <span class="tag">津航常見</span>
+        </div>
+        <div class="price">¥291–327</div>
+      </article>
+
+      <article class="card" data-tags="pick f4">
+        <div class="rank">候選 · F411 升級線 · 熱銷</div>
+        <h3 class="name">JHEMCU GHG474AIO 40A</h3>
+        <p class="meta">津航 · 標「替代 GHF411」· 2–6S · 約 ¥285–325（夢巴黎約 ¥289／100+ 付款）</p>
+        <div class="specs">
+          <div class="spec"><b>G474</b><span>主控</span></div>
+          <div class="spec"><b>40A</b><span>ESC</span></div>
+          <div class="spec"><b>牙簽</b><span>取向</span></div>
+          <div class="spec"><b>2–6S</b><span>輸入</span></div>
+        </div>
+        <p class="use">比傳統 F411 新一代 MCU；確認 Betaflight target、BEC、孔距。可當 HAKRC F411 的替代研究對象。</p>
+        <div class="tags">
+          <span class="tag ok">可研究</span>
+          <span class="tag warn">target 要確認</span>
+        </div>
+        <div class="price">¥285–325 <small>含 GHF474-HD 變體</small></div>
+      </article>
+
+      <article class="card" data-tags="pick f4">
+        <div class="rank">對照 · 同系 F411</div>
+        <h3 class="name">JHEMCU GHF411AIO-HD 40A</h3>
+        <p class="meta">津航 · F411 · 約 ¥281–455（價差大）</p>
+        <div class="specs">
+          <div class="spec"><b>F411</b><span>主控</span></div>
+          <div class="spec"><b>40A</b><span>ESC</span></div>
+          <div class="spec"><b>HD／O3</b><span>直連賣點</span></div>
+          <div class="spec"><b>2–6S</b><span>輸入</span></div>
+        </div>
+        <p class="use">與本隊 HAKRC F411 同檔。若已有 HAKRC，不必為「直連 O3」再買；比價時看淨重與 BEC 即可。</p>
+        <div class="tags">
+          <span class="tag">同檔對照</span>
+          <span class="tag warn">價差大</span>
+        </div>
+        <div class="price">¥281–455</div>
+      </article>
+
+      <article class="card" data-tags="f7 pick">
+        <div class="rank">候選 · F7 一體</div>
+        <h3 class="name">JHEMCU GHF722AIO-HD 40A</h3>
+        <p class="meta">津航 · F7 · 競速／花飛 · 約 ¥336–356</p>
+        <div class="specs">
+          <div class="spec"><b>F722</b><span>主控</span></div>
+          <div class="spec"><b>40A</b><span>ESC</span></div>
+          <div class="spec"><b>HD</b><span>接口</span></div>
+          <div class="spec"><b>競速</b><span>取向</span></div>
+        </div>
+        <p class="use">資源比 F411 多；球機通常吃不滿。若已有 RATE／Oxbot（F435＋32bit），換這塊動機不大，除非價／重量明顯更好。</p>
+        <div class="tags">
+          <span class="tag">可對照</span>
+          <span class="tag warn">球機非必須 F7</span>
+        </div>
+        <div class="price">¥336–356</div>
+      </article>
+
+      <article class="card" data-tags="f7">
+        <div class="rank">對照 · 海科 F7</div>
+        <h3 class="name">HAKRC F722／F7 AIO 40A</h3>
+        <p class="meta">海科 · 約 ¥308–465（雙陀螺／雙 USB／HD 直插較貴）</p>
+        <div class="specs">
+          <div class="spec"><b>F722</b><span>主控</span></div>
+          <div class="spec"><b>40A</b><span>ESC</span></div>
+          <div class="spec"><b>25.5／26.5</b><span>常見</span></div>
+          <div class="spec"><b>HD</b><span>賣點</span></div>
+        </div>
+        <p class="use">同品牌升級線。飛塔合集 ¥204 起（35A–65A）要分清是不是你要的「單板 40A AIO」。球機優先確認重量與 BEC。</p>
+        <div class="tags">
+          <span class="tag">合集注意規格</span>
+          <span class="tag warn">勿買錯電流檔</span>
+        </div>
+        <div class="price">¥308–465</div>
+      </article>
+
+      <article class="card" data-tags="f7">
+        <div class="rank">對照 · 曼巴</div>
+        <h3 class="name">Mamba MK4／MK5 G4 AIO 40A</h3>
+        <p class="meta">大通 · MK4 約 ¥205；MK5 G4 Alpha 約 ¥515</p>
+        <div class="specs">
+          <div class="spec"><b>G4 系</b><span>系列</span></div>
+          <div class="spec"><b>40A</b><span>標稱</span></div>
+          <div class="spec"><b>DShot</b><span>賣點</span></div>
+          <div class="spec"><b>價差大</b><span>MK4／5</span></div>
+        </div>
+        <p class="use">MK4 低價研究、MK5 偏貴。標題規格常混雜，務必對照參數圖。球機先看淨重與 BEC，不要只看品牌。</p>
+        <div class="tags">
+          <span class="tag warn">規格混雜</span>
+          <span class="tag">低價／高價兩檔</span>
+        </div>
+        <div class="price">¥205／¥515</div>
+      </article>
+
+      <article class="card" data-tags="f7">
+        <div class="rank">對照 · AM32</div>
+        <h3 class="name">天機 ST AM32 35／40A F7 AIO</h3>
+        <p class="meta">天機 · AM32 電調 · 約 ¥326</p>
+        <div class="specs">
+          <div class="spec"><b>F7</b><span>主控</span></div>
+          <div class="spec"><b>35／40A</b><span>AM32</span></div>
+          <div class="spec"><b>O3／O4</b><span>賣點</span></div>
+          <div class="spec"><b>飛塔</b><span>取向</span></div>
+        </div>
+        <p class="use">32bit AM32 對攻擊機有吸引力。球機無 O3／O4 需求；確認淨重與 LED BEC 後再決定是否取代 RATE／Oxbot。</p>
+        <div class="tags">
+          <span class="tag ok">AM32 可看</span>
+          <span class="tag">圖傳賣點可忽略</span>
+        </div>
+        <div class="price">¥326</div>
+      </article>
+
+      <article class="card skip" data-tags="skip f7">
+        <div class="rank">球機可跳過 · 高階／偏重</div>
+        <h3 class="name">JHEMCU GHF745／GH743 · Axisflying F745 40–50A</h3>
+        <p class="meta">津航約 ¥351–461；酷飛 F745 約 ¥453</p>
+        <div class="specs">
+          <div class="spec"><b>F745／F743</b><span>主控</span></div>
+          <div class="spec"><b>40／50A</b><span>ESC</span></div>
+          <div class="spec"><b>偏競速</b><span>取向</span></div>
+          <div class="spec"><b>價高</b><span>相對</span></div>
+        </div>
+        <p class="use">對 1507／1408 球機電流通常過剩；價格與可能重量不划算。除非要統一零件庫給更大機，否則跳過。</p>
+        <div class="tags">
+          <span class="tag no">球機非優先</span>
+          <span class="tag">電流過剩</span>
+        </div>
+        <div class="price">¥351–461</div>
+      </article>
+
+      <article class="card skip" data-tags="skip f7">
+        <div class="rank">球機可跳過 · 怪象專用取向</div>
+        <h3 class="name">OddityRC 怪象 F7 40A AIO</h3>
+        <p class="meta">怪象 · 4–6S · 約 ¥420–440</p>
+        <div class="specs">
+          <div class="spec"><b>F7</b><span>主控</span></div>
+          <div class="spec"><b>40A</b><span>ESC</span></div>
+          <div class="spec"><b>4–6S</b><span>輸入</span></div>
+          <div class="spec"><b>怪象</b><span>生態</span></div>
+        </div>
+        <p class="use">標「穿越機專用／怪象」，價偏高。本隊非怪象機架、且 4S 球機吃不滿其賣點；除非整機走怪象生態，否則不優先。</p>
+        <div class="tags">
+          <span class="tag no">非本隊生態</span>
+          <span class="tag warn">價偏高</span>
+        </div>
+        <div class="price">¥420–440</div>
+      </article>
+
+      <article class="card skip" data-tags="skip f4">
+        <div class="rank">球機可跳過 · 為圖傳加價</div>
+        <h3 class="name">標榜 O3／O4／DJI 直插的同板高價款</h3>
+        <p class="meta">搜尋中多款同型號因「直插圖傳」貴一截（例如部分 HAKRC／JHE ¥450+）</p>
+        <div class="specs">
+          <div class="spec"><b>同 MCU</b><span>常見</span></div>
+          <div class="spec"><b>40A</b><span>一樣</span></div>
+          <div class="spec"><b>HD 線</b><span>加價點</span></div>
+          <div class="spec"><b>球機</b><span>用不到</span></div>
+        </div>
+        <p class="use">本隊無圖傳／無 GPS。買「無 HD 線／類比版」或確認不會為未使用的插頭多付錢。標題含 GPS 的津航款同理（規則禁自動定位，也不需要）。</p>
+        <div class="tags">
+          <span class="tag no">勿為圖傳加價</span>
+        </div>
+        <div class="price">視賣場 <small>比同板無 HD 款</small></div>
+      </article>
+    </div>
+
+    <h2 id="compare">球機視角對照表</h2>
+    <div class="wide">
+      <table>
+        <thead>
+          <tr>
+            <th>型號</th>
+            <th>約價 RMB</th>
+            <th>主控</th>
+            <th>電調</th>
+            <th>球機建議</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>HAKRC F411 40A</td><td>315–329</td><td>F411</td><td>BLHeli_S</td><td class="ok">本隊防禦／輕量</td></tr>
+          <tr><td>RATE F4V4／F435 40A</td><td>299–335</td><td>F435</td><td>32bit</td><td class="ok">本隊攻擊主力</td></tr>
+          <tr><td>Oxbot Flow AIO45</td><td>—</td><td>F435</td><td>OX32 45A</td><td class="ok">本隊攻擊／LED 最穩</td></tr>
+          <tr><td>TRAIL WISP F7 40A</td><td>~395</td><td>F7</td><td>待核</td><td class="ok">標榜足球；先核重量／BEC</td></tr>
+          <tr><td>XFLight F405／F722 40A</td><td>~305</td><td>可選</td><td>待核</td><td class="ok">標榜足球；備板候選</td></tr>
+          <tr><td>HGLRC F722 40A V2</td><td>~299</td><td>F722</td><td>BL32</td><td>價美；核淨重後可備</td></tr>
+          <tr><td>SpeedyBee F405 AIO／V2</td><td>381–400</td><td>F405</td><td>Bluejay 常見</td><td>備選（上課調參方便）</td></tr>
+          <tr><td>FDi F405／F722 40A</td><td>~279</td><td>可選</td><td>待核</td><td>低價備板（先核規格）</td></tr>
+          <tr><td>JHE GHF405／GHG474 40A</td><td>285–327</td><td>F405／G474</td><td>待核</td><td>G474 熱銷，可研究替代 F411</td></tr>
+          <tr><td>JHE GHF722 HD 40A</td><td>336–356</td><td>F722</td><td>待核</td><td>有 RATE／Oxbot 則非必須</td></tr>
+          <tr><td>HAKRC F722 AIO 40A</td><td>308–465</td><td>F722</td><td>待核</td><td>雙 USB／HD 款更貴，球機勿加價</td></tr>
+          <tr><td>Mamba MK4／MK5 40A</td><td>205／515</td><td>系列標</td><td>待核</td><td>規格要拆開看</td></tr>
+          <tr><td>OddityRC F7 40A</td><td>420–440</td><td>F7</td><td>待核</td><td class="no">怪象生態／偏貴</td></tr>
+          <tr><td>JHE／酷飛 F745／F743</td><td>351–461</td><td>F7</td><td>AM32 等</td><td class="no">球機通常過剩</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>課堂結論</h2>
+    <div class="note">
+      <p><b>先用好本隊三塊：</b>防禦 HAKRC F411；攻擊 RATE／Oxbot。</p>
+      <p><b>第 2 頁新亮點：</b>TRAIL WISP、XFLight 直接寫足球——值得打開賣場核淨重／BEC／孔距；HGLRC F722 V2（~¥299＋BL32）當性價比備板；津航 G474（~¥289）熱銷可當 F411 替代研究。</p>
+      <p style="margin-bottom:0"><b>仍跳過：</b>好盈單電調、怪象／F745 高價線、O3／O4／GPS 加價款。</p>
+    </div>
+    <p class="sub">完整焊點與設定見手冊 <a href="飛控硬體.html" style="color:var(--accent)">飛控硬體</a>／<a href="飛控設定.html" style="color:var(--accent)">飛控設定</a>。</p>
+  </div>
+
+  <script>
+    const buttons = document.querySelectorAll('#filters button');
+    const cards = document.querySelectorAll('.card[data-tags]');
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        buttons.forEach((b) => b.classList.remove('on'));
+        btn.classList.add('on');
+        const f = btn.dataset.filter;
+        cards.forEach((card) => {
+          const tags = (card.dataset.tags || '').split(/\s+/);
+          card.hidden = !(f === 'all' || tags.includes(f));
+        });
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
+<title>LED · 嘉華足球無人機配備手冊</title>
+<link rel="stylesheet" href="../assets/site.css?v=7" />
+</head>
+<body class="is-page">
+<div class="bg-logo" aria-hidden="true"></div>
+<a class="skip-link" href="#main">跳至主要內容</a>
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="../index.html">
+      <img src="../assets/brand/chia-hwa-drone-team.png?v=7" alt="" width="64" height="36" />
+      <div class="brand-text">
+        <strong>嘉華中學足球無人機俱樂部</strong>
+        <span>配備手冊 · FAI F9A-B</span>
+      </div>
+    </a>
+    <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="siteNav">選單</button>
+    <nav class="site-nav" id="siteNav" aria-label="主要導覽">
+      <a href="../index.html">首頁</a>
+      <span class="nav-label">認識</span>
+      <a href="影片欣賞.html">影片欣賞</a>
+      <a href="新手入門.html">新手入門</a>
+      <a href="足球無人機技術全解簡報.html">技術全解</a>
+      <span class="nav-label">規則</span>
+      <a href="規則檢錄.html">規則檢錄</a>
+      <a href="FAI_F9A_2026_繁中譯本.html">FAI 譯本</a>
+      <a href="有刷空心杯.html">有刷／空心杯</a>
+      <span class="nav-label">配備</span>
+      <a href="馬達.html">馬達</a>
+      <a href="電池.html">電池</a>
+      <a href="螺旋槳.html">螺旋槳</a>
+      <span class="nav-label">整機</span>
+      <a href="組裝.html">組裝</a>
+      <a href="續航.html">續航</a>
+      <span class="nav-label">系統</span>
+      <a href="飛控硬體.html">飛控硬體</a>
+      <a href="飛控設定.html">飛控設定</a>
+      <a class="on" href="LED.html">LED</a>
+      <a href="遙控器採購分析.html">遙控器</a>
+      <a href="../bfsim.html">設定模擬</a>
+      <span class="nav-label">上場</span>
+      <a href="上場清單.html">上場清單</a>
+      <span class="nav-label">圖鑑</span>
+      <a href="飛控AIO產品圖鑑.html">AIO 圖鑑</a>
+      <a href="電池產品圖鑑.html">電池圖鑑</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap" id="main">
+<div class="page-banner">
+  <div class="crumb"><a href="../index.html">首頁</a> / 系統 / LED</div>
+  <div>
+    <h1>LED</h1>
+    <p class="lead">22 燈隊色與低壓紅閃。</p>
+  </div>
+</div>
+
+  <p class="lead">隊色、射手尾燈、22 顆耗電、低壓紅閃與一路 LED 配線集中在這一頁。</p>
+
+  <article class="media-explain">
+    <figure class="media-explain-pic">
+      <a href="../assets/led/ws2812b-strip-fpvee.jpg" target="_blank" rel="noopener"><img src="../assets/led/ws2812b-strip-fpvee.jpg" alt="WS2812B 可定址 LED 燈條" loading="lazy" /></a>
+      <figcaption>實體燈條：WS2812／同類可定址 RGB（點圖放大）</figcaption>
+    </figure>
+    <div class="media-explain-body">
+      <h3>燈在哪裡？誰可以進球？</h3>
+      <p><b>環形主燈</b>整場固定本隊紅／藍；<b>尾巴燈</b>用來分辨各機。只有 <b>射手</b>可以得分，射手尾燈必須是<b>對方隊色</b>（紅隊射手＝藍尾、藍隊射手＝紅尾）。</p>
+      <p>球機實務常用 5V 可定址燈條（WS2812B／SK6812），剪成主條 ≥16＋尾燈 ≥6。下方示意圖看裝在哪；整機外觀見組裝頁球機照。</p>
+    </div>
+  </article>
+  <div class="figs" style="margin:0 0 16px">
+    <div class="fig"><a href="../assets/led/ws2812b-strip-rotorama.jpg" target="_blank" rel="noopener"><img src="../assets/led/ws2812b-strip-rotorama.jpg" alt="LED 捲帶"></a><span>5V 燈條捲帶</span></div>
+    <div class="fig"><a href="../assets/fc/oxbot-led-plug.jpg" target="_blank" rel="noopener"><img src="../assets/fc/oxbot-led-plug.jpg" alt="Oxbot LED 直插"></a><span>Oxbot：LED 直插</span></div>
+    <div class="fig"><a href="../assets/led/f9a-led-layout.svg" target="_blank" rel="noopener"><img src="../assets/led/f9a-led-layout.svg" alt="配置示意"></a><span>環燈／尾燈配置</span></div>
+    <div class="fig"><a href="../assets/assembly/brushless-soccer-led-on.jpg" target="_blank" rel="noopener"><img src="../assets/assembly/brushless-soccer-led-on.jpg" alt="球機整機"></a><span>球機整機示例</span></div>
+  </div>
+
+  <nav class="toc" aria-label="LED本章目錄">
+    <span class="toc-label">本章目錄</span>
+    <div class="toc-group">
+      <span class="toc-group-label">規則</span>
+      <a href="#led-color">顏色規定</a>
+      <a href="#led-striker">換射手</a>
+    </div>
+    <div class="toc-group">
+      <span class="toc-group-label">電源</span>
+      <a href="#led-power">耗電與秒數</a>
+      <a href="#led-lowbat">低壓紅閃</a>
+    </div>
+    <div class="toc-group">
+      <span class="toc-group-label">接線</span>
+      <a href="#led-wiring">一路 LED 解法</a>
+      <a class="go" href="飛控硬體.html">飛控接線 →</a>
+    </div>
+  </nav>
+
+  <h2 id="led-color">顏色規定（FAI B.1.5）</h2>
+  <div class="note info" style="margin-top:0">
+    <p><b>名詞統一：<span class="ok">射手 ＝ 攻擊手 ＝ 前鋒（striker）</span></b>——同一個角色、同一台球機，不是三種人。本頁以下一律稱 <b>射手</b>。</p>
+    <p>規則重點：<b>每隊只有 1 名射手</b>，也是<b>唯一可以得分</b>的人；其餘隊員只能防守／導引。</p>
+  </div>
+  <div class="wide">
+  <table>
+    <thead><tr><th>燈位</th><th>規定</th><th>學生要做的</th></tr></thead>
+    <tbody>
+      <tr><td><b>環形主燈</b></td><td>≥16 顆；整場紅隊紅、藍隊藍</td><td>賽前切成主辦指定隊色，任意角度都要看得清</td></tr>
+      <tr><td><b>尾巴識別燈</b></td><td>≥6 顆；各機顏色彼此好分辨</td><td>勿跟本隊紅／藍主色搞混</td></tr>
+      <tr><td><b>射手尾燈</b>（＝攻擊手）</td><td>紅隊射手＝<b>藍</b>；藍隊射手＝<b>紅</b></td><td>必須是對方隊色；換射手就要改這台尾燈</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2 id="led-power">亮度與電量粗算（22 顆）</h2>
+  <div class="note" style="margin-top:0">
+    <b>結論：續航幾乎都是馬達吃掉的；調 LED 亮度對飛多久影響通常 &lt;3%（約 1–2 秒）。</b>
+    調暗主因是不刺眼、BEC 較不熱。
+  </div>
+
+  <h3>① 單顆 WS2812</h3>
+  <ul>
+    <li>全亮白光約 <b>60 mA＠5V</b>（約 0.3 W／顆）。</li>
+    <li>純紅或純藍約白光的 <b>1／3</b>（約 20 mA＠5V）。</li>
+  </ul>
+
+  <h3>② 本隊：買 1m／60 燈條，只裝 22 顆</h3>
+  <div class="note warn" style="margin-top:0">
+    規格 1m／60 顆，裝機只留 <b>主條 16＋尾燈 6＝22 顆</b>。多的剪掉。
+  </div>
+  <div class="wide">
+  <table>
+    <thead><tr><th>假設（22 顆）</th><th>5V 端電流</th><th>功率</th><th>折回 4S 電池側</th></tr></thead>
+    <tbody>
+      <tr><td>全亮白</td><td>22×60mA＝<b>1.32 A</b></td><td>≈6.6 W</td><td>≈ <b>0.52 A</b></td></tr>
+      <tr><td>純紅或純藍 100%</td><td>22×20mA＝<b>0.44 A</b></td><td>≈2.2 W</td><td>≈ <b>0.17 A</b></td></tr>
+      <tr><td>純色＋亮度 40%</td><td>≈<b>0.18 A</b></td><td>≈0.9 W</td><td>≈ <b>0.07 A</b></td></tr>
+      <tr style="opacity:.75"><td>（對照）誤裝 60 顆純色 100%</td><td>1.2 A</td><td>≈6 W</td><td>≈0.47 A；易壓垮飛控 5V</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>③ 3 分鐘耗電 ≈ 馬達能飛幾秒？</h3>
+  <p><code>消耗 mAh ≈ 電流(A) × 0.05 × 1000</code>；換算（馬達平均 15A）：<code>秒數 ≈ mAh × 3.6 ÷ 15</code>。</p>
+  <div class="wide">
+  <table>
+    <thead>
+      <tr>
+        <th>項目（22 顆）</th>
+        <th>電池側電流</th>
+        <th>3 分鐘耗電</th>
+        <th>佔 850mAh</th>
+        <th>≈ 馬達 15A 可飛</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>全亮白</td><td>0.52 A</td><td><b>≈26 mAh</b></td><td>≈3.1%</td><td><b>≈6 秒</b></td></tr>
+      <tr><td>純紅／藍 100%</td><td>0.17 A</td><td><b>≈9 mAh</b></td><td>≈1.1%</td><td><b>≈2 秒</b></td></tr>
+      <tr><td>純色 40% 亮度</td><td>0.07 A</td><td><b>≈3.5 mAh</b></td><td>≈0.4%</td><td><b>≈1 秒</b></td></tr>
+      <tr><td>100%→40% 省下的</td><td>—</td><td><b>≈5.5 mAh</b></td><td>≈0.6%</td><td><b>≈1–2 秒</b></td></tr>
+      <tr><td><b>馬達（對抗局平均）</b></td><td><b>12–20 A</b></td><td><b>≈600–1000 mAh</b></td><td>整包</td><td>整局 3 分鐘</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note" style="margin-top:8px">
+    平均 12A → 秒數 ×1.25；20A → ×0.75。調亮度一整局約差 <b>1–2 秒</b>。
+    仍建議 <code>set ledstrip_brightness = 40</code>：不刺眼、BEC 較涼。
+  </div>
+
+  <h2 id="led-lowbat">低電壓必須紅閃提醒</h2>
+  <p>選手常看不見遙控電壓表，靠球機燈號。低電要明顯閃爍，提醒減油、回邊、換電。</p>
+  <div class="wide">
+  <table>
+    <thead><tr><th>項目</th><th>建議設定</th><th>說明</th></tr></thead>
+    <tbody>
+      <tr><td><b>警告 Warning</b></td><td>單芯 <b>3.5–3.6 V</b></td><td><code>vbat_warning_cell_voltage</code></td></tr>
+      <tr><td><b>最低 Minimum</b></td><td>單芯 <b>3.3 V</b></td><td><code>vbat_min_cell_voltage</code></td></tr>
+      <tr><td><b>LED 覆蓋</b></td><td>燈珠加 <b>W（Warnings）</b></td><td>低電紅閃</td></tr>
+      <tr><td><b>視覺蜂鳴</b></td><td><code>ledstrip_visual_beeper = ON</code></td><td>蜂鳴時燈也閃</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <pre>feature LED_STRIP
+set ledstrip_brightness = 40
+set ledstrip_visual_beeper = ON
+set vbat_warning_cell_voltage = 35
+set vbat_min_cell_voltage = 33
+save</pre>
+  <p class="muted">CLI 電壓單位 0.1V（35＝3.5V／芯）。燈珠例：<code>led 0 0,0::CW:2</code>。完整 3S／4S 電壓表見「電池」分頁。</p>
+  <div class="note" style="margin-top:8px">
+    <b>注意：</b>猛加油瞬間壓降可能短暫紅閃＝正常；一直紅閃＝真的沒電，減油或落地換電。
+  </div>
+
+  <h2 id="led-striker">set 中射手（攻擊手）失能要換人</h2>
+  <ul>
+    <li>隊長喊 timeout → 全隊落地 → 原射手離場 → 指定場上另一人當新射手（每 set 只能一次）。</li>
+    <li><b>新射手尾燈必須改成射手規定色</b>；主條隊色不用改。</li>
+    <li>若主辦要求旗帶，改掛到新射手機。</li>
+  </ul>
+
+  <h2 id="led-wiring">技術現實：一般飛控只有一路 LED</h2>
+  <p>環／尾若並聯或整條同色，就無法同時有隊色＋識別色。解法由易到難：</p>
+  <div class="wide">
+  <table>
+    <thead><tr><th>#</th><th>解法</th><th>做法</th><th>適合誰</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><b>專用射手機</b></td><td>1 台固定射手尾燈色；換射手＝換人／換機</td><td>全隊建議</td></tr>
+      <tr><td>2</td><td><b>燈鏈分段</b></td><td>環＋尾串成一條 WS2812；燈珠編號分色（0–15 隊色、16–21 尾燈）</td><td>一路 LED</td></tr>
+      <tr><td>3</td><td><b>AUX／撥桿切色</b></td><td>預存一般／射手兩套，落地遙控切</td><td>timeout 換射手</td></tr>
+      <tr><td>4</td><td><b>尾燈硬體開關</b></td><td>飛控只驅環燈；尾燈獨立撥色</td><td>不會分段時</td></tr>
+      <tr><td>5</td><td><b>雙路輸出</b></td><td>少數板有 LED2 或外掛控制器</td><td>一般飛控沒有</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note" style="margin-top:12px">
+    <b>小隊建議：</b>檢錄 5 機至少 1 台射手機＋其餘分段燈色；有餘力再加 AUX 切色。
+    <a href="https://betaflight.com/docs/wiki/guides/current/LED-Strip-Functionality" target="_blank" rel="noopener">Betaflight LED Strip</a>
+  </div>
+</main>
+<footer class="site-footer">
+  <div class="inner">
+    <div>嘉華中學足球無人機俱樂部 · FAI F9A-B 配備手冊</div>
+    <div>
+      <a href="../index.html">首頁</a> ·
+      <a href="上場清單.html">上場清單</a> ·
+      <a href="../bfsim.html">設定模擬</a>
+    </div>
+  </div>
+</footer>
+<button type="button" id="back-top" aria-label="回到頂部">↑</button>
+<script src="../assets/site.js?v=7"></script>
+</body>
+</html>

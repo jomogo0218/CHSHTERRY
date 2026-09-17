@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
+<title>有刷／空心杯 · 嘉華足球無人機配備手冊</title>
+<link rel="stylesheet" href="../assets/site.css?v=7" />
+</head>
+<body class="is-page">
+<div class="bg-logo" aria-hidden="true"></div>
+<a class="skip-link" href="#main">跳至主要內容</a>
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="../index.html">
+      <img src="../assets/brand/chia-hwa-drone-team.png?v=7" alt="" width="64" height="36" />
+      <div class="brand-text">
+        <strong>嘉華中學足球無人機俱樂部</strong>
+        <span>配備手冊 · FAI F9A-B／有刷</span>
+      </div>
+    </a>
+    <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="siteNav">選單</button>
+    <nav class="site-nav" id="siteNav" aria-label="主要導覽">
+      <a href="../index.html">首頁</a>
+      <span class="nav-label">認識</span>
+      <a href="影片欣賞.html">影片欣賞</a>
+      <a href="新手入門.html">新手入門</a>
+      <a href="足球無人機技術全解簡報.html">技術全解</a>
+      <span class="nav-label">規則</span>
+      <a href="規則檢錄.html">規則檢錄</a>
+      <a href="FAI_F9A_2026_繁中譯本.html">FAI 譯本</a>
+      <a class="on" href="有刷空心杯.html">有刷／空心杯</a>
+      <span class="nav-label">配備</span>
+      <a href="馬達.html">馬達</a>
+      <a href="電池.html">電池</a>
+      <a href="螺旋槳.html">螺旋槳</a>
+      <span class="nav-label">整機</span>
+      <a href="組裝.html">組裝</a>
+      <a href="續航.html">續航</a>
+      <span class="nav-label">系統</span>
+      <a href="飛控硬體.html">飛控硬體</a>
+      <a href="飛控設定.html">飛控設定</a>
+      <a href="LED.html">LED</a>
+      <a href="遙控器採購分析.html">遙控器</a>
+      <a href="../bfsim.html">設定模擬</a>
+      <span class="nav-label">上場</span>
+      <a href="上場清單.html">上場清單</a>
+      <span class="nav-label">圖鑑</span>
+      <a href="飛控AIO產品圖鑑.html">AIO 圖鑑</a>
+      <a href="電池產品圖鑑.html">電池圖鑑</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="main">
+<div class="page-banner">
+  <div class="crumb"><a href="../index.html">首頁</a> / 配備 / 有刷／空心杯</div>
+  <div>
+    <h1>有刷／空心杯專頁</h1>
+    <p class="lead">對照本站無刷 F9A-B：空心杯原理、FIDA Class 20 完整規則、裝備與檢錄。</p>
+  </div>
+</div>
+
+  <div class="note info" role="note">
+    <p><b>一句話定位：</b>有刷（空心杯）球機是<strong>教育入門／FIDA Class 20</strong>主流；本站其餘頁面以<strong>無刷 FAI F9A-B（≤300 g）</strong>備賽為主。兩者場地、重量、能否改裝皆不同，勿混用規格。</p>
+    <p><b>官方與採購參考：</b>
+      <a href="https://www.dronesoccer.org/" target="_blank" rel="noopener">FIDA 國際總會</a> ·
+      <a href="https://www.skyballdrone.com/" target="_blank" rel="noopener">Skyball（韓原廠／Helsel）</a> ·
+      <a href="https://www.kodorobot.com/" target="_blank" rel="noopener">宇宙機器人（台灣教具通路）</a>
+    </p>
+  </div>
+
+  <nav class="toc" aria-label="有刷本章目錄">
+    <span class="toc-label">本章目錄</span>
+    <a href="#cmp">有刷 vs 無刷</a>
+    <a href="#motor">空心杯馬達</a>
+    <a href="#spec">比賽規格</a>
+    <a href="#rules">完整規則</a>
+    <a href="#gear">裝備器材</a>
+    <a href="#remote">遙控器</a>
+    <a href="#process">檢錄清單</a>
+    <a href="#links">參考連結</a>
+  </nav>
+
+  <!-- ========== 對照 ========== -->
+  <h2 id="cmp">有刷 vs 無刷（對照本站無刷規格）</h2>
+  <p class="lead" style="margin-top:0">讀法：左邊是本頁有刷／Class 20；右邊是本站無刷 <a href="規則檢錄.html">F9A-B 規則檢錄</a>。</p>
+  <div class="wide">
+  <table>
+    <thead>
+      <tr><th>項目</th><th>有刷／空心杯（本頁）</th><th>無刷 F9A-B（本站主力）</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><b>常見賽制</b></td><td>FIDA Class 20（休閒／教育／入門競技）</td><td>FAI F9 Drone Sport · F9A-B</td></tr>
+      <tr><td><b>球徑</b></td><td>20 cm ±1 cm</td><td>20 cm +2 cm（須裝進 Ø22 cm 圈）</td></tr>
+      <tr><td><b>總重上限</b></td><td><b>≤110 g</b>（含電池、接收）</td><td><b>≤300 g</b></td></tr>
+      <tr><td><b>馬達型式</b></td><td>實務主流為有刷空心杯（規則驗重量／外形，未強制馬達種類）</td><td>無刷（BLDC）最多 4 顆</td></tr>
+      <tr><td><b>電池</b></td><td>常見 2S 7.4 V · 約 450 mAh</td><td>最高 4S；單芯 ≤4.25 V</td></tr>
+      <tr><td><b>場地 Skyfence</b></td><td><b>8 m × 4 m × 高 3 m</b></td><td><b>6 m × 3 m × 高 3 m</b>（建議尺寸；較 Class 20 <em>小</em>）</td></tr>
+      <tr><td><b>球門</b></td><td>內徑 <b>30 cm ±1 cm</b>（外徑約 50 cm；中心高 1.8–2.2 m）</td><td>內徑 <b>40 cm</b>（外徑建議 70 cm；底線內側 1 m）</td></tr>
+      <tr><td><b>外框單開口</b></td><td>≤70 cm²</td><td>≤150 cm²</td></tr>
+      <tr><td><b>可得分球員</b></td><td>每隊最多 <b>2 名射手</b></td><td>每隊 <b>1 名射手</b></td></tr>
+      <tr><td><b>改裝</b></td><td><span class="no">Class 20 禁止改裝提昇性能</span></td><td>可自組，須符合 FAI 規格與 fail-safe</td></tr>
+      <tr><td><b>飛控／調參</b></td><td>原廠封閉飛控；定高／大小動／烏龜翻正</td><td>Betaflight 等；本站有 <a href="../bfsim.html">設定模擬</a></td></tr>
+      <tr><td><b>續航（實務）</b></td><td>約 5–6 分鐘／顆電</td><td>視 4S 高 C 與油門，見 <a href="續航.html">續航</a></td></tr>
+      <tr><td><b>單局結構</b></td><td>3 set × 3 分鐘（主辦可改）</td><td>依 FAI／主辦</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note warn">
+    <p><b>別搞混：</b>「20 cm 球」兩邊都有，但 FIDA Class 20 是 <b>≤110 g／場 8×4×3 m／門 30 cm／最多 2 射手</b>；FAI F9A-B 是 <b>≤300 g／場 6×3×3 m／門 40 cm／僅 1 射手</b>。無刷機打 Class 20 幾乎必超重；有刷規格也不能直接拿去過 FAI 檢錄。</p>
+  </div>
+
+  <!-- ========== 空心杯 ========== -->
+  <h2 id="motor">空心杯馬達資料</h2>
+  <div class="cards c2">
+    <article class="card">
+      <h4>什麼是空心杯（Coreless）</h4>
+      <p class="solid">有刷馬達的一種：轉子是輕薄杯形線圈、沒有鐵芯，慣量小、起動快、體積輕，適合 ≤110 g 球機。</p>
+      <ul>
+        <li>電流經<strong>碳刷／換向器</strong>換向 → 故稱「有刷」。</li>
+        <li>轉速隨電壓與負載變；無電子換相，不需無刷 ESC 那套時序。</li>
+        <li>常見於玩具機、入門球機、STEM 教具。</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h4>對上無刷（本站馬達頁）</h4>
+      <p class="solid">無刷用三相電＋ESC 電子換相，效率高、壽命長、推力大，是 F9A-B 攻擊／防守主力。</p>
+      <ul>
+        <li>詳見 <a href="馬達.html">馬達</a>：VCI 1507、DYH1408、1408…</li>
+        <li>有刷勝在：便宜、好換、上手快、碰撞後維修門檻低。</li>
+        <li>有刷弱在：碳刷磨耗、滿載發熱、推力／效率不如同尺無刷。</li>
+      </ul>
+    </article>
+  </div>
+
+  <h3>有刷球機動力鏈（典型）</h3>
+  <div class="wide">
+  <table>
+    <thead><tr><th>環節</th><th>常見規格</th><th>備註</th></tr></thead>
+    <tbody>
+      <tr><td><b>馬達</b></td><td>4 × 空心杯有刷（正反槳對角）</td><td>磨損件；備機必備</td></tr>
+      <tr><td><b>驅動</b></td><td>機載有刷驅動板／一體飛控</td><td>多數不可刷 Betaflight</td></tr>
+      <tr><td><b>電壓</b></td><td>2S LiPo 7.4 V（標稱）</td><td>例：Skyball BALKIN 450 mAh 25C</td></tr>
+      <tr><td><b>槳</b></td><td>小型塑膠正／反槳</td><td>碰撞易斷；套件含備槳</td></tr>
+      <tr><td><b>外框</b></td><td>PP／PC 球形防護罩</td><td>Class 20：單面開口 ≤70 cm²</td></tr>
+      <tr><td><b>LED</b></td><td>紅／藍隊色；射手另標</td><td>規則要求可辨識</td></tr>
+      <tr><td><b>功能</b></td><td>定高、大小動（雙速率）、烏龜翻正</td><td>入門必用定高</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>耗損與維修重點</h3>
+  <ul>
+    <li><b>碳刷／軸承磨耗</b>：推力變弱、異音、單側無力 → 整顆馬達更換最快。</li>
+    <li><b>槳葉</b>：對撞後先檢查是否缺角、是否裝反（CW／CCW）。</li>
+    <li><b>配線</b>：空心杯線細，反覆折彎易斷；維修時預留應力緩解。</li>
+    <li><b>Class 20 禁改裝</b>：不可私下換更大槳、加電壓、改增益來「變快」；正式賽用官方認證球機。</li>
+    <li><b>練習場</b>：可在非官方練習用同款備品；正式賽仍以主辦指定機種為準（同場不得混用不同型號球機）。</li>
+  </ul>
+
+  <!-- ========== 規格 ========== -->
+  <h2 id="spec">FIDA Class 20 比賽規格</h2>
+  <p class="lead" style="margin-top:0">依據 FIDA <em>Dronesoccer Rule Book · Class 20</em>（2025-10-01 第 5 修訂）。爭議以 <a href="https://www.dronesoccer.org/" target="_blank" rel="noopener">dronesoccer.org</a> 最新 PDF 為準。</p>
+
+  <div class="wide">
+  <table>
+    <thead><tr><th>項目</th><th>FIDA Class 20</th><th>對照 FAI F9A-B</th></tr></thead>
+    <tbody>
+      <tr><td><b>球體結構</b></td><td>圓形外骨骼包覆</td><td>同為球形防護</td></tr>
+      <tr><td><b>直徑</b></td><td>20 cm ±1 cm</td><td>20 cm +2 cm（22 cm 圈）</td></tr>
+      <tr><td><b>比賽重量</b></td><td>≤110 g</td><td>≤300 g</td></tr>
+      <tr><td><b>場地</b></td><td>8 m × 4 m × 高 3 m</td><td>6 m × 3 m × 高 3 m（建議）</td></tr>
+      <tr><td><b>球門</b></td><td>內徑 30 cm ±1 cm</td><td>內徑 40 cm（外徑建議 70 cm）</td></tr>
+      <tr><td><b>單面開口</b></td><td>≤70 cm²</td><td>≤150 cm²</td></tr>
+      <tr><td><b>射手</b></td><td>最多 2 名可得分</td><td>僅 1 名可得分</td></tr>
+      <tr><td><b>LED</b></td><td>紅／藍可切；射手須可辨識標示</td><td>主條 ≥16、尾燈 ≥6</td></tr>
+      <tr><td><b>同場機種</b></td><td>同場不得混用不同型號球機</td><td>各自符合規格即可</td></tr>
+      <tr><td><b>官方球機</b></td><td>協會認證機可免賽前規格重測；原則限官方球</td><td>自組須過檢錄</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>場地 Skyfence（Class 20）</h3>
+  <div class="wide">
+  <table>
+    <thead><tr><th>項目</th><th>規定</th></tr></thead>
+    <tbody>
+      <tr><td><b>外框尺寸</b></td><td>短邊 4 m × 長邊 8 m × 高 3 m（約 2:1）</td></tr>
+      <tr><td><b>地面</b></td><td>平坦、無障礙；避免過硬地面；球機能穩定直立</td></tr>
+      <tr><td><b>中線</b></td><td>依長邊中點劃半場線</td></tr>
+      <tr><td><b>起飛點</b></td><td>距短邊 1.5 m；線或五點標示（多在球門下方一排）</td></tr>
+      <tr><td><b>飛行員區</b></td><td>設於兩短邊外側，寬 2 m；長度不超過短邊寬；後方與維修區分隔</td></tr>
+      <tr><td><b>網牆</b></td><td>須可透視；網材受 3 m/s 撞擊偏斜 ≤10 cm；或垂直線材 1–2 mm、間距 10 cm</td></tr>
+      <tr><td><b>出界</b></td><td>比賽中球機不得飛出 Skyfence</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>球門（Class 20）</h3>
+  <ul>
+    <li>圓形：內徑 <b>30 cm ±1 cm</b>，外徑 <b>50 cm ±1 cm</b>，厚度 <b>10 cm</b>。</li>
+    <li>兩側球門尺寸／重量須一致。</li>
+    <li>位置：自短邊中心向中線方向 <b>1.5 m</b>。</li>
+    <li>高度：球門中心離地 <b>1.8–2.2 m</b>；可吊掛或立柱支撐，須正對場地中心、不可左右晃。</li>
+    <li>須有紅／白 LED（內或外裝），可由場外手動操作；廣告不得妨礙辨識燈號。</li>
+  </ul>
+
+  <!-- ========== 完整規則 ========== -->
+  <h2 id="rules">完整比賽規則（Class 20）</h2>
+  <p class="lead" style="margin-top:0">以下依 FIDA Class 20 規則書整理，供課堂與社團對照；正式裁決以主辦與裁判為準。</p>
+
+  <h3>1. 人數與角色</h3>
+  <ul>
+    <li>報名名單上限 <b>10 人／隊</b>（含教練 ≤3）。</li>
+    <li>上場：每隊 <b>5 人、5 球</b>；一人一機。</li>
+    <li>最少 <b>3 人</b>即可開打（含射手人數不足時之處理見下）。</li>
+    <li>每隊最多 <b>2 名射手（Striker）</b>可得分；其餘為防守／導引。</li>
+    <li>開賽前未滿 3 人就位 → 視同棄權；第 2／3 set 未滿 3 人 → 該 set 判負並進入維修時間。</li>
+    <li>換人僅限 <b>set 開始前</b>；名單內不限次數；教練不得上場當選手。</li>
+    <li>換人須告知裁判，且在球機進入 Skyfence 前完成；可換或不換球機。</li>
+  </ul>
+
+  <h3>2. 賽制時間</h3>
+  <ul>
+    <li>一場 <b>3 個 set</b>，每 set <b>3 分鐘</b>（主辦可預先公告調整）。</li>
+    <li>猜拳勝方選飛行員區（左／右）；原則三 set 固定；裁判認定不公可改。</li>
+    <li>開賽前至少 10 秒「準備」訊號，再給「開始」；set 中不可暫停（timeout）。</li>
+    <li>set 結束後維修／戰術時間原則 <b>≥5 分鐘</b>（自全員收球離場起算）；裁判可延長，但不可只因某隊未就緒而延長。</li>
+    <li>因 ≥3 人維修延誤而輸掉該 set 時，裁判可於標準維修外再給 3 分鐘。</li>
+    <li>準備訊號前 10 秒至 set 結束，除主審外任何人不得干擾比賽。</li>
+  </ul>
+
+  <h3>3. 得分</h3>
+  <ul>
+    <li>射手球機由球門<strong>正面完整穿過到背面</strong> → 算進球。</li>
+    <li>不算：越位狀態進球；未完全穿過即彈回；由球門背面往正面穿過（且視為越位）。</li>
+  </ul>
+
+  <h3>4. 越位（Offside）</h3>
+  <ul>
+    <li>射手以任何方向穿過對方球門 → 全隊進入越位，<b>不可再得分</b>。</li>
+    <li>解除：該隊當時在對方半場的所有球機，都回到己方半場（過中線）。</li>
+    <li>若有球失控卡在對方半場：須宣告放棄該 set 並放下遙控器，越位才解除；若失控的是射手，依規則替補之新射手亦須回到己方半場。</li>
+  </ul>
+
+  <h3>5. 防守</h3>
+  <ul>
+    <li>可自球門正面進入防守；<b>禁止逆向進出</b>（由背面進入，或超過一半進入後再退出等，規則書圖示）。</li>
+    <li>逆向進入屬犯規，可判十二碼（見罰則）。</li>
+  </ul>
+
+  <h3>6. 十二碼／點球（Penalty Kick）</h3>
+  <p>出現下列情形可判給對方點球：</p>
+  <ul>
+    <li>無視越位連續得分；</li>
+    <li>自方球門逆向進入；</li>
+    <li>單場累計警告 ≥2 次（警告跨 set 累計，下场比賽歸零）。</li>
+  </ul>
+  <ul>
+    <li><b>時機：</b>每個 set 結束後執行。</li>
+    <li><b>形式：</b>射手 vs 守門員 1 對 1；每次 <b>5 秒</b>；射手自中線起飛，守門員自開賽防守位。</li>
+    <li>時限內可多進球，越位規則同樣適用。</li>
+    <li>雙方罰則可互抵後只執行淨差額；主辦亦可改為直接加分而不實際罰踢。</li>
+    <li>分組賽為計算淨勝球，原則仍須執行（除非主辦改加分制）；淘汰賽獲點球方可放棄執行。</li>
+  </ul>
+
+  <h3>7. 勝負</h3>
+  <ul>
+    <li>單 set 進球多者勝；平手則該 set 平手。</li>
+    <li>先勝 <b>2 個 set</b> 者勝整場。</li>
+    <li>三 set 後仍未有一方勝兩 set：可打延長 set；再平則互射（各 3 人，仿點球；仍平則一人一人加賽至分出勝負）。</li>
+    <li>若賽制允許平手，可不延長、不互射。</li>
+  </ul>
+
+  <h3>8. 選手裝備（允許／禁止）</h3>
+  <div class="wide">
+  <table>
+    <thead><tr><th>類別</th><th>內容</th></tr></thead>
+    <tbody>
+      <tr><td><b>基本</b></td><td>服裝或隊服（便服須有可辨識配件，如帽子／背心／大於 A4 標誌）；合規球機；綁定遙控器；備電</td></tr>
+      <tr><td><b>可選</b></td><td>FPV；備機（電池須拆開分開放）；電壓表與緊急維修工具</td></tr>
+      <tr><td><b>禁止</b></td><td>干擾對手的燈光；干擾對手的無線電；干擾比賽的音訊；<b>任何為提升性能的改裝</b>（Class 20 明文）</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note warn">
+    <p>雙方賽前應互查裝備；有疑義須事先揭露。禁止裝備若賽前棄用可照常比賽；若雙方事前同意可免罰；賽中被認定影響比賽 → 該 set 判負。</p>
+  </div>
+
+  <h3>9. 球機識別與顏色</h3>
+  <ul>
+    <li>須能亮紅／藍 LED 區分隊伍。</li>
+    <li>射手須有額外標示（依賽事規定）；標示脫落導致對方難以辨識 → <b>脫落後進球無效</b>。</li>
+    <li>可塗裝，但不可用會混淆隊色的紅／藍；同隊上場球機不得塗不同色。</li>
+    <li>廣告：官方賽球機原則僅允許賽會徽章、組委會標誌、製造商標；細節依當屆章程。</li>
+  </ul>
+
+  <h3>10. 警告／set 負／整場負</h3>
+  <div class="wide">
+  <table>
+    <thead><tr><th>等級</th><th>典型情形</th></tr></thead>
+    <tbody>
+      <tr><td><b>警告</b></td><td>非選手滯留飛行員區；輕微不文明；擅自移動場地設備圖利；開始訊號前移動球機；不服從合法指令</td></tr>
+      <tr><td><b>累計 2 警告</b></td><td>對方獲 1 次點球機會</td></tr>
+      <tr><td><b>該 set 判負</b></td><td>嚴重不文明；故意改隊色；用手／腳／器具移動球機圖利；重複同警告意圖拖延或抗議</td></tr>
+      <tr><td><b>整場判負</b></td><td>故意用球機威脅他人安全；嚴重不文明；非報名選手非法上場</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>11. 裁判要點（摘要）</h3>
+  <ul>
+    <li>每場 1 名主審 + 助理裁判（可增至 4：進球審、犯規審等）。</li>
+    <li>主審對進球、比賽進行與結果有最終裁決權；VAR 若啟用依 Class 40 VAR 規則。</li>
+    <li>訊號：準備／開始／結束有標準手勢與哨音；助理用旗或 LED 示意進球／越位／犯規。</li>
+  </ul>
+
+  <!-- ========== 裝備 ========== -->
+  <h2 id="gear">有刷裝備器材介紹</h2>
+  <p class="lead" style="margin-top:0">以下以教育／Class 20 常見 RTF 為主，對照無刷「自組＋測功」路線。無刷零件圖文見 <a href="新手入門.html">新手入門</a>。</p>
+
+  <article class="media-explain">
+    <figure class="media-explain-pic">
+      <a href="../assets/brushed/tc200i-kit.jpg" target="_blank" rel="noopener"><img src="../assets/brushed/tc200i-kit.jpg" alt="天穹飛球 TC200I 套件" loading="lazy" /></a>
+      <figcaption>有刷套件示例：TC200I（點圖放大）</figcaption>
+    </figure>
+    <div class="media-explain-body">
+      <h3>有刷課怎麼講器材？</h3>
+      <p>Class 20 多半是「開箱即飛」：球機、遙控、電池、備槳一套。重量貼近 110 g，不能像無刷那樣換高 C、大馬達。下面卡片是常見 RTF；本隊正式備賽仍走無刷 F9A-B。</p>
+    </div>
+  </article>
+
+  <h3>A. 球機整機（RTF）</h3>
+  <div class="cards c2">
+    <article class="card">
+      <h4>Skyball BALKIN V2 RTF</h4>
+      <p class="solid">韓原廠 Helsel／Skyball 入門競技套裝，開箱即飛。</p>
+      <ul>
+        <li>尺寸約 200 × 200 × 180 mm；含電約 <b>108 g</b>（空機約 84 g）→ 貼近 110 g 上限。</li>
+        <li>電池：7.4 V 450 mAh 2S 25C；續航約 5 分鐘。</li>
+        <li>2.4 GHz FHSS；定高、烏龜翻正、強化 LED。</li>
+        <li>雙層防撞殼；適合訓練與正式 Class 20。</li>
+        <li>產品頁：<a href="https://www.skyballdrone.com/products/balkin-v2-rtf-controller" target="_blank" rel="noopener">skyballdrone.com · BALKIN V2</a></li>
+      </ul>
+    </article>
+    <article class="card">
+      <h4>天穹飛球 TC200I（芸虎）</h4>
+      <p class="solid">台灣常見教育用 20 cm 有刷球機套件（紅／白／藍）。</p>
+      <ul>
+        <li>內容物：球機 ×1、遙控器 ×1、電池 ×2、簡易維修組（螺絲起＋備槳）、充電線、說明書、保固卡、外盒。</li>
+        <li>定位：社團體驗、國中小創客、校內熱身；正式 FIDA 賽仍以主辦指定機為準。</li>
+        <li>聯絡（包裝標示）：芸虎科技 · pyhmona@gmail.com · LINE @367tkusl</li>
+      </ul>
+    </article>
+  </div>
+
+  <div class="figs" style="margin-top:8px">
+    <figure class="fig" style="width:min(100%,420px)">
+      <a href="../assets/brushed/tc200i-kit.jpg" target="_blank" rel="noopener">
+        <img src="../assets/brushed/tc200i-kit.jpg" alt="天穹飛球 TC200I 套件內容：紅白藍球機、遙控器、電池與備品" width="840" height="560" loading="lazy" />
+      </a>
+      <span>TC200I 套件一覽（點圖放大）</span>
+    </figure>
+    <figure class="fig" style="width:min(100%,420px)">
+      <a href="../assets/brushed/tc200i-remote.jpg" target="_blank" rel="noopener">
+        <img src="../assets/brushed/tc200i-remote.jpg" alt="有刷球機遙控器：定高、大小動、方向微調、LED 切換與備槳工具" width="840" height="560" loading="lazy" />
+      </a>
+      <span>遙控器按鍵與備品（點圖放大）</span>
+    </figure>
+  </div>
+
+  <h3>B. Skyball 產品線怎麼選（有刷／入門 → 無刷競技）</h3>
+  <div class="wide">
+  <table>
+    <thead><tr><th>產品</th><th>大致定位</th><th>備註</th></tr></thead>
+    <tbody>
+      <tr><td><b>FEEBY／PALAS</b></td><td>超入門／DIY 教育</td><td>體驗飛行與組裝，非主力賽用</td></tr>
+      <tr><td><b>BALKIN V2</b></td><td>Class 20 有刷競技／訓練</td><td>本頁主力對照機</td></tr>
+      <tr><td><b>TIKE 系列</b></td><td>進階／F9A-B 向球殼與整機</td><td>規格偏競技，可能非純 110 g 有刷</td></tr>
+      <tr><td><b>STRIKER V3</b></td><td>FAI F9A-A／大型競技</td><td>屬無刷大型組，見無刷頁</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>完整目錄與價格：<a href="https://www.skyballdrone.com/" target="_blank" rel="noopener">https://www.skyballdrone.com/</a></p>
+
+  <h3>C. 台灣採購與教具</h3>
+  <ul>
+    <li><a href="https://www.kodorobot.com/" target="_blank" rel="noopener">宇宙機器人 kodorobot.com</a>：台灣 STEM／機器人教具通路，選單含「四軸飛行器 → 足球無人機、充氣球場、電子系列」等，適合學校採購與課程配套。</li>
+    <li>下單前確認：是否 FIDA／校內指定機種、含幾顆備電、保固與備品（槳、馬達、螺絲）。</li>
+    <li>社團建議庫存：球機數 ≥ 上場人數；備電每機 ≥2–3；備槳、備空心杯馬達、十字起、拔槳器。</li>
+  </ul>
+
+  <h3>D. 電池與電力（有刷）</h3>
+  <div class="wide">
+  <table>
+    <thead><tr><th>項目</th><th>建議</th><th>對照無刷</th></tr></thead>
+    <tbody>
+      <tr><td><b>電壓</b></td><td>2S 7.4 V（標稱）</td><td>無刷常用 3S／4S</td></tr>
+      <tr><td><b>容量</b></td><td>約 450 mAh（BALKIN 規格）</td><td>見 <a href="電池.html">電池</a> 高 C 850–1100</td></tr>
+      <tr><td><b>放電</b></td><td>≥25C 級入門球機常見</td><td>無刷要更高 C 與實際內阻</td></tr>
+      <tr><td><b>管理</b></td><td>編號、記錄電壓；勿過放；分開放備機電池</td><td>單芯 ≤4.25 V 檢錄</td></tr>
+      <tr><td><b>一場用量</b></td><td>3 set × 換電；建議每機備 2–3 顆</td><td>本場無刷常見 9 電檢錄</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>E. 槳、工具、備品包</h3>
+  <ul>
+    <li><b>槳</b>：正反各二；撞擊後成對更換，避免左右推力不均。</li>
+    <li><b>精密十字起</b>：拆外殼、換馬達。</li>
+    <li><b>拔槳器</b>：避免硬拔傷空心杯軸。</li>
+    <li><b>備螺絲</b>：外框與馬達座螺絲易丟。</li>
+    <li><b>電壓檢測器、充電板、防爆袋</b>：與無刷場地安全習慣相同。</li>
+  </ul>
+
+  <!-- ========== 遙控器 ========== -->
+  <h2 id="remote">遙控器按鍵說明（有刷典型手把）</h2>
+  <p class="lead" style="margin-top:0">對照無刷「ELRS 開放協議遙控」：有刷多為原廠綁定手把，按鍵功能固定。</p>
+  <div class="wide">
+  <table>
+    <thead><tr><th>位置（常見）</th><th>名稱</th><th>用途</th></tr></thead>
+    <tbody>
+      <tr><td>左上撥桿</td><td><b>定高開關</b></td><td>開啟後嘗試維持高度，適合新手與陣地防守</td></tr>
+      <tr><td>右上撥桿</td><td><b>大小動（雙速率）</b></td><td>低速穩、高速衝；練習先用小動</td></tr>
+      <tr><td>左下十字</td><td><b>方向微調</b></td><td>懸停漂移時微調俯仰／橫滾／偏航</td></tr>
+      <tr><td>右下四鍵</td><td><b>LED 變換</b></td><td>切換隊色紅／藍等（依機種）</td></tr>
+      <tr><td>左搖桿</td><td>油門／偏航</td><td>Mode 2 常見配置</td></tr>
+      <tr><td>右搖桿</td><td>俯仰／橫滾</td><td>轉向與推進</td></tr>
+      <tr><td>中央</td><td>電源</td><td>先開遙控再開機（或依說明書順序）</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note info">
+    <p><b>與無刷遙控差異：</b>無刷見 <a href="遙控器採購分析.html">遙控器採購</a>（ELRS、多協議、自訂 AUX）。有刷手把通常無法改行程曲線到 Betaflight 等級；比賽靠熟悉定高與大小動切換節奏。</p>
+  </div>
+
+  <!-- ========== 檢錄 ========== -->
+  <h2 id="process">有刷／Class 20 檢錄清單</h2>
+  <p class="lead" style="margin-top:0">比照無刷 <a href="規則檢錄.html">規則檢錄</a> 表格，改寫成有刷場可勾選版。</p>
+  <div class="wide">
+  <table>
+    <thead><tr><th>檢錄項目</th><th>合格標準</th><th>實務建議</th></tr></thead>
+    <tbody>
+      <tr><td><b>總重</b></td><td>≤110 g（含電池）</td><td>用比賽電實秤；目標 ≤108 g</td></tr>
+      <tr><td><b>外徑</b></td><td>20 cm ±1 cm</td><td>卡尺／樣圈預檢</td></tr>
+      <tr><td><b>開口</b></td><td>單面 ≤70 cm²</td><td>勿私切開更大孔</td></tr>
+      <tr><td><b>機種一致性</b></td><td>同場不得混用不同型號</td><td>整隊統一採購</td></tr>
+      <tr><td><b>改裝</b></td><td>禁止性能向改裝</td><td>外觀貼紙勿蓋住 LED／射手標</td></tr>
+      <tr><td><b>LED／射手標</b></td><td>紅藍可辨；射手標牢固</td><td>賽前通電檢查；備標示帶</td></tr>
+      <tr><td><b>遙控綁定</b></td><td>一人一機、訊號不干擾他機</td><td>多機同時開機預飛測</td></tr>
+      <tr><td><b>電池</b></td><td>備電足夠；備機電池分離</td><td>編號；每 set 間換電</td></tr>
+      <tr><td><b>禁帶物品</b></td><td>干擾燈、干擾無線電、干擾音訊</td><td>飛行員區只留必要裝備</td></tr>
+      <tr><td><b>人員</b></td><td>名單內選手；教練不上場</td><td>set 前完成換人登記</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>上場前 5 分鐘（有刷版）</h3>
+  <ol>
+    <li>確認隊色 LED、射手標。</li>
+    <li>槳向正確、無裂；螺絲鎖固。</li>
+    <li>定高／大小動位置講好戰術（開場小動、衝門切大動）。</li>
+    <li>起飛點放齊；飛行員就位；聽準備哨。</li>
+    <li>set 間：換電、清槳屑、檢查空心杯是否單側無力。</li>
+  </ol>
+
+  <!-- ========== 連結 ========== -->
+  <h2 id="links">參考連結與延伸閱讀</h2>
+  <div class="cards c3">
+    <article class="card">
+      <h4>FIDA</h4>
+      <p class="solid">國際無人機足球總會 · 規則與 Class 20／40</p>
+      <p><a href="https://www.dronesoccer.org/" target="_blank" rel="noopener">https://www.dronesoccer.org/</a></p>
+      <p><a href="https://www.dronesoccer.org/static/files/Rule-book-2.pdf" target="_blank" rel="noopener">Class 20 規則 PDF</a></p>
+    </article>
+    <article class="card">
+      <h4>Skyball</h4>
+      <p class="solid">韓原廠球機、殼件、遙控與場地周邊</p>
+      <p><a href="https://www.skyballdrone.com/" target="_blank" rel="noopener">https://www.skyballdrone.com/</a></p>
+    </article>
+    <article class="card">
+      <h4>宇宙機器人</h4>
+      <p class="solid">台灣教具／足球無人機採購與課程</p>
+      <p><a href="https://www.kodorobot.com/" target="_blank" rel="noopener">https://www.kodorobot.com/</a></p>
+    </article>
+  </div>
+
+  <div class="note info">
+    <p><b>本站無刷路線（進階）：</b>
+      <a href="規則檢錄.html">F9A-B 規則檢錄</a> ·
+      <a href="馬達.html">馬達</a> ·
+      <a href="電池.html">電池</a> ·
+      <a href="組裝.html">組裝</a> ·
+      <a href="LED.html">LED</a> ·
+      <a href="FAI_F9A_2026_繁中譯本.html">FAI 2026 譯本</a> ·
+      <a href="https://www.fai.org/dronesoccer-rules" target="_blank" rel="noopener">FAI 官方規則</a>
+    </p>
+  </div>
+
+  <p style="margin-top:20px;color:var(--muted);font-size:14px">
+    規則摘要譯自 FIDA Class 20 Rule Book（2025-10-01）；非官方譯本。裝備規格整理自公開產品頁與教學套件標示，採購前請再核對當期型號。
+  </p>
+</main>
+
+<footer class="site-footer">
+  <div class="inner">
+    <div>嘉華中學足球無人機俱樂部 · 有刷／空心杯專頁</div>
+    <div>
+      <a href="../index.html">首頁</a> ·
+      <a href="規則檢錄.html">無刷規則檢錄</a> ·
+      <a href="上場清單.html">上場清單</a>
+    </div>
+  </div>
+</footer>
+<button type="button" id="back-top" aria-label="回到頂部">↑</button>
+<script src="../assets/site.js?v=7"></script>
+</body>
+</html>

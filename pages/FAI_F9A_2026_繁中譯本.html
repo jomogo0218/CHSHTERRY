@@ -6,19 +6,21 @@
   <title>FAI 2026 F9A 無人機足球規則 · 繁中譯本</title>
   <style>
     :root {
-      --bg: #0f1115;
-      --card: #1a1d24;
-      --text: #f2f4f8;
-      --muted: #9aa3b2;
-      --line: #2a303c;
-      --accent: #6ea8fe;
-      --ok: #3ecf8e;
+      --bg: #eef2f6;
+      --card: #ffffff;
+      --text: #0f1724;
+      --muted: #64748b;
+      --line: #d5dee8;
+      --accent: #0477a8;
+      --ok: #0f7a4d;
+      --warn: #9a6700;
+      --no: #b42318;
     }
     * { box-sizing: border-box; }
     body {
       margin: 0;
-      font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
-      background: var(--bg);
+      font-family: "Noto Sans TC", "Sora", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      background: linear-gradient(180deg, rgba(4,119,168,.06), transparent 28%), var(--bg);
       color: var(--text);
       font-size: 18px;
       line-height: 1.6;
@@ -61,6 +63,46 @@
       padding: .1em .35em;
       border-radius: 4px;
     }
+    .illus {
+      margin: 14px 0 18px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .illus a { display: block; }
+    .illus img { display: block; width: 100%; height: auto; }
+    .illus figcaption {
+      padding: 10px 14px;
+      font-size: 14px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+    }
+    .illus-row {
+      display: grid;
+      gap: 12px;
+      margin: 14px 0 18px;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+    .illus-row figure {
+      margin: 0;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .illus-row img {
+      display: block;
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      background: #fff;
+    }
+    .illus-row figcaption {
+      padding: 8px 10px;
+      font-size: 13px;
+      color: var(--muted);
+    }
     table {
       width: 100%;
       border-collapse: collapse;
@@ -99,8 +141,13 @@
 </head>
 <body>
   <div class="topbar">
+    <a href="../index.html">首頁</a>
+    <a href="影片欣賞.html">影片</a>
+    <a href="上場清單.html">上場清單</a>
+
     <span class="brand">F9A 2026 譯本</span>
-    <a href="../index.html?tab=rule">← 手冊規則</a>
+    <a href="規則檢錄.html">← 手冊規則</a>
+    <a href="有刷空心杯.html">有刷／Class20</a>
     <a href="#b-1-無人機球一般規格">B.1 規格</a>
     <a href="#b-2-比賽場地">B.2 場地</a>
     <a href="#b-4-球員">B.4 球員</a>
@@ -137,6 +184,12 @@
 <h4>b) 子級 F9A-B</h4>
 <p>含飛行所需全部裝備（含外框與電池）總重不得超過 <b>300 g</b>。</p>
 <p>防護框量測圓周處之直徑須為 <b>20 cm +2 cm</b>，即須能裝進直徑 <b>22 cm</b> 的圓圈。</p>
+<div class="illus-row" aria-label="F9A-B 配備示意">
+  <figure><a href="../assets/motors/vci1507.jpg" target="_blank" rel="noopener"><img src="../assets/motors/vci1507.jpg" alt="馬達示例" loading="lazy" /></a><figcaption>動力：電動馬達（最多 4）</figcaption></figure>
+  <figure><a href="../assets/batteries/tattu-v5-850.png" target="_blank" rel="noopener"><img src="../assets/batteries/tattu-v5-850.png" alt="電池示例" loading="lazy" /></a><figcaption>電池：F9A-B ≤4S</figcaption></figure>
+  <figure><a href="../assets/props/gemfan2828-3-orange.jpg" target="_blank" rel="noopener"><img src="../assets/props/gemfan2828-3-orange.jpg" alt="槳示例" loading="lazy" /></a><figcaption>槳：F9A-B ≤76 mm</figcaption></figure>
+  <figure><a href="../assets/fc/hakrc-f411-40a-board.png" target="_blank" rel="noopener"><img src="../assets/fc/hakrc-f411-40a-board.png" alt="飛控示例" loading="lazy" /></a><figcaption>飛控／電調（自組常見）</figcaption></figure>
+</div>
 <p>兩種子級：框底可為平面以便靜置地面，平面高度不得超過 <b>2 cm</b>。</p>
 <p>單一開放表面最大面積 <b>150 cm²</b>。</p>
 <p>註：上述要求是為避免防護不足。球機過輕雖可能更好飛，但防護過弱易因對撞損壞而影響比賽。</p>
@@ -153,11 +206,23 @@
 <li>F9A-B：<b>3 吋（7.6 cm）</b></li>
 </ul>
 <p>禁止金屬槳。</p>
+<figure class="illus">
+  <a href="../assets/props/gemfan2828-3-orange.jpg" target="_blank" rel="noopener"><img src="../assets/props/gemfan2828-3-orange.jpg" alt="GEMFAN 2828-3 產品照" loading="lazy" /></a>
+  <figcaption>F9A-B 槳徑上限 3 吋（76 mm）；本站槳頁有合規對照表與 HQProp 產品照。</figcaption>
+</figure>
 <h3 id="b-1-4-遙控-rc-設備">B.1.4 遙控（RC）設備</h3>
 <p>可使用任何 2.4 GHz 展頻技術遙控設備。</p>
+<div class="illus-row">
+  <figure><a href="../assets/radios/pocket.jpg" target="_blank" rel="noopener"><img src="../assets/radios/pocket.jpg" alt="Pocket" loading="lazy" /></a><figcaption>本隊批量：Pocket ELRS</figcaption></figure>
+  <figure><a href="../assets/radios/boxer.jpg" target="_blank" rel="noopener"><img src="../assets/radios/boxer.jpg" alt="Boxer" loading="lazy" /></a><figcaption>射手／教練：Boxer ELRS</figcaption></figure>
+</div>
 <p>為降低比賽中干擾風險，賽事總監得限制場外使用遙控系統。</p>
 <p>使用未經核准之遙控設備，可能處以至該隊取消資格等罰則。</p>
 <h3 id="b-1-5-led-燈具">B.1.5 LED 燈具</h3>
+<figure class="illus">
+  <a href="../assets/led/f9a-led-layout.svg" target="_blank" rel="noopener"><img src="../assets/led/f9a-led-layout.svg" alt="LED 配置示意" loading="lazy" /></a>
+  <figcaption>環燈／尾燈與射手尾燈顏色（示意＋實體燈條見 LED 頁）。</figcaption>
+</figure>
 <p>為使雙方球機可清楚辨識，一隊指定紅色、另一隊藍色。每顆球須安裝 LED 燈條，且從任何角度皆清晰可見。</p>
 <p>燈條規格：</p>
 <ul>
@@ -172,6 +237,10 @@
 <p>為加強射手球辨識，主辦得要求各隊射手於球底部加掛絲帶或輕薄「旗」狀物。</p>
 <hr/>
 <h2 id="b-2-比賽場地">B.2 比賽場地</h2>
+<figure class="illus">
+  <a href="../assets/diagrams/f9a-b-field.svg" target="_blank" rel="noopener"><img src="../assets/diagrams/f9a-b-field.svg" alt="F9A-B 飛行區示意" loading="lazy" /></a>
+  <figcaption>F9A-B 飛行區示意（約 6×3×高 3 m、門內徑 40 cm）。正式尺寸以原文與主辦為準。</figcaption>
+</figure>
 <p>無人機足球可於室內或室外舉行。</p>
 <p>場地主要由飛行區與兩側飛行員區（每隊一區）組成。</p>
 <h3 id="b-2-1-地面">B.2.1 地面</h3>

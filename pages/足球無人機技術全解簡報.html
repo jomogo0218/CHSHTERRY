@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
+  <title>足球無人機技術全解與競技調校 · 簡報網頁</title>
+  <style>
+    :root {
+      --bg: #eef2f6;
+      --card: #ffffff;
+      --border: #c9d5e3;
+      --text: #0b1220;
+      --muted: #526277;
+      --cyan: #0477a8;
+      --amber: #9a6700;
+      --red: #b42318;
+      --bar-h: 40px;
+      --foot-h: 28px;
+      --pad-x: clamp(8px, 1.2vw, 18px);
+      --pad-y: clamp(4px, 0.7vh, 10px);
+      /* 投影優先：vh 拉高、上限放寬 */
+      --fs-tag: clamp(15px, 2.2vh, 26px);
+      --fs-h1: clamp(34px, 5.8vh, 72px);
+      --fs-h2: clamp(24px, 3.8vh, 44px);
+      --fs-li: clamp(20px, 3.3vh, 40px);
+      --fs-cover: clamp(42px, 8.5vh, 96px);
+      --fs-lead: clamp(22px, 3.8vh, 44px);
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", sans-serif;
+      background:
+        linear-gradient(180deg, rgba(4,119,168,.07), transparent 28%),
+        var(--bg);
+      color: var(--text);
+      overflow: hidden;
+    }
+
+    .topbar {
+      position: fixed; inset: 0 0 auto 0; z-index: 30;
+      height: var(--bar-h);
+      display: flex; align-items: center; gap: 6px 10px;
+      padding: 0 var(--pad-x);
+      background: rgba(247, 249, 252, .97);
+      border-bottom: 1px solid var(--border);
+    }
+    .topbar .brand { font-weight: 900; font-size: 14px; white-space: nowrap; }
+    .topbar a {
+      color: var(--cyan); text-decoration: none; font-weight: 800; font-size: 13px;
+    }
+    .topbar .spacer { flex: 1; }
+    .topbar .page-label {
+      color: var(--muted); font-size: 15px; font-variant-numeric: tabular-nums;
+      font-weight: 800; white-space: nowrap;
+    }
+    .icon-btn {
+      appearance: none; border: 1px solid var(--border); background: var(--card);
+      color: var(--text); border-radius: 8px; padding: 4px 12px;
+      font: inherit; font-size: 13px; font-weight: 900; cursor: pointer;
+    }
+    .icon-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+    .icon-btn:disabled { opacity: .35; cursor: not-allowed; }
+
+    .deck {
+      height: 100%;
+      padding: var(--bar-h) 0 var(--foot-h);
+      display: flex;
+      align-items: stretch;
+      justify-content: stretch;
+    }
+    .slide {
+      display: none;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      padding: var(--pad-y) var(--pad-x);
+      flex-direction: column;
+      animation: fade .18s ease;
+    }
+    .slide.on { display: flex; }
+    .slide.scrollable { overflow: auto; }
+    @keyframes fade {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .tag {
+      margin: 0 0 .2em;
+      color: var(--cyan);
+      font-size: var(--fs-tag);
+      font-weight: 900;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      flex: 0 0 auto;
+      line-height: 1.2;
+    }
+    .slide > h1 {
+      margin: 0 0 .35em;
+      font-size: var(--fs-h1);
+      line-height: 1.15;
+      font-weight: 900;
+      flex: 0 0 auto;
+      letter-spacing: -.02em;
+    }
+
+    .grid {
+      display: grid;
+      gap: clamp(8px, 1.1vh, 14px) clamp(8px, 1vw, 14px);
+      flex: 1 1 auto;
+      min-height: 0;
+      align-content: stretch;
+      grid-auto-rows: 1fr;
+    }
+    /* 投影可讀性：優先大字，欄數少一點 */
+    .grid.cols-2,
+    .grid.cols-3,
+    .grid.cols-4,
+    .grid.cols-6 { grid-template-columns: 1fr; }
+    @media (min-width: 800px) {
+      .grid.cols-2 { grid-template-columns: 1fr 1fr; }
+      .grid.cols-3 { grid-template-columns: 1fr 1fr; }
+      .grid.cols-4 { grid-template-columns: 1fr 1fr; }
+      .grid.cols-6 { grid-template-columns: 1fr 1fr; }
+    }
+    @media (min-width: 1280px) {
+      .grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+      .grid.cols-4 { grid-template-columns: 1fr 1fr; } /* 維持 2×2，字才能大 */
+      .grid.cols-6 { grid-template-columns: 1fr 1fr 1fr; }
+    }
+    @media (min-width: 1700px) and (min-height: 900px) {
+      .grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    .card {
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: clamp(12px, 1.5vh, 20px) clamp(12px, 1.3vw, 20px);
+      min-height: 0;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 8px 24px rgba(15,23,36,.06);
+    }
+    .card.cyan { border-color: rgba(4, 119, 168, .55); }
+    .card.amber { border-color: rgba(154, 103, 0, .5); }
+    .card.red { border-color: rgba(180, 35, 24, .5); }
+    .card h2 {
+      margin: 0 0 .4em;
+      font-size: var(--fs-h2);
+      font-weight: 900;
+      color: var(--cyan);
+      line-height: 1.25;
+      flex: 0 0 auto;
+    }
+    .card.amber h2 { color: var(--amber); }
+    .card.red h2 { color: var(--red); }
+    .card ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: clamp(6px, 1vh, 12px);
+      flex: 1 1 auto;
+      align-content: start;
+      min-height: 0;
+    }
+    .card li {
+      position: relative;
+      padding-left: 1em;
+      font-size: var(--fs-li);
+      line-height: 1.38;
+      color: var(--text);
+      font-weight: 700;
+    }
+    .card li b { font-weight: 900; color: var(--text); }
+    .card li::before {
+      content: "•";
+      position: absolute; left: 0; top: 0;
+      color: var(--cyan);
+      font-weight: 900;
+    }
+    .slide-visual {
+      display: grid;
+      gap: clamp(8px, 1.2vh, 14px);
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      margin: 0 0 clamp(8px, 1.2vh, 14px);
+      flex: 0 0 auto;
+    }
+    .slide-visual figure {
+      margin: 0;
+      background: #0f1724;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      min-height: 0;
+    }
+    .slide-visual img {
+      display: block;
+      width: 100%;
+      height: clamp(88px, 16vh, 160px);
+      object-fit: contain;
+      background: #111827;
+    }
+    .slide-visual figcaption {
+      padding: 6px 10px;
+      font-size: clamp(12px, 1.6vh, 16px);
+      font-weight: 800;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+
+    /* Cover */
+    .cover {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 1vh 1.5vw;
+    }
+    .cover .bar {
+      width: clamp(72px, 10vw, 140px);
+      height: 10px;
+      border-radius: 999px;
+      background: var(--cyan);
+      margin-bottom: 2vh;
+    }
+    .cover .eyebrow {
+      color: var(--cyan);
+      font-size: clamp(18px, 2.8vh, 32px);
+      font-weight: 900;
+      letter-spacing: .1em;
+      margin: 0 0 1vh;
+    }
+    .cover h1 {
+      font-size: var(--fs-cover);
+      margin: 0 0 2vh;
+      max-width: 16ch;
+      line-height: 1.12;
+      font-weight: 900;
+    }
+    .cover .lead {
+      margin: 0;
+      color: var(--muted);
+      font-size: var(--fs-lead);
+      max-width: 24em;
+      line-height: 1.4;
+      font-weight: 700;
+    }
+
+    .footer-nav {
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+      height: var(--foot-h);
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      padding: 0 var(--pad-x);
+      background: rgba(238,242,246,.95);
+      border-top: 1px solid var(--border);
+      pointer-events: none;
+    }
+    .footer-nav > * { pointer-events: auto; }
+    .dots {
+      display: flex; flex-wrap: wrap; gap: 6px; justify-content: center;
+      max-width: 92vw;
+    }
+    .dots button {
+      width: 9px; height: 9px; border-radius: 999px; padding: 0;
+      border: 0; background: #b6c3d4; cursor: pointer;
+    }
+    .dots button.on { background: var(--cyan); width: 22px; }
+    .dots button:hover { background: #94a3b8; }
+
+    .hint {
+      position: fixed; right: var(--pad-x); bottom: calc(var(--foot-h) + 8px); z-index: 20;
+      color: #fff; font-size: 13px; font-weight: 800;
+      background: rgba(15,23,36,.82);
+      border-radius: 8px; padding: 6px 10px;
+    }
+
+    /* 大螢幕／投影再放大 */
+    @media (min-width: 1200px) and (min-height: 700px) {
+      :root {
+        --fs-tag: clamp(16px, 2.4vh, 28px);
+        --fs-h1: clamp(40px, 6.2vh, 78px);
+        --fs-h2: clamp(28px, 4.2vh, 48px);
+        --fs-li: clamp(22px, 3.6vh, 44px);
+        --fs-cover: clamp(48px, 9vh, 104px);
+        --fs-lead: clamp(24px, 4.2vh, 48px);
+      }
+    }
+    @media (min-width: 1600px) and (min-height: 900px) {
+      :root {
+        --fs-h1: clamp(48px, 6.5vh, 84px);
+        --fs-h2: clamp(32px, 4.5vh, 52px);
+        --fs-li: clamp(26px, 3.9vh, 48px);
+      }
+    }
+
+    /* 全螢幕時再放大一級 */
+    :fullscreen body,
+    html:fullscreen body {
+      --fs-h1: clamp(42px, 6.5vh, 84px);
+      --fs-h2: clamp(28px, 4.4vh, 50px);
+      --fs-li: clamp(24px, 3.8vh, 46px);
+      --fs-cover: clamp(52px, 9.5vh, 110px);
+      --bar-h: 0px;
+      --foot-h: 22px;
+    }
+    :fullscreen .topbar { display: none; }
+    :fullscreen .deck { padding-top: 0; }
+
+    @media (max-width: 720px) {
+      .hint { display: none; }
+      body { overflow: auto; }
+      .deck { height: auto; min-height: 100%; }
+      .slide { height: auto; min-height: calc(100vh - var(--bar-h) - var(--foot-h)); overflow: auto; }
+      .grid { flex: none; grid-auto-rows: auto; }
+      .card { height: auto; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <span class="brand">技術全解簡報</span>
+    <a href="../index.html">← 首頁</a>
+    <a href="影片欣賞.html">影片</a>
+    <a href="上場清單.html">上場清單</a>
+    <a href="飛控設定.html">飛控設定</a>
+    <a href="有刷空心杯.html">有刷</a>
+    <a href="../bfsim.html">設定模擬</a>
+    <span class="spacer"></span>
+    <span class="page-label" id="pageLabel">1 / 14</span>
+    <button type="button" class="icon-btn" id="btnPrev" aria-label="上一頁">上一頁</button>
+    <button type="button" class="icon-btn" id="btnNext" aria-label="下一頁">下一頁</button>
+  </header>
+
+  <main class="deck" id="deck">
+
+    <!-- 1 -->
+    <section class="slide on" data-i="0" aria-label="封面">
+      <div class="cover">
+        <div class="bar" aria-hidden="true"></div>
+        <p class="eyebrow">AIR ARENA TECH MASTERCLASS</p>
+        <h1>足球無人機 (Drone Soccer)<br />技術全解與競技調校手冊</h1>
+        <p class="lead">從零基礎硬體拆解、電控極限調校到 FAI／FIDA 賽事實戰體系</p>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="slide" data-i="1">
+      <p class="tag">MODULE 1: ORIGIN &amp; GOVERNANCE</p>
+      <h1>運動起源與國際雙軌賽制體系</h1>
+      <div class="grid cols-3">
+        <article class="card">
+          <h2>2016 誕生背景</h2>
+          <ul>
+            <li>發源於韓國全州市科技推廣專案。</li>
+            <li>克服傳統穿越機／空拍機易炸機、槳葉外露受傷的痛點。</li>
+            <li>全包覆球形外框，允許空中劇烈對撞與團隊攻防。</li>
+            <li>迅速發展為融合 STEAM 教育與電競運動的跨界項目。</li>
+          </ul>
+        </article>
+        <article class="card cyan">
+          <h2>國際雙軌賽制</h2>
+          <ul>
+            <li>FAI（國際航空運動總會）：2019 年列為正式航空運動，代號 F9A，納入奧會運動體系。</li>
+            <li>FIDA（國際無人機足球總會）：主導職業聯賽、洲際盃與專項世界盃賽事實務。</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h2>台灣推動核心</h2>
+          <ul>
+            <li>CTAF（中華民國飛行運動總會）：對接 FAI，掌管國家運動員證照（SL）、教練與裁判考核。</li>
+            <li>CDSA（中華無人機競技運動協會）：對接 FIDA，建立標準場地並組訓代表隊出征。</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section class="slide" data-i="2">
+      <p class="tag">MODULE 1: ARENA SPECIFICATIONS</p>
+      <h1>雙軌規格：FIDA Class ≠ FAI F9A（勿混用）</h1>
+      <div class="slide-visual">
+        <figure>
+          <img src="../assets/diagrams/f9a-b-field.svg" alt="FAI F9A-B 場地" />
+          <figcaption>本隊：FAI F9A-B 場地</figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/diagrams/fida-class20-field.svg" alt="FIDA Class 20 場地" />
+          <figcaption>入門常見：FIDA Class 20</figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/brushed/tc200i-kit.jpg" alt="有刷套件" />
+          <figcaption>Class 20 有刷 RTF</figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/assembly/brushless-soccer-blue.jpg" alt="無刷球機" />
+          <figcaption>F9A-B 無刷球機示例</figcaption>
+        </figure>
+      </div>
+      <div class="grid cols-4">
+        <article class="card cyan">
+          <h2>FIDA Class 20</h2>
+          <ul>
+            <li>球徑 20 cm ±1 cm；總重 <b>≤110 g</b>。</li>
+            <li>Skyfence：<b>8 m × 4 m × 高 3 m</b>。</li>
+            <li>球門內徑 <b>30 cm ±1 cm</b>（中心高 1.8–2.2 m）。</li>
+            <li>原則 5 對 5；最少 3 人；<b>最多 2 名射手</b>。</li>
+            <li>禁性能改裝；實務常見有刷／空心杯 RTF。</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h2>FAI F9A-B（本隊）</h2>
+          <ul>
+            <li>球徑 20 cm +2 cm（Ø22 cm 圈）；總重 <b>≤300 g</b>。</li>
+            <li>飛行區建議：<b>6 m × 3 m × 高 3 m</b>。</li>
+            <li>球門內徑 <b>40 cm</b>（外徑建議 70 cm）。</li>
+            <li>場上 3–5 人（主辦訂）；<b>僅 1 名射手</b>。</li>
+            <li>無刷自組主流；≤4S、槳 ≤76 mm、LED 規格見規則檢錄。</li>
+          </ul>
+        </article>
+        <article class="card amber">
+          <h2>FIDA Class 40</h2>
+          <ul>
+            <li>球徑 40 cm ±2 cm；總重 <b>≤1100 g</b>。</li>
+            <li>Skyfence：約 <b>16 m × 7 m</b>（約 2:1）。</li>
+            <li>球門內徑 <b>60 cm</b>。</li>
+            <li>原則 5 對 5；休閒／職業聯賽常見級別。</li>
+            <li>細節以 FIDA 當屆規則書為準。</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h2>FAI F9A-A</h2>
+          <ul>
+            <li>40 cm 級球機；建議籠 <b>14 m × 7 m × 高 5 m</b>。</li>
+            <li>球門內徑 <b>60 cm</b>（外徑建議 100 cm）。</li>
+            <li>場上 3–5 人；<b>僅 1 名射手</b>。</li>
+            <li>電池上限可至 6S（與 F9A-B 的 4S 不同）。</li>
+            <li>大型場館／國際正式航空運動子級。</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="slide" data-i="3">
+      <p class="tag">MODULE 2: HARDWARE &amp; AERODYNAMICS</p>
+      <h1>機體核心構造與外骨骼空氣動力學</h1>
+      <div class="slide-visual">
+        <figure>
+          <img src="../assets/assembly/brushless-soccer-blue.jpg" alt="球機外框示例" />
+          <figcaption>球形外框（無刷示例）</figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/props/gemfan2828-3-orange.jpg" alt="螺旋槳" />
+          <figcaption>槳：正／反槳對角</figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/motors/vci1507.jpg" alt="馬達" />
+          <figcaption>四軸動力核心</figcaption>
+        </figure>
+      </div>
+      <div class="grid cols-3">
+        <article class="card">
+          <h2>機體防護構造</h2>
+          <ul>
+            <li>球體防護罩：高韌性 PP／PC，高彈性碰撞吸能。</li>
+            <li>碳纖維底板：高剛性中樞基座，抗扭曲變形。</li>
+            <li>四軸佈局：正槳（CW）與反槳（CCW）對角抵銷反扭矩。</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h2>外框帶來的流體影響</h2>
+          <ul>
+            <li>下洗氣流（Downwash）穿網紊流：推力約衰減 10%～15%，底盤油門需加大。</li>
+            <li>轉動慣量顯著放大：外圍質量重，俯仰／翻滾慣性大，起步與急煞易延遲。</li>
+          </ul>
+        </article>
+        <article class="card cyan">
+          <h2>碰撞彈性機制</h2>
+          <ul>
+            <li>撞擊彈射（Impact Bouncing）：對撞不炸機，動能轉為彈性反彈。</li>
+            <li>戰術衍生：「借壁彈牆反切」與「門前擠壓卡位」。</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="slide" data-i="4">
+      <p class="tag">MODULE 3: CONTROL &amp; TELEMETRY</p>
+      <h1>32 位元飛控架構、雙陀螺儀與通訊鏈路</h1>
+      <div class="slide-visual">
+        <figure>
+          <img src="../assets/fc/hakrc-f411-40a-board.png" alt="HAKRC F411" />
+          <figcaption>本隊：HAKRC F411</figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/fc/rate-f4v4-hero.png" alt="RATE F4V4" />
+          <figcaption>本隊：RATE 瑞速 F4V4</figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/fc/oxbot-flow-aio45.png" alt="Oxbot Flow AIO45" />
+          <figcaption>本隊：Oxbot Flow AIO45</figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/radios/pocket.jpg" alt="ELRS 遙控" />
+          <figcaption>ELRS 遙控（Pocket）</figcaption>
+        </figure>
+      </div>
+      <div class="grid cols-3">
+        <article class="card">
+          <h2>32 位元飛控大腦</h2>
+          <ul>
+            <li>晶片選型：STM32 F405／F722 主控。</li>
+            <li>硬體浮點運算單元（FPU），每秒完成數千次姿態誤差解算。</li>
+            <li>CPU 負載必須穩定低於 65%，杜絕排程丟包空中翻車。</li>
+          </ul>
+        </article>
+        <article class="card cyan">
+          <h2>雙陀螺儀容錯機制</h2>
+          <ul>
+            <li>主板整合雙陀螺儀（如 MPU6000 + ICM42688）。</li>
+            <li>數據融合過濾高頻共振雜訊。</li>
+            <li>單顆陀螺儀撞擊飽和溢出時，系統毫秒級切換備援。</li>
+          </ul>
+        </article>
+        <article class="card amber">
+          <h2>射頻通訊規範</h2>
+          <ul>
+            <li>ELRS 2.4G 封包率鎖定 250Hz～500Hz（指令延遲低至約 2ms）。</li>
+            <li>切勿開 1000Hz：防護網阻隔易導致靈敏度衰退掉包。</li>
+            <li>圖傳強制鎖死 25mW：多機對戰依 Raceband 隔頻，防止側頻干擾反白。</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="slide" data-i="5">
+      <p class="tag">MODULE 3: ESC &amp; MOTOR DRIVE</p>
+      <h1>30A+ 四合一電調、DShot600 與 PWM 頻率抉擇</h1>
+      <div class="slide-visual">
+        <figure>
+          <img src="../assets/fc/rate-f4-32bit-esc.png" alt="32bit 電調" />
+          <figcaption>AIO 內建 32bit 電調</figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/motors/vci1507.jpg" alt="攻擊馬達" />
+          <figcaption>攻擊馬達吃電流大</figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/motors/vci1408.jpg" alt="防守馬達" />
+          <figcaption>防守馬達偏省電</figcaption>
+        </figure>
+      </div>
+      <div class="grid cols-3">
+        <article class="card">
+          <h2>30A+ 電調規格底線</h2>
+          <ul>
+            <li>球門推擠螺旋槳驟停時，瞬間堵轉電流極大。</li>
+            <li>Class 20：標配 20A～35A。</li>
+            <li>Class 40：標配 40A～55A 四合一電調。</li>
+            <li>全面採用 DShot600 數位協定，免校準油門且具 CRC 防錯。</li>
+          </ul>
+        </article>
+        <article class="card amber">
+          <h2>電調 PWM 斬波頻率</h2>
+          <ul>
+            <li>24kHz（卡位爆發型）：低速扭力大、對撞硬挺，適合破門／後衛。</li>
+            <li>48kHz（前鋒主流型）：線性順滑、約省電 15%、溫升較慢，適合精細穿門。</li>
+            <li>嚴禁 96kHz：瞬間扭力大幅衰退，碰撞起步發軟。</li>
+          </ul>
+        </article>
+        <article class="card red">
+          <h2>馬達進角（Motor Timing）</h2>
+          <ul>
+            <li>設定標準：鎖定 16° 或 Auto。</li>
+            <li>嚴禁超過 22°！</li>
+            <li>高進角在低速卡死時電流迅速轉熱，數秒內可燒毀線圈與 MOS。</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="slide" data-i="6">
+      <p class="tag">MODULE 3: FILTERING &amp; SENSING</p>
+      <h1>動態 RPM 濾波架構與馬達磁極數判斷</h1>
+      <div class="grid cols-3">
+        <article class="card cyan">
+          <h2>雙向 DShot + RPM 濾波</h2>
+          <ul>
+            <li>電調即時回傳真實馬達轉速（RPM）。</li>
+            <li>精準架設極窄陷波，濾除運轉基頻與諧波。</li>
+            <li>大幅壓低軟體低通延遲，保留跟手感。</li>
+          </ul>
+        </article>
+        <article class="card amber">
+          <h2>磁極數（Motor Poles）判斷</h2>
+          <ul>
+            <li>Class 40（22／23 系列）：多為 12N14P，磁極數填 14。</li>
+            <li>Class 20（11／12 系列）：多為 9N12P，必須手動改填 12！</li>
+            <li>填錯後果：濾波切歪，雜訊直灌 PID，馬達約 30 秒內過熱燒毀。</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h2>濾波滑塊設定守則</h2>
+          <ul>
+            <li>初始裝機濾波滑塊固定在 1.0（中央預設）。</li>
+            <li>D-term 濾波保守化：維持 1.0，防止球框震動被 D 值放大。</li>
+            <li>Gyro 與 D-term Lowpass 全面指定為 PT1。</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section class="slide" data-i="7">
+      <p class="tag">MODULE 3: TUNING TRADE-OFFS</p>
+      <h1>系統調校六大連帶與牽制矩陣</h1>
+      <div class="grid cols-6">
+        <article class="card"><h2>1. D 值 vs 濾波 vs 發熱</h2><ul><li>D 值壓制彈跳但放大雜訊；必先開雙向 DShot RPM 濾波再推 D 值。</li></ul></article>
+        <article class="card"><h2>2. 電調 PWM vs 爆發扭力</h2><ul><li>48k 平順省電，24k 對撞硬朗；盲目上 96k 門前角力推不動。</li></ul></article>
+        <article class="card"><h2>3. PID 迴率 vs CPU 負載</h2><ul><li>F4 鎖 4k／4k，F7／H7 跑 8k／8k；負載壓在 65% 以下保平安。</li></ul></article>
+        <article class="card"><h2>4. 遙控刷新 vs 穿網距離</h2><ul><li>ELRS 鎖定 250～500Hz，兼顧 2ms 級手感與金屬網籠穿透力。</li></ul></article>
+        <article class="card"><h2>5. P 值 vs FF 前饋</h2><ul><li>適度降 P 防高頻自激；拉高 FF 至 140～180 抵銷外框慣量。</li></ul></article>
+        <article class="card amber"><h2>6. 圖傳功率 vs 多機串頻</h2><ul><li>全場統一鎖死 25mW，依 Raceband 間隔頻段分流，避免全場反白。</li></ul></article>
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section class="slide" data-i="8">
+      <p class="tag">MODULE 3: PID TUNING</p>
+      <h1>PID 基準值、前饋（FF）與手感塑形</h1>
+      <div class="grid cols-3">
+        <article class="card">
+          <h2>PID 基準值配置</h2>
+          <ul>
+            <li>P（剛性）：Class20 48～58／Class40 60～75。</li>
+            <li>I（鎖角）：Class20 65～80／Class40 80～100。</li>
+            <li>D（煞停）：Class20 28～36／Class40 35～45。</li>
+            <li>Anti-Gravity：5.0～8.0，抑制猛推／急收油門點頭。</li>
+            <li>Angle 最大傾角：55°～60°，保障衝刺水平速度。</li>
+          </ul>
+        </article>
+        <article class="card cyan">
+          <h2>極致跟手靈魂：FF</h2>
+          <ul>
+            <li>定義：推桿瞬間姿態零延遲同步響應。</li>
+            <li>前饋（FF）建議值：拉高至 140～180。</li>
+            <li>原理：繞過陀螺儀誤差迴路，推桿瞬間直接注入動能，硬扯動外框慣性。</li>
+          </ul>
+        </article>
+        <article class="card amber">
+          <h2>Air Mode 雙面刃</h2>
+          <ul>
+            <li>零油門滑行穿門：收油門姿態不瓦解。</li>
+            <li>地表暴跳（Ground Bounce）：觸地易引發飛控反抗暴彈。</li>
+            <li>課堂建議：設獨立開關，觸地即秒切 Disarm。</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="slide" data-i="9">
+      <p class="tag">MODULE 4: PRE-FLIGHT SAFETY</p>
+      <h1>起飛前標準作業流程（SOP）與安全鐵律</h1>
+      <div class="slide-visual">
+        <figure>
+          <img src="../assets/radios/pocket.jpg" alt="先開遙控" />
+          <figcaption>① 先開遙控</figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/batteries/tattu-v5-850.png" alt="接電" />
+          <figcaption>② 再接電池</figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/led/ws2812b-strip-fpvee.jpg" alt="LED 檢查" />
+          <figcaption>③ 隊色／射手尾燈</figcaption>
+        </figure>
+      </div>
+      <div class="grid cols-2">
+        <article class="card cyan">
+          <h2>標準起飛 SOP</h2>
+          <ul>
+            <li>Step 1：先開遙控器，確認油門最低、Disarm 狀態。</li>
+            <li>Step 2：機身平放起飛點接電，5 秒內禁止移動，靜置自檢。</li>
+            <li>Step 3：防護網拉鍊完全閉合，全員退至網外 1 公尺。</li>
+            <li>Step 4：解鎖後離地約 30cm 低空懸停測試無誤再起飛。</li>
+          </ul>
+        </article>
+        <article class="card amber">
+          <h2>課堂四大安全鐵律</h2>
+          <ul>
+            <li>先開控後接電；先拔電後關控：防止訊號中斷馬達誤動作暴衝。</li>
+            <li>機身通電後手指嚴禁伸入球框：防範槳葉劃傷。</li>
+            <li>落地、卡網、炸機瞬間 0.1 秒秒切 Disarm：杜絕堵轉燒毀。</li>
+            <li>鋰電池嚴守 1C 平衡充電（例：850mAh 設 0.8A），防火袋常備專人看守。</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- 11 -->
+    <section class="slide" data-i="10">
+      <p class="tag">MODULE 4: PIT STOP WORKFLOW</p>
+      <h1>局間 60 秒極限進站地勤（Pit Stop SOP）</h1>
+      <div class="slide-visual">
+        <figure>
+          <img src="../assets/motors/vci1507.jpg" alt="摸馬達溫度" />
+          <figcaption>摸馬達溫度</figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/batteries/tattu-v5-850.png" alt="換電" />
+          <figcaption>抽換滿電</figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/props/gemfan2828-3-orange.jpg" alt="檢查槳" />
+          <figcaption>刮槳／查裂</figcaption>
+        </figure>
+      </div>
+      <div class="grid cols-4">
+        <article class="card">
+          <h2>00～15 秒</h2>
+          <ul>
+            <li>哨響立即進場拔電。</li>
+            <li>手背輕觸 4 顆馬達外殼盲測溫度。</li>
+            <li>確認機架與天線無結構斷裂。</li>
+          </ul>
+        </article>
+        <article class="card cyan">
+          <h2>15～35 秒</h2>
+          <ul>
+            <li>抽換滿電電池（局數預先標記）。</li>
+            <li>對齊機身重心（CG）束緊魔鬼氈。</li>
+            <li>手指快速刷過 4 支槳葉檢查缺角裂紋。</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h2>35～50 秒</h2>
+          <ul>
+            <li>擺回起飛定位格插上電源。</li>
+            <li>雙手立刻放開，靜置 3 秒。</li>
+            <li>等待飛控開機音與陀螺儀歸零。</li>
+          </ul>
+        </article>
+        <article class="card amber">
+          <h2>50～60 秒</h2>
+          <ul>
+            <li>飛手在場外撥解鎖微動測試即切斷。</li>
+            <li>地勤全員攜帶工具退回防護網外。</li>
+            <li>拉上拉鍊，裁判鳴笛次局開戰。</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- 12 -->
+    <section class="slide" data-i="11">
+      <p class="tag">MODULE 4: MOTOR THERMAL MANAGEMENT</p>
+      <h1>馬達溫度三級判斷與現場熱急救</h1>
+      <div class="slide-visual">
+        <figure>
+          <img src="../assets/motors/vci1507.jpg" alt="1507" />
+          <figcaption>攻擊 1507：最易熱</figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/motors/vci1408.jpg" alt="1408" />
+          <figcaption>防守 1408：相對溫和</figcaption>
+        </figure>
+        <figure>
+          <img src="../assets/motors/dyh1408.jpg" alt="DYH1408" />
+          <figcaption>備選：DYH1408</figcaption>
+        </figure>
+      </div>
+      <div class="grid cols-3">
+        <article class="card cyan">
+          <h2>🟢 正常：微溫（≤45°C）</h2>
+          <ul>
+            <li>體感：手指緊貼無不適感。</li>
+            <li>評估：散熱良好，PID 調校平衡。</li>
+            <li>對策：正常換電，60 秒內起飛。</li>
+          </ul>
+        </article>
+        <article class="card amber">
+          <h2>🟡 警戒：燙手（50°C～65°C）</h2>
+          <ul>
+            <li>體感：手指緊貼約 3 秒因刺痛縮回。</li>
+            <li>評估：過度對撞推擠，或 D 值偏高、濾波不足。</li>
+            <li>對策：便攜風扇垂直吹定子約 15 秒強制風冷；提醒飛手減少門前死磕。</li>
+          </ul>
+        </article>
+        <article class="card red">
+          <h2>🔴 致命：極燙（≥75°C／焦味）</h2>
+          <ul>
+            <li>體感：碰觸瞬間燙縮手，或聞到焦味。</li>
+            <li>評估：磁鐵退磁、漆包線絕緣熔化風險。</li>
+            <li>對策：立刻放棄維修，果斷更換備用機（Backup Drone）！</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- 13 -->
+    <section class="slide" data-i="12">
+      <p class="tag">MODULE 5: COMPETITION TACTICS</p>
+      <h1>團隊角色矩陣與實戰三大攻防戰術</h1>
+      <div class="grid cols-2">
+        <article class="card cyan">
+          <h2>團隊角色分工矩陣</h2>
+          <ul>
+            <li>攻擊前鋒（Striker）：唯一配戴識別光帶，專職穿越球門得分（高 FF 跟手調校）。</li>
+            <li>破門清道夫（Sweeper）：主動衝撞開道，頂開敵方門將（24kHz 低速爆發調校）。</li>
+            <li>正印門將（Keeper）：Angle 模式定點懸停，死守球門下緣約 1／3 空域。</li>
+            <li>外圍截擊（Defender）：中場側撞推擠，破壞敵方前鋒衝刺航線。</li>
+          </ul>
+        </article>
+        <article class="card amber">
+          <h2>三大實戰戰術與規則</h2>
+          <ul>
+            <li>拆檔掩護（Pick &amp; Roll）：清道夫先於前鋒半秒衝撞門將頂飛，前鋒切入空門。</li>
+            <li>底線彈牆（Wall Bounce）：撞擊側壁邊網斜向反彈，避開密集防守盲區切入。</li>
+            <li>禁區 3 秒規則（Camping）：前鋒在對方球門禁區停留不得超過 3 秒；進球後需完全退出禁區重置。</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- 14 -->
+    <section class="slide" data-i="13">
+      <p class="tag">SUMMARY: MASTERCLASS TAKEAWAYS</p>
+      <h1>全課核心心法與調校安全總結</h1>
+      <div class="grid cols-3">
+        <article class="card cyan">
+          <h2>調校心法口訣</h2>
+          <ul>
+            <li>雙向 DShot 是地基，磁極數量不能錯。</li>
+            <li>RPM 濾波精準切，動態陷波抓共振。</li>
+            <li>進角十六 PWM 四八順，肉搏改二四。</li>
+            <li>前饋加足跟手飛，球框再重不黏手。</li>
+          </ul>
+        </article>
+        <article class="card amber">
+          <h2>安全操作口訣</h2>
+          <ul>
+            <li>先開控後接電，先拔電後關控。</li>
+            <li>落地觸網秒 Disarm，杜絕馬達堵轉燒。</li>
+            <li>充電遵循 1C 率，專人看管防爆袋。</li>
+            <li>全班統一 Mode 2 美國手，建立直覺反射。</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h2>賽事實戰口訣</h2>
+          <ul>
+            <li>局間進站六十秒，拔電換電摸溫度。</li>
+            <li>燙手風扇吹定子，焦味果斷換備機。</li>
+            <li>前鋒穿門算重置，禁區三秒不逗留。</li>
+            <li>科技體育重團隊，勝負全看地勤功。</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <div class="hint">← →／空白鍵翻頁 · 按 F 全螢幕（字更大）</div>
+  <nav class="footer-nav" aria-label="頁碼">
+    <div class="dots" id="dots"></div>
+  </nav>
+
+  <script>
+    (function () {
+      const slides = Array.from(document.querySelectorAll(".slide"));
+      const total = slides.length;
+      const label = document.getElementById("pageLabel");
+      const dots = document.getElementById("dots");
+      const btnPrev = document.getElementById("btnPrev");
+      const btnNext = document.getElementById("btnNext");
+      let i = 0;
+
+      slides.forEach((_, idx) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.setAttribute("aria-label", "第 " + (idx + 1) + " 頁");
+        b.addEventListener("click", () => go(idx));
+        dots.appendChild(b);
+      });
+
+      function go(n) {
+        i = Math.max(0, Math.min(total - 1, n));
+        slides.forEach((s, k) => s.classList.toggle("on", k === i));
+        Array.from(dots.children).forEach((d, k) => d.classList.toggle("on", k === i));
+        label.textContent = (i + 1) + " / " + total;
+        btnPrev.disabled = i === 0;
+        btnNext.disabled = i === total - 1;
+        history.replaceState(null, "", "#" + (i + 1));
+        const active = slides[i];
+        if (active) active.scrollTop = 0;
+      }
+
+      btnPrev.addEventListener("click", () => go(i - 1));
+      btnNext.addEventListener("click", () => go(i + 1));
+
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight" || e.key === "PageDown" || e.key === " ") {
+          e.preventDefault();
+          go(i + 1);
+        } else if (e.key === "ArrowLeft" || e.key === "PageUp") {
+          e.preventDefault();
+          go(i - 1);
+        } else if (e.key === "Home") {
+          go(0);
+        } else if (e.key === "End") {
+          go(total - 1);
+        } else if (e.key === "f" || e.key === "F") {
+          if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen?.();
+          } else {
+            document.exitFullscreen?.();
+          }
+        }
+      });
+
+      let touchX = null;
+      document.addEventListener("touchstart", (e) => {
+        touchX = e.changedTouches[0].screenX;
+      }, { passive: true });
+      document.addEventListener("touchend", (e) => {
+        if (touchX == null) return;
+        const dx = e.changedTouches[0].screenX - touchX;
+        touchX = null;
+        if (Math.abs(dx) < 50) return;
+        if (dx < 0) go(i + 1);
+        else go(i - 1);
+      }, { passive: true });
+
+      const hash = parseInt((location.hash || "").replace("#", ""), 10);
+      go(Number.isFinite(hash) && hash >= 1 && hash <= total ? hash - 1 : 0);
+    })();
+  </script>
+</body>
+</html>

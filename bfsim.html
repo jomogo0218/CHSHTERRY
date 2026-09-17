@@ -226,19 +226,34 @@ a{color:var(--bf-accent)}
 <nav class="book-nav" aria-label="手冊導覽">
   <button type="button" class="back" id="btnBack" title="返回上一頁">← 返回上一頁</button>
   <span class="sep" aria-hidden="true"></span>
-  <a href="index.html?tab=home">總覽</a>
-  <a href="index.html?tab=motor">馬達</a>
-  <a href="index.html?tab=batt">電池</a>
-  <a href="index.html?tab=prop">螺旋槳</a>
-  <a href="index.html?tab=build">組裝</a>
-  <a href="index.html?tab=fly">續航</a>
-  <a href="index.html?tab=fc">飛控硬體</a>
-  <a href="index.html?tab=bf">飛控設定</a>
+  <a href="index.html">首頁</a>
+  <a href="pages/影片欣賞.html">影片</a>
+  <a href="pages/上場清單.html">上場清單</a>
+  <a href="pages/飛控硬體.html">飛控硬體</a>
+  <a href="pages/飛控設定.html">飛控設定</a>
   <a class="on" href="bfsim.html" id="navSimHere">設定模擬</a>
-  <a href="index.html?tab=led">LED</a>
-  <a href="index.html?tab=rule">規則</a>
+  <a href="pages/LED.html">LED</a>
+  <a href="pages/規則檢錄.html">規則</a>
+  <a href="pages/有刷空心杯.html">有刷</a>
+  <a href="pages/遙控器採購分析.html">遙控器</a>
   <span class="hint">可進出各章；瀏覽器 ← 也可返回</span>
 </nav>
+<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:8px 12px;background:#12151a;border-bottom:1px solid #222;font-size:12px;color:#a7b0a7">
+  <span style="font-weight:800;color:#ffbb2a">對照本隊板子：</span>
+  <a href="assets/fc/hakrc-f411-40a-board.png" target="_blank" rel="noopener" style="color:#ddd;text-decoration:none;display:flex;align-items:center;gap:6px">
+    <img src="assets/fc/hakrc-f411-40a-board.png" alt="" width="36" height="28" style="object-fit:contain;background:#fff;border-radius:3px" /> HAKRC
+  </a>
+  <a href="assets/fc/rate-f4v4-hero.png" target="_blank" rel="noopener" style="color:#ddd;text-decoration:none;display:flex;align-items:center;gap:6px">
+    <img src="assets/fc/rate-f4v4-hero.png" alt="" width="36" height="28" style="object-fit:contain;background:#fff;border-radius:3px" /> RATE
+  </a>
+  <a href="assets/fc/oxbot-flow-aio45.png" target="_blank" rel="noopener" style="color:#ddd;text-decoration:none;display:flex;align-items:center;gap:6px">
+    <img src="assets/fc/oxbot-flow-aio45.png" alt="" width="36" height="28" style="object-fit:contain;background:#fff;border-radius:3px" /> Oxbot
+  </a>
+  <a href="assets/radios/pocket.jpg" target="_blank" rel="noopener" style="color:#ddd;text-decoration:none;display:flex;align-items:center;gap:6px">
+    <img src="assets/radios/pocket.jpg" alt="" width="36" height="28" style="object-fit:cover;border-radius:3px" /> Pocket
+  </a>
+  <span>· 詳細焊點見 <a href="pages/飛控硬體.html">飛控硬體</a></span>
+</div>
 <div class="topbar">
   <div class="brand">
     <img src="assets/brand/chia-hwa-drone-team.png" alt="" />
@@ -267,6 +282,8 @@ a{color:var(--bf-accent)}
 </div>
 <div class="help" id="help">點左側分頁開始。改任何數值時，底欄會摘要「飛行情境」；右側有完整故事說明。上方可套用攻擊／防守建議值。</div>
 
+<script src="assets/bfsim/catalog.js?v=20260915script1"></script>
+<script src="assets/bfsim/zh_explain.js?v=20260915script1"></script>
 <script>
 const TABS = [
   {id:'setup', en:'Setup', zh:'設定總覽', expert:false},
@@ -406,7 +423,19 @@ if (panelFromUrl && TABS.some(t => t.id === panelFromUrl)) {
 }
 
 function handbookUrl(tab) {
-  return 'index.html?tab=' + encodeURIComponent(tab || fromTab || 'bf');
+  const map = {
+    home: 'index.html',
+    motor: 'pages/馬達.html',
+    batt: 'pages/電池.html',
+    prop: 'pages/螺旋槳.html',
+    build: 'pages/組裝.html',
+    fly: 'pages/續航.html',
+    fc: 'pages/飛控硬體.html',
+    bf: 'pages/飛控設定.html',
+    led: 'pages/LED.html',
+    rule: 'pages/規則檢錄.html'
+  };
+  return map[tab || fromTab || 'bf'] || 'pages/飛控設定.html';
 }
 function goBackNav() {
   try {
@@ -1150,28 +1179,25 @@ addEventListener('popstate', (e)=>{
   }
 });
 
-const bust = 'v=20260729rearm1';
-fetch('assets/bfsim/catalog.json?' + bust)
-  .then(r=>{ if(!r.ok) throw new Error('catalog HTTP '+r.status); return r.json(); })
-  .then(data=>{
-    catalog=data;
-    // optional extra file; not required because Chinese is already merged into catalog
-    return fetch('assets/bfsim/zh_explain.json?' + bust)
-      .then(r=>r.ok?r.json():null)
-      .catch(()=>null)
-      .then(zh=>{ zhExplain = zh; });
-  })
-  .then(()=>{
-    const missing = (catalog.groups||[]).flatMap(g=>g.vars).filter(v=>!v.detail).length;
-    buildState();
-    applyPreset('atk');
-    document.getElementById('btnExpert').classList.toggle('on', expert);
-    syncPanelUrl(true);
-    help(missing ? `已載入，但有 ${missing} 項缺少中文 detail。` : '已載入完整參數與繁體中文說明。可用上方導覽進出手冊，瀏覽器返回也可。');
-  })
-  .catch(err=>{
-    document.getElementById('main').innerHTML='<p style="color:#ff6b6b;font-size:16px;line-height:1.6">無法載入設定資料：'+err+'<br>請強制重新整理（Ctrl+Shift+R）。</p>';
-  });
+const bust = 'v=20260915script1';
+
+function bootFromGlobals(){
+  catalog = window.BFSIM_CATALOG;
+  zhExplain = window.BFSIM_ZH_EXPLAIN || null;
+  if(!catalog){
+    document.getElementById('main').innerHTML=
+      '<p style="color:#ff6b6b;font-size:16px;line-height:1.6">無法載入設定資料：找不到 assets/bfsim/catalog.js。<br>請確認檔案存在後強制重新整理（Ctrl+Shift+R）。</p>';
+    return;
+  }
+  const missing = (catalog.groups||[]).flatMap(g=>g.vars).filter(v=>!v.detail).length;
+  buildState();
+  applyPreset('atk');
+  document.getElementById('btnExpert').classList.toggle('on', expert);
+  syncPanelUrl(true);
+  help(missing ? `已載入，但有 ${missing} 項缺少中文 detail。` : '已載入完整參數與繁體中文說明。可用上方導覽進出手冊，瀏覽器返回也可。');
+}
+
+bootFromGlobals();
 </script>
 </body>
 </html>

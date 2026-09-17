@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
+<title>飛控硬體 · 嘉華足球無人機配備手冊</title>
+<link rel="stylesheet" href="../assets/site.css?v=7" />
+</head>
+<body class="is-page">
+<div class="bg-logo" aria-hidden="true"></div>
+<a class="skip-link" href="#main">跳至主要內容</a>
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="../index.html">
+      <img src="../assets/brand/chia-hwa-drone-team.png?v=7" alt="" width="64" height="36" />
+      <div class="brand-text">
+        <strong>嘉華中學足球無人機俱樂部</strong>
+        <span>配備手冊 · FAI F9A-B</span>
+      </div>
+    </a>
+    <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="siteNav">選單</button>
+    <nav class="site-nav" id="siteNav" aria-label="主要導覽">
+      <a href="../index.html">首頁</a>
+      <span class="nav-label">認識</span>
+      <a href="影片欣賞.html">影片欣賞</a>
+      <a href="新手入門.html">新手入門</a>
+      <a href="足球無人機技術全解簡報.html">技術全解</a>
+      <span class="nav-label">規則</span>
+      <a href="規則檢錄.html">規則檢錄</a>
+      <a href="FAI_F9A_2026_繁中譯本.html">FAI 譯本</a>
+      <a href="有刷空心杯.html">有刷／空心杯</a>
+      <span class="nav-label">配備</span>
+      <a href="馬達.html">馬達</a>
+      <a href="電池.html">電池</a>
+      <a href="螺旋槳.html">螺旋槳</a>
+      <span class="nav-label">整機</span>
+      <a href="組裝.html">組裝</a>
+      <a href="續航.html">續航</a>
+      <span class="nav-label">系統</span>
+      <a class="on" href="飛控硬體.html">飛控硬體</a>
+      <a href="飛控設定.html">飛控設定</a>
+      <a href="LED.html">LED</a>
+      <a href="遙控器採購分析.html">遙控器</a>
+      <a href="../bfsim.html">設定模擬</a>
+      <span class="nav-label">上場</span>
+      <a href="上場清單.html">上場清單</a>
+      <span class="nav-label">圖鑑</span>
+      <a href="飛控AIO產品圖鑑.html">AIO 圖鑑</a>
+      <a href="電池產品圖鑑.html">電池圖鑑</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap" id="main">
+<div class="page-banner">
+  <div class="crumb"><a href="../index.html">首頁</a> / 系統 / 飛控硬體</div>
+  <div>
+    <h1>飛控硬體</h1>
+    <p class="lead">本隊三款 AIO 與接線。</p>
+  </div>
+</div>
+
+  <p class="lead">本隊三款 AIO 的規格、焊點與接線。<b>軟體設定已獨立成「飛控設定」分頁。</b>名詞請先看 <a href="新手入門.html#fc">新手入門 · 飛控</a>。</p>
+
+  <article class="media-explain">
+    <figure class="media-explain-pic">
+      <a href="../assets/fc/oxbot-flow-aio45.png" target="_blank" rel="noopener"><img src="../assets/fc/oxbot-flow-aio45.png" alt="Oxbot Flow AIO45" loading="lazy" /></a>
+      <figcaption>攻擊主力板：Oxbot Flow AIO45（點圖放大）</figcaption>
+    </figure>
+    <div class="media-explain-body">
+      <h3>飛控硬體在看什麼？</h3>
+      <p>AIO＝飛控＋電調做在同一塊板。球機要認：孔距、BEC 能不能餵 22 顆 LED、有沒有內建 ELRS、電容有沒有焊。下面三款是本隊已購；更多產品照進圖鑑。</p>
+      <p>調參、Rates、Failsafe 請改開 <a href="飛控設定.html">飛控設定</a>，本頁只談硬體與接線。</p>
+    </div>
+  </article>
+
+  <div class="note info" style="margin-top:0">
+    <b>淘寶 AIO 40A 收集頁：</b>
+    <a href="飛控AIO產品圖鑑.html">開啟飛控產品圖鑑</a>
+    <span style="color:var(--muted)">（本隊三板＋搜尋去重對照；球機視角標「值得看／可跳過」）</span>
+  </div>
+  <nav class="toc" aria-label="飛控本章目錄">
+    <span class="toc-label">本章目錄</span>
+    <div class="toc-group">
+      <span class="toc-group-label">硬體</span>
+      <a href="飛控AIO產品圖鑑.html">AIO 40A 收集</a>
+      <a href="#led-fc">三款 AIO</a>
+      <a href="#led-pinout">HAKRC 接口</a>
+      <a href="#led-rate-wire">RATE 接線</a>
+      <a href="#led-oxbot-wire">Oxbot 接線</a>
+    </div>
+    <div class="toc-group">
+      <span class="toc-group-label">設定</span>
+      <a href="#led-cli">三板設定差異</a>
+    </div>
+    <div class="toc-group">
+      <span class="toc-group-label">相關</span>
+      <a class="go" href="飛控設定.html">Betaflight 完整設定 →</a>
+      <a class="go" href="LED.html">LED 設定 →</a>
+    </div>
+  </nav>
+
+  <h2 id="led-fc">本隊飛控（三款 AIO）</h2>
+  <div class="prod">
+    <article class="card">
+      <a class="thumb" href="../assets/fc/hakrc-f411-40a-board.png" target="_blank" rel="noopener"><img src="../assets/fc/hakrc-f411-40a-board.png" alt="HAKRC F411 40A AIO 正面與背面" /></a>
+      <div class="body">
+        <span class="tag">本隊已購 · 飛控＋電調一體</span>
+        <h4>HAKRC F411 40A AIO（BLHeli_S）</h4>
+        <div class="stats">
+          <div class="stat"><b>STM32F411</b><span>主控</span></div>
+          <div class="stat"><b>40／45A</b><span>持續／峰值</span></div>
+          <div class="stat"><b>8.5g</b><span>淨重</span></div>
+          <div class="stat"><b>25.5</b><span>孔距 mm</span></div>
+        </div>
+        <p>約 <b>31–32mm</b> 方板（產品圖常寫 32×32、官網多寫 31×31）、8 層 2oZ 厚銅、40V MOS。電調 <b>BLHeli_S</b>、2–6S、持續 40A／峰值 45A，對 1408／DYH／1507 綽綽有餘。
+          自帶可編程 LED 焊盤（<code>LED B- 5V GND</code>）與內建電流感測（產品圖電流計比例 <b>210</b>）。</p>
+        <div class="note critical compact">
+          <b>重要供電限制：</b>F411 的 BEC 只有 <b>5V／2A</b>。只裝 22 顆 LED 並把亮度設為 30–40%；不要接整條 60 顆全亮白，否則可能造成 BEC 過熱或重啟。
+        </div>
+      </div>
+    </article>
+    <article class="card">
+      <a class="thumb" href="../assets/fc/rate-f4v4-hero.png" target="_blank" rel="noopener"><img src="../assets/fc/rate-f4v4-hero.png" alt="RATE F4V4 40A AIO 黑白雙色" loading="lazy" /></a>
+      <div class="body">
+        <span class="tag">本隊已購 · 飛控＋電調一體</span>
+        <h4>RATE 瑞速 F4V4 40A AIO（AT32F435）</h4>
+        <div class="stats">
+          <div class="stat"><b>AT32F435</b><span>主控</span></div>
+          <div class="stat"><b>40A</b><span>電調</span></div>
+          <div class="stat"><b>8／9.6g</b><span>無殼／有殼</span></div>
+          <div class="stat"><b>25×25</b><span>孔距 mm</span></div>
+        </div>
+        <p>33×33×5.5mm（有殼高 7mm）。主控 <b>AT32F435 @ 288MHz</b>（廠方稱較 F722 約 +34%），支援雙 8K 與<b>雙向 DShot</b>。
+          內建 <b>32bit 電調</b>、持續 40A、3–6S。BEC <b>5V 3A</b>＋10V 2A（HD）；SPL06、MSP OSD、16MB 黑匣子。
+          <b>LED：5V／GND／DIN</b>。配件含 XT30 電源線與 <b>35V 470µF</b> 電容。</p>
+        <div class="note critical compact">
+          <b>重要焊接設定：</b><b>35V 470µF 電容一定要焊</b>在 VBAT 正負極旁，而且越靠近飛控越好；漏焊會增加壓降、雜訊與燒板風險。
+        </div>
+      </div>
+    </article>
+    <article class="card">
+      <a class="thumb" href="../assets/fc/oxbot-flow-aio45.png" target="_blank" rel="noopener"><img src="../assets/fc/oxbot-flow-aio45.png" alt="Oxbot Flow AIO45 正面" loading="lazy" /></a>
+      <div class="body">
+        <span class="tag">本隊已購 · 內建 ELRS 接收機</span>
+        <h4>牛博特 Oxbot Flow AIO45（AT32F435）</h4>
+        <div class="stats">
+          <div class="stat"><b>AT32F435</b><span>主控</span></div>
+          <div class="stat"><b>45A</b><span>OX32 電調</span></div>
+          <div class="stat"><b>12.6g</b><span>重量</span></div>
+          <div class="stat"><b>5V 4A</b><span>BEC</span></div>
+        </div>
+        <p><b>三塊板裡 LED 餘裕最大（5V 4A）</b>，而且<b>內建 ELRS 接收機</b>——不用外接、不用焊接收機線，省重又少一個掉線點。
+          電調 <b>OX32 32bit</b>、45A、3–6S，預設開 <b>雙向 DShot</b>（可開 RPM 濾波）。
+          ICM42688P（含時鐘同步）、DPS310 氣壓計、16MB 黑匣子、MAX7456 類比 OSD。孔距 <b>25.5×25.5mm</b>。
+          Betaflight target：<code>OXBOT_FLOW_AIO45</code>。</p>
+        <p class="muted" style="margin-top:8px">缺點：<b>12.6g 是三塊裡最重</b>（比 HAKRC 多約 4g）。</p>
+        <div class="note critical compact">
+          <b>重要開關設定：</b>球機沒有安裝圖傳時，務必開啟 <code>VTX BEC OFF</code>，關閉圖傳供電，避免無用耗電與發熱。
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <div class="figs" style="margin-top:12px">
+    <div class="fig"><a href="../assets/fc/oxbot-flow-aio45.png" target="_blank" rel="noopener"><img src="../assets/fc/oxbot-flow-aio45.png" alt="Oxbot Flow AIO45"></a><span>Oxbot 正面</span></div>
+    <div class="fig"><a href="../assets/fc/oxbot-pinout.jpg" target="_blank" rel="noopener"><img src="../assets/fc/oxbot-pinout.jpg" alt="Oxbot 接口定義"></a><span>Oxbot 接口定義</span></div>
+    <div class="fig"><a href="../assets/fc/oxbot-led-plug.jpg" target="_blank" rel="noopener"><img src="../assets/fc/oxbot-led-plug.jpg" alt="Oxbot LED 直插"></a><span>Oxbot LED 直插</span></div>
+    <div class="fig"><a href="../assets/fc/hakrc-f411-40a-spec.png" target="_blank" rel="noopener"><img src="../assets/fc/hakrc-f411-40a-spec.png" alt="HAKRC F411 40A 飛控與電調參數"></a><span>HAKRC F411 參數</span></div>
+    <div class="fig"><a href="../assets/fc/rate-f4v4-hero.png" target="_blank" rel="noopener"><img src="../assets/fc/rate-f4v4-hero.png" alt="RATE F4V4"></a><span>RATE F4V4 產品照</span></div>
+    <div class="fig"><a href="../assets/fc/rate-f4v4-mcu-esc.png" target="_blank" rel="noopener"><img src="../assets/fc/rate-f4v4-mcu-esc.png" alt="RATE AT32／32bit"></a><span>AT32F435＋32bit 電調</span></div>
+    <div class="fig"><a href="../assets/fc/rate-f4-at32f435.png" target="_blank" rel="noopener"><img src="../assets/fc/rate-f4-at32f435.png" alt="RATE F4 AT32F435 主控"></a><span>RATE 主控特寫</span></div>
+    <div class="fig"><a href="../assets/fc/rate-f4-32bit-esc.png" target="_blank" rel="noopener"><img src="../assets/fc/rate-f4-32bit-esc.png" alt="RATE F4 32bit 電調"></a><span>RATE 32bit 電調</span></div>
+  </div>
+  <small>點圖放大看原廠參數與接線。Oxbot／RATE 為 AT32F435＋32bit 電調（可雙向 DShot）；HAKRC 為 STM32F411＋BLHeli_S。Oxbot 另有內建 ELRS 與 LED 直插座。</small>
+
+  <h3>三板差異（挑板／備料看這裡）</h3>
+  <div class="wide">
+  <table>
+    <thead><tr><th>項目</th><th>HAKRC F411 40A</th><th>RATE F4 40A</th><th>Oxbot Flow AIO45</th><th>球機影響</th></tr></thead>
+    <tbody>
+      <tr><td>主控</td><td>STM32F411CEU6</td><td>AT32F435</td><td>AT32F435</td><td>F411 資源較少但夠用。<b>三塊 target 都不同，勿互刷</b></td></tr>
+      <tr><td>IMU</td><td>ICM42688</td><td>ICM42688*</td><td>ICM42688P（時鐘同步）</td><td>同級；Oxbot 有 CLKin 略優</td></tr>
+      <tr><td>OSD</td><td>AT7456E（類比）</td><td>RATE MSP OSD</td><td>MAX7456（類比）</td><td>有鏡頭才用</td></tr>
+      <tr><td>黑匣子</td><td>16M</td><td>16MB</td><td>16MB（W25Q128）</td><td>調參可下載 log</td></tr>
+      <tr><td><b>BEC</b></td><td class="no"><b>5V 2A</b></td><td><b>5V 3A</b>（＋10V 2A）</td><td class="ok"><b>5V 4A</b></td><td><b>LED 最寬裕＝Oxbot</b>；F411 板務必調暗</td></tr>
+      <tr><td>電調固件</td><td class="no"><b>BLHeli_S</b>（G-H-30）</td><td class="ok"><b>32bit</b>＋雙向 DShot</td><td class="ok"><b>OX32 32bit</b>＋雙向 DShot</td><td><b>攻擊機優先 RATE／Oxbot</b>：可直接開 RPM 濾波。<b>原廠 BLHeli_S 不支援雙向 DShot</b>，要刷 Bluejay 才有機會</td></tr>
+      <tr><td>電調電流</td><td>持續 40A／峰值 45A</td><td>穩定 40A</td><td class="ok"><b>45A</b></td><td>單顆馬達峰值約 25A → 三塊都夠</td></tr>
+      <tr><td>電池輸入</td><td>2–6S</td><td>3–6S</td><td>3–6S</td><td>本隊 <b>4S</b> 都 OK</td></tr>
+      <tr><td><b>接收機</b></td><td>需外接（SBUS／UART）</td><td>需外接（ELRS→UART2）</td><td class="ok"><b>內建 ELRS</b></td><td><b>Oxbot 省一顆接收機＋線</b>，少一個故障點</td></tr>
+      <tr><td>電流計比例</td><td><b>210</b></td><td>未標示（實飛校正）</td><td>Betaflight 預設值</td><td>F411 先設 <code>ibata_scale = 210</code></td></tr>
+      <tr><td><b>重量</b></td><td class="ok"><b>8.5g</b></td><td><b>8g／9.6g</b></td><td class="no"><b>12.6g</b></td><td>Oxbot 多約 3–4g；但省下接收機（約 1–2g）後差距縮小</td></tr>
+      <tr><td>尺寸／孔距</td><td>約 31–32mm／<b>25.5mm</b>（亦常見 26.5）</td><td>33×33mm／<b>25×25mm</b></td><td><b>25.5×25.5mm</b></td><td><b>孔距三種不完全相同！</b>機架要先對好</td></tr>
+      <tr class="critical-row"><td><b>圖傳供電</b></td><td>—</td><td>10V 2A 供 HD 圖傳</td><td><code>VTX BEC OFF</code> 開關</td><td><b>球機不裝圖傳時，務必關閉 Oxbot 圖傳供電</b></td></tr>
+      <tr class="critical-row"><td><b>濾波電容</b></td><td>M2 減震球、XT30、270µF 電容</td><td>減震球、排線、<b>35V 470µF</b>、XT30</td><td>（看賣場）</td><td><b>電容一定要焊在 VBAT 正負極旁</b></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note warn" style="margin-top:8px">
+    <b>三塊板孔距不完全一樣：</b>HAKRC <b>25.5</b>（也支援 26.5）、Oxbot <b>25.5</b>、RATE <b>25×25</b>。決定機架前先確認要裝哪一塊，別買了框架才發現裝不上。
+  </div>
+  <div class="note info">
+    <p><b>怎麼分配（建議）：</b>
+    <b>攻擊機＝Oxbot Flow AIO45</b>（45A＋雙向 DShot＋內建 ELRS＋BEC 4A 最穩，重一點可接受）或 RATE；
+    <b>防禦／輕量機＝HAKRC F411</b>（最輕 8.5g，但 LED 要調暗；原廠韌體無法開 RPM 濾波）。</p>
+  </div>
+
+  <h2 id="led-pinout">HAKRC F411 接口定義（焊哪裡）</h2>
+  <p><a href="../assets/fc/hakrc-f411-40a-pinout.png" target="_blank" rel="noopener">點圖看大圖 →</a></p>
+  <div class="prod">
+    <article class="card">
+      <a class="thumb" href="../assets/fc/hakrc-f411-40a-pinout.png" target="_blank" rel="noopener"><img src="../assets/fc/hakrc-f411-40a-pinout.png" alt="F411 40A AIO 接口定義圖" /></a>
+      <div class="body">
+        <span class="tag">接線圖</span>
+        <h4>F411 40A AIO 接口定義圖</h4>
+        <p>M1–M4 在四角；LED 焊盤在板子上緣，另有原廠 RGB 燈與 USB。</p>
+      </div>
+    </article>
+  </div>
+  <div class="wide">
+  <table>
+    <thead><tr><th>焊盤／插座</th><th>腳位</th><th>接什麼</th></tr></thead>
+    <tbody>
+      <tr><td><b>LED（上緣）</b></td><td><code>LED　B-　5V　GND</code></td><td><b>WS2812 燈條</b>：訊號→LED、＋5V→5V、負→GND。<b>B- 是蜂鳴器負極</b>，別當 GND 用</td></tr>
+      <tr><td>M1–M4（四角）</td><td>各角一組</td><td>四顆馬達；順序與轉向在 Betaflight 馬達頁確認</td></tr>
+      <tr><td>左側排</td><td><code>5V　G　SBUS　R1　T1</code></td><td>接收機（SBUS 或 UART1 的 R1／T1）</td></tr>
+      <tr><td>左側排（下）</td><td><code>G　5V　T3　R3　SCL　SDA</code></td><td>UART3 與 I2C（外掛感測器）</td></tr>
+      <tr><td>下方排</td><td><code>G　5V　VTX　T2　R2</code></td><td>圖傳與 UART2</td></tr>
+      <tr><td>下方排</td><td><code>BAT　G　5V　CAM　B10　G</code></td><td>電池電壓、鏡頭、B10（蜂鳴器／額外 IO）</td></tr>
+      <tr><td>6pin 插座</td><td><code>R1　G　R2　T2　G　BAT</code></td><td>圖傳／接收機用排線，免焊</td></tr>
+      <tr><td>USB 旁</td><td><code>GND　5V　DM　DP</code></td><td>USB 備用焊盤（Type-C 撞壞時救援）</td></tr>
+      <tr><td>板中央</td><td>RGB 燈</td><td>原廠板載燈，非比賽用主燈</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note bad" style="margin-top:8px">
+    <b>學生最常燒板：</b>LED 條的 5V／GND 接反，或把訊號線焊到 <code>B-</code>。焊完先<b>不接電池</b>、只插 USB 確認燈條會亮再上電。
+  </div>
+
+  <h2 id="led-rate-wire">RATE 瑞速 F4V4 40A 接線／特點（焊哪裡）</h2>
+  <div class="note info" style="margin-top:0">
+    <p><b>球機怎麼讀原廠圖：</b>接線圖會畫鏡頭、圖傳、GPS（穿越機用法）。本隊足球機<b>不裝圖傳／GPS／鏡頭</b>——接好 <b>ELRS 接收機＋LED＋蜂鳴器＋濾波電容＋四馬達／電池</b> 即可。UART4／圖傳相關埠可略過。</p>
+  </div>
+  <div class="figs" style="margin:12px 0">
+    <div class="fig"><a href="../assets/fc/rate-f4v4-hero.png" target="_blank" rel="noopener"><img src="../assets/fc/rate-f4v4-hero.png" alt="RATE F4V4 產品" loading="lazy"></a><span>F4V4 產品照（黑／白殼）</span></div>
+    <div class="fig"><a href="../assets/fc/rate-f4v4-features.png" target="_blank" rel="noopener"><img src="../assets/fc/rate-f4v4-features.png" alt="RATE 特點" loading="lazy"></a><span>接收機直插／藍牙／CNC 散熱</span></div>
+    <div class="fig"><a href="../assets/fc/rate-f4v4-mcu-esc.png" target="_blank" rel="noopener"><img src="../assets/fc/rate-f4v4-mcu-esc.png" alt="MCU 與電調" loading="lazy"></a><span>32bit 電調＋AT32F435</span></div>
+    <div class="fig"><a href="../assets/fc/rate-f4v4-wiring.png" target="_blank" rel="noopener"><img src="../assets/fc/rate-f4v4-wiring.png" alt="RATE 接線圖" loading="lazy"></a><span>完整接線／端口表</span></div>
+    <div class="fig"><a href="../assets/fc/rate-f4-packing.png" target="_blank" rel="noopener"><img src="../assets/fc/rate-f4-packing.png" alt="RATE 配件" loading="lazy"></a><span>開箱配件（電容／XT30）</span></div>
+  </div>
+  <div class="prod">
+    <article class="card">
+      <a class="thumb" href="../assets/fc/rate-f4v4-wiring.png" target="_blank" rel="noopener"><img src="../assets/fc/rate-f4v4-wiring.png" alt="RATE F4V4 接線圖與端口設定" /></a>
+      <div class="body">
+        <span class="tag">接線圖 · 官方</span>
+        <h4>RATE F7／F4 32bit AIO 接線圖</h4>
+        <p>鏡頭、圖傳、LED、蜂鳴器、接收機、GPS 全部標好。球機最常用：ELRS→UART2、LED、蜂鳴器、電容。</p>
+      </div>
+    </article>
+    <article class="card">
+      <a class="thumb" href="../assets/fc/rate-f4-packing.png" target="_blank" rel="noopener"><img src="../assets/fc/rate-f4-packing.png" alt="RATE 配件清單" /></a>
+      <div class="body">
+        <span class="tag">開箱清單</span>
+        <h4>配件：減震球／排線／電容／XT30</h4>
+        <p>減震球 M2×6.6×5、尼龍螺母與墊片、sh1.0 排線、<b>35V 470µF 電容</b>、XT30 電源線。</p>
+      </div>
+    </article>
+  </div>
+  <div class="wide">
+  <table>
+    <thead><tr><th>外設</th><th>接法（官方圖）</th><th>球機備註</th></tr></thead>
+    <tbody>
+      <tr><td><b>LED 燈條</b></td><td><code>5V　GND　DIN→LED</code></td><td>WS2812 訊號進 LED 焊盤；環＋尾串成一路</td></tr>
+      <tr><td><b>蜂鳴器</b></td><td><code>5V　BB-</code></td><td>可開 visual beeper，低電燈也閃</td></tr>
+      <tr><td><b>ELRS／TBS 接收機</b></td><td><code>5V　GND　RX2　TX2</code></td><td>串口接收機；端口表 UART2＝Serial RX</td></tr>
+      <tr><td>SBUS 接收機</td><td><code>5V　GND　SBUS</code></td><td>走專用 SBUS 焊盤</td></tr>
+      <tr><td>攝像頭</td><td><code>5V　GND　VID</code></td><td>純對戰可不裝</td></tr>
+      <tr><td>類比圖傳</td><td>VBAT（7–26V）、GND、VID、DATA／SA</td><td>UART1＝VTX 控制（依協議選）</td></tr>
+      <tr><td>HD 圖傳（O4 等）</td><td>側邊 6pin（10V／VBAT、GND、UART）</td><td>UART4＝VTX（MSP＋DisplayPort）</td></tr>
+      <tr><td>GPS（選配）</td><td>UART3 或 UART5＋I2C</td><td>室內球機通常不裝</td></tr>
+      <tr class="critical-row"><td><b>濾波電容</b></td><td><b>35V 470µF</b> 焊在電池正負極旁</td><td><b>一定要焊；漏焊易壓降／燒板</b></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note warn" style="margin-top:8px">
+    <b>端口表注意（官方紅字）：</b>類比圖傳若走串口控制，對應 UART 勿關；有 MSP OSD 的串口也勿關，否則無 OSD。
+    球機若無圖傳／GPS，只要接好 <b>接收機＋LED＋蜂鳴器＋電容</b> 即可上場。
+  </div>
+
+  <h2 id="led-oxbot-wire">Oxbot Flow AIO45 接線／接口（焊哪裡）</h2>
+  <div class="note info" style="margin-top:0">
+    <p><b>球機怎麼讀原廠圖：</b>原廠示意常畫鏡頭、GPS、圖傳（穿越機用法）。本隊足球機<b>不裝圖傳／GPS／鏡頭</b>——只要焊好 <b>四顆馬達＋電池線＋LED（可直插）</b>，內建 ELRS 對頻即可。圖傳插座請關 <code>VTX BEC OFF</code>。</p>
+  </div>
+  <div class="figs" style="margin:12px 0">
+    <div class="fig"><a href="../assets/fc/oxbot-hero.jpg" target="_blank" rel="noopener"><img src="../assets/fc/oxbot-hero.jpg" alt="Oxbot 產品總覽" loading="lazy"></a><span>產品總覽</span></div>
+    <div class="fig"><a href="../assets/fc/oxbot-plug-play.jpg" target="_blank" rel="noopener"><img src="../assets/fc/oxbot-plug-play.jpg" alt="外設直插" loading="lazy"></a><span>外設直插（能插不焊）</span></div>
+    <div class="fig"><a href="../assets/fc/oxbot-pinout.jpg" target="_blank" rel="noopener"><img src="../assets/fc/oxbot-pinout.jpg" alt="接口與焊盤定義" loading="lazy"></a><span>正／背面接口定義</span></div>
+    <div class="fig"><a href="../assets/fc/oxbot-wiring-overview.png" target="_blank" rel="noopener"><img src="../assets/fc/oxbot-wiring-overview.png" alt="連接概覽" loading="lazy"></a><span>連接概覽（原廠）</span></div>
+    <div class="fig"><a href="../assets/fc/oxbot-solder-pads.jpg" target="_blank" rel="noopener"><img src="../assets/fc/oxbot-solder-pads.jpg" alt="圓形焊點" loading="lazy"></a><span>馬達／電源焊點</span></div>
+    <div class="fig"><a href="../assets/fc/oxbot-dual-gnd.jpg" target="_blank" rel="noopener"><img src="../assets/fc/oxbot-dual-gnd.jpg" alt="雙電源負極" loading="lazy"></a><span>雙電源負極焊盤</span></div>
+    <div class="fig"><a href="../assets/fc/oxbot-led-plug.jpg" target="_blank" rel="noopener"><img src="../assets/fc/oxbot-led-plug.jpg" alt="LED 直插" loading="lazy"></a><span>LED 直插（BEC 5V 4A）</span></div>
+  </div>
+  <div class="wide">
+  <table>
+    <thead><tr><th>項目</th><th>接法</th><th>球機備註</th></tr></thead>
+    <tbody>
+      <tr><td><b>馬達 M1–M4</b></td><td>四角焊盤（原廠稱約 14 個焊點含電池）</td><td>必焊；正反槳方向依機架</td></tr>
+      <tr><td><b>電池 VBAT</b></td><td>大焊盤 <code>+</code>／<code>-</code>（另有冗餘負極）</td><td>必焊；45°／90° 安裝可選較順的負極</td></tr>
+      <tr><td><b>LED 燈條</b></td><td>直插座：<code>5V　LED　GND</code>（可含蜂鳴器腳）</td><td>WS2812；BEC <b>5V 4A</b> 餘裕大，亮度仍建議 40–50%</td></tr>
+      <tr><td><b>接收機</b></td><td class="ok"><b>內建 ELRS</b>（U.FL 天線座）</td><td>對頻即可；外接 RX 焊盤僅備援</td></tr>
+      <tr><td>VTX／CAM／GPS</td><td>原廠有直插座</td><td class="no">球機不裝；關 VTX BEC</td></tr>
+      <tr class="critical-row"><td><b>圖傳供電</b></td><td><code>VTX BEC OFF</code></td><td>不裝圖傳必關，免空耗電／發熱</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note warn" style="margin-top:8px">
+    接口定義圖上的 UART：串口1＝藍牙、串口2＝高清圖傳 OSD、串口4＝接收機、串口7＝GPS。球機主要用內建 ELRS，不必為圖傳／GPS 開一堆埠。
+  </div>
+
+  <h2 id="led-cli">飛控設定重點（兩塊板分開看）</h2>
+  <h3>HAKRC F411（BLHeli_S）</h3>
+  <div class="wide">
+  <table>
+    <thead><tr><th>項目</th><th>設定</th><th>為什麼</th></tr></thead>
+    <tbody>
+      <tr><td>電調協議</td><td><b>Dshot300</b>（或 Dshot600）</td><td>BLHeli_S 支援到 Dshot600；F411 用 Dshot300 最穩</td></tr>
+      <tr><td>RPM 濾波</td><td class="no"><b>原廠不能開</b></td><td>原廠 BLHeli_S 不支援雙向 DShot。硬開會抓不到轉速甚至不起轉；要開必須先刷 <b>Bluejay</b>，且 F411 不是每個馬達腳位都保證可用</td></tr>
+      <tr><td>電流計比例</td><td><code>set ibata_scale = 210</code></td><td>官方標示 210</td></tr>
+      <tr><td>LED</td><td>亮度約 <b>40</b></td><td>BEC 只有 2A</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <pre>set ibata_scale = 210
+feature LED_STRIP
+set ledstrip_brightness = 40
+set ledstrip_visual_beeper = ON
+set vbat_warning_cell_voltage = 35
+set vbat_min_cell_voltage = 33
+save</pre>
+  <div class="note info" style="margin-top:8px">
+    原廠飛控固件 <code>HAKRCF411D</code>、電調 <code>BLHELI_S (G-H-30)</code>。刷之前先記下來。
+  </div>
+
+  <h3>RATE 瑞速 F4V4（AT32F435＋32bit 電調）</h3>
+  <div class="figs" style="margin:8px 0 12px">
+    <div class="fig"><a href="../assets/fc/rate-f4v4-wiring.png" target="_blank" rel="noopener"><img src="../assets/fc/rate-f4v4-wiring.png" alt="RATE 接線"></a><span>接線圖 →</span></div>
+    <div class="fig"><a href="../assets/fc/rate-f4v4-features.png" target="_blank" rel="noopener"><img src="../assets/fc/rate-f4v4-features.png" alt="特點"></a><span>藍牙／接收機直插</span></div>
+    <div class="fig"><a href="#led-rate-wire"><img src="../assets/fc/rate-f4v4-hero.png" alt="F4V4"></a><span>完整圖文（本頁上方）</span></div>
+  </div>
+  <div class="wide">
+  <table>
+    <thead><tr><th>項目</th><th>設定</th><th>為什麼</th></tr></thead>
+    <tbody>
+      <tr><td>電調協議</td><td><b>Dshot300／600</b>＋<b>雙向 DShot ON</b></td><td>32bit 電調支援；可開 RPM 濾波讓對抗更穩</td></tr>
+      <tr><td>RPM 濾波</td><td class="ok"><b>可開</b></td><td>這是相對 F411 的最大優勢</td></tr>
+      <tr><td>接收機（ELRS）</td><td>UART2＝Serial RX</td><td>線接 <code>5V GND RX2 TX2</code></td></tr>
+      <tr><td>LED</td><td>亮度約 40–50</td><td>BEC 5V 3A，餘裕比 F411 大</td></tr>
+      <tr><td>低壓警告</td><td>Warning 3.5V／Min 3.3V／芯</td><td>兩塊板相同</td></tr>
+      <tr><td>氣壓計</td><td>球機室內可關</td><td>不用高度模式就關</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <pre>feature LED_STRIP
+set ledstrip_brightness = 40
+set ledstrip_visual_beeper = ON
+set vbat_warning_cell_voltage = 35
+set vbat_min_cell_voltage = 33
+save</pre>
+  <div class="note info" style="margin-top:8px">
+    <p><b>學生注意：</b>AIO＝飛控與電調同一塊，省線省重，但<b>燒一路等於整塊換</b>。撞機後檢查四角 MOS。RATE 主控是 AT32，刷固件選廠商／對應 target，<b>勿用 STM32 F411 固件硬刷</b>。</p>
+    <p>開箱後先把 <b>470µF／35V 電容</b>焊在 XT30 電池端正負極（越靠近板越好）。</p>
+  </div>
+
+  <h3>牛博特 Oxbot Flow AIO45（內建 ELRS）</h3>
+  <div class="figs" style="margin:8px 0 12px">
+    <div class="fig"><a href="../assets/fc/oxbot-pinout.jpg" target="_blank" rel="noopener"><img src="../assets/fc/oxbot-pinout.jpg" alt="Oxbot 接口"></a><span>接口定義 →</span></div>
+    <div class="fig"><a href="../assets/fc/oxbot-led-plug.jpg" target="_blank" rel="noopener"><img src="../assets/fc/oxbot-led-plug.jpg" alt="LED"></a><span>LED 直插 →</span></div>
+    <div class="fig"><a href="#led-oxbot-wire"><img src="../assets/fc/oxbot-plug-play.jpg" alt="直插概覽"></a><span>完整接線圖（本頁上方）</span></div>
+  </div>
+  <div class="wide">
+  <table>
+    <thead><tr><th>項目</th><th>設定</th><th>為什麼</th></tr></thead>
+    <tbody>
+      <tr><td>Betaflight target</td><td><code>OXBOT_FLOW_AIO45</code></td><td>主控 AT32F435；<b>勿刷成 RATE 或 F411 的 target</b></td></tr>
+      <tr><td>電調協議</td><td><b>Dshot300／600</b>＋<b>雙向 DShot ON</b></td><td>OX32 32bit 支援；原廠預設已開 DShot telemetry</td></tr>
+      <tr><td>RPM 濾波</td><td class="ok"><b>可開</b></td><td>對抗震動大，開了較穩</td></tr>
+      <tr><td><b>接收機</b></td><td class="ok"><b>內建 ELRS，不用外接</b></td><td>只要把 ELRS 對頻（bind）；省一顆接收機與焊線</td></tr>
+      <tr><td>LED</td><td>亮度 40–50 都很寬裕</td><td>BEC <b>5V 4A</b>，三塊板中餘裕最大</td></tr>
+      <tr class="critical-row"><td><b>圖傳供電</b></td><td>球機不裝圖傳 → 務必開啟 <code>VTX BEC OFF</code></td><td>關閉圖傳 BEC，避免無用耗電與發熱</td></tr>
+      <tr><td>低壓警告</td><td>Warning 3.5V／Min 3.3V／芯</td><td>三塊板都一樣</td></tr>
+      <tr><td>氣壓計</td><td>DPS310；室內球機可關</td><td>不用高度模式就關</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note critical">
+    <b>上場前必查：</b>Oxbot 球機若沒有安裝圖傳，確認 <code>VTX BEC OFF</code> 已開啟。這個名稱的意思是「關閉圖傳 BEC 供電」。
+  </div>
+  <pre>feature LED_STRIP
+set ledstrip_brightness = 45
+set ledstrip_visual_beeper = ON
+set vbat_warning_cell_voltage = 35
+set vbat_min_cell_voltage = 33
+save</pre>
+  <div class="note info" style="margin-top:8px">
+    <b>內建 ELRS 的好處（對球機很實際）：</b>不用外接接收機＝少一條天線線、少一個撞機後鬆脫的點，也省約 1–2g。
+    對頻與刷 ELRS 固件的教學見
+    <a href="https://wiki.oxbot.cn/fc-esc/" target="_blank" rel="noopener">牛博特官方知識庫（飛控／電調）</a>。
+  </div>
+  <div class="note warn">
+    <b>重量提醒：</b>Oxbot <b>12.6g</b> 比 HAKRC 8.5g 重約 4g。掛上去後<b>整機一定要重秤</b>；靠近 300g 就把電池換小一號或改用較輕的板。
+  </div>
+
+  <div class="note bad">
+    <b>中場接電腦改飛控 LED 顏色＝幾乎不可能。</b>
+    timeout／set 間只有 1–3 分鐘。顏色必須賽前設好，或用遙控／硬體一鍵切換。
+  </div>
+</main>
+<footer class="site-footer">
+  <div class="inner">
+    <div>嘉華中學足球無人機俱樂部 · FAI F9A-B 配備手冊</div>
+    <div>
+      <a href="../index.html">首頁</a> ·
+      <a href="上場清單.html">上場清單</a> ·
+      <a href="../bfsim.html">設定模擬</a>
+    </div>
+  </div>
+</footer>
+<button type="button" id="back-top" aria-label="回到頂部">↑</button>
+<script src="../assets/site.js?v=7"></script>
+</body>
+</html>

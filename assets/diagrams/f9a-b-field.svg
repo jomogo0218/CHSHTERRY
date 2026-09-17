@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" role="img" aria-labelledby="t d">
+  <title id="t">FAI F9A-B field</title>
+  <desc id="d">Cage 6x3x3 m, goal diameter 40 cm, setback 1 m</desc>
+  <rect width="720" height="420" fill="#0b1220"/>
+  <text x="28" y="36" fill="#e2e8f0" font-family="Segoe UI, Microsoft JhengHei, sans-serif" font-size="20" font-weight="700">FAI F9A-B &#x5834;&#x5730;&#x793A;&#x610F;</text>
+  <text x="28" y="60" fill="#94a3b8" font-family="Segoe UI, Microsoft JhengHei, sans-serif" font-size="13">&#x9577; 6 m &#xB7; &#x5BEC; 3 m &#xB7; &#x9AD8; 3 m &#xB7; &#x7403;&#x9580; &#xD8;40 cm &#xB7; &#x9000;&#x7E2E; 1 m</text>
+
+  <rect x="80" y="100" width="560" height="260" rx="8" fill="#111827" stroke="#38bdf8" stroke-width="3"/>
+  <line x1="360" y1="100" x2="360" y2="360" stroke="#334155" stroke-width="2" stroke-dasharray="8 8"/>
+
+  <circle cx="140" cy="230" r="28" fill="none" stroke="#f87171" stroke-width="5"/>
+  <circle cx="580" cy="230" r="28" fill="none" stroke="#60a5fa" stroke-width="5"/>
+  <text x="140" y="235" text-anchor="middle" fill="#fecaca" font-family="Segoe UI, Microsoft JhengHei, sans-serif" font-size="11" font-weight="700">&#xD8;40</text>
+  <text x="580" y="235" text-anchor="middle" fill="#bfdbfe" font-family="Segoe UI, Microsoft JhengHei, sans-serif" font-size="11" font-weight="700">&#xD8;40</text>
+
+  <line x1="80" y1="380" x2="140" y2="380" stroke="#64748b" stroke-width="2"/>
+  <text x="110" y="398" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, Microsoft JhengHei, sans-serif" font-size="12">&#x9000;&#x7E2E; 1 m</text>
+  <line x1="580" y1="380" x2="640" y2="380" stroke="#64748b" stroke-width="2"/>
+  <text x="610" y="398" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, Microsoft JhengHei, sans-serif" font-size="12">&#x9000;&#x7E2E; 1 m</text>
+
+  <text x="360" y="90" text-anchor="middle" fill="#7dd3fc" font-family="Segoe UI, Microsoft JhengHei, sans-serif" font-size="14" font-weight="700">&#x9577; 6 m</text>
+  <text x="58" y="240" text-anchor="middle" fill="#7dd3fc" font-family="Segoe UI, Microsoft JhengHei, sans-serif" font-size="14" font-weight="700" transform="rotate(-90 58 240)">&#x5BEC; 3 m</text>
+  <text x="660" y="230" fill="#94a3b8" font-family="Segoe UI, Microsoft JhengHei, sans-serif" font-size="13">&#x9AD8; 3 m</text>
+
+  <rect x="80" y="70" width="120" height="22" rx="4" fill="#1e293b" stroke="#475569"/>
+  <text x="140" y="85" text-anchor="middle" fill="#cbd5e1" font-family="Segoe UI, Microsoft JhengHei, sans-serif" font-size="11">&#x98DB;&#x624B;&#x5340; A</text>
+  <rect x="520" y="70" width="120" height="22" rx="4" fill="#1e293b" stroke="#475569"/>
+  <text x="580" y="85" text-anchor="middle" fill="#cbd5e1" font-family="Segoe UI, Microsoft JhengHei, sans-serif" font-size="11">&#x98DB;&#x624B;&#x5340; B</text>
+
+  <text x="28" y="412" fill="#64748b" font-family="Segoe UI, Microsoft JhengHei, sans-serif" font-size="11">&#x793A;&#x610F;&#x5716;&#xFF1B;&#x4EE5; FAI &#x5B98;&#x65B9;&#x898F;&#x5247;&#x70BA;&#x6E96;</text>
+</svg>

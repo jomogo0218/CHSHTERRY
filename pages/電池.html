@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
+<title>電池 · 嘉華足球無人機配備手冊</title>
+<link rel="stylesheet" href="../assets/site.css?v=7" />
+</head>
+<body class="is-page">
+<div class="bg-logo" aria-hidden="true"></div>
+<a class="skip-link" href="#main">跳至主要內容</a>
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="../index.html">
+      <img src="../assets/brand/chia-hwa-drone-team.png?v=7" alt="" width="64" height="36" />
+      <div class="brand-text">
+        <strong>嘉華中學足球無人機俱樂部</strong>
+        <span>配備手冊 · FAI F9A-B</span>
+      </div>
+    </a>
+    <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="siteNav">選單</button>
+    <nav class="site-nav" id="siteNav" aria-label="主要導覽">
+      <a href="../index.html">首頁</a>
+      <span class="nav-label">認識</span>
+      <a href="影片欣賞.html">影片欣賞</a>
+      <a href="新手入門.html">新手入門</a>
+      <a href="足球無人機技術全解簡報.html">技術全解</a>
+      <span class="nav-label">規則</span>
+      <a href="規則檢錄.html">規則檢錄</a>
+      <a href="FAI_F9A_2026_繁中譯本.html">FAI 譯本</a>
+      <a href="有刷空心杯.html">有刷／空心杯</a>
+      <span class="nav-label">配備</span>
+      <a href="馬達.html">馬達</a>
+      <a class="on" href="電池.html">電池</a>
+      <a href="螺旋槳.html">螺旋槳</a>
+      <span class="nav-label">整機</span>
+      <a href="組裝.html">組裝</a>
+      <a href="續航.html">續航</a>
+      <span class="nav-label">系統</span>
+      <a href="飛控硬體.html">飛控硬體</a>
+      <a href="飛控設定.html">飛控設定</a>
+      <a href="LED.html">LED</a>
+      <a href="遙控器採購分析.html">遙控器</a>
+      <a href="../bfsim.html">設定模擬</a>
+      <span class="nav-label">上場</span>
+      <a href="上場清單.html">上場清單</a>
+      <span class="nav-label">圖鑑</span>
+      <a href="飛控AIO產品圖鑑.html">AIO 圖鑑</a>
+      <a href="電池產品圖鑑.html">電池圖鑑</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap" id="main">
+<div class="page-banner">
+  <div class="crumb"><a href="../index.html">首頁</a> / 配備 / 電池</div>
+  <div>
+    <h1>電池</h1>
+    <p class="lead">約 100g 高 C、電壓與續航。</p>
+  </div>
+</div>
+
+  <p class="lead">預算約 100g，一定要高 C。3S／4S 都可用，但用途不同。名詞看不懂先讀 <a href="新手入門.html#batt">新手入門 · 電池</a>。</p>
+
+  <article class="media-explain">
+    <figure class="media-explain-pic">
+      <a href="../assets/batteries/tattu-v5-850.png" target="_blank" rel="noopener"><img src="../assets/batteries/tattu-v5-850.png" alt="Tattu V5 850 4S 高 C" loading="lazy" /></a>
+      <figcaption>高 C 示例：Tattu V5 850（點圖放大）</figcaption>
+    </figure>
+    <div class="media-explain-body">
+      <h3>為什麼一直講「高 C」？</h3>
+      <p>足球機常突然催油門頂人，電池要能瞬間吐出大電流。C 數太低時，電壓容易瞬間掉下去，飛控可能重開、動力變軟。本隊 F9A-B 還有電壓上限：最高 4S、單芯 ≤4.25 V。</p>
+      <p>更多產品照見 <a href="電池產品圖鑑.html">電池圖鑑</a>；下方表格是選型與風險說明。</p>
+    </div>
+  </article>
+
+  <nav class="toc" aria-label="電池本章目錄">
+    <span class="toc-label">本章目錄</span>
+    <a href="#batt-voltage">3S／4S 電壓表</a>
+    <a href="#batt-over">過放風險</a>
+    <a href="#batt-owned">本隊已購</a>
+    <a href="#batt-4s">4S 建議</a>
+    <a href="#batt-3s">3S 備選</a>
+    <a class="go" href="續航.html#build-endurance">馬達＋電池能飛多久 →</a>
+  </nav>
+
+  <div class="note warn">
+    <p><b>為什麼一定要高 C：</b>1408 級滿載約 20A／顆；<b>1507 滿載 24.6A／顆</b> → 四軸爆發可到 <b>80–100A</b>。</p>
+    <p>公式 <b>持續電流 ≈ 容量(Ah) × C</b>：850mAh×95C ≈ 81A 對 1507 <span class="no">偏緊</span>；
+    850mAh×150C ≈ 128A 才夠。</p>
+    <p>配 1507 請直接上 <b>V5 150C 或 GNB 120C</b>，不要用 650／750 低容量。</p>
+  </div>
+
+  <h2 id="batt-voltage">3S／4S 電壓表（飛控／檢錄用）</h2>
+  <p>單位為單芯與整包。FAI 比賽滿電單芯上限 <b>4.25 V</b>（LiHV 不可充到 4.35V 上場）。</p>
+  <div class="wide">
+  <table>
+    <thead>
+      <tr>
+        <th>項目</th>
+        <th class="n">單芯</th>
+        <th class="n">3S 整包</th>
+        <th class="n">4S 整包</th>
+        <th>用途</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><b>最高（滿電／檢錄）</b></td><td class="n">4.25 V</td><td class="n">12.75 V</td><td class="n">17.00 V</td><td>FAI 上限；超過違規</td></tr>
+      <tr><td>標稱（休息電壓約）</td><td class="n">3.70–3.80 V</td><td class="n">11.1–11.4 V</td><td class="n">14.8–15.2 V</td><td>規格標示常用</td></tr>
+      <tr><td><b>警告 Warning（建議）</b></td><td class="n">3.50–3.60 V</td><td class="n">10.5–10.8 V</td><td class="n">14.0–14.4 V</td><td>LED 紅閃提醒減油／換電</td></tr>
+      <tr><td><b>最低 Minimum（建議）</b></td><td class="n">3.30 V</td><td class="n">9.90 V</td><td class="n">13.20 V</td><td>再低易過放；落地換電</td></tr>
+      <tr><td>儲存</td><td class="n">3.80–3.85 V</td><td class="n">11.4–11.55 V</td><td class="n">15.2–15.4 V</td><td>賽後／長期存放</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <small>Betaflight CLI 單位常為 0.1V：例 <code>vbat_warning_cell_voltage = 35</code>（＝3.5V／芯）、<code>vbat_min_cell_voltage = 33</code>。猛加油瞬間壓降可能短暫紅閃屬正常。</small>
+
+  <h2 id="batt-over">電池過放（學生最常毀電的原因）</h2>
+  <div class="note bad">
+    <b>過放＝電壓被拉太低還繼續飛。</b>
+    損害通常不可逆——不是「充飽就好」。檢錄只有 9 顆電，一顆打穿就少一顆；硬撐會讓整隊電池陸續報廢。
+  </div>
+
+  <h3>多少伏特要提醒？（請背這張表）</h3>
+  <p>以落地後休息 <b>1–2 分鐘</b>再量的電壓為準（飛行中猛油會暫時更低，那叫壓降）。單位：單芯／整包。</p>
+  <div class="wide">
+  <table>
+    <thead>
+      <tr>
+        <th>等級</th>
+        <th class="n">單芯</th>
+        <th class="n">3S</th>
+        <th class="n">4S</th>
+        <th>學生要做什麼</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b class="ok">安全區</b></td>
+        <td class="n">≥ 3.60 V</td>
+        <td class="n">≥ 10.8 V</td>
+        <td class="n">≥ 14.4 V</td>
+        <td>可正常飛；set 結束仍建議換電輪替</td>
+      </tr>
+      <tr>
+        <td><b style="color:var(--warn)">警告區（開始提醒）</b></td>
+        <td class="n"><b>3.50–3.59 V</b></td>
+        <td class="n"><b>10.5–10.77 V</b></td>
+        <td class="n"><b>14.0–14.36 V</b></td>
+        <td>LED 應紅閃；<b>減油、少硬頂</b>；能落地就換。飛控 Warning 建議設 <b>3.50–3.55 V／芯</b></td>
+      </tr>
+      <tr>
+        <td><b class="no">危險區（立刻停）</b></td>
+        <td class="n"><b>≤ 3.30 V</b></td>
+        <td class="n"><b>≤ 9.9 V</b></td>
+        <td class="n"><b>≤ 13.2 V</b></td>
+        <td><b>立刻落地、換電</b>；這顆本場勿再上場。飛控 Min 建議 <b>3.30 V／芯</b></td>
+      </tr>
+      <tr>
+        <td><b class="no">報廢邊緣</b></td>
+        <td class="n"><b>≤ 3.00 V</b></td>
+        <td class="n"><b>≤ 9.0 V</b></td>
+        <td class="n"><b>≤ 12.0 V</b></td>
+        <td>極可能已傷芯；檢查鼓包；充電器拒充就淘汰。<b>禁止再飛</b></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note warn" style="margin-top:10px">
+    <p><b>一句話給學生：</b>4S 落地休息後若低於 <b>14.0 V</b> 就要小心；低於 <b>13.2 V</b> ＝這顆打太深，立刻換下來；低於 <b>12.0 V</b> ＝當壞電處理。</p>
+    <p>3S 對應：小心 <b>10.5 V</b>、停飛 <b>9.9 V</b>、報廢邊緣 <b>9.0 V</b>。</p>
+  </div>
+
+  <h3>會發生什麼</h3>
+  <div class="wide">
+  <table>
+    <thead><tr><th>現象</th><th>對比賽／電池的影響</th></tr></thead>
+    <tbody>
+      <tr><td>休息後單芯常在 <b>3.3 V</b> 上下</td><td>化學損傷開始；容量變小、內阻變大、下次更容易壓降</td></tr>
+      <tr><td>單芯到約 <b>3.0 V</b> 以下還在飛</td><td>高風險鼓包、永久報廢；部分充電器拒絕充電</td></tr>
+      <tr><td>一芯明顯比其他低（不平衡）</td><td>整包更易過放；平衡充；嚴重則報廢</td></tr>
+      <tr><td>飛行中突然沒力、重開機、失控落地</td><td>欠壓＋高電流；當場失分，也可能燒 ESC／接頭</td></tr>
+      <tr><td>鼓包、發燙、異味</td><td><b>立即停用</b>；隔離冷卻，勿繼續充放電</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>為什麼足球機特別容易過放</h3>
+  <ul>
+    <li><b>850mAh 很小</b>：對抗局平均十數安培，理論續航本來就卡在 3 分鐘邊緣。</li>
+    <li><b>1507／1408 電流大</b>：猛頂瞬間壓降劇烈，燈號會比「靜止電壓」更早警告。</li>
+    <li><b>看不見遙控電壓</b>：只能靠 LED 紅閃——沒開警告＝不知道在過放。</li>
+    <li><b>捨不得換電</b>：9 顆電若不輪替，同一顆連打多 set 最容易打穿。</li>
+  </ul>
+
+  <h3>防過放規則（請背）</h3>
+  <div class="wide">
+  <table>
+    <thead><tr><th>時機</th><th>學生要做的</th><th>底線</th></tr></thead>
+    <tbody>
+      <tr><td><b>賽前飛控</b></td><td>Warning <b>3.50–3.55V／芯</b>、Min <b>3.30V／芯</b>＋LED <b>W</b> 覆蓋</td><td>沒紅閃＝不上場</td></tr>
+      <tr><td><b>飛行中</b></td><td>紅閃一直閃 → 減油、回邊、落地換電；不要為搶球硬撐</td><td>紅閃＝進入警告區</td></tr>
+      <tr><td><b>每個 set 結束</b></td><td><b>強制換電</b>（尤其攻擊機）；量休息電壓寫進編號本</td><td>同一顆不連打 2 set</td></tr>
+      <tr><td><b>落地量電壓</b></td><td>休息 1–2 分；4S 目標仍 ≥14.4V；&lt;14.0 小心；&lt;13.2 本場淘汰該顆</td><td>用上面色階表判定</td></tr>
+      <tr><td><b>充電</b></td><td>涼了再平衡充；鼓包／拒充就淘汰</td><td>熱充加重損傷</td></tr>
+      <tr><td><b>收納</b></td><td>賽後儲存 3.80–3.85V／芯；禁止空包裝隔夜</td><td>空包裝＝慢性過放</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="note warn">
+    <b>與「瞬間壓降」分辨：</b>猛加油紅閃一下、鬆油就恢復＝正常。
+    <b>一直紅閃、落地休息後仍落在警告／危險區</b>＝真的打太深，換電並檢查鼓包。
+  </div>
+  <div class="note info">
+    低壓紅閃 CLI 見
+    <a class="go" href="LED.html#led-lowbat">LED · 低壓紅閃</a>。
+  </div>
+
+  <h2 id="batt-owned">本隊已購電池</h2>
+  <div class="note info" style="margin-top:0">
+    <p>含先前挑選的 <b>Tattu／GNB 等高 C 包</b>、新購入的 <b>OVONIC 歐牌・球機電池</b>（960／1060），以及 <b>格氏／Tattu 200／220mm 足球機專用 1100mAh 4S</b>。</p>
+    <p>OVONIC 商品標題若另有紅標 1550／綠標 Pro 850，那是 5 吋穿越機系列，勿與球機包搞混。</p>
+  </div>
+
+  <h3>電池容量比較</h3>
+  <div class="card">
+    <div class="bars-peak bars-lab-wide">
+      <div class="row"><div class="lab">Tattu 球機 1100<span>4S · 110／120C</span></div><div class="track"><i class="ok" style="width:100%"></i></div><div class="val">1100mAh</div></div>
+      <div class="row"><div class="lab">OVONIC 1060<span>4S · 150C</span></div><div class="track"><i class="ok" style="width:96.4%"></i></div><div class="val">1060mAh</div></div>
+      <div class="row"><div class="lab">OVONIC 960<span>4S · 150C</span></div><div class="track"><i style="width:87.3%"></i></div><div class="val">960mAh</div></div>
+      <div class="row"><div class="lab">Tattu V5／GNB 850<span>4S · 120–150C</span></div><div class="track"><i style="width:77.3%"></i></div><div class="val">850mAh</div></div>
+      <div class="row"><div class="lab">Tattu 750<span>4S · 95C</span></div><div class="track"><i class="warn" style="width:68.2%"></i></div><div class="val">750mAh</div></div>
+      <div class="row"><div class="lab">Tattu 650<span>4S · 95C</span></div><div class="track"><i class="warn" style="width:59.1%"></i></div><div class="val">650mAh</div></div>
+    </div>
+    <small>條長＝相對 1100mAh。容量越大通常飛得越久，但仍要確認整機不超過 300g。</small>
+  </div>
+
+  <h3>電池持續供電能力</h3>
+  <div class="card">
+    <div class="bars-peak bars-lab-wide">
+      <div class="row"><div class="lab">OVONIC 1060<span>4S · 150C</span></div><div class="track"><i class="ok" style="width:100%"></i></div><div class="val">約 159A</div></div>
+      <div class="row"><div class="lab">OVONIC 960<span>4S · 150C</span></div><div class="track"><i class="ok" style="width:90.6%"></i></div><div class="val">約 144A</div></div>
+      <div class="row"><div class="lab">Tattu 球機 1100<span>4S · 110／120C</span></div><div class="track"><i class="ok" style="width:83%"></i></div><div class="val">121–132A</div></div>
+      <div class="row"><div class="lab">Tattu V5 850<span>4S · 150C</span></div><div class="track"><i class="ok" style="width:80.2%"></i></div><div class="val">約 128A</div></div>
+      <div class="row"><div class="lab">GNB 850<span>4S · 120C</span></div><div class="track"><i style="width:64.2%"></i></div><div class="val">約 102A</div></div>
+      <div class="row"><div class="lab">Tattu 850<span>4S · 95C</span></div><div class="track"><i class="warn" style="width:50.8%"></i></div><div class="val">約 81A</div></div>
+      <div class="row"><div class="lab">Tattu 750<span>4S · 95C</span></div><div class="track"><i class="warn" style="width:44.8%"></i></div><div class="val">約 71A</div></div>
+      <div class="row"><div class="lab">Tattu 650<span>4S · 95C</span></div><div class="track"><i class="bad" style="width:38.9%"></i></div><div class="val">約 62A</div></div>
+    </div>
+    <small>公式＝容量(Ah)×C。這是標示值的粗算，不代表電池實際一定能長時間輸出；1507 優先使用 120–150C。</small>
+  </div>
+
+  <div class="wide">
+  <table>
+    <thead>
+      <tr>
+        <th>型號</th>
+        <th class="n">容量</th>
+        <th class="n">C</th>
+        <th class="n">持續電流粗估</th>
+        <th class="n">重量</th>
+        <th>接頭</th>
+        <th>學生怎麼用</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>OVONIC 球機電池 4S1P</b></td>
+        <td class="n"><b>960</b></td>
+        <td class="n"><b>150C</b></td>
+        <td class="n">~144 A</td>
+        <td class="n">需實秤（估 ~105–120g）</td>
+        <td>XT30</td>
+        <td>攻擊／硬防主力候選；容量比 850 多約 13%，較利 3 分鐘局</td>
+      </tr>
+      <tr>
+        <td><b>OVONIC 球機電池 4S1P</b></td>
+        <td class="n"><b>1060</b></td>
+        <td class="n"><b>150C</b></td>
+        <td class="n">~159 A</td>
+        <td class="n">需實秤（估 ~115–130g）</td>
+        <td>XT30</td>
+        <td>續航最寬；但重量可能擠壓 300g，<b>上機前一定要整機實秤</b></td>
+      </tr>
+      <tr>
+        <td><b>Tattu／格氏 200 球機專用 4S</b></td>
+        <td class="n"><b>1100</b></td>
+        <td class="n"><b>110C 或 120C</b></td>
+        <td class="n">~121／132 A</td>
+        <td class="n"><b>92g（110C）／101g（120C）</b></td>
+        <td>XT30</td>
+        <td>官方 220／200mm 足球機系列；容量大且意外地輕，先看外包裝是 110C 還是 120C</td>
+      </tr>
+      <tr>
+        <td>Tattu R-Line V5 4S（先前挑選）</td>
+        <td class="n">850</td>
+        <td class="n">150C</td>
+        <td class="n">~128 A</td>
+        <td class="n">~100 g</td>
+        <td>XT30</td>
+        <td>重量最穩；配 1507 仍可優先考慮</td>
+      </tr>
+      <tr>
+        <td>GNB／Tattu 750–850 等（先前挑選）</td>
+        <td class="n">750–850</td>
+        <td class="n">95–120C</td>
+        <td class="n">~71–102 A</td>
+        <td class="n">~84–100 g</td>
+        <td>XT30</td>
+        <td>防禦／省重；見下方 4S 清單</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note info">
+    <b>接頭統一：</b>本隊動力線一律 <b>XT30</b>（飛控板端與電池端相同）。4S 已購與建議款皆為 XT30；3S 備選也請買 XT30 版。
+  </div>
+  <div class="note warn">
+    <p><b>重量紅線：</b>OVONIC 960／1060 請實秤「含接頭」；Tattu 球機 1100 官方標稱 92g 或 101g（依 C 數），仍建議實秤確認。</p>
+    <p>1060 若偏重，攻擊機優先 960、Tattu 1100 或 850／150C。</p>
+  </div>
+  <div class="note info">
+    <p><b>換電是固定流程：</b>一 set 約 3 分鐘結束＝<b>一定換一顆</b>（9 顆電就是為這個準備的），不用糾結「這顆還能不能再打一局」。</p>
+    <p>容量差只影響<b>局內餘裕</b>：相對 850，960 約 +13%、1060 約 +25%、1100 約 +29%——猛攻時比較不會中途紅閃／壓垮，不是用來少換電。</p>
+  </div>
+
+  <h2 id="batt-4s">4S 建議（主力比賽）</h2>
+  <div class="prod">
+    <article class="card">
+      <div class="body" style="padding-left:16px">
+        <span class="tag">本隊已購 · 球機專用</span>
+        <h4>OVONIC 歐牌 960mAh 4S 150C（球機電池）</h4>
+        <div class="stats">
+          <div class="stat"><b>960</b><span>mAh</span></div>
+          <div class="stat"><b>150C</b><span>放電</span></div>
+          <div class="stat"><b>實秤</b><span>重量</span></div>
+          <div class="stat"><b>~144A</b><span>持續</span></div>
+        </div>
+        <p>XT30 · 高輸出 FPV 球機款。C 與 V5 同級，容量更大，利於撐局；買到先實秤再定攻擊／防禦分配。</p>
+      </div>
+    </article>
+    <article class="card">
+      <div class="body" style="padding-left:16px">
+        <span class="tag">本隊已購 · 球機專用</span>
+        <h4>OVONIC 歐牌 1060mAh 4S 150C（球機電池）</h4>
+        <div class="stats">
+          <div class="stat"><b>1060</b><span>mAh</span></div>
+          <div class="stat"><b>150C</b><span>放電</span></div>
+          <div class="stat"><b>實秤</b><span>重量</span></div>
+          <div class="stat"><b>~159A</b><span>持續</span></div>
+        </div>
+        <p>XT30 · 續航最強的已購包之一。務必整機含此電實秤 ≤300g；超重就改掛 960／Tattu 1100／850。</p>
+      </div>
+    </article>
+    <article class="card">
+      <div class="body" style="padding-left:16px">
+        <span class="tag">本隊已購 · 格氏 Tattu 球機</span>
+        <h4>Tattu 200／220mm 足球機專用 1100mAh 4S</h4>
+        <div class="stats">
+          <div class="stat"><b>1100</b><span>mAh</span></div>
+          <div class="stat"><b>110／120C</b><span>放電</span></div>
+          <div class="stat"><b>92／101g</b><span>官方重</span></div>
+          <div class="stat"><b>~121–132A</b><span>持續</span></div>
+        </div>
+        <p>XT30 · 格瑞普／Tattu 官方「200 球機」系列（220mm 競賽常用）。
+          110C 版約 <b>92g</b>（64×28×32mm）、120C 版約 <b>101g</b>（64×28.5×35mm）。
+          請看包裝標籤確認是哪一款；C 低於 150 但仍夠 1408／DYH，配 1507 爆發略緊於 V5／Ovonic 150C。</p>
+      </div>
+    </article>
+
+    <article class="card">
+      <a class="thumb" href="../assets/batteries/tattu-v5-850.png" target="_blank" rel="noopener"><img src="../assets/batteries/tattu-v5-850.png" alt="Tattu R-Line V5 850mAh 4S 150C" /></a>
+      <div class="body">
+        <span class="tag">#1 推薦 · 攻擊／主力</span>
+        <h4>Tattu R-Line V5 850mAh 4S 150C</h4>
+        <div class="stats">
+          <div class="stat"><b>850</b><span>mAh</span></div>
+          <div class="stat"><b>150C</b><span>放電</span></div>
+          <div class="stat"><b>100g</b><span>重量</span></div>
+          <div class="stat"><b>~128A</b><span>持續</span></div>
+        </div>
+        <p>59×30×32mm · XT30 · 卡在 100g 預算，C 值最高。硬對抗建議。
+          <a href="https://genstattu.com/tattu-r-line-version-5-0-850mah-4s-150c-14-8v-lipo-battery-pack-with-xt30u-f-plug/" target="_blank" rel="noopener">原廠頁</a></p>
+      </div>
+    </article>
+
+    <article class="card">
+      <a class="thumb" href="../assets/batteries/gnb-850.jpg" target="_blank" rel="noopener"><img src="../assets/batteries/gnb-850.jpg" alt="GNB 850mAh 4S 120C LiHV" /></a>
+      <div class="body">
+        <span class="tag">#2 推薦 · 省重</span>
+        <h4>GNB 850mAh 4S 120C LiHV</h4>
+        <div class="stats">
+          <div class="stat"><b>850</b><span>mAh</span></div>
+          <div class="stat"><b>120C</b><span>放電</span></div>
+          <div class="stat"><b>~88g</b><span>重量</span></div>
+          <div class="stat"><b>~102A</b><span>持續</span></div>
+        </div>
+        <p>比 V5 省 12g，可留給框架或 LED。LiHV 比賽只能充到 4.25V／芯。
+          <a href="https://www.hobbyrc.co.uk/gnb-850mah-4s-120c-lihv-battery-xt30" target="_blank" rel="noopener">經銷頁</a></p>
+      </div>
+    </article>
+
+    <article class="card">
+      <a class="thumb" href="../assets/batteries/tattu-750.jpg" target="_blank" rel="noopener"><img src="../assets/batteries/tattu-750.jpg" alt="Tattu R-Line 750mAh 4S 95C" /></a>
+      <div class="body">
+        <span class="tag">#3 推薦 · 硬防常用</span>
+        <h4>Tattu R-Line 750mAh 4S 95C</h4>
+        <div class="stats">
+          <div class="stat"><b>750</b><span>mAh</span></div>
+          <div class="stat"><b>95C</b><span>放電</span></div>
+          <div class="stat"><b>~84g</b><span>重量</span></div>
+          <div class="stat"><b>~71A</b><span>持續</span></div>
+        </div>
+        <p>官網歸在 Drone Soccer；評價提到可撐完 3 分鐘一節。
+          <a href="https://genstattu.com/ta-rl-95c-750-4s1p-xt30.html" target="_blank" rel="noopener">原廠頁</a></p>
+      </div>
+    </article>
+
+    <article class="card">
+      <a class="thumb" href="../assets/batteries/tattu-850-95c.jpg" target="_blank" rel="noopener"><img src="../assets/batteries/tattu-850-95c.jpg" alt="Tattu R-Line 850mAh 4S 95C" /></a>
+      <div class="body">
+        <span class="tag">#4</span>
+        <h4>Tattu R-Line 850mAh 4S 95C</h4>
+        <div class="stats">
+          <div class="stat"><b>850</b><span>mAh</span></div>
+          <div class="stat"><b>95C</b><span>放電</span></div>
+          <div class="stat"><b>~100g</b><span>重量</span></div>
+          <div class="stat"><b>~81A</b><span>持續</span></div>
+        </div>
+        <p>與 V5 同重同容量但 C 較低，能買到 V5 就不必選這顆。
+          <a href="https://genstattu.com/tattu-r-line-850mah-14-8v-95c-4s1p-lipo-battery-pack-with-xt30-plug.html" target="_blank" rel="noopener">原廠頁</a></p>
+      </div>
+    </article>
+
+    <article class="card">
+      <a class="thumb" href="../assets/batteries/tattu-650.jpg" target="_blank" rel="noopener"><img src="../assets/batteries/tattu-650.jpg" alt="Tattu R-Line 650mAh 4S 95C" /></a>
+      <div class="body">
+        <span class="tag">#5 · 輕量／替補</span>
+        <h4>Tattu R-Line 650mAh 4S 95C</h4>
+        <div class="stats">
+          <div class="stat"><b>650</b><span>mAh</span></div>
+          <div class="stat"><b>95C</b><span>放電</span></div>
+          <div class="stat"><b>~78g</b><span>重量</span></div>
+          <div class="stat"><b>~62A</b><span>持續</span></div>
+        </div>
+        <p>最輕的 4S 選項，但 62A 對 1408 四軸對抗局略吃緊。
+          <a href="https://genstattu.com/tattu-r-line-95c-650mah-4s1p-xt30-plug-lipo-battery.html" target="_blank" rel="noopener">原廠頁</a></p>
+      </div>
+    </article>
+  </div>
+
+  <h2 id="batt-3s">3S 備選（輕量防禦）</h2>
+  <p>同重量下容量比 4S 大 → 續航較長；但電壓低 → 射門與硬頂弱於 4S。
+    <b>本隊動力線統一 XT30</b>（含飛控板端與電池端），買 3S 請選 <b>XT30 版</b>；不要買 XT60 再轉接（轉接有電阻與鬆脫風險）。</p>
+  <div class="wide">
+  <table>
+    <thead><tr><th>#</th><th>型號</th><th class="n">容量</th><th class="n">C</th><th class="n">重量</th><th class="n">持續電流</th><th>接頭</th></tr></thead>
+    <tbody>
+      <tr><td class="n">1</td><td>CNHL Black 1100</td><td class="n">1100</td><td class="n">100C</td><td class="n">~115 g</td><td class="n">~110 A</td><td>XT30（請選）</td></tr>
+      <tr><td class="n">2</td><td>ManiaX 750 同級</td><td class="n">750</td><td class="n">100C</td><td class="n">~68 g</td><td class="n">~75 A</td><td>XT30（請選）</td></tr>
+      <tr><td class="n">3</td><td>Fullymax 1300</td><td class="n">1300</td><td class="n">100C</td><td class="n">~117 g</td><td class="n">~130 A</td><td>XT30（請選）</td></tr>
+      <tr><td class="n">4</td><td>Tattu Funfly 1300</td><td class="n">1300</td><td class="n">100C</td><td class="n">~113 g</td><td class="n">~130 A</td><td>XT30（請選）</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="note bad">
+    <p><b>不要買：</b>一般穿越機用的重型 <b>4S 1100mAh</b>（如 CNHL Black 約 146g）會擠爆 300g。</p>
+    <p>例外：<b>Tattu／格氏「足球機專用」1100</b>（官方 92／101g）屬輕量球機系列，與重型 1100 不是同一種。</p>
+  </div>
+
+  <div class="note warn">
+    <p><b>比賽充電：</b>FAI 單芯上限 <b>4.25V</b>。LiHV 雖可充到 4.35V，比賽時只能充到 4.20–4.25V。平時儲存 3.80–3.85V／芯。<b>打完勿空包裝隔夜</b>（等於慢性過放）。</p>
+    <p>標稱重量常有 ±10–20g，買到請實秤。</p>
+  </div>
+</main>
+<footer class="site-footer">
+  <div class="inner">
+    <div>嘉華中學足球無人機俱樂部 · FAI F9A-B 配備手冊</div>
+    <div>
+      <a href="../index.html">首頁</a> ·
+      <a href="上場清單.html">上場清單</a> ·
+      <a href="../bfsim.html">設定模擬</a>
+    </div>
+  </div>
+</footer>
+<button type="button" id="back-top" aria-label="回到頂部">↑</button>
+<script src="../assets/site.js?v=7"></script>
+</body>
+</html>

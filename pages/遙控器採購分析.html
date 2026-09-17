@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
+  <title>遙控器採購分析 · F9A-B 球機 · 全品牌目錄</title>
+  <style>
+    :root {
+      --bg: #eef2f6;
+      --card: #ffffff;
+      --text: #0f1724;
+      --muted: #64748b;
+      --line: #d5dee8;
+      --accent: #0477a8;
+      --ok: #0f7a4d;
+      --warn: #9a6700;
+      --no: #b42318;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Noto Sans TC", "Sora", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      background: linear-gradient(180deg, rgba(4,119,168,.06), transparent 28%), var(--bg);
+      color: var(--text);
+      font-size: 17px;
+      line-height: 1.55;
+      padding: 0 0 72px;
+    }
+    .topbar {
+      position: sticky; top: 0; z-index: 10;
+      background: rgba(247,249,252,.94);
+      border-bottom: 1px solid var(--line);
+      padding: 10px 16px;
+      display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center;
+    }
+    .topbar a { color: var(--accent); text-decoration: none; font-weight: 600; font-size: 14px; }
+    .topbar .brand { font-weight: 800; margin-right: 4px; font-size: 15px; }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 28px 20px 0; }
+    h1 { font-size: 28px; margin: 0 0 8px; line-height: 1.3; }
+    h2 { font-size: 22px; margin: 36px 0 12px; }
+    h3 { font-size: 17px; margin: 18px 0 8px; color: #c8d2e0; }
+    .sub { color: var(--muted); font-size: 16px; margin: 0 0 20px; }
+    .note {
+      border: 1px solid var(--line);
+      background: var(--card);
+      padding: 14px 16px;
+      border-radius: 10px;
+      margin-bottom: 16px;
+    }
+    .note.ok { border-color: rgba(62,207,142,.45); }
+    .note.warn { border-color: rgba(230,184,77,.45); }
+    .note.no { border-color: rgba(255,123,114,.4); }
+    .verdict {
+      display: grid; gap: 12px; margin: 0 0 24px;
+    }
+    @media (min-width: 720px) {
+      .verdict { grid-template-columns: 1.2fr 1fr 1fr; }
+    }
+    .verdict .box {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px 18px;
+    }
+    .verdict .box.primary { border-color: rgba(62,207,142,.5); }
+    .verdict .label {
+      font-size: 13px; font-weight: 800; color: var(--accent);
+      letter-spacing: .02em; margin-bottom: 6px;
+    }
+    .verdict .box.primary .label { color: var(--ok); }
+    .verdict .title { font-size: 19px; font-weight: 800; margin: 0 0 8px; }
+    .verdict p { margin: 0; color: #c8d2e0; font-size: 15px; }
+    .filters {
+      display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 16px;
+    }
+    .filters button {
+      font: inherit; font-size: 13px; font-weight: 700;
+      border: 1px solid var(--line); background: #12151b;
+      color: var(--muted); border-radius: 999px; padding: 6px 11px; cursor: pointer;
+    }
+    .filters button.on {
+      color: var(--accent);
+      border-color: rgba(110,168,254,.5);
+      background: rgba(110,168,254,.12);
+    }
+    .brand-block { margin-bottom: 28px; }
+    .brand-head {
+      display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: baseline;
+      margin: 0 0 10px; padding-bottom: 8px; border-bottom: 1px solid var(--line);
+    }
+    .brand-head h2 { margin: 0; font-size: 20px; }
+    .brand-tag {
+      font-size: 12px; font-weight: 800; border-radius: 999px;
+      padding: 3px 9px; border: 1px solid var(--line);
+    }
+    .brand-tag.ok { color: var(--ok); border-color: rgba(62,207,142,.45); }
+    .brand-tag.warn { color: var(--warn); border-color: rgba(230,184,77,.4); }
+    .brand-tag.no { color: var(--no); border-color: rgba(255,123,114,.4); }
+    table {
+      width: 100%; border-collapse: collapse; font-size: 14px; margin: 0 0 8px;
+    }
+    th, td {
+      border: 1px solid var(--line); padding: 8px 9px;
+      text-align: left; vertical-align: top;
+    }
+    th { background: #151922; color: #c8d2e0; }
+    .wide { overflow-x: auto; }
+    .ok { color: var(--ok); font-weight: 700; }
+    .no { color: var(--no); font-weight: 700; }
+    .warn { color: var(--warn); font-weight: 700; }
+    tr.skip { opacity: .72; }
+    tr.pick { background: rgba(62,207,142,.06); }
+    .pkg {
+      display: grid; gap: 12px; margin-bottom: 18px;
+    }
+    @media (min-width: 720px) { .pkg { grid-template-columns: 1fr 1fr; } }
+    .pkg .box {
+      background: var(--card); border: 1px solid var(--line);
+      border-radius: 12px; padding: 16px 18px;
+    }
+    .pkg h3 { color: var(--accent); margin: 0 0 8px; }
+    .pkg ul { margin: 0; padding-left: 1.2rem; }
+    .pkg li { margin: 4px 0; }
+    .check li { margin: 6px 0; }
+    .chooser {
+      background: var(--card); border: 1px solid var(--line);
+      border-radius: 12px; padding: 16px 18px; margin-bottom: 20px;
+    }
+    .chooser-row {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin: 0 0 10px; align-items: center;
+    }
+    .chooser-row > span {
+      min-width: 64px; color: var(--muted); font-size: 14px; font-weight: 700;
+    }
+    .chooser button {
+      font: inherit; font-size: 14px; font-weight: 700;
+      border: 1px solid var(--line); background: #12151b;
+      color: var(--muted); border-radius: 999px; padding: 6px 12px; cursor: pointer;
+    }
+    .chooser button.on {
+      color: var(--accent); border-color: rgba(110,168,254,.5);
+      background: rgba(110,168,254,.12);
+    }
+    #advice { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); }
+    #advice b { color: var(--ok); }
+    .brand-block[hidden], tr[hidden] { display: none; }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: .9em; background: #12151b; padding: .1em .35em; border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <a href="../index.html">首頁</a>
+    <a href="影片欣賞.html">影片</a>
+    <a href="上場清單.html">上場清單</a>
+
+    <span class="brand">遙控器採購</span>
+    <a href="飛控設定.html">← 手冊</a>
+    <a href="有刷空心杯.html">有刷</a>
+    <a href="#verdict">結論</a>
+    <a href="#matrix">規格矩陣</a>
+    <a href="#catalog">全目錄</a>
+    <a href="#packages">組合</a>
+    <a href="#checklist">下單檢查</a>
+  </div>
+
+  <div class="wrap">
+    <h1>無人機遙控器 · 採購分析</h1>
+    <p class="sub">依你整理的品牌目錄，對照本隊 <b>F9A-B 足球機＋ELRS</b> 需求。綠色＝可採購；黃色＝勉強／練習；紅色＝球機別買。</p>
+
+    <div class="note ok" id="verdict">
+      <b>採購結論（依公開規格彙整）：</b>
+      球機只走 <b>ELRS＋EdgeTX</b>。批量 <b>Pocket（288g）</b>；射手／教練 <b>Boxer（532g、~1W）</b>；手把 <b>Zorro（350g）</b>。
+      完整數字見下方規格矩陣；原始筆記：<code>docs/radios/遙控器規格資料庫.md</code>。
+    </div>
+
+    <div style="display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin:0 0 20px">
+      <figure style="margin:0;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden">
+        <a href="../assets/radios/pocket.jpg" target="_blank" rel="noopener"><img src="../assets/radios/pocket.jpg" alt="RadioMaster Pocket ELRS" style="display:block;width:100%;height:180px;object-fit:cover" loading="lazy" /></a>
+        <figcaption style="padding:10px 12px;font-size:14px;color:var(--muted)">批量首選：RM Pocket（點圖放大）</figcaption>
+      </figure>
+      <figure style="margin:0;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden">
+        <a href="../assets/radios/boxer.jpg" target="_blank" rel="noopener"><img src="../assets/radios/boxer.jpg" alt="RadioMaster Boxer ELRS" style="display:block;width:100%;height:180px;object-fit:cover" loading="lazy" /></a>
+        <figcaption style="padding:10px 12px;font-size:14px;color:var(--muted)">射手／教練：RM Boxer（點圖放大）</figcaption>
+      </figure>
+    </div>
+
+    <div class="verdict">
+      <div class="box primary">
+        <div class="label">#1 批量買</div>
+        <div class="title">RM Pocket ELRS</div>
+        <p>288g · EdgeTX · Hall · ≤250mW · 2×18650 · Nano 倉。學生一人一機。</p>
+      </div>
+      <div class="box">
+        <div class="label">#2 足球首選級</div>
+        <div class="title">RM Boxer ELRS</div>
+        <p>532.5g · 全尺寸 Hall · ~1W＋風扇 · JR 倉 · 開關多。射手／教練。</p>
+      </div>
+      <div class="box">
+        <div class="label">#3 手把</div>
+        <div class="title">RM Zorro ELRS</div>
+        <p>350g · Hall · ≤250mW · 2×18350。喜歡手把就選這（或 Jumper T-Pro／Commando 8）。</p>
+      </div>
+    </div>
+
+    <h2 id="matrix">規格比較矩陣（已蒐集）</h2>
+    <p class="sub" style="margin-top:0">數字來自品牌官網／說明書／公開評測（2026-08）。功率受法規限制；下單仍核對「ELRS 內建版」。</p>
+    <div class="filters" id="matrix-filters">
+      <button type="button" class="on" data-mfilter="all">全部列</button>
+      <button type="button" data-mfilter="buy">只看可買</button>
+      <button type="button" data-mfilter="skip">只看別買</button>
+      <button type="button" data-mfilter="rm">RadioMaster</button>
+      <button type="button" data-mfilter="elrs">ELRS 候選</button>
+    </div>
+    <div class="wide">
+      <table id="spec-matrix">
+        <thead>
+          <tr>
+            <th>型號</th>
+            <th>協定</th>
+            <th>系統</th>
+            <th>功率</th>
+            <th>搖桿</th>
+            <th>螢幕</th>
+            <th>重量</th>
+            <th>電池</th>
+            <th>球機</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-m="buy rm elrs" class="pick"><td><b>RM Pocket ELRS</b></td><td>ELRS 2.4</td><td>EdgeTX</td><td>~250mW</td><td>Hall</td><td>128×64</td><td>288g</td><td>2×18650</td><td class="ok">批量首選</td></tr>
+          <tr data-m="buy rm elrs" class="pick"><td><b>RM Zorro ELRS</b></td><td>ELRS 2.4</td><td>EdgeTX</td><td>~250mW</td><td>Hall</td><td>128×64</td><td>350g</td><td>2×18350</td><td class="ok">手把</td></tr>
+          <tr data-m="buy rm elrs" class="pick"><td><b>RM Boxer ELRS</b></td><td>ELRS 2.4</td><td>EdgeTX</td><td>~1W＋扇</td><td>Hall 全尺寸</td><td>128×64</td><td>532.5g</td><td>18650／2S</td><td class="ok">射手／教練</td></tr>
+          <tr data-m="buy rm elrs"><td>RM TX12 MKII</td><td>ELRS（核版）</td><td>EdgeTX</td><td>依版</td><td>Hall</td><td>單色</td><td>中小</td><td>依版</td><td class="ok">備案</td></tr>
+          <tr data-m="buy rm elrs"><td>RM TX16S MKII</td><td>ELRS／4in1</td><td>EdgeTX</td><td>依版</td><td>Hall／AG01</td><td>4.3" 彩觸</td><td>750g</td><td>2×18650</td><td class="ok">母機 0–1</td></tr>
+          <tr data-m="buy rm elrs"><td>RM GX12</td><td>雙頻 ELRS</td><td>EdgeTX</td><td>高</td><td>CNC</td><td>彩屏</td><td>~573g</td><td>依版</td><td class="warn">暫緩</td></tr>
+          <tr data-m="buy elrs" class="pick"><td><b>Jumper T20／T20S</b></td><td>ELRS 2.4</td><td>EdgeTX</td><td>~1W</td><td>Hall／RDC90</td><td>1.3" OLED</td><td>443g</td><td>2×21700</td><td class="ok">Boxer 替代</td></tr>
+          <tr data-m="buy elrs"><td>Jumper T15 Pro</td><td>ELRS</td><td>EdgeTX</td><td>~1W</td><td>Hall／RDC90</td><td>3.5" IPS</td><td>—</td><td>依版</td><td class="ok">彩屏替代</td></tr>
+          <tr data-m="buy elrs"><td>Jumper T-Pro V2</td><td>ELRS／4in1</td><td>EdgeTX</td><td>依版</td><td>Hall</td><td>1.3" OLED</td><td>240g</td><td>2×18650</td><td class="warn">核 ELRS 版</td></tr>
+          <tr data-m="buy elrs"><td>Jumper T-Lite V2</td><td>ELRS／4in1</td><td>EdgeTX</td><td>~100mW+</td><td>Hall</td><td>小</td><td>~207g</td><td>2×18650</td><td class="warn">過渡</td></tr>
+          <tr data-m="buy elrs"><td>BETAFPV LiteRadio 3 Pro</td><td>ELRS／CC2500</td><td>EdgeTX</td><td>250–500mW</td><td>Hall</td><td>1.3" OLED</td><td>~280g</td><td>內建 2000</td><td class="warn">8ch 偏緊</td></tr>
+          <tr data-m="buy elrs"><td>LiteRadio 3</td><td>ELRS</td><td>專有</td><td>低</td><td>電位器</td><td>無</td><td>—</td><td>內建 2000</td><td class="warn">僅練習</td></tr>
+          <tr data-m="buy elrs"><td>iFlight Commando 8 V2</td><td>ELRS 2.4</td><td>依版</td><td>高功率常見</td><td>Hall</td><td>有</td><td>核賣場</td><td>依版</td><td class="ok">手把備選</td></tr>
+          <tr data-m="buy elrs"><td>Commando 8 Pro GemX</td><td>2.4＋900</td><td>ELRS</td><td>1W／頻</td><td>—</td><td>—</td><td>315g</td><td>內建 3200</td><td class="warn">雙頻過剩</td></tr>
+          <tr data-m="skip" class="skip"><td>DJI RC Pro／RC 2／N3…</td><td>航拍專用</td><td>DJI</td><td>—</td><td>—</td><td>帶屏／夾手機</td><td>—</td><td>—</td><td class="no">排除</td></tr>
+          <tr data-m="skip" class="skip"><td>DJI FPV RC 3</td><td>大疆→眼鏡→O3/O4</td><td>DJI</td><td>&lt;26dBm</td><td>—</td><td>無屏</td><td>~240g</td><td>2600mAh</td><td class="no">需圖傳生態</td></tr>
+          <tr data-m="skip" class="skip"><td>DJI FPV RC 2／Motion 3</td><td>大疆</td><td>DJI</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="no">排除</td></tr>
+          <tr data-m="skip" class="skip"><td>TBS Tango 2／Pro</td><td><b>Crossfire</b></td><td>FreedomTX</td><td>~1W</td><td>Hall 全尺寸</td><td>OLED</td><td>345g</td><td>內建 5000</td><td class="no">協定不符</td></tr>
+          <tr data-m="skip" class="skip"><td>TBS Mambo</td><td>Tracer＋JR</td><td>FreedomTX</td><td>~1W</td><td>Hall</td><td>3.5"</td><td>565g</td><td>2×18650</td><td class="no">排除</td></tr>
+          <tr data-m="skip" class="skip"><td>Herelink</td><td>工業 GCS</td><td>Android</td><td>—</td><td>—</td><td>大屏</td><td>很重</td><td>—</td><td class="no">排除</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      <b>讀表重點：</b>球機先濾「協定＝ELRS」。再比開關／重量／功率。
+      Boxer 與 T20S 同屬「中型＋1W」；Pocket 最輕便批量；TX16S／T15 Pro 留給教練調參。
+      DJI RC3 雖可配 O3／O4 打 Betaflight，但本隊<b>無圖傳</b>，整條鏈用不上。
+    </div>
+
+    <h2>幫我選</h2>
+    <div class="chooser" id="chooser">
+      <div class="chooser-row" data-group="role">
+        <span>角色</span>
+        <button type="button" class="on" data-v="student">學生</button>
+        <button type="button" data-v="striker">射手</button>
+        <button type="button" data-v="coach">教練</button>
+      </div>
+      <div class="chooser-row" data-group="grip">
+        <span>握感</span>
+        <button type="button" class="on" data-v="any">沒偏好</button>
+        <button type="button" data-v="stick">箱型／雙搖桿</button>
+        <button type="button" data-v="game">手把</button>
+      </div>
+      <div id="advice"><b>建議：</b>RadioMaster Pocket（ELRS 內建）</div>
+    </div>
+
+    <div class="note warn">
+      <b>為什麼 DJI／Herelink／多數 TBS 不行？</b>
+      本隊飛控是 Betaflight＋<b>ELRS／CRSF</b>（Oxbot 內建 ELRS、RATE／F411 外接 ELRS）。
+      DJI 遙控綁大疆圖傳生態；Herelink 是工業 GCS；Tango／Mambo 預設 Crossfire——都對不上球機接收端，也多半過重／過貴。
+    </div>
+
+    <h2 id="catalog">你提供的目錄 · 球機判定</h2>
+    <div class="filters" id="filters">
+      <button type="button" class="on" data-filter="all">全部品牌</button>
+      <button type="button" data-filter="buy">只看可買</button>
+      <button type="button" data-filter="skip">只看別買</button>
+      <button type="button" data-filter="rm">RadioMaster</button>
+      <button type="button" data-filter="jumper">Jumper</button>
+      <button type="button" data-filter="betafpv">BETAFPV</button>
+      <button type="button" data-filter="iflight">iFlight</button>
+      <button type="button" data-filter="dji">DJI</button>
+      <button type="button" data-filter="tbs">TBS</button>
+      <button type="button" data-filter="other">工業／其他</button>
+    </div>
+
+    <!-- RadioMaster -->
+    <section class="brand-block" data-brand="rm" data-has="buy">
+      <div class="brand-head">
+        <h2>2. RadioMaster</h2>
+        <span class="brand-tag ok">球機主戰場 · 優先採購</span>
+      </div>
+      <p class="sub">開源 EdgeTX、ELRS 生態最完整。無人機足球應以這牌為採購主軸。</p>
+      <div class="wide">
+        <table>
+          <thead><tr><th>型號</th><th>類型</th><th>球機判定</th><th>採購說明</th></tr></thead>
+          <tbody>
+            <tr class="pick" data-verdict="buy"><td><b>Pocket</b></td><td>手把／極致便攜</td><td class="ok">建議買</td><td>平價入門＋可上場。必選 <b>ELRS 內建版</b>。學生批量第一名。</td></tr>
+            <tr class="pick" data-verdict="buy"><td><b>Zorro</b></td><td>遊戲手把</td><td class="ok">建議買</td><td>手把派標準。ELRS 內建版。</td></tr>
+            <tr class="pick" data-verdict="buy"><td><b>Boxer／Boxer Max</b></td><td>中型全尺寸搖桿</td><td class="ok">建議買</td><td>你標的「足球首選」正確。Hall、開關多、高功率 ELRS。射手／教練優先。</td></tr>
+            <tr class="pick" data-verdict="buy"><td><b>TX12 MKII</b></td><td>中型便攜</td><td class="ok">可買</td><td>Pocket 缺貨備案。確認 ELRS 版。</td></tr>
+            <tr class="pick" data-verdict="buy"><td><b>TX16S MKII／MK3</b></td><td>全尺寸彩屏</td><td class="ok">教練母機</td><td>調參／備份模型最強。學生不必人手一台。</td></tr>
+            <tr data-verdict="buy"><td>TX16S MKII MAX</td><td>全尺寸質感版</td><td class="warn">非必要</td><td>功能接近 MKII，多花在質感。預算優先多買 Pocket／Boxer。</td></tr>
+            <tr data-verdict="buy"><td>GX12／TX15（Gemini 雙頻）</td><td>新世代雙頻 ELRS</td><td class="warn">暫緩</td><td>室內球機吃不滿雙頻。錢拿去增加台數比較值得。</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Jumper -->
+    <section class="brand-block" data-brand="jumper" data-has="buy">
+      <div class="brand-head">
+        <h2>5. Jumper</h2>
+        <span class="brand-tag ok">可當 RadioMaster 替代</span>
+      </div>
+      <p class="sub">高 CP、開源。買之前核對是 <b>ELRS</b> 不是其他協定模組。</p>
+      <div class="wide">
+        <table>
+          <thead><tr><th>型號</th><th>類型</th><th>球機判定</th><th>採購說明</th></tr></thead>
+          <tbody>
+            <tr class="pick" data-verdict="buy"><td><b>T20／T20 V2／T20S</b></td><td>緊湊＋全尺寸搖桿</td><td class="ok">可買</td><td>接近 Boxer 定位。確認 ELRS、Hall。</td></tr>
+            <tr class="pick" data-verdict="buy"><td><b>T15／T15 Pro</b></td><td>中階彩屏</td><td class="ok">可買</td><td>接近小一號 TX16。教練／喜歡彩屏可考慮。</td></tr>
+            <tr data-verdict="buy"><td>T14</td><td>大黑白屏</td><td class="warn">可</td><td>CP 高；生態教學資源略少於 RM。</td></tr>
+            <tr class="pick" data-verdict="buy"><td><b>T-Pro V2／T-Pro S</b></td><td>手把 OLED</td><td class="ok">可買</td><td>對標 Zorro。ELRS 版。</td></tr>
+            <tr data-verdict="buy"><td>T-Lite V2</td><td>平價手把</td><td class="warn">練習／過渡</td><td>開關與耐用通常不如 Zorro／Pocket。</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- BETAFPV -->
+    <section class="brand-block" data-brand="betafpv" data-has="buy">
+      <div class="brand-head">
+        <h2>3. BETAFPV</h2>
+        <span class="brand-tag warn">練習可 · 賽事升 RM 較穩</span>
+      </div>
+      <p class="sub">Whoop／入門生態強。正式球機比賽建議仍以 RM／Jumper 為主。</p>
+      <div class="wide">
+        <table>
+          <thead><tr><th>型號</th><th>類型</th><th>球機判定</th><th>採購說明</th></tr></thead>
+          <tbody>
+            <tr data-verdict="buy"><td><b>LiteRadio 3 Pro</b></td><td>手把 EdgeTX＋OLED</td><td class="warn">可當入門賽事機</td><td>比普通 LiteRadio 完整。仍建議長期用 Pocket／Zorro。</td></tr>
+            <tr data-verdict="buy"><td>LiteRadio 3</td><td>入門手把</td><td class="warn">練習</td><td>價格親民；開關少，正式多模式偏緊。</td></tr>
+            <tr class="skip" data-verdict="skip"><td>LiteRadio 2 SE</td><td>極簡 RTF</td><td class="no">別當主力</td><td>套裝練習可以，不要算比賽採購主力。</td></tr>
+            <tr class="skip" data-verdict="skip"><td>Aquila16 Transmitter</td><td>教學套裝專用</td><td class="no">別買給球機</td><td>綁套裝機，不是通用球機遙控。</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- iFlight -->
+    <section class="brand-block" data-brand="iflight" data-has="buy">
+      <div class="brand-head">
+        <h2>6. iFlight</h2>
+        <span class="brand-tag ok">手把 ELRS 可考慮</span>
+      </div>
+      <div class="wide">
+        <table>
+          <thead><tr><th>型號</th><th>類型</th><th>球機判定</th><th>採購說明</th></tr></thead>
+          <tbody>
+            <tr class="pick" data-verdict="buy"><td><b>Commando 8 V2</b></td><td>手把 ELRS 2.4</td><td class="ok">可買</td><td>對得上本隊 ELRS。與 Zorro 同類，選握感。</td></tr>
+            <tr data-verdict="buy"><td>Commando 8 Pro GemX</td><td>雙頻 1W</td><td class="warn">非必要</td><td>雙頻／高功率對室內球機過剩，價較高。</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- DJI -->
+    <section class="brand-block" data-brand="dji" data-has="skip">
+      <div class="brand-head">
+        <h2>1. DJI 大疆</h2>
+        <span class="brand-tag no">球機全部排除</span>
+      </div>
+      <p class="sub">航拍／Avata／O3 生態。協定與本隊 Betaflight＋ELRS 球機不相通。</p>
+      <div class="wide">
+        <table>
+          <thead><tr><th>型號</th><th>類型</th><th>球機判定</th><th>為什麼不行</th></tr></thead>
+          <tbody>
+            <tr class="skip" data-verdict="skip"><td>RC Pro 2／RC Pro</td><td>航拍帶屏旗艦</td><td class="no">別買</td><td>給 Mavic／Air 等；不是足球機遙控。</td></tr>
+            <tr class="skip" data-verdict="skip"><td>RC 2</td><td>航拍帶屏</td><td class="no">別買</td><td>同上。</td></tr>
+            <tr class="skip" data-verdict="skip"><td>RC-N3／RC-N2</td><td>航拍夾手機</td><td class="no">別買</td><td>同上。</td></tr>
+            <tr class="skip" data-verdict="skip"><td>FPV Remote Controller 3</td><td>Avata／FPV 手把</td><td class="no">別買</td><td>綁大疆數位 FPV；球機無 O3／無 DJI 鏈路。</td></tr>
+            <tr class="skip" data-verdict="skip"><td>FPV Remote Controller 2</td><td>O3 手把</td><td class="no">別買</td><td>同上。</td></tr>
+            <tr class="skip" data-verdict="skip"><td>穿越手柄 3（Motion）</td><td>體感</td><td class="no">別買</td><td>體感新手機；不能當球機比賽遙控。</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note no">結論：清單第 1 大類整組劃掉。省下的預算去買 Pocket／Boxer。</div>
+    </section>
+
+    <!-- TBS -->
+    <section class="brand-block" data-brand="tbs" data-has="skip">
+      <div class="brand-head">
+        <h2>4. TBS 黑羊</h2>
+        <span class="brand-tag no">預設 Crossfire · 球機不優先</span>
+      </div>
+      <div class="wide">
+        <table>
+          <thead><tr><th>型號</th><th>類型</th><th>球機判定</th><th>採購說明</th></tr></thead>
+          <tbody>
+            <tr class="skip" data-verdict="skip"><td>Tango 2／Tango 2 Pro</td><td>手把 Crossfire</td><td class="no">別買（新購）</td><td>Crossfire ≠ ELRS。除非改裝／另模組且你願意維護兩套協定——球隊不建議。</td></tr>
+            <tr class="skip" data-verdict="skip"><td>Mambo</td><td>箱型遠航</td><td class="no">別買</td><td>Long Range／工業向；室內球機用不到。</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Industrial -->
+    <section class="brand-block" data-brand="other" data-has="skip">
+      <div class="brand-head">
+        <h2>7. CubePilot／Herelink</h2>
+        <span class="brand-tag no">工業 GCS · 排除</span>
+      </div>
+      <div class="wide">
+        <table>
+          <thead><tr><th>型號</th><th>類型</th><th>球機判定</th><th>採購說明</th></tr></thead>
+          <tbody>
+            <tr class="skip" data-verdict="skip"><td>Herelink Blue／V1.1</td><td>工業地面站</td><td class="no">別買</td><td>PX4／ArduPilot＋數傳圖傳手持站。不是 Betaflight 球機遙控，又極貴。</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <h2>品牌總評（對你這份清單）</h2>
+    <div class="wide">
+      <table>
+        <thead><tr><th>品牌</th><th>球機採購</th><th>一句話</th></tr></thead>
+        <tbody>
+          <tr><td><b>RadioMaster</b></td><td class="ok">主軸</td><td>Pocket／Boxer／Zorro／TX16 教練機</td></tr>
+          <tr><td><b>Jumper</b></td><td class="ok">備選</td><td>T20／T-Pro 等 ELRS 版可替代 RM</td></tr>
+          <tr><td><b>iFlight</b></td><td class="ok">手把備選</td><td>Commando 8 V2（ELRS）</td></tr>
+          <tr><td><b>BETAFPV</b></td><td class="warn">練習</td><td>LiteRadio 過渡；賽事升 RM</td></tr>
+          <tr><td><b>DJI</b></td><td class="no">全排除</td><td>航拍／Avata 生態</td></tr>
+          <tr><td><b>TBS</b></td><td class="no">新購排除</td><td>Crossfire 主軸</td></tr>
+          <tr><td><b>Herelink</b></td><td class="no">全排除</td><td>工業 GCS</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 id="packages">建議採購組合</h2>
+    <div class="pkg">
+      <div class="box">
+        <h3>組合 A · 最小能比賽</h3>
+        <ul>
+          <li>RM Pocket ELRS × 上場人數</li>
+          <li>備用 Pocket × 1</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>組合 B · 標準（建議）</h3>
+        <ul>
+          <li>Pocket ELRS × 多數學生</li>
+          <li>Boxer／Boxer Max × 1–2（射手／教練）</li>
+          <li>備機 Pocket × 1–2</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>組合 C · 手把統一</h3>
+        <ul>
+          <li>Zorro 或 Commando 8 V2 或 Jumper T-Pro（擇一統一）</li>
+          <li>Boxer 或 TX16S × 1 教練機</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h3>明確不要採購</h3>
+        <ul>
+          <li>任何 DJI RC／FPV 手把／Motion</li>
+          <li>Herelink</li>
+          <li>Tango 2／Mambo（新購）</li>
+          <li>Aquila16／純 RTF 專用遙控當比賽機</li>
+          <li>為雙頻旗艦（GX12／GemX）犧牲台數</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2 id="checklist">下單檢查</h2>
+    <div class="note warn">
+      <ul class="check">
+        <li>□ 協定：<b>ELRS 2.4 內建</b>（或明確含 ELRS 模組）</li>
+        <li>□ 系統：EdgeTX／OpenTX（方便 ARM＝AUX1、Model Match）</li>
+        <li>□ 品牌落在：RadioMaster／Jumper／iFlight（或 BETAFPV 僅過渡）</li>
+        <li>□ 不在黑名單：DJI、Herelink、純 Crossfire TBS</li>
+        <li>□ 同批同款，預留備機</li>
+        <li>□ 到貨：對頻 ELRS、Model Match、拆槳測關遙控＝停槳</li>
+      </ul>
+    </div>
+
+    <div class="note ok">
+      <b>對你這份清單的最終篩選：</b>
+      真正常採購的只有 ——
+      <b>RM：Pocket、Zorro、Boxer／Max、TX12、TX16（教練）</b>；
+      可替代 —— <b>Jumper T20／T15／T-Pro、iFlight Commando 8 V2</b>；
+      練習 —— <b>LiteRadio 3／Pro</b>；
+      其餘（DJI 全線、TBS、Herelink、Aquila、雙頻旗艦）先劃掉。
+    </div>
+
+    <p class="sub">
+      <a href="飛控設定.html#bf-impact-rx" style="color:var(--accent)">飛控 · 遙控／斷訊設定</a>
+      ·
+      <a href="../pages/飛控AIO產品圖鑑.html" style="color:var(--accent)">飛控 AIO</a>
+    </p>
+  </div>
+
+  <script>
+    const advice = document.getElementById('advice');
+    const state = { role: 'student', grip: 'any' };
+    const map = {
+      'student|any': 'RadioMaster Pocket（ELRS 內建）— 批量第一名',
+      'student|stick': 'RadioMaster Boxer 或 Pocket — 手大選 Boxer',
+      'student|game': 'RadioMaster Zorro（或 iFlight Commando 8 V2）',
+      'striker|any': 'RadioMaster Boxer／Boxer Max（ELRS）',
+      'striker|stick': 'RadioMaster Boxer／Boxer Max',
+      'striker|game': 'Zorro 或 T-Pro（確認瞬間開關夠用）',
+      'coach|any': 'Boxer；常調參則 TX16S MKII／MK3',
+      'coach|stick': 'TX16S MKII／MK3 或 Boxer',
+      'coach|game': 'Zorro 個人機＋一台 Boxer／TX16 示範用'
+    };
+    function render() {
+      advice.innerHTML = '<b>建議：</b>' + (map[state.role + '|' + state.grip] || map['student|any']);
+    }
+    document.querySelectorAll('.chooser-row').forEach((row) => {
+      const g = row.dataset.group;
+      row.querySelectorAll('button').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          row.querySelectorAll('button').forEach((b) => b.classList.remove('on'));
+          btn.classList.add('on');
+          state[g] = btn.dataset.v;
+          render();
+        });
+      });
+    });
+    render();
+
+    const filterBtns = document.querySelectorAll('#filters button');
+    const blocks = document.querySelectorAll('.brand-block');
+    filterBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach((b) => b.classList.remove('on'));
+        btn.classList.add('on');
+        const f = btn.dataset.filter;
+        blocks.forEach((block) => {
+          const brand = block.dataset.brand;
+          const has = block.dataset.has;
+          let show = true;
+          if (f === 'buy') show = has === 'buy' || has === 'both';
+          else if (f === 'skip') show = has === 'skip' || has === 'both';
+          else if (f !== 'all') show = brand === f;
+          block.hidden = !show;
+          if (!show) return;
+          block.querySelectorAll('tr[data-verdict]').forEach((tr) => {
+            if (f === 'buy') tr.hidden = tr.dataset.verdict === 'skip';
+            else if (f === 'skip') tr.hidden = tr.dataset.verdict !== 'skip';
+            else tr.hidden = false;
+          });
+        });
+      });
+    });
+
+    const mBtns = document.querySelectorAll('#matrix-filters button');
+    const mRows = document.querySelectorAll('#spec-matrix tbody tr');
+    mBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        mBtns.forEach((b) => b.classList.remove('on'));
+        btn.classList.add('on');
+        const f = btn.dataset.mfilter;
+        mRows.forEach((tr) => {
+          const tags = (tr.dataset.m || '').split(/\s+/);
+          tr.hidden = !(f === 'all' || tags.includes(f));
+        });
+      });
+    });
+  </script>
+</body>
+</html>

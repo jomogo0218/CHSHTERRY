@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
+<title>馬達 · 嘉華足球無人機配備手冊</title>
+<link rel="stylesheet" href="../assets/site.css?v=7" />
+</head>
+<body class="is-page">
+<div class="bg-logo" aria-hidden="true"></div>
+<a class="skip-link" href="#main">跳至主要內容</a>
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="../index.html">
+      <img src="../assets/brand/chia-hwa-drone-team.png?v=7" alt="" width="64" height="36" />
+      <div class="brand-text">
+        <strong>嘉華中學足球無人機俱樂部</strong>
+        <span>配備手冊 · FAI F9A-B</span>
+      </div>
+    </a>
+    <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="siteNav">選單</button>
+    <nav class="site-nav" id="siteNav" aria-label="主要導覽">
+      <a href="../index.html">首頁</a>
+      <span class="nav-label">認識</span>
+      <a href="影片欣賞.html">影片欣賞</a>
+      <a href="新手入門.html">新手入門</a>
+      <a href="足球無人機技術全解簡報.html">技術全解</a>
+      <span class="nav-label">規則</span>
+      <a href="規則檢錄.html">規則檢錄</a>
+      <a href="FAI_F9A_2026_繁中譯本.html">FAI 譯本</a>
+      <a href="有刷空心杯.html">有刷／空心杯</a>
+      <span class="nav-label">配備</span>
+      <a class="on" href="馬達.html">馬達</a>
+      <a href="電池.html">電池</a>
+      <a href="螺旋槳.html">螺旋槳</a>
+      <span class="nav-label">整機</span>
+      <a href="組裝.html">組裝</a>
+      <a href="續航.html">續航</a>
+      <span class="nav-label">系統</span>
+      <a href="飛控硬體.html">飛控硬體</a>
+      <a href="飛控設定.html">飛控設定</a>
+      <a href="LED.html">LED</a>
+      <a href="遙控器採購分析.html">遙控器</a>
+      <a href="../bfsim.html">設定模擬</a>
+      <span class="nav-label">上場</span>
+      <a href="上場清單.html">上場清單</a>
+      <span class="nav-label">圖鑑</span>
+      <a href="飛控AIO產品圖鑑.html">AIO 圖鑑</a>
+      <a href="電池產品圖鑑.html">電池圖鑑</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap" id="main">
+<div class="page-banner">
+  <div class="crumb"><a href="../index.html">首頁</a> / 配備 / 馬達</div>
+  <div>
+    <h1>馬達</h1>
+    <p class="lead">推力、重量與攻擊／防守建議。</p>
+  </div>
+</div>
+
+  <p class="lead">攻擊看峰值推力與中高油門爬升；防禦看電流、重量與長局續航。完全新手請先讀 <a href="新手入門.html#motor">新手入門 · 馬達</a>。</p>
+
+  <article class="media-explain">
+    <figure class="media-explain-pic">
+      <a href="../assets/motors/vci1507.jpg" target="_blank" rel="noopener"><img src="../assets/motors/vci1507.jpg" alt="火神 VCI 1507 規格與測功" loading="lazy" /></a>
+      <figcaption>攻擊主力：火神 VCI 1507（點圖放大）</figcaption>
+    </figure>
+    <div class="media-explain-body">
+      <h3>這頁在看什麼？</h3>
+      <p>馬達決定球機「推得動推不動」。下面圖表是原廠測功整理：數字愈大通常衝刺愈猛，但也愈吃電、愈熱。本隊口訣先記：<b>攻擊 VCI 1507（或 DYH1408）、防守 VCI 1408</b>；再往下看曲線與完整表。</p>
+      <p>換馬達前一定要對孔距（Φ12／Φ9），對不上就不要硬鎖。</p>
+    </div>
+  </article>
+
+  <nav class="toc" aria-label="馬達本章目錄">
+    <span class="toc-label">本章目錄</span>
+    <a href="#motor-charts">推力統計圖表</a>
+    <a href="#motor-figs">規格圖</a>
+    <a href="#motor-attack">攻擊排序</a>
+    <a href="#motor-defense">防禦排序</a>
+    <a href="#motor-table">完整對照</a>
+  </nav>
+
+  <h2 id="motor-charts">推力統計圖表</h2>
+  <p class="lead" style="margin-top:0">原廠測功整理：峰值條圖方便比較高低；油門曲線看中段爬升（足球機常用 60–80%）。除註記外皆為 <b>GF2828-3</b>。</p>
+
+  <h3>滿油門推力峰值</h3>
+  <div class="card">
+    <div class="bars-peak">
+      <div class="row"><div class="lab">火神 VCI 1507 4000KV<span>4S · 16V · 同槳基準</span></div><div class="track"><i style="width:100%"></i></div><div class="val">651g</div></div>
+      <div class="row"><div class="lab">T-HOBBY DYH1408 3988KV<span>4S · 16.4V</span></div><div class="track"><i style="width:92.2%"></i></div><div class="val">600g</div></div>
+      <div class="row"><div class="lab">火神 VCI 1408 3900KV<span>4S · 16V</span></div><div class="track"><i style="width:88.2%"></i></div><div class="val">574g</div></div>
+      <div class="row"><div class="lab">T-HOBBY P1604 3800KV<span>4S · GF3520-3*</span></div><div class="track"><i class="dim" style="width:79%"></i></div><div class="val">514g*</div></div>
+      <div class="row"><div class="lab">LANNRC 1404 4600KV<span>4S · GF4024†</span></div><div class="track"><i class="dim" style="width:61%"></i></div><div class="val">398g†</div></div>
+      <div class="row"><div class="lab">火神 VCI 1404.5 4600KV<span>3S · 12V</span></div><div class="track"><i style="width:53.8%"></i></div><div class="val">350g</div></div>
+      <div class="row"><div class="lab">火神 VCI 1404 4500KV<span>3S · 12V</span></div><div class="track"><i style="width:49.9%"></i></div><div class="val">325g</div></div>
+    </div>
+    <small>*P1604／†LANNRC 原廠測功槳 &gt;76mm（違規），換 2828-3 後數字會降；條長半透明僅供潛力參考。</small>
+  </div>
+
+  <h3>油門－推力曲線（主力五顆）</h3>
+  <div class="card">
+    <div class="chart-wrap" role="img" aria-label="油門百分比對推力克數折線圖：1507、DYH1408、1408、1404.5、1404">
+      <svg viewBox="0 0 640 360" xmlns="http://www.w3.org/2000/svg" font-family="system-ui,sans-serif">
+        <rect x="0" y="0" width="640" height="360" fill="#fff"/>
+        <!-- grid -->
+        <g stroke="#e5e7eb" stroke-width="1">
+          <line x1="70" y1="40" x2="70" y2="300"/><line x1="70" y1="300" x2="600" y2="300"/>
+          <line x1="70" y1="235" x2="600" y2="235"/><line x1="70" y1="170" x2="600" y2="170"/>
+          <line x1="70" y1="105" x2="600" y2="105"/><line x1="70" y1="40" x2="600" y2="40"/>
+          <line x1="145.7" y1="40" x2="145.7" y2="300"/><line x1="221.4" y1="40" x2="221.4" y2="300"/>
+          <line x1="297.1" y1="40" x2="297.1" y2="300"/><line x1="372.9" y1="40" x2="372.9" y2="300"/>
+          <line x1="448.6" y1="40" x2="448.6" y2="300"/><line x1="524.3" y1="40" x2="524.3" y2="300"/>
+          <line x1="600" y1="40" x2="600" y2="300"/>
+        </g>
+        <!-- y labels: 0–650 -->
+        <g fill="#6b7280" font-size="12" text-anchor="end">
+          <text x="62" y="304">0</text>
+          <text x="62" y="239">162</text>
+          <text x="62" y="174">325</text>
+          <text x="62" y="109">488</text>
+          <text x="62" y="44">650</text>
+        </g>
+        <text x="24" y="175" fill="#6b7280" font-size="12" transform="rotate(-90 24 175)">推力 (g)</text>
+        <!-- x labels: 30–100 -->
+        <g fill="#6b7280" font-size="12" text-anchor="middle">
+          <text x="70" y="320">30%</text>
+          <text x="145.7" y="320">40%</text>
+          <text x="221.4" y="320">50%</text>
+          <text x="297.1" y="320">60%</text>
+          <text x="372.9" y="320">70%</text>
+          <text x="448.6" y="320">80%</text>
+          <text x="524.3" y="320">90%</text>
+          <text x="600" y="320">100%</text>
+        </g>
+        <text x="335" y="348" fill="#6b7280" font-size="12" text-anchor="middle">油門 (%)</text>
+        <!-- helper: x = 70 + (pct-30)/70 * 530; y = 300 - thrust/650 * 260 -->
+        <!-- 1507: 73,132,218,295,380,436,525,651 -->
+        <polyline fill="none" stroke="#dc2626" stroke-width="2.5"
+          points="70,270.8 145.7,247.2 221.4,212.8 297.1,182.0 372.9,148.0 448.6,125.6 524.3,90.0 600,39.6"/>
+        <!-- DYH: 89,153,219,294,369,455,531,600 -->
+        <polyline fill="none" stroke="#ea580c" stroke-width="2.5"
+          points="70,264.4 145.7,238.8 221.4,212.4 297.1,182.4 372.9,152.4 448.6,118.0 524.3,87.6 600,60.0"/>
+        <!-- 1408: 60,117,158,267,306,405,454,574 -->
+        <polyline fill="none" stroke="#2563eb" stroke-width="2.5"
+          points="70,276.0 145.7,253.2 221.4,236.8 297.1,193.2 372.9,177.6 448.6,138.0 524.3,118.4 600,70.4"/>
+        <!-- 1404.5: 52,81,122,158,210,255,310,350 -->
+        <polyline fill="none" stroke="#059669" stroke-width="2.5"
+          points="70,279.2 145.7,267.6 221.4,251.2 297.1,236.8 372.9,216.0 448.6,198.0 524.3,176.0 600,160.0"/>
+        <!-- 1404: 49,82,132,162,204,233,274,325 -->
+        <polyline fill="none" stroke="#7c3aed" stroke-width="2.5"
+          points="70,280.4 145.7,267.2 221.4,247.2 297.1,235.2 372.9,218.4 448.6,206.8 524.3,190.4 600,170.0"/>
+        <!-- end dots -->
+        <circle cx="600" cy="39.6" r="3.5" fill="#dc2626"/>
+        <circle cx="600" cy="60.0" r="3.5" fill="#ea580c"/>
+        <circle cx="600" cy="70.4" r="3.5" fill="#2563eb"/>
+        <circle cx="600" cy="160.0" r="3.5" fill="#059669"/>
+        <circle cx="600" cy="170.0" r="3.5" fill="#7c3aed"/>
+      </svg>
+    </div>
+    <div class="chart-legend">
+      <span style="color:#dc2626"><i></i>VCI 1507 · 4S</span>
+      <span style="color:#ea580c"><i></i>DYH1408 · 4S</span>
+      <span style="color:#2563eb"><i></i>VCI 1408 · 4S</span>
+      <span style="color:#059669"><i></i>VCI 1404.5 · 3S</span>
+      <span style="color:#7c3aed"><i></i>VCI 1404 · 3S</span>
+    </div>
+    <small>資料來源：各馬達原廠 GF2828-3 測功表。3S 曲線電壓較低，不可與 4S 直接當「同條件」比絕對推力，但可看檔位落差。</small>
+  </div>
+
+  <h3>滿油門電流對照（吃電程度）</h3>
+  <div class="card">
+    <div class="bars-peak">
+      <div class="row"><div class="lab">火神 VCI 1507<span>4S · GF2828-3</span></div><div class="track"><i class="bad" style="width:100%"></i></div><div class="val">24.6A</div></div>
+      <div class="row"><div class="lab">DYH1408<span>4S</span></div><div class="track"><i class="warn" style="width:84.6%"></i></div><div class="val">20.8A</div></div>
+      <div class="row"><div class="lab">火神 VCI 1408<span>4S</span></div><div class="track"><i class="warn" style="width:82.9%"></i></div><div class="val">20.4A</div></div>
+      <div class="row"><div class="lab">LANNRC 1404<span>4S · 4024†</span></div><div class="track"><i class="dim" style="width:61%"></i></div><div class="val">15.0A†</div></div>
+      <div class="row"><div class="lab">火神 VCI 1404.5<span>3S</span></div><div class="track"><i class="ok" style="width:63.4%"></i></div><div class="val">15.6A</div></div>
+      <div class="row"><div class="lab">火神 VCI 1404<span>3S</span></div><div class="track"><i class="ok" style="width:57.7%"></i></div><div class="val">14.2A</div></div>
+    </div>
+    <small>條長＝相對 24.6A。越長越吃電，越需要高 C 電池。</small>
+    <div class="note info" style="margin-top:12px;margin-bottom:0">
+      <b>怎麼讀：</b>攻擊機看峰值推力＋60–70% 中段；防禦機看電流與重量。
+      1507 推力第一但最吃電 → 射手／短時硬頂；1408 較均衡；1404 級適合輕量防禦。
+    </div>
+  </div>
+
+  <h3>單顆馬達重量</h3>
+  <div class="card">
+    <div class="bars-peak">
+      <div class="row"><div class="lab">火神 VCI 1507<span>四顆約 60g</span></div><div class="track"><i style="width:100%"></i></div><div class="val">15.0g</div></div>
+      <div class="row"><div class="lab">DYH1408<span>四顆約 60g</span></div><div class="track"><i style="width:100%"></i></div><div class="val">15.0g</div></div>
+      <div class="row"><div class="lab">火神 VCI 1408<span>四顆約 54g</span></div><div class="track"><i style="width:90.7%"></i></div><div class="val">13.6g</div></div>
+      <div class="row"><div class="lab">T-HOBBY P1604<span>四顆約 46g</span></div><div class="track"><i class="dim" style="width:77.3%"></i></div><div class="val">11.6g</div></div>
+      <div class="row"><div class="lab">LANNRC 1404<span>四顆約 40g</span></div><div class="track"><i style="width:66.7%"></i></div><div class="val">10.0g</div></div>
+      <div class="row"><div class="lab">火神 VCI 1404.5<span>四顆約 37g</span></div><div class="track"><i style="width:61.3%"></i></div><div class="val">9.2g</div></div>
+      <div class="row"><div class="lab">火神 VCI 1404<span>四顆約 34g</span></div><div class="track"><i style="width:57.5%"></i></div><div class="val">8.6g</div></div>
+    </div>
+    <small>條長＝相對 15.0g。越短越省重量預算。</small>
+  </div>
+
+  <h3>力效比較（g／W，越高越省）</h3>
+  <div class="card">
+    <div class="bars-peak">
+      <div class="row"><div class="lab">火神 VCI 1404<span>3S</span></div><div class="track"><i class="ok" style="width:100%"></i></div><div class="val">1.91</div></div>
+      <div class="row"><div class="lab">火神 VCI 1404.5<span>3S</span></div><div class="track"><i class="ok" style="width:97.9%"></i></div><div class="val">1.87</div></div>
+      <div class="row"><div class="lab">T-HOBBY P1604<span>4S · 3520*</span></div><div class="track"><i class="dim" style="width:96.9%"></i></div><div class="val">1.85*</div></div>
+      <div class="row"><div class="lab">DYH1408／1408<span>4S</span></div><div class="track"><i style="width:92.1%"></i></div><div class="val">1.76</div></div>
+      <div class="row"><div class="lab">LANNRC 1404<span>4S · 4024†</span></div><div class="track"><i class="dim" style="width:86.9%"></i></div><div class="val">1.66†</div></div>
+      <div class="row"><div class="lab">火神 VCI 1507<span>4S</span></div><div class="track"><i class="warn" style="width:86.4%"></i></div><div class="val">1.65</div></div>
+    </div>
+    <small>條長＝相對 1.91。*† 非同槳條件。1507 力效較低＝同樣推力較吃電。</small>
+  </div>
+
+  <h2 id="motor-figs">原廠規格／工程圖</h2>
+  <div class="figs">
+    <div class="fig"><a href="../assets/motors/vci1507.jpg" target="_blank" rel="noopener"><img src="../assets/motors/vci1507.jpg" alt="火神 VCI 1507 規格與測功表"></a><span>火神 VCI 1507</span></div>
+    <div class="fig"><a href="../assets/motors/dyh1408.jpg" target="_blank" rel="noopener"><img src="../assets/motors/dyh1408.jpg" alt="T-HOBBY DYH1408 規格表"></a><span>DYH1408</span></div>
+    <div class="fig"><a href="../assets/motors/vci1408.jpg" target="_blank" rel="noopener"><img src="../assets/motors/vci1408.jpg" alt="火神 VCI 1408 工程圖與規格"></a><span>火神 VCI 1408</span></div>
+    <div class="fig"><a href="../assets/motors/vci1404-5.png" target="_blank" rel="noopener"><img src="../assets/motors/vci1404-5.png" alt="火神 VCI 1404.5 工程圖與規格"></a><span>火神 VCI 1404.5</span></div>
+    <div class="fig"><a href="../assets/motors/vci1404.jpg" target="_blank" rel="noopener"><img src="../assets/motors/vci1404.jpg" alt="火神 VCI 1404 工程圖與規格"></a><span>火神 VCI 1404</span></div>
+    <div class="fig"><a href="../assets/motors/lannrc-1404-4600.png" target="_blank" rel="noopener"><img src="../assets/motors/lannrc-1404-4600.png" alt="LANNRC 1404 4600KV 規格與測功表"></a><span>LANNRC 1404 4600KV</span></div>
+    <div class="fig"><a href="../assets/motors/p1604.jpg" target="_blank" rel="noopener"><img src="../assets/motors/p1604.jpg" alt="P1604 工程圖"></a><span>P1604</span></div>
+    <div class="fig"><a href="../assets/motors/sirius1505.jpg" target="_blank" rel="noopener"><img src="../assets/motors/sirius1505.jpg" alt="SIRIUS 1505 系列規格"></a><span>SIRIUS 1505</span></div>
+  </div>
+  <small>縮圖為原廠規格／工程圖，點擊可放大看孔距與測功數據。</small>
+
+  <h2 id="motor-attack">攻擊排序</h2>
+  <div class="cards c2">
+    <div class="card hero">
+      <span class="tag">#1</span>
+      <h4>火神 VCI 1507 4000KV</h4>
+      <div class="stats">
+        <div class="stat"><b>651g</b><span>推力</span></div>
+        <div class="stat"><b>24.6A</b><span>電流</span></div>
+        <div class="stat"><b>295g</b><span>60%推力</span></div>
+        <div class="stat"><b>15.0g</b><span>含線重</span></div>
+      </div>
+      <p><b class="ok">優</b> 同槳級推力最高（比 DYH 多約 51g）；中段也最強（60%＝295g、70%＝380g）；定子 Ø15×7.2、內阻僅 70mΩ；孔距 Φ12 與 DYH 同規。</p>
+      <p style="margin-top:8px"><b class="no">缺</b> 電流最高 24.6A（四軸爆發可近 100A）；力效略低；靜態掃測後 117°C；須配 ≥120–150C 電池與 ESC≥30A。</p>
+    </div>
+    <div class="card">
+      <span class="tag">#2</span>
+      <h4>T-HOBBY（THOBBY）DYH1408 3988KV</h4>
+      <div class="stats">
+        <div class="stat"><b>600g</b><span>推力</span></div>
+        <div class="stat"><b>20.8A</b><span>電流</span></div>
+        <div class="stat"><b>294g</b><span>60%推力</span></div>
+        <div class="stat"><b>15g</b><span>含線重</span></div>
+      </div>
+      <p><b class="ok">優</b> 仍很強；電流比 1507 省約 4A；80%×10s 僅 35°C（測法不同，僅供參考）。</p>
+      <p style="margin-top:8px"><b class="no">缺</b> 峰值低於 1507；機身最長 20.1mm。</p>
+    </div>
+  </div>
+
+  <div class="cards c2" style="margin-top:16px">
+    <div class="card">
+      <span class="tag">#3</span>
+      <h4>火神 VCI 1408 3900KV</h4>
+      <div class="stats">
+        <div class="stat"><b>574g</b><span>推力</span></div>
+        <div class="stat"><b>20.4A</b><span>電流</span></div>
+        <div class="stat"><b>267g</b><span>60%推力</span></div>
+        <div class="stat"><b>13.6g</b><span>含線重</span></div>
+      </div>
+      <p><b class="ok">優</b> 最輕的高推力選項；規格完整。</p>
+      <p style="margin-top:8px"><b class="no">缺</b> 峰值低於 1507／DYH。</p>
+    </div>
+    <div class="card">
+      <span class="tag">#4 輕攻備選</span>
+      <h4>T-HOBBY P1604 3800KV</h4>
+      <div class="stats">
+        <div class="stat"><b>514g*</b><span>推力</span></div>
+        <div class="stat"><b>16.8A*</b><span>電流</span></div>
+        <div class="stat"><b>11.6g</b><span>含線重</span></div>
+        <div class="stat"><b>9×9</b><span>孔距</span></div>
+      </div>
+      <p><b class="ok">優</b> T-MOTOR PACER 線（與 DYH 同品牌族）；比 1408 輕約 2g／顆；電流明顯較低；孔距 <b>9×9mm</b>。官網推薦 2.5–4″ 槳。</p>
+      <p style="margin-top:8px"><b class="no">缺</b> 原廠測功槳 GF3520-3（89mm）<span class="no">比賽違規</span>；換 2828-3 後推力會下降，尚無同槳對照。
+      <b>勿買 2850KV（6S）</b>——電壓違規。勿與 Φ12／Φ9 機架混用。</p>
+    </div>
+  </div>
+
+  <h2 id="motor-defense">防禦排序</h2>
+  <div class="cards c2">
+    <div class="card hero">
+      <span class="tag">#1 硬防</span>
+      <h4>火神 VCI 1408 3900KV</h4>
+      <p class="solid">攻防均衡，力效 1.76–1.78，四顆約 54g</p>
+      <p>要能硬頂又不想換最吃電的 1507 時的最佳解。</p>
+    </div>
+    <div class="card hero">
+      <span class="tag">#1 輕防</span>
+      <h4>火神 VCI 1404.5 4600KV</h4>
+      <div class="stats">
+        <div class="stat"><b>350g</b><span>推力</span></div>
+        <div class="stat"><b>15.6A</b><span>電流</span></div>
+        <div class="stat"><b>9.2g</b><span>含線重</span></div>
+        <div class="stat"><b>1.87</b><span>力效</span></div>
+      </div>
+      <p><b class="ok">優</b> 只有 9.2g，四顆 36.8g，比 1408 省 17g；電流低、續航好。</p>
+      <p style="margin-top:8px"><b class="no">缺</b> 推力僅 1408 的 6 成；原廠只給 3S 測功。</p>
+    </div>
+  </div>
+
+  <div class="cards c2" style="margin-top:16px">
+    <div class="card">
+      <span class="tag">#2 輕防 · 4S 候選</span>
+      <h4>LANNRC 1404 4600KV</h4>
+      <div class="stats">
+        <div class="stat"><b>398g*</b><span>推力</span></div>
+        <div class="stat"><b>15.0A*</b><span>電流</span></div>
+        <div class="stat"><b>10.0g</b><span>重量</span></div>
+        <div class="stat"><b>Φ9</b><span>孔距</span></div>
+      </div>
+      <p><b class="ok">優</b> 10g、2–4S、內阻 142mΩ、滿載 1 分鐘僅 65°C；與 VCI 1404／1404.5 同系 Φ9，可互換機架。
+        想用 4S 又不想上 1408 重量時可考慮。</p>
+      <p style="margin-top:8px"><b class="no">缺</b> 原廠測功槳若為 <b>GF4024</b>（&gt;76mm）則<span class="no">比賽違規</span>；換 2828-3 後推力／電流會下降。
+        同槳合法數據尚缺；暫勿直接跟 VCI 1404.5（2828／3S＝350g）比峰值。
+        入庫以原廠圖為準：<b>4600KV、10g、15A／240W、142mΩ、2–4S</b>（賣場另寫 17.99A 者不採用）。</p>
+    </div>
+    <div class="card">
+      <span class="tag">#3 中防／輕攻</span>
+      <h4>T-HOBBY P1604 3800KV</h4>
+      <p class="solid">11.6g · 4S · 孔距 9×9mm · 原廠峰值約 514g／16.8A*</p>
+      <p>T-MOTOR PACER；要省重又不想用 3S 1404 級時可考慮。須確認機架是 9×9，不是 Φ12／Φ9。<b>勿買 2850KV（6S）</b>。</p>
+      <p class="muted" style="margin-top:8px">*測功槳 3520 違規；實戰 2828 數據待補。官網推薦槳 2.5–4″。</p>
+    </div>
+  </div>
+
+  <div class="cards c2" style="margin-top:16px">
+    <div class="card">
+      <span class="tag">備註</span>
+      <h4>孔距三系不要混</h4>
+      <p class="solid">Φ12：1507／DYH／1408／SIRIUS1505<br>Φ9：VCI 1404／1404.5／<b>LANNRC 1404</b><br>9×9：P1604／GTS</p>
+      <p>碳板孔位不相容，硬鎖會歪、震、裂板。</p>
+    </div>
+    <div class="card">
+      <span class="tag">對照</span>
+      <h4>1404 級誰當輕防？</h4>
+      <p class="solid">有合規槳測功：優先 <b>VCI 1404.5</b>（350g／3S／2828）<br>
+        已有 LANNRC、想跑 4S：先實測 2828 再定<br>
+        最輕省電：VCI 1404 4500KV</p>
+    </div>
+  </div>
+
+  <div class="note warn" style="margin-top:16px">
+    <b>1507 當防禦？</b>推力夠硬頂，但 24.6A 長局耗電快，較適合「射手（攻擊手）」或「短時硬防」，
+    不適合整場低油門控場。硬防長局仍優先 火神 VCI 1408。
+    <br /><br />
+    <b>吸網脫困：</b>大推力較容易掙脫球網吸附；手法與飛控設定見飛控設定章 <a href="飛控設定.html#bf-mesh">吸網效應</a>。
+  </div>
+
+  <h2 id="motor-table">完整規格對照</h2>
+  <div class="wide">
+  <table>
+    <thead><tr>
+      <th>馬達</th><th class="n">KV</th><th>定子</th><th class="n">內阻</th>
+      <th class="n">含線重</th><th class="n">外形</th><th>孔距</th><th class="n">推力</th>
+    </tr></thead>
+    <tbody>
+      <tr><td><b>火神 VCI 1507</b></td><td class="n">4000</td><td>15×7.2 · 12S14P</td><td class="n">70 mΩ</td><td class="n">15.03 g</td><td class="n">Ø19×16.2</td><td>Φ12 4-M2</td><td class="n">651 g</td></tr>
+      <tr><td>T-HOBBY（THOBBY）DYH1408</td><td class="n">3988</td><td>14×8 · 9N12P</td><td class="n">90 mΩ</td><td class="n">15 g</td><td class="n">Ø17.9×20.1</td><td>Φ12 4-M2</td><td class="n">600 g</td></tr>
+      <tr><td>火神 VCI 1408</td><td class="n">3900</td><td>14×8 · 9S12P</td><td class="n">90 mΩ</td><td class="n">13.6 g</td><td class="n">Ø17.6×16</td><td>Φ12 4-M2</td><td class="n">574 g</td></tr>
+      <tr><td>T-HOBBY P1604</td><td class="n">3800</td><td>12N14P</td><td class="muted">—</td><td class="n">11.6 g</td><td class="n">Ø20.8×15.5</td><td><b>9×9</b> 4-M2</td><td class="n">514 g*</td></tr>
+      <tr><td><b>LANNRC 1404</b></td><td class="n">4600</td><td>14×4 · 9N12P</td><td class="n">142 mΩ</td><td class="n">10.0 g</td><td class="n">Ø19.3×14.8</td><td>Φ9 4-M2</td><td class="n">398 g†</td></tr>
+      <tr><td>火神 VCI 1404.5</td><td class="n">4600</td><td>14×4.5</td><td class="n">120 mΩ</td><td class="n">9.2 g</td><td class="n">Ø17.6×12.5</td><td>Φ9 4-M2</td><td class="n">350 g</td></tr>
+      <tr><td>火神 VCI 1404</td><td class="n">4500</td><td>14×4</td><td class="n">150 mΩ</td><td class="n">8.62 g</td><td class="n">Ø17.9×11.9</td><td>Φ9 4-M2</td><td class="n">325 g</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <small>*P1604 推力為 GF3520-3＠4S；†LANNRC 為 GF4024＠16V／4S。兩者槳徑皆 &gt;76mm，比賽須改 ≤76mm，數字會變低。</small>
+
+  <div class="note warn">
+    <p><b>機架相容性（三系不相容）：</b>
+    <b>Φ12 4-M2</b>＝DYH1408／火神 VCI 1408／1507／SIRIUS 1505；
+    <b>Φ9 4-M2</b>＝火神 VCI 1404／1404.5／<b>LANNRC 1404</b>；
+    <b>9×9mm 4-M2</b>＝P1604／GTS V3。</p>
+    <p>Φ12、Φ9、9×9 <span class="no">彼此不相容</span>，換馬達前先確認機架孔位。</p>
+  </div>
+
+  <div class="note info">
+    <p><b>資料狀態：</b>主力機種含火神 VCI 1507／DYH1408／1408／1404／1404.5、<b>LANNRC 1404 4600KV</b>、<b>P1604 3800KV</b>、SIRIUS 1505、
+    GEMFAN 2820／2826／2828、高 C 電池。</p>
+    <p>SIRIUS 1404 不納入候選（同級有更好的 火神 VCI 1404.5）。LANNRC／P1604 尚缺合規槳（2828-3）測功。</p>
+    <p><b>P1604 官網確認：</b>T-HOBBY PACER；球機只買 <b>3800KV／4S</b>（2850KV＝6S 違規）；測功數字與官網一致。</p>
+  </div>
+</main>
+<footer class="site-footer">
+  <div class="inner">
+    <div>嘉華中學足球無人機俱樂部 · FAI F9A-B 配備手冊</div>
+    <div>
+      <a href="../index.html">首頁</a> ·
+      <a href="上場清單.html">上場清單</a> ·
+      <a href="../bfsim.html">設定模擬</a>
+    </div>
+  </div>
+</footer>
+<button type="button" id="back-top" aria-label="回到頂部">↑</button>
+<script src="../assets/site.js?v=7"></script>
+</body>
+</html>

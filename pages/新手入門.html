@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
+<title>新手入門（圖文詳解）· 嘉華足球無人機配備手冊</title>
+<link rel="stylesheet" href="../assets/site.css?v=7" />
+</head>
+<body class="is-page">
+<div class="bg-logo" aria-hidden="true"></div>
+<a class="skip-link" href="#main">跳至主要內容</a>
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="../index.html">
+      <img src="../assets/brand/chia-hwa-drone-team.png?v=7" alt="" width="64" height="36" />
+      <div class="brand-text">
+        <strong>嘉華中學足球無人機俱樂部</strong>
+        <span>配備手冊 · FAI F9A-B</span>
+      </div>
+    </a>
+    <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="siteNav">選單</button>
+    <nav class="site-nav" id="siteNav" aria-label="主要導覽">
+      <a href="../index.html">首頁</a>
+      <span class="nav-label">認識</span>
+      <a href="影片欣賞.html">影片欣賞</a>
+      <a class="on" href="新手入門.html">新手入門</a>
+      <a href="足球無人機技術全解簡報.html">技術全解</a>
+      <span class="nav-label">規則</span>
+      <a href="規則檢錄.html">規則檢錄</a>
+      <a href="FAI_F9A_2026_繁中譯本.html">FAI 譯本</a>
+      <a href="有刷空心杯.html">有刷／空心杯</a>
+      <span class="nav-label">配備</span>
+      <a href="馬達.html">馬達</a>
+      <a href="電池.html">電池</a>
+      <a href="螺旋槳.html">螺旋槳</a>
+      <span class="nav-label">整機</span>
+      <a href="組裝.html">組裝</a>
+      <a href="續航.html">續航</a>
+      <span class="nav-label">系統</span>
+      <a href="飛控硬體.html">飛控硬體</a>
+      <a href="飛控設定.html">飛控設定</a>
+      <a href="LED.html">LED</a>
+      <a href="遙控器採購分析.html">遙控器</a>
+      <a href="../bfsim.html">設定模擬</a>
+      <span class="nav-label">上場</span>
+      <a href="上場清單.html">上場清單</a>
+      <span class="nav-label">圖鑑</span>
+      <a href="飛控AIO產品圖鑑.html">AIO 圖鑑</a>
+      <a href="電池產品圖鑑.html">電池圖鑑</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="main">
+<div class="page-banner">
+  <div class="crumb"><a href="../index.html">首頁</a> / 認識 / 新手入門</div>
+  <div>
+    <h1>新手入門（圖文詳解）</h1>
+    <p class="lead">完全沒碰過無人機也可以從這裡讀。每個零件都用「它是什麼 → 為什麼重要 → 本隊怎麼選」說明，並配上真實器材圖。</p>
+  </div>
+</div>
+
+  <div class="beginner-box">
+    <h3>先建立三個觀念（請慢慢讀完）</h3>
+    <p><b>1. 足球無人機不是玩具遙控車那種「開了就會」。 </b>
+    它是一台真正會飛的四軸飛行器，外面套一顆球形防護罩（像籠子），所以撞牆、撞對手通常不會直接把槳打到人。比賽時大家在網籠場地裡，用遙控器控制自己的球機去「頂開對手、帶球、穿過圓形球門」。</p>
+    <p><b>2. 本隊正式備賽走「無刷 FAI F9A-B」。 </b>
+    你會看到網站也有「有刷／空心杯」頁面——那是另一種較輕、較入門的機種與賽制（FIDA Class 20）。兩邊都叫 20 cm 球，但重量差很多（約 110 g vs 300 g），規則也不一樣。新手若搞混，會買錯零件、秤錯重量。</p>
+    <p><b>3. 這份手冊的閱讀順序建議： </b>
+    先看 <a href="影片欣賞.html">影片</a> 有畫面 → 讀完本頁認識零件 → 再看 <a href="規則檢錄.html">規則檢錄</a> 知道要過什麼門檻 → 最後才進馬達／電池／組裝細節頁背數字。</p>
+  </div>
+
+  <nav class="toc" aria-label="新手入門目錄">
+    <span class="toc-label">本章目錄</span>
+    <a href="#what">什麼是球機</a>
+    <a href="#parts">整機有哪些零件</a>
+    <a href="#motor">馬達</a>
+    <a href="#batt">電池</a>
+    <a href="#prop">螺旋槳</a>
+    <a href="#fc">飛控</a>
+    <a href="#led">LED</a>
+    <a href="#brushed">有刷入門機</a>
+    <a href="#next">下一步</a>
+  </nav>
+
+  <h2 id="what">什麼是「球機」？</h2>
+  <div class="beginner-box">
+    <h3>用生活比喻理解</h3>
+    <p>想像一顆籃球大小的圓籠，裡面掛著一台小四軸無人機。馬達轉槳產生升力，整顆球就能起飛、前進、轉彎。因為有外殼，兩機對撞時多半是「殼撞殼」，比一般穿越機（槳外露）安全很多，也更適合在教室／體育館做團隊運動。</p>
+    <p>比賽時每個人遙控自己的一顆球。其中有一個特別角色叫「射手」（英文 striker，有人叫前鋒／攻擊手）——<b>只有射手進對方球門才算得分</b>。其他人的工作是保護、擋人、帶球給射手，或守住己方球門。這跟一般足球「誰踢進都算」不一樣，所以燈光顏色很重要：裁判與對手要一眼看出誰是射手。</p>
+  </div>
+
+  <h2 id="parts">一台無刷球機大概有哪些零件？</h2>
+  <div class="beginner-box">
+    <p>本隊無刷機（FAI F9A-B）送檢時，秤上的重量幾乎包含下面全部東西加總（含電池）：</p>
+    <ul>
+      <li><b>球形外框（球殼）</b>：塑膠或複合材料做成的籠子，保護內部，也決定能不能通過直徑檢查。</li>
+      <li><b>碳纖維中心板／機架</b>：固定馬達與飛控的底板，要夠硬才不會撞一撞就歪。</li>
+      <li><b>四顆無刷馬達＋四支槳</b>：產生推力；正槳與反槳要對角安裝，否則機會自己轉圈。</li>
+      <li><b>飛控（常做成 AIO＝飛控＋電調一體板）</b>：像大腦＋四肢驅動，聽遙控器指令、穩定姿態。</li>
+      <li><b>鋰聚合物電池（LiPo）</b>：電力來源；本隊比賽常用 4S（四芯串聯）。</li>
+      <li><b>LED 燈條</b>：顯示隊色與射手身份；規則有最少顆數。</li>
+      <li><b>接收機／天線</b>：收遙控訊號（本隊常用 ELRS 這類協議）。</li>
+      <li><b>線材、插頭、魔鬼氈、螺絲</b>：看起來不起眼，但都會進秤，也最容易在維修時「偷偷變重」。</li>
+    </ul>
+    <p>規則上限是 <b>含電池總重 ≤300 g</b>。所以組裝時不是「零件愈強愈好」，而是「夠用又過得了秤」。</p>
+  </div>
+
+  <!-- 馬達 -->
+  <h2 id="motor">馬達：為什麼攻擊機與防守機不一樣？</h2>
+  <article class="media-explain">
+    <figure class="media-explain-pic">
+      <a href="../assets/motors/vci1507.jpg" target="_blank" rel="noopener">
+        <img src="../assets/motors/vci1507.jpg" alt="火神 VCI 1507 原廠規格與測功表" loading="lazy" />
+      </a>
+      <figcaption>攻擊主力示例：火神 VCI 1507（點圖放大）</figcaption>
+    </figure>
+    <div class="media-explain-body">
+      <h3>無刷馬達在做什麼？</h3>
+      <p>馬達轉動螺旋槳，把電力變成「往下推空氣」的力，機體就往上飛。推力愈大，加速、爬升、頂人時愈有力；但通常也愈吃電、愈重、愈熱。</p>
+      <p><b>攻擊機</b>常需要突然衝刺、卡位、擠開守門員，所以本隊優先選推力高的 <b>VCI 1507</b>（或 DYH1408）。你可以在 <a href="馬達.html">馬達頁</a> 看到測功曲線：油門拉到中高段時，1507 的推力明顯較高。</p>
+      <p><b>防守機</b>要飛得久、轉得靈、比較不那麼「暴衝」，本隊常用較均衡的 <b>VCI 1408</b>。若還要更輕，才會考慮更小的 1404.5 搭配 3S 電池——但那是進階取捨，新手先記「攻擊 1507、防守 1408」即可。</p>
+    </div>
+  </article>
+  <article class="media-explain flip">
+    <figure class="media-explain-pic">
+      <a href="../assets/motors/vci1408.jpg" target="_blank" rel="noopener">
+        <img src="../assets/motors/vci1408.jpg" alt="火神 VCI 1408 工程圖與規格" loading="lazy" />
+      </a>
+      <figcaption>防守主力示例：火神 VCI 1408（點圖放大）</figcaption>
+    </figure>
+    <div class="media-explain-body">
+      <h3>新手最常踩的坑：孔距</h3>
+      <p>馬達要用螺絲鎖在碳板上。不同馬達的螺絲孔圓心距離不一樣（例如 Φ12 與 Φ9）。<b>孔對不上就不能硬鎖</b>，否則會歪、會裂板、飛起來振動大到像壞掉。</p>
+      <p>所以換馬達前先問老師／學長：我們這塊板是哪一種孔？再對照馬達頁的規格圖。詳細數字與排序請進 <a href="馬達.html">馬達</a>。</p>
+    </div>
+  </article>
+
+  <!-- 電池 -->
+  <h2 id="batt">電池：不是「毫安愈大愈好」這麼簡單</h2>
+  <article class="media-explain">
+    <figure class="media-explain-pic">
+      <a href="../assets/batteries/tattu-v5-850.png" target="_blank" rel="noopener">
+        <img src="../assets/batteries/tattu-v5-850.png" alt="Tattu R-Line V5 850mAh 4S 150C 產品圖" loading="lazy" />
+      </a>
+      <figcaption>高 C 電池示例：Tattu V5 850（點圖放大）</figcaption>
+    </figure>
+    <div class="media-explain-body">
+      <h3>你需要聽懂的三個詞</h3>
+      <ul>
+        <li><b>4S</b>：四顆電芯串聯，標稱約 14.8 V。FAI F9A-B <b>最高只能 4S</b>；拿 6S 去比賽是直接違規。</li>
+        <li><b>mAh（毫安時）</b>：容量大概，數字大通常飛久一點，但也較重。太重會讓整機逼近 300 g。</li>
+        <li><b>C 數</b>：粗略代表「能不能瞬間放電」。足球機常猛催油門，需要「高 C」才不容易電壓掉下來、飛控重開或動力變軟。本隊口訣是 <b>4S 高 C</b>。</li>
+      </ul>
+      <p>檢錄時還會量「每一芯有沒有超過 4.25 V」。有些電池能充到更高（LiHV），但比賽不能充那麼滿上場。細節與候選清單見 <a href="電池.html">電池</a>、<a href="電池產品圖鑑.html">電池圖鑑</a>。</p>
+    </div>
+  </article>
+
+  <!-- 槳 -->
+  <h2 id="prop">螺旋槳：為什麼要統一 2828-3？</h2>
+  <article class="media-explain">
+    <figure class="media-explain-pic">
+      <a href="../assets/props/gemfan2828-3-orange.jpg" target="_blank" rel="noopener">
+        <img src="../assets/props/gemfan2828-3-orange.jpg" alt="GEMFAN 2828-3 產品照" loading="lazy" />
+      </a>
+      <figcaption>本隊主力槳：GEMFAN 2828-3（點圖放大）</figcaption>
+    </figure>
+    <div class="media-explain-body">
+      <h3>槳決定「咬多少空氣」</h3>
+      <p>同樣的馬達，換不同槳，推力與電流會差很多。規則規定槳徑最大約 <b>76 mm（3 吋）</b>，而且<b>禁止金屬槳</b>（安全與規則雙重原因）。</p>
+      <p>本隊統一 <b>2828-3</b>（三葉），是為了：測功數據能互相比較、備品好共用、維修時不會裝錯尺寸。槳還有「正轉／反轉」——裝反會飛不起來或狂轉，組裝時一定要對照說明書與學長示範。</p>
+      <p>完整合規表與 HQProp 產品照見 <a href="螺旋槳.html">螺旋槳</a>。</p>
+    </div>
+  </article>
+
+  <!-- 飛控 -->
+  <h2 id="fc">飛控／AIO：球機的「大腦＋四肢」</h2>
+  <article class="media-explain">
+    <figure class="media-explain-pic">
+      <a href="../assets/fc/oxbot-flow-aio45.png" target="_blank" rel="noopener">
+        <img src="../assets/fc/oxbot-flow-aio45.png" alt="Oxbot Flow AIO45 正面" loading="lazy" />
+      </a>
+      <figcaption>攻擊主力飛控：Oxbot Flow AIO45（點圖放大）</figcaption>
+    </figure>
+    <div class="media-explain-body">
+      <h3>它負責什麼？</h3>
+      <p>飛控讀陀螺儀（感應機身姿態），再命令電調去驅動四顆馬達，讓球機聽你搖桿的意思，而不是自己亂翻。現在很多板子把「飛控＋四合一電調」做在同一片，叫 <b>AIO</b>，省空間也省焊點。</p>
+      <p>本隊常見選項包括 Oxbot、RATE F4、HAKRC F411 等。你現在不需要一次背完所有接腳，但要知道：</p>
+      <ul>
+        <li>接錯電源極性會燒掉板子；</li>
+        <li>必須設定 <b>Failsafe＝失控立刻停轉</b>（安全鐵律）；</li>
+        <li>設定可用 <a href="../bfsim.html">Betaflight 模擬頁</a> 先練習，再上真機。</li>
+      </ul>
+      <p>接線圖與產品說明見 <a href="飛控硬體.html">飛控硬體</a>、<a href="飛控設定.html">飛控設定</a>。</p>
+    </div>
+  </article>
+  <article class="media-explain flip">
+    <figure class="media-explain-pic">
+      <a href="../assets/fc/hakrc-f411-40a-pinout.png" target="_blank" rel="noopener">
+        <img src="../assets/fc/hakrc-f411-40a-pinout.png" alt="F411 40A AIO 接口定義圖" loading="lazy" />
+      </a>
+      <figcaption>接線／接口定義圖（點圖放大對照）</figcaption>
+    </figure>
+    <div class="media-explain-body">
+      <h3>為什麼要有「接口圖」？</h3>
+      <p>板上每一排針腳都有固定用途：接收機訊號、LED、蜂鳴器、USB 設定口等。新手最怕「看起來長得很像就亂插」。正確做法是：把手機或筆電打開這張圖，一根一根對，對完請學長檢查，再通電。</p>
+    </div>
+  </article>
+
+  <!-- LED -->
+  <h2 id="led">LED：不是裝飾，是比賽身分證</h2>
+  <div class="beginner-box">
+    <h3>為什麼燈那麼重要？</h3>
+    <p>球場上同時可能有很多顆球在飛，裁判與對手要在 0.5 秒內判斷「這是紅隊還是藍隊」「哪一顆才是可以得分的射手」。所以規則要求：</p>
+    <ul>
+      <li>主燈（環形）至少 16 顆，整隊統一紅或藍；</li>
+      <li>尾燈至少 6 顆，用來分辨個別球機；</li>
+      <li><b>射手的尾燈必須是「對方隊色」</b>（紅隊射手用藍尾、藍隊射手用紅尾），才夠醒目。</li>
+    </ul>
+    <p>本隊實務做成約 <b>22 顆</b>（主 16＋尾 6）。亮度不用開到刺眼，但要保證場邊看得見。換射手時，記得改尾燈顏色——中場通常來不及接電腦，所以要事先準備好切換方式。完整說明見 <a href="LED.html">LED</a>。</p>
+  </div>
+
+  <!-- 有刷 -->
+  <h2 id="brushed">若你先摸到的是「有刷／空心杯」機？</h2>
+  <article class="media-explain">
+    <figure class="media-explain-pic">
+      <a href="../assets/brushed/tc200i-kit.jpg" target="_blank" rel="noopener">
+        <img src="../assets/brushed/tc200i-kit.jpg" alt="天穹飛球 TC200I 套件：球機、遙控器、電池與備品" loading="lazy" />
+      </a>
+      <figcaption>入門有刷套件示例：天穹飛球 TC200I（點圖放大）</figcaption>
+    </figure>
+    <div class="media-explain-body">
+      <h3>跟本隊無刷備賽有何不同？</h3>
+      <p>有刷空心杯機通常更輕、更便宜、開箱即可飛，適合先練方向感與團隊配合。它常見於 <b>FIDA Class 20</b>（總重約 ≤110 g）。遙控器上常有「定高」「大小動」開關，新手可以先開定高把高度穩住，再慢慢練前進與轉向。</p>
+      <p>但請記住：<b>有刷機的規則、場地、射手人數，與 FAI F9A-B 無刷備賽不是同一套。</b>正式要打本隊那種無刷賽，仍要回到 300 g、4S、自組飛控那條路。完整對照與 Class 20 規則見 <a href="有刷空心杯.html">有刷／空心杯</a>。</p>
+    </div>
+  </article>
+  <article class="media-explain flip">
+    <figure class="media-explain-pic">
+      <a href="../assets/brushed/tc200i-remote.jpg" target="_blank" rel="noopener">
+        <img src="../assets/brushed/tc200i-remote.jpg" alt="有刷遙控器按鍵：定高、大小動、微調、LED" loading="lazy" />
+      </a>
+      <figcaption>有刷遙控器按鍵示意（點圖放大）</figcaption>
+    </figure>
+    <div class="media-explain-body">
+      <h3>第一次上手遙控器怎麼做？</h3>
+      <ul>
+        <li>先問清楚電源順序（常見：先開遙控，再給機身通電）。</li>
+        <li>油門（通常左搖桿上下）慢慢推，不要一秒推到底。</li>
+        <li>定高打開後，先練習左右與前後，再練習轉彎。</li>
+        <li>落地後先把油門收到最低，再依規定斷電。</li>
+      </ul>
+    </div>
+  </article>
+
+  <h2 id="next">讀完本頁，接下來做什麼？</h2>
+  <div class="beginner-box">
+    <ol>
+      <li>打開 <a href="規則檢錄.html">規則檢錄</a>，把「300 g、4S、槳 76 mm、LED、1 名射手」用自己的話講給同學聽一遍。</li>
+      <li>到首頁看 <a href="../index.html#picks">本隊定稿</a>：攻擊與防守各記一組配備。</li>
+      <li>再進 <a href="馬達.html">馬達</a>／<a href="電池.html">電池</a> 看圖與表格（此時再看數字才有意義）。</li>
+      <li>組機前讀 <a href="組裝.html">組裝</a>；上場前用 <a href="上場清單.html">上場清單</a> 逐項勾選。</li>
+    </ol>
+    <p>有任何名詞看不懂，先回到本頁搜尋標題，或問學長「這個零件在球機的哪裡」。不要害羞——足球無人機本來就該從零講清楚。</p>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="inner">
+    <div>嘉華中學足球無人機俱樂部 · 新手入門</div>
+    <div>
+      <a href="../index.html">首頁</a> ·
+      <a href="影片欣賞.html">影片</a> ·
+      <a href="規則檢錄.html">規則檢錄</a>
+    </div>
+  </div>
+</footer>
+<button type="button" id="back-top" aria-label="回到頂部">↑</button>
+<script src="../assets/site.js?v=7"></script>
+</body>
+</html>

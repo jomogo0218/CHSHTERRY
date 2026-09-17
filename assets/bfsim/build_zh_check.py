@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""檢查 bfsim 繁中說明檔是否完整覆蓋 catalog。"""
+"""檢查 bfsim 繁中說明檔是否完整覆蓋 catalog，並同步產出給網頁用的 .js。"""
 
 import json
 from pathlib import Path
@@ -23,3 +23,17 @@ for name, expected in (
     print(f"{name}: {len(expected)} 項，missing={len(missing)}")
     if missing:
         print(f"  缺少：{', '.join(missing)}")
+
+# bfsim.html 以 <script> 載入（file:// 無法 fetch JSON）
+for src, global_name in (
+    ("catalog.json", "BFSIM_CATALOG"),
+    ("zh_explain.json", "BFSIM_ZH_EXPLAIN"),
+):
+    raw = (ROOT / src).read_text(encoding="utf-8")
+    out = ROOT / Path(src).with_suffix(".js").name
+    out.write_text(
+        f"/* auto-generated from {src} — do not edit by hand */\n"
+        f"window.{global_name} = {raw};\n",
+        encoding="utf-8",
+    )
+    print(f"wrote {out.name}")
