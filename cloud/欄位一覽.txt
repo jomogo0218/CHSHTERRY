@@ -1,0 +1,90 @@
+足球俱樂部資料庫 · 分頁與欄位一覽
+================================
+
+貼上「足球俱樂部資料庫.gs」後，在 Apps Script 執行 setupDatabase()，
+會自動建立試算表＋以下分頁表頭（第 1 列＝欄位名）。
+
+
+【分頁】機隊（一台球機一列）
+--------------------------------
+A  drone_id         機號ID（主鍵，如 ATK-01）
+B  drone_name       機名
+C  role             定位：攻擊／防守／練習／備用
+D  board_name       飛控板型
+E  fc_variant       韌體系列（BTFL…）
+F  fc_version       韌體版本
+G  status           狀態：服役／維修／退役
+H  owner            負責人
+I  notes            備註
+J  last_backup_id   最近備份ID
+K  last_backup_at   最近備份時間
+L  created_at       建檔時間
+M  updated_at       更新時間
+
+
+【分頁】備份紀錄（每次完整備份一列；大檔在雲端硬碟，此表存連結）
+--------------------------------
+A  backup_id            備份ID
+B  created_at           備份時間 ISO
+C  created_local        本機時間字串
+D  drone_id             機號ID
+E  drone_name           機名
+F  board_name           飛控板型
+G  fc_variant           韌體系列
+H  fc_version           韌體版本
+I  mcu_target           MCU／Target
+J  dump_set_count       dump 內 set 筆數
+K  cli_cmd_count        CLI 指令數
+L  msp_ok_count         MSP 成功數
+M  sensor_gyro          陀螺儀 Y/N
+N  sensor_acc           加速度計 Y/N
+O  sensor_baro          氣壓計 Y/N
+P  sensor_mag           磁力計 Y/N
+Q  sensor_gps           GPS Y/N
+R  dataflash_used       Dataflash 已用 bytes
+S  blackbox_bytes       黑盒子檔大小
+T  file_dump_url        dump-all 雲端連結
+U  file_diff_url        diff-all 雲端連結
+V  file_status_url      status 雲端連結
+W  file_json_url        完整 JSON 連結
+X  file_blackbox_url    黑盒子 .bbl 連結
+Y  source               來源 analyzer／auto／manual
+Z  uploader             上傳者
+AA notes                備註
+AB ok                   是否成功 TRUE/FALSE
+
+
+【分頁】傳感器日誌（即時監控抽樣，選用）
+--------------------------------
+A  log_id
+B  logged_at
+C  drone_id
+D  drone_name
+E  gyro                 正常／未偵測／讀取中
+F  acc
+G  baro
+H  mag
+I  gps
+J  sensor_bits          原始 bitmask
+K  cycle_us             迴圈 µs
+L  cpu_load             CPU %
+M  vbat                 電壓
+N  armed
+O  note
+
+
+【分頁】_系統
+--------------------------------
+A  key
+B  value
+C  note
+（存放試算表／Drive 資料夾網址等）
+
+
+部署步驟（摘要）
+--------------------------------
+1. Apps Script 專案「足球俱樂部資料庫」→ 貼上 足球俱樂部資料庫.gs
+2. 執行 setupDatabase（授權）
+3. 部署 → 網頁應用程式 → 任何人
+4. 複製網址到配置分析頁「雲端資料庫」→ 測試連線
+5. 勾選「備份完成後自動上傳雲端」

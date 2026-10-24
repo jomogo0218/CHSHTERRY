@@ -1,0 +1,2505 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex" />
+<title>配置分析 · 嘉華足球無人機配備手冊</title>
+<link rel="stylesheet" href="assets/site.css?v=8" />
+<style>
+/* 配置分析 · 飛控調參工作台 */
+.az {
+  --az-ink: #0b1520;
+  --az-mute: #5a6b7c;
+  --az-line: #d0dae6;
+  --az-panel: #fbfcfe;
+  --az-panel2: #f1f6fa;
+  --az-accent: var(--accent);
+  --az-ok: #0f7a4d;
+  --az-warn: #9a6700;
+  --az-mono: "Cascadia Code", "Sarasa Mono TC", Consolas, ui-monospace, monospace;
+}
+.az-hero {
+  display: grid; grid-template-columns: 1fr auto; gap: 18px 28px; align-items: end;
+  margin: 4px 0 22px; padding: 18px 20px; border-radius: 16px;
+  background:
+    linear-gradient(135deg, rgba(4,119,168,.12), transparent 42%),
+    linear-gradient(180deg, #fff, var(--az-panel2));
+  border: 1px solid var(--az-line);
+  animation: azIn .45s ease both;
+}
+@media (max-width: 720px) { .az-hero { grid-template-columns: 1fr; } }
+.az-hero .crumb { margin: 0 0 8px; font-size: 12.5px; color: var(--az-mute); }
+.az-hero .crumb a { color: inherit; text-decoration: none; font-weight: 600; }
+.az-hero .crumb a:hover { color: var(--az-accent); }
+.az-hero .kicker {
+  font-family: var(--font-ui); font-size: 11px; font-weight: 700;
+  letter-spacing: .16em; text-transform: uppercase; color: var(--az-accent); margin: 0 0 6px;
+}
+.az-hero h1 {
+  font-family: var(--font-ui); font-size: clamp(1.7rem, 2.8vw, 2.2rem);
+  font-weight: 700; letter-spacing: -.02em; margin: 0; color: var(--az-ink);
+}
+.az-hero p { margin: 8px 0 0; max-width: 40rem; color: var(--az-mute); font-size: .95rem; line-height: 1.55; }
+.az-sys {
+  display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; align-self: center;
+}
+.az-sys .led {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-family: var(--font-ui); font-size: 11.5px; font-weight: 700;
+  padding: 7px 11px; border-radius: 8px; border: 1px solid var(--az-line);
+  background: #fff; color: var(--az-mute);
+}
+.az-sys .led i {
+  width: 8px; height: 8px; border-radius: 50%; background: #b6c3d4; flex: none;
+}
+.az-sys .led.on { color: var(--az-ink); border-color: #b7d7e8; background: #f3fafd; }
+.az-sys .led.on i { background: var(--az-ok); box-shadow: 0 0 0 3px rgba(15,122,77,.18); }
+.az-sys .led.off i { background: #c4473a; box-shadow: 0 0 0 3px rgba(180,35,24,.15); }
+
+.az-grid {
+  display: grid; grid-template-columns: minmax(280px, 340px) minmax(0, 1fr);
+  gap: 18px; align-items: start; animation: azIn .5s .05s ease both;
+}
+@media (max-width: 960px) { .az-grid { grid-template-columns: 1fr; } }
+
+.az-rail, .az-stage {
+  background: var(--az-panel); border: 1px solid var(--az-line); border-radius: 16px;
+  box-shadow: 0 1px 0 rgba(15,23,36,.03);
+}
+.az-rail { position: sticky; top: calc(var(--header-h) + 10px); padding: 16px; }
+@media (max-width: 960px) { .az-rail { position: static; } }
+.az-rail .az-h {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  margin: 0 0 14px; padding-bottom: 12px; border-bottom: 1px solid var(--az-line);
+}
+.az-rail .az-h h2 {
+  font-family: var(--font-ui); font-size: 13px; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--az-ink); margin: 0;
+}
+.az-rail .step {
+  font-family: var(--az-mono); font-size: 11px; color: var(--az-mute);
+  background: var(--az-panel2); border-radius: 6px; padding: 3px 7px;
+}
+
+.az-field { margin: 0 0 12px; }
+.az-field label {
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-size: 12px; font-weight: 700; color: var(--az-mute); margin: 0 0 6px;
+  letter-spacing: .04em; text-transform: uppercase; font-family: var(--font-ui);
+}
+.az-field input, .az-field textarea {
+  width: 100%; border: 1px solid var(--az-line); border-radius: 10px;
+  background: #fff; padding: 10px 12px; font: inherit; color: var(--az-ink);
+  outline: none; transition: border-color .15s, box-shadow .15s;
+}
+.az-field input:focus, .az-field textarea:focus {
+  border-color: var(--az-accent); box-shadow: 0 0 0 3px rgba(4,119,168,.15);
+}
+.az-field textarea {
+  font-family: var(--az-mono); font-size: 12px; line-height: 1.45;
+  min-height: 150px; resize: vertical; background: #f7fafc;
+}
+
+.az-btnrow { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 12px; }
+.az-btn {
+  appearance: none; cursor: pointer; font: inherit; font-weight: 700; font-size: 13px;
+  border-radius: 9px; padding: 9px 13px; border: 1px solid var(--az-line);
+  background: #fff; color: var(--az-ink); transition: .15s ease;
+}
+.az-btn:hover { border-color: var(--az-accent); color: var(--az-accent); }
+.az-btn:active { transform: translateY(1px); }
+.az-btn:disabled { opacity: .4; cursor: not-allowed; transform: none; }
+.az-btn.main { background: var(--az-accent); border-color: var(--az-accent); color: #fff; }
+.az-btn.main:hover { background: var(--accent-deep); border-color: var(--accent-deep); color: #fff; }
+.az-btn.ghost-file { display: inline-flex; align-items: center; }
+.az-btn.ghost-file input { display: none; }
+.az-btn.quiet { border-color: transparent; background: transparent; color: var(--az-mute); }
+.az-btn.quiet:hover { color: var(--bad); }
+
+.az-status {
+  font-size: 12.5px; color: var(--az-accent); margin: 0 0 12px; min-height: 1.2em;
+  padding: 8px 10px; border-radius: 8px; background: rgba(4,119,168,.06);
+}
+.az-status:empty { display: none; }
+.az-status.err { color: var(--bad); background: var(--bad-soft); }
+
+.az-loaded { margin-top: 4px; padding-top: 12px; border-top: 1px solid var(--az-line); }
+.az-loaded h3 {
+  font-family: var(--font-ui); font-size: 11px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--az-mute); margin: 0 0 8px;
+}
+.az-item {
+  display: flex; align-items: center; gap: 10px; padding: 10px;
+  border: 1px solid var(--az-line); border-radius: 10px; background: #fff; margin-bottom: 8px;
+}
+.az-item .dot { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+.az-item .meta { flex: 1; min-width: 0; }
+.az-item .meta strong {
+  display: block; font-size: 13px; font-weight: 700; white-space: nowrap;
+  overflow: hidden; text-overflow: ellipsis;
+}
+.az-item .meta span { font-size: 11.5px; color: var(--az-mute); font-family: var(--az-mono); }
+.az-item button {
+  border: 0; background: var(--az-panel2); color: var(--az-mute); cursor: pointer;
+  width: 28px; height: 28px; border-radius: 7px; font-size: 16px; line-height: 1;
+}
+.az-item button:hover { color: var(--bad); background: var(--bad-soft); }
+
+.az-stage { padding: 0; overflow: hidden; min-width: 0; }
+.az-toolbar {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 12px 14px; background: linear-gradient(180deg, #f7fafc, #eef3f7);
+  border-bottom: 1px solid var(--az-line);
+}
+.az-toolbar .count {
+  font-family: var(--az-mono); font-size: 12px; font-weight: 700;
+  color: var(--az-ink); background: #fff; border: 1px solid var(--az-line);
+  border-radius: 999px; padding: 5px 10px;
+}
+.az-seg { display: flex; gap: 4px; flex-wrap: wrap; }
+.az-seg button {
+  appearance: none; cursor: pointer; border: 1px solid transparent;
+  background: transparent; border-radius: 8px; padding: 7px 12px;
+  font: inherit; font-weight: 700; font-size: 13px; color: var(--az-mute);
+}
+.az-seg button:hover { color: var(--az-ink); background: rgba(255,255,255,.7); }
+.az-seg button.on {
+  color: #fff; background: var(--az-accent); border-color: var(--az-accent);
+}
+
+.az-body { padding: 16px; }
+.az-empty {
+  padding: 56px 16px; text-align: center; color: var(--az-mute);
+  border: 1.5px dashed var(--az-line); border-radius: 12px; background: #fafcfd;
+}
+.az-empty strong { display: block; color: var(--az-ink); font-size: 1.05rem; margin-bottom: 6px; }
+.az-empty .hint { font-size: 13px; margin-top: 10px; color: var(--az-mute); }
+
+.az-board { animation: azSlide .4s ease both; }
+.az-identity {
+  display: flex; flex-wrap: wrap; gap: 14px 20px; align-items: flex-start;
+  padding: 16px 18px; border-radius: 12px; margin-bottom: 14px;
+  background: linear-gradient(120deg, #0c3d56 0%, #0477a8 55%, #0f7a8a 100%);
+  color: #e8f4fa;
+}
+.az-identity .tag {
+  font-family: var(--font-ui); font-size: 10px; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase; opacity: .75; margin: 0 0 4px;
+}
+.az-identity h3 {
+  margin: 0; font-family: var(--font-ui); font-size: 1.15rem; font-weight: 700; color: #fff;
+}
+.az-identity .sub { margin: 4px 0 0; font-size: 12.5px; opacity: .85; font-family: var(--az-mono); }
+.az-identity .badges { display: flex; flex-wrap: wrap; gap: 6px; margin-left: auto; }
+.az-identity .badge {
+  font-size: 11.5px; font-weight: 700; padding: 5px 9px; border-radius: 6px;
+  background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.2); color: #fff;
+}
+
+.az-metrics {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-bottom: 16px;
+}
+@media (max-width: 800px) { .az-metrics { grid-template-columns: repeat(2, 1fr); } }
+.az-metric {
+  background: #fff; border: 1px solid var(--az-line); border-radius: 12px; padding: 12px 14px;
+  border-top: 3px solid var(--az-accent);
+}
+.az-metric .lab {
+  font-family: var(--font-ui); font-size: 10.5px; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--az-mute); margin: 0 0 6px;
+}
+.az-metric .val {
+  font-family: var(--az-mono); font-size: 1.15rem; font-weight: 700; color: var(--az-ink);
+  letter-spacing: -.02em; word-break: break-all;
+}
+.az-metric .val.sm { font-size: .92rem; }
+
+.az-block { margin-bottom: 16px; }
+.az-block > h4 {
+  font-family: var(--font-ui); font-size: 12px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--az-mute);
+  margin: 0 0 10px; display: flex; align-items: center; gap: 8px;
+}
+.az-block > h4::after {
+  content: ""; flex: 1; height: 1px; background: var(--az-line);
+}
+.az-guide {
+  margin: 0 0 16px; padding: 14px 16px; border-radius: 12px;
+  background: #f3f8fc; border: 1px solid #cfe0ec; border-left: 4px solid var(--az-accent);
+}
+.az-guide h4 {
+  margin: 0 0 8px; font-family: var(--font-ui); font-size: 14px; font-weight: 700; color: var(--az-ink);
+}
+.az-guide p, .az-guide li {
+  margin: 0 0 6px; font-size: 13.5px; line-height: 1.55; color: #3d4f5f;
+}
+.az-guide ul { margin: 8px 0 0; padding-left: 1.2em; }
+.az-guide li:last-child, .az-guide p:last-child { margin-bottom: 0; }
+.az-guide .tagline { font-size: 12.5px; color: var(--az-accent); font-weight: 700; margin-bottom: 6px; }
+.az-gloss {
+  display: grid; gap: 8px; margin: 0 0 16px;
+}
+.az-gloss details {
+  background: #fff; border: 1px solid var(--az-line); border-radius: 10px; padding: 0;
+}
+.az-gloss summary {
+  cursor: pointer; list-style: none; padding: 11px 14px; font-weight: 700; font-size: 13.5px;
+  color: var(--az-ink); display: flex; justify-content: space-between; gap: 10px; align-items: center;
+}
+.az-gloss summary::-webkit-details-marker { display: none; }
+.az-gloss summary::after { content: "＋"; color: var(--az-mute); font-weight: 700; }
+.az-gloss details[open] summary::after { content: "－"; }
+.az-gloss .body {
+  padding: 0 14px 12px; font-size: 13.5px; line-height: 1.55; color: #3d4f5f;
+  border-top: 1px solid #eef2f6;
+}
+.az-gloss .body p { margin: 10px 0 0; }
+.az-gloss .range {
+  display: inline-block; margin-top: 8px; font-family: var(--az-mono); font-size: 12px;
+  font-weight: 700; color: var(--accent-deep); background: var(--accent-soft);
+  padding: 4px 8px; border-radius: 6px;
+}
+.az-cell.label[title], .az-tip {
+  cursor: help; border-bottom: 1px dotted #8aa0b3;
+}
+
+.az-pidgrid {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px;
+}
+@media (max-width: 800px) { .az-pidgrid { grid-template-columns: 1fr; } }
+.az-pidcard {
+  border: 1px solid var(--az-line); border-radius: 12px; background: #fff; padding: 12px;
+}
+.az-pidcard .axis {
+  font-family: var(--font-ui); font-size: 12px; font-weight: 700; color: var(--az-accent); margin: 0 0 10px;
+}
+.az-barrow { display: grid; grid-template-columns: 18px 1fr 42px; gap: 8px; align-items: center; margin: 0 0 7px; }
+.az-barrow span { font-family: var(--az-mono); font-size: 11px; color: var(--az-mute); font-weight: 700; }
+.az-barrow b { font-family: var(--az-mono); font-size: 12px; text-align: right; color: var(--az-ink); }
+.az-bar {
+  height: 7px; border-radius: 99px; background: #e8eef4; overflow: hidden;
+}
+.az-bar i {
+  display: block; height: 100%; border-radius: inherit; background: var(--az-accent);
+  width: var(--w, 0%); max-width: 100%;
+  transition: width .45s cubic-bezier(.2,.8,.2,1);
+}
+
+.az-cols {
+  display: grid; gap: 0;
+  grid-template-columns: 112px repeat(var(--cols, 1), minmax(128px, 1fr));
+  min-width: max(100%, calc(112px + var(--cols, 1) * 128px));
+  border: 1px solid var(--az-line); border-radius: 12px; overflow: hidden; background: #fff;
+}
+.az-cell {
+  padding: 11px 12px; border-bottom: 1px solid #e8eef3; font-size: 13.5px; color: var(--az-ink);
+}
+.az-cols > .az-cell:nth-last-child(-n + var(--cols, 1)):nth-child(n) { }
+.az-cell.head {
+  font-family: var(--font-ui); font-size: 11px; font-weight: 700; letter-spacing: .04em;
+  text-transform: uppercase; background: #f3f7fb; border-bottom: 1px solid var(--az-line);
+  padding-top: 12px; padding-bottom: 12px;
+}
+.az-cell.label {
+  font-size: 12px; font-weight: 700; color: var(--az-mute);
+  background: #f8fafc; position: sticky; left: 0; z-index: 1;
+}
+.az-cell.num {
+  font-family: var(--az-mono); font-variant-numeric: tabular-nums;
+  font-size: 14px; font-weight: 700; letter-spacing: -.02em;
+}
+.az-cell.hi { background: rgba(4,119,168,.08); color: var(--accent-deep); font-weight: 800; }
+.az-cell.name { font-weight: 800; font-size: 13px; }
+.az-section {
+  grid-column: 1 / -1; font-family: var(--font-ui); font-size: 11px; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase; color: #fff;
+  background: #1a3348; padding: 9px 12px; border-bottom: none;
+}
+
+@keyframes azIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes azSlide {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* 即時陀螺儀／姿態 */
+.az-live { display: grid; gap: 14px; }
+.az-live-top {
+  display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between;
+}
+.az-live-top .msg { font-size: 13px; color: var(--az-mute); flex: 1; min-width: 180px; }
+.az-live-grid {
+  display: grid; grid-template-columns: minmax(220px, 320px) minmax(0, 1fr); gap: 14px;
+}
+@media (max-width: 800px) { .az-live-grid { grid-template-columns: 1fr; } }
+.az-horizon-wrap {
+  position: relative; aspect-ratio: 1; border-radius: 14px; overflow: hidden;
+  border: 1px solid var(--az-line); background: #0b1c28;
+}
+.az-horizon {
+  position: absolute; inset: -40%; transition: transform .05s linear;
+  background: linear-gradient(180deg, #3d8fd4 0%, #3d8fd4 50%, #6b4a2e 50%, #4a321c 100%);
+}
+.az-horizon-mark {
+  position: absolute; left: 8%; right: 8%; top: 50%; height: 2px; margin-top: -1px;
+  background: rgba(255,255,255,.85); z-index: 2; pointer-events: none;
+}
+.az-horizon-mark::before, .az-horizon-mark::after {
+  content: ""; position: absolute; top: -7px; width: 18px; height: 2px; background: #ffbb2a;
+}
+.az-horizon-mark::before { left: 42%; }
+.az-horizon-mark::after { right: 42%; }
+.az-craft {
+  position: absolute; left: 50%; top: 50%; width: 70%; max-width: 210px;
+  transform: translate(-50%, -50%); z-index: 3; pointer-events: none;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,.35));
+}
+.az-live-nums {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px;
+}
+.az-live-num {
+  background: #fff; border: 1px solid var(--az-line); border-radius: 10px; padding: 10px;
+  text-align: center;
+}
+.az-live-num .lab {
+  font-family: var(--font-ui); font-size: 10px; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--az-mute);
+}
+.az-live-num .val {
+  font-family: var(--az-mono); font-size: 1.25rem; font-weight: 700; color: var(--az-ink); margin-top: 4px;
+}
+.az-gyro-bars { display: flex; flex-direction: column; gap: 12px; }
+.az-gyro-row { background: #fff; border: 1px solid var(--az-line); border-radius: 12px; padding: 12px 14px; }
+.az-gyro-row .hd {
+  display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;
+  font-size: 13px; font-weight: 700;
+}
+.az-gyro-row .hd b { font-family: var(--az-mono); font-size: 15px; color: var(--az-accent); }
+.az-gyro-track {
+  position: relative; height: 12px; border-radius: 99px; background: #e8eef4; overflow: hidden;
+}
+.az-gyro-track i {
+  position: absolute; top: 0; bottom: 0; left: 50%; width: 0; background: var(--az-accent);
+  transition: width .05s linear, transform .05s linear;
+}
+.az-gyro-track i.neg { transform: translateX(-100%); background: #b42318; }
+.az-live-note {
+  font-size: 12.5px; color: var(--az-mute); line-height: 1.5; margin: 0;
+}
+.az-rc-list { display: flex; flex-direction: column; gap: 8px; }
+.az-rc-row {
+  display: grid; grid-template-columns: 72px 1fr 52px; gap: 10px; align-items: center;
+  background: #fff; border: 1px solid var(--az-line); border-radius: 10px; padding: 8px 12px;
+}
+.az-rc-row .name { font-size: 12.5px; font-weight: 700; color: var(--az-ink); }
+.az-rc-row .name small { display: block; font-weight: 600; color: var(--az-mute); font-size: 10.5px; }
+.az-rc-row .pwm {
+  font-family: var(--az-mono); font-size: 13px; font-weight: 700; text-align: right; color: var(--az-accent);
+}
+.az-rc-bar {
+  position: relative; height: 14px; border-radius: 7px; background: #e8eef4; overflow: hidden;
+}
+.az-rc-bar .fill {
+  position: absolute; top: 0; bottom: 0; left: 0; width: 0%;
+  background: linear-gradient(90deg, #0477a8, #0f9ad0);
+  transition: width .06s linear;
+}
+.az-rc-bar .mid {
+  position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; margin-left: -1px;
+  background: rgba(15,23,36,.25); z-index: 1;
+}
+.az-live-section-title {
+  font-family: var(--font-ui); font-size: 12px; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--az-mute); margin: 4px 0 10px;
+  display: flex; align-items: center; gap: 8px;
+}
+.az-live-section-title::after { content: ""; flex: 1; height: 1px; background: var(--az-line); }
+.az-stick-box {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;
+}
+@media (max-width: 560px) { .az-stick-box { grid-template-columns: 1fr; } }
+.az-stick {
+  position: relative; aspect-ratio: 1; max-width: 180px; margin: 0 auto; width: 100%;
+  border-radius: 12px; border: 1px solid var(--az-line); background:
+    linear-gradient(#eef3f7 1px, transparent 1px) 0 0 / 100% 25%,
+    linear-gradient(90deg, #eef3f7 1px, transparent 1px) 0 0 / 25% 100%,
+    #f7fafc;
+}
+.az-stick .cross-h, .az-stick .cross-v {
+  position: absolute; background: rgba(4,119,168,.2);
+}
+.az-stick .cross-h { left: 8%; right: 8%; top: 50%; height: 1px; }
+.az-stick .cross-v { top: 8%; bottom: 8%; left: 50%; width: 1px; }
+.az-stick .knob {
+  position: absolute; width: 22px; height: 22px; margin: -11px 0 0 -11px;
+  border-radius: 50%; background: var(--az-accent); border: 3px solid #fff;
+  box-shadow: 0 2px 8px rgba(4,119,168,.35); left: 50%; top: 50%;
+  transition: left .06s linear, top .06s linear;
+}
+.az-stick .cap {
+  text-align: center; font-size: 12px; font-weight: 700; color: var(--az-mute); margin-top: 8px;
+}
+.az-led-grid {
+  display: grid; grid-template-columns: repeat(16, 1fr); gap: 3px;
+  background: #0f1720; padding: 10px; border-radius: 12px; border: 1px solid #1e293b;
+  max-width: 520px;
+}
+.az-led-cell {
+  aspect-ratio: 1; border-radius: 3px; background: #1e293b; position: relative;
+  font-size: 8px; color: rgba(255,255,255,.55); display: flex; align-items: center; justify-content: center;
+}
+.az-led-cell.on {
+  box-shadow: 0 0 8px var(--c, #0477a8); background: var(--c, #0477a8); color: #fff; font-weight: 700;
+}
+.az-color-row {
+  display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 14px;
+}
+.az-swatch {
+  width: 36px; height: 36px; border-radius: 8px; border: 2px solid #fff;
+  box-shadow: 0 0 0 1px var(--az-line); position: relative;
+  font-size: 10px; font-weight: 800; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.5);
+  display: flex; align-items: flex-end; justify-content: flex-end; padding: 2px 4px;
+}
+.az-led-table { width: 100%; border-collapse: collapse; font-size: 13px; background: #fff; border-radius: 10px; overflow: hidden; border: 1px solid var(--az-line); }
+.az-led-table th, .az-led-table td { padding: 8px 10px; border-bottom: 1px solid var(--az-line); text-align: left; }
+.az-led-table th { background: #f3f7fb; font-size: 12px; color: var(--az-mute); }
+.az-led-dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 6px; vertical-align: middle; box-shadow: 0 0 0 1px rgba(0,0,0,.12); }
+.az-swatch { cursor: pointer; }
+.az-swatch.sel { outline: 3px solid var(--az-accent); outline-offset: 2px; }
+.az-led-cell { cursor: pointer; }
+.az-led-edit-panel {
+  display: grid; grid-template-columns: 1fr; gap: 10px;
+  background: #fff; border: 1px solid var(--az-line); border-radius: 12px; padding: 14px; margin: 0 0 14px;
+}
+.az-led-edit-panel .row {
+  display: grid; grid-template-columns: 64px 1fr 48px; gap: 10px; align-items: center;
+  font-size: 13px; font-weight: 700;
+}
+.az-led-edit-panel input[type=range] { width: 100%; accent-color: var(--az-accent); }
+.az-led-edit-panel .preview {
+  width: 100%; height: 36px; border-radius: 8px; border: 1px solid var(--az-line);
+}
+.az-section-block {
+  margin: 0 0 14px; padding: 0 0 14px;
+  border-bottom: 1px solid var(--az-line);
+}
+.az-section-block:last-of-type { border-bottom: 0; margin-bottom: 0; padding-bottom: 0; }
+.az-section-block .blk-title {
+  font-family: var(--font-ui); font-size: 11px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--az-mute);
+  margin: 0 0 10px;
+}
+.az-switch {
+  display: flex; align-items: center; gap: 8px; margin: 0 0 8px;
+  font-size: 13px; font-weight: 650; color: var(--az-ink); cursor: pointer; user-select: none;
+}
+.az-switch input { width: 15px; height: 15px; accent-color: var(--az-accent); flex: none; }
+.az-switch.on { color: var(--az-ok); }
+.az-autobackup { /* 相容舊 class */ }
+.az-auth-box {
+  margin: 0 0 8px; padding: 0; border: 0; background: transparent;
+}
+.az-auth-box.ready .az-auth-state { color: #0f7a4d; }
+.az-auth-box.need .az-auth-state { color: #9a6700; }
+.az-auth-state {
+  font-size: 12.5px; font-weight: 700; color: var(--az-ink); margin: 0 0 8px; line-height: 1.4;
+}
+.az-auth-box .az-hint-mini,
+.az-hint-mini {
+  font-size: 12px; color: var(--az-mute); margin: 6px 0 0; line-height: 1.4;
+}
+.az-auth-box.ready #autoBackupAuthRow { display: none; }
+.az-cloud {
+  margin: 0; padding: 0; border: 0; background: transparent;
+}
+.az-cloud > summary {
+  cursor: pointer; font-size: 13px; font-weight: 700; color: var(--az-ink);
+  list-style: none;
+}
+.az-cloud > summary::-webkit-details-marker { display: none; }
+.az-cloud[open] > summary { margin-bottom: 10px; }
+.az-cloud .az-field { margin-bottom: 8px; }
+.az-cloud-adv { margin-top: 8px; }
+.az-cloud-adv > summary {
+  font-size: 12px; font-weight: 650; color: var(--az-mute); cursor: pointer;
+}
+.az-sensors {
+  display: flex; flex-wrap: wrap; gap: 6px; margin: 0;
+}
+.az-sensors-compact {
+  grid-column: 1 / -1; margin-top: 4px;
+}
+.az-sensors-compact .az-sensors { gap: 4px; }
+.az-sensors-compact .az-sensor {
+  min-width: 0; padding: 4px 8px 4px 4px; gap: 6px;
+  font-size: 11px; border-radius: 8px; background: rgba(255,255,255,.8);
+}
+.az-sensors-compact .az-sensor .ico {
+  width: 22px; height: 22px; border-radius: 6px; font-size: 9px;
+}
+.az-sensors-compact .az-sensor > div > div:first-child { display: none; }
+.az-sensor {
+  display: flex; align-items: center; gap: 8px; min-width: 96px;
+  padding: 8px 10px; border-radius: 10px; border: 1px solid var(--az-line);
+  background: #fff; font-size: 12.5px; font-weight: 700; color: var(--az-mute);
+}
+.az-sensor .ico {
+  width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center;
+  background: #e8eef4; color: #64748b; font-size: 11px; font-family: var(--font-ui);
+}
+.az-sensor .st { font-size: 10.5px; font-weight: 700; letter-spacing: .04em; }
+.az-sensor.off { opacity: .55; }
+.az-sensor.ok { color: var(--az-ink); border-color: #b7e0c8; background: #f3fbf6; }
+.az-sensor.ok .ico { background: #0f7a4d; color: #fff; }
+.az-sensor.ok .st { color: #0f7a4d; }
+.az-sensor.bad { color: var(--az-ink); border-color: #f0b4ae; background: #fff5f4; }
+.az-sensor.bad .ico { background: #b42318; color: #fff; }
+.az-sensor.bad .st { color: #b42318; }
+.az-sensor.wait .ico { background: #9a6700; color: #fff; }
+.az-sensor.wait .st { color: #9a6700; }
+.az-sensor.pulse .ico { animation: azSensorPulse .7s ease-in-out infinite; }
+@keyframes azSensorPulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(15,122,77,.35); }
+  50% { transform: scale(1.06); box-shadow: 0 0 0 6px rgba(15,122,77,0); }
+}
+.az-sensor-live {
+  margin: 0 0 14px; padding: 12px 14px; border-radius: 12px;
+  border: 1px solid var(--az-line); background: #f7fafc;
+}
+.az-sensor-live .ttl {
+  font-family: var(--font-ui); font-size: 11px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--az-mute); margin: 0 0 8px;
+}
+.az-field .dump-hint {
+  font-weight: 600; letter-spacing: 0; text-transform: none; color: #94a3b8;
+}
+</style>
+</head>
+<body class="is-root">
+<div class="bg-logo" aria-hidden="true"></div>
+<a class="skip-link" href="#main">跳至主要內容</a>
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="index.html">
+      <img src="assets/brand/chia-hwa-drone-team.png?v=8" alt="" width="64" height="36" />
+      <div class="brand-text">
+        <strong>嘉華中學足球無人機俱樂部</strong>
+        <span>配備手冊 · FAI F9A-B</span>
+      </div>
+    </a>
+    <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="siteNav">選單</button>
+    <nav class="site-nav" id="siteNav" aria-label="主要導覽">
+      <a href="index.html">首頁</a>
+      <span class="nav-label">認識</span>
+      <a href="pages/影片欣賞.html">影片欣賞</a>
+      <a href="pages/新手入門.html">新手入門</a>
+      <a href="pages/足球無人機技術全解簡報.html">技術全解</a>
+      <span class="nav-label">規則</span>
+      <a href="pages/規則檢錄.html">規則檢錄</a>
+      <a href="pages/FAI_F9A_2026_繁中譯本.html">FAI 譯本</a>
+      <a href="pages/有刷空心杯.html">有刷／空心杯</a>
+      <span class="nav-label">配備</span>
+      <a href="pages/馬達.html">馬達</a>
+      <a href="pages/電池.html">電池</a>
+      <a href="pages/螺旋槳.html">螺旋槳</a>
+      <span class="nav-label">整機</span>
+      <a href="pages/組裝.html">組裝</a>
+      <a href="pages/續航.html">續航</a>
+      <span class="nav-label">系統</span>
+      <a href="pages/飛控硬體.html">飛控硬體</a>
+      <a href="pages/飛控設定.html">飛控設定</a>
+      <a href="pages/LED.html">LED</a>
+      <a href="pages/遙控器採購分析.html">遙控器</a>
+      <a href="bfsim.html">設定模擬</a>
+      <a class="on" href="betaflight-analyzer.html">配置分析</a>
+      <span class="nav-label">上場</span>
+      <a href="pages/上場清單.html">上場清單</a>
+      <span class="nav-label">圖鑑</span>
+      <a href="pages/飛控AIO產品圖鑑.html">AIO 圖鑑</a>
+      <a href="pages/電池產品圖鑑.html">電池圖鑑</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap az" id="main">
+  <header class="az-hero">
+    <div>
+      <div class="crumb"><a href="index.html">首頁</a> · <a href="pages/飛控設定.html">飛控設定</a> · 配置分析</div>
+      <p class="kicker">Flight lab · Betaflight</p>
+      <h1>配置分析</h1>
+      <p>比對 dump、即時監控。USB 前請關閉 Configurator。</p>
+    </div>
+    <div class="az-sys" aria-label="系統狀態">
+      <span class="led" id="ledSerial"><i></i>Web Serial</span>
+      <span class="led" id="ledSecure"><i></i>安全來源</span>
+      <span class="led on" id="ledLocal"><i></i>本機儲存</span>
+    </div>
+    <div class="az-sensors-compact" aria-label="傳感器快覽">
+      <div class="az-sensors" id="sensorStripHero"></div>
+    </div>
+  </header>
+
+  <div class="az-grid">
+    <aside class="az-rail" aria-label="資料來源">
+      <div class="az-h"><h2>工作台</h2><span class="step">IN</span></div>
+
+      <div class="az-section-block">
+        <div class="blk-title">1 · 連線</div>
+        <div class="az-auth-box" id="authBox">
+          <div class="az-auth-state" id="authState">檢查授權中…</div>
+          <div class="az-btnrow" id="autoBackupAuthRow">
+            <button type="button" class="az-btn main" id="btnAuthPort">授權飛控埠口</button>
+          </div>
+          <p class="az-hint-mini" id="autoBackupHint">第一次授權後，本分頁開著即可插上自動連線。</p>
+        </div>
+        <label class="az-switch az-autobackup" id="autoLiveLabel">
+          <input type="checkbox" id="chkAutoLive" checked />
+          <span>插上自動即時監控</span>
+        </label>
+      </div>
+
+      <div class="az-section-block">
+        <div class="blk-title">2 · 備份</div>
+        <div class="az-btnrow">
+          <button type="button" class="az-btn main" id="btnFullBackup">完整備份到本機</button>
+        </div>
+        <div class="az-btnrow">
+          <button type="button" class="az-btn" id="btnUsb" title="只抓 dump 供右側比較">只讀 dump</button>
+        </div>
+        <label class="az-switch az-autobackup" id="autoBackupLabel">
+          <input type="checkbox" id="chkAutoBackup" />
+          <span>插上自動備份</span>
+        </label>
+        <div class="az-loaded" id="backupWrap" hidden>
+          <h3>本機備份</h3>
+          <div id="backupList"></div>
+        </div>
+      </div>
+
+      <div class="az-section-block">
+        <div class="blk-title">3 · 比較</div>
+        <div class="az-btnrow">
+          <label class="az-btn ghost-file">匯入檔案<input type="file" id="fileImport" accept=".txt,.json,.cli,text/plain,application/json" /></label>
+          <button type="button" class="az-btn" id="btnExport">匯出</button>
+        </div>
+        <div class="az-field">
+          <label for="cfgName">配置名稱</label>
+          <input type="text" id="cfgName" placeholder="攻擊機 · 春季聯賽" autocomplete="off" />
+        </div>
+        <div class="az-field">
+          <label for="cfgText">CLI dump <span class="dump-hint">dump all</span></label>
+          <textarea id="cfgText" placeholder="貼上完整 dump…" spellcheck="false"></textarea>
+        </div>
+        <div class="az-btnrow">
+          <button type="button" class="az-btn main" id="btnAdd">加入比較</button>
+          <button type="button" class="az-btn quiet" id="btnClear">清除</button>
+        </div>
+        <div class="az-loaded" id="loadedWrap" hidden>
+          <h3>Session</h3>
+          <div id="chipList"></div>
+        </div>
+      </div>
+
+      <div class="az-section-block">
+        <details class="az-cloud" id="cloudPanel">
+          <summary class="blk-title">4 · 雲端</summary>
+          <p class="az-hint-mini">備份寫入 Google 試算表／雲端硬碟。</p>
+          <div class="az-field">
+            <label for="cloudDroneId">機號 ID</label>
+            <input type="text" id="cloudDroneId" placeholder="ATK-01" autocomplete="off" />
+          </div>
+          <div class="az-field">
+            <label for="cloudDroneName">機名</label>
+            <input type="text" id="cloudDroneName" placeholder="攻擊機 A" autocomplete="off" />
+          </div>
+          <label class="az-switch az-autobackup" id="cloudAutoLabel">
+            <input type="checkbox" id="chkCloudAuto" />
+            <span>備份後自動上傳</span>
+          </label>
+          <div class="az-btnrow">
+            <button type="button" class="az-btn" id="btnCloudPing">測試連線</button>
+            <button type="button" class="az-btn" id="btnCloudSave">儲存設定</button>
+          </div>
+          <details class="az-cloud-adv">
+            <summary>進階（網址／token）</summary>
+            <div class="az-field">
+              <label for="cloudUrl">網頁應用程式網址</label>
+              <input type="url" id="cloudUrl" placeholder="https://script.google.com/macros/s/…/exec" autocomplete="off" />
+            </div>
+            <div class="az-field">
+              <label for="cloudToken">token</label>
+              <input type="text" id="cloudToken" placeholder="chsh-fc-2026" value="chsh-fc-2026" autocomplete="off" />
+            </div>
+            <div class="az-field">
+              <label for="cloudUploader">上傳者</label>
+              <input type="text" id="cloudUploader" placeholder="你的名字" autocomplete="off" />
+            </div>
+          </details>
+        </details>
+      </div>
+
+      <p class="az-status" id="status" aria-live="polite"></p>
+    </aside>
+
+    <section class="az-stage" aria-label="比較結果">
+      <div class="az-toolbar">
+        <div class="az-seg" role="tablist">
+          <button type="button" class="on" data-tab="overview">總覽</button>
+          <button type="button" data-tab="pid">PID</button>
+          <button type="button" data-tab="filter">濾波器</button>
+          <button type="button" data-tab="rates">搖桿率</button>
+          <button type="button" data-tab="live">即時監控</button>
+          <button type="button" data-tab="led">LED</button>
+          <button type="button" data-tab="guide">參數說明</button>
+        </div>
+        <div class="count" id="countLabel">0 組</div>
+      </div>
+      <div class="az-body">
+        <div id="empty" class="az-empty">
+          <strong>等待配置載入</strong>
+          左側 USB 讀取，或貼上 CLI dump 後按「加入比較」。
+          <div class="hint">建議同時載入攻擊機／防守機兩組，切到 PID 頁對讀。</div>
+        </div>
+        <div id="panel" class="az-board" hidden></div>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="inner">
+    <div>嘉華中學足球無人機俱樂部 · FAI F9A-B 配備手冊</div>
+    <div>
+      <a href="index.html">首頁</a> ·
+      <a href="pages/飛控設定.html">飛控設定</a> ·
+      <a href="bfsim.html">設定模擬</a>
+    </div>
+  </div>
+</footer>
+<button type="button" id="back-top" aria-label="回到頂部">↑</button>
+<script src="assets/site.js?v=8"></script>
+<script src="assets/fc-full-backup.js?v=7"></script>
+<script src="assets/fc-cloud.js?v=2"></script>
+<script>
+(function () {
+  "use strict";
+  var KEY = "betaflight_configs_v2";
+  var configs = [];
+  var tab = "overview";
+  var COLORS = ["#0477a8", "#0f7a4d", "#b42318", "#9a6700", "#5b4bb7", "#0e7490"];
+
+  var el = {
+    name: document.getElementById("cfgName"),
+    text: document.getElementById("cfgText"),
+    add: document.getElementById("btnAdd"),
+    usb: document.getElementById("btnUsb"),
+    full: document.getElementById("btnFullBackup"),
+    exp: document.getElementById("btnExport"),
+    clr: document.getElementById("btnClear"),
+    file: document.getElementById("fileImport"),
+    status: document.getElementById("status"),
+    chips: document.getElementById("chipList"),
+    loaded: document.getElementById("loadedWrap"),
+    backupWrap: document.getElementById("backupWrap"),
+    backupList: document.getElementById("backupList"),
+    panel: document.getElementById("panel"),
+    empty: document.getElementById("empty"),
+    count: document.getElementById("countLabel")
+  };
+
+  function setStatus(msg, isErr) {
+    el.status.textContent = msg || "";
+    el.status.classList.toggle("err", !!isErr && !!msg);
+  }
+
+  function getValue(lines, key) {
+    var needle = "set " + key + " =";
+    for (var i = 0; i < lines.length; i++) {
+      if (lines[i].indexOf(needle) !== -1) {
+        return (lines[i].split("=")[1] || "").trim();
+      }
+    }
+    return "";
+  }
+  function getNumber(lines, key) { return parseFloat(getValue(lines, key)) || 0; }
+
+  function parseConfig(content, name) {
+    var lines = content.split(/\r?\n/);
+    var verLine = lines.find(function (l) { return /Betaflight/i.test(l); }) || "";
+    var m = verLine.match(/Betaflight\s*\/\s*([^\s\/]+)\s+([0-9][\w.\-]*)/i);
+    var boardFromHdr = m ? m[1] : "";
+    var version = m ? ("BF " + m[2]) : (verLine.replace(/^#\s*/, "").trim().slice(0, 40) || "—");
+    var boardLine = lines.find(function (l) { return /^board_name\s+\S+/i.test(l.trim()); }) || "";
+    var boardFromLine = (boardLine.match(/^board_name\s+(\S+)/i) || [])[1] || "";
+    var board = getValue(lines, "board_name") || boardFromLine || boardFromHdr || "—";
+    return {
+      name: name,
+      content: content,
+      parsed: {
+        version: version,
+        board: board,
+        pids: {
+          roll: { p: getNumber(lines, "p_roll"), i: getNumber(lines, "i_roll"), d: getNumber(lines, "d_roll"), f: getNumber(lines, "f_roll") },
+          pitch: { p: getNumber(lines, "p_pitch"), i: getNumber(lines, "i_pitch"), d: getNumber(lines, "d_pitch"), f: getNumber(lines, "f_pitch") },
+          yaw: { p: getNumber(lines, "p_yaw"), i: getNumber(lines, "i_yaw"), d: getNumber(lines, "d_yaw"), f: getNumber(lines, "f_yaw") }
+        },
+        filters: {
+          gyro_lpf1: getNumber(lines, "gyro_lpf1_static_hz"),
+          gyro_lpf2: getNumber(lines, "gyro_lpf2_static_hz"),
+          dterm_lpf1: getNumber(lines, "dterm_lpf1_static_hz"),
+          dterm_lpf2: getNumber(lines, "dterm_lpf2_static_hz"),
+          dyn_notch_min: getNumber(lines, "dyn_notch_min_hz"),
+          dyn_notch_max: getNumber(lines, "dyn_notch_max_hz")
+        },
+        rates: {
+          roll_rate: getNumber(lines, "roll_rc_rate"),
+          pitch_rate: getNumber(lines, "pitch_rc_rate"),
+          yaw_rate: getNumber(lines, "yaw_rc_rate"),
+          roll_srate: getNumber(lines, "roll_srate"),
+          pitch_srate: getNumber(lines, "pitch_srate"),
+          yaw_srate: getNumber(lines, "yaw_srate")
+        },
+        motor: {
+          protocol: getValue(lines, "motor_pwm_protocol") || "—",
+          kv: getNumber(lines, "motor_kv"),
+          poles: getNumber(lines, "motor_poles"),
+          idle: getNumber(lines, "dshot_idle_value")
+        }
+      }
+    };
+  }
+
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(configs)); } catch (e) {} }
+  function load() {
+    try {
+      var raw = localStorage.getItem(KEY) || localStorage.getItem("betaflight_configs");
+      if (!raw) return;
+      var data = JSON.parse(raw);
+      if (!Array.isArray(data)) return;
+      configs = data.map(function (c) {
+        if (c && c.content && c.name) return parseConfig(c.content, c.name);
+        return c;
+      });
+    } catch (e) {}
+  }
+
+  function esc(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  }
+
+  function row(label, values, num, highlightMax) {
+    var nums = values.map(function (v) { return typeof v === "number" ? v : parseFloat(v); });
+    var max = -Infinity;
+    if (highlightMax && values.length > 1) {
+      nums.forEach(function (n) { if (!isNaN(n) && n > max) max = n; });
+    }
+    var cells = '<div class="az-cell label">' + esc(label) + "</div>";
+    values.forEach(function (v, i) {
+      var hi = highlightMax && values.length > 1 && !isNaN(nums[i]) && nums[i] === max && max > 0;
+      cells += '<div class="az-cell' + (num ? " num" : "") + (hi ? " hi" : "") + '">' + esc(v) + "</div>";
+    });
+    return cells;
+  }
+
+  function section(title) {
+    return '<div class="az-cell az-section">' + esc(title) + "</div>";
+  }
+
+  function board(rowsHtml) {
+    return '<div class="az-cols" style="--cols:' + configs.length + '">' + rowsHtml + "</div>";
+  }
+
+  function pidBars(pid) {
+    var maxMap = { p: 90, i: 160, d: 80, f: 250 };
+    return ["p", "i", "d", "f"].map(function (k) {
+      var v = pid[k] || 0;
+      var w = Math.min(100, Math.round((v / maxMap[k]) * 100));
+      return '<div class="az-barrow"><span>' + k.toUpperCase() + '</span><div class="az-bar"><i style="--w:' + w + '%"></i></div><b>' + v + "</b></div>";
+    }).join("");
+  }
+
+  function renderOverview() {
+    if (configs.length === 1) {
+      var c = configs[0];
+      var p = c.parsed;
+      return (
+        '<div class="az-identity">' +
+          '<div><div class="tag">Active profile</div><h3>' + esc(c.name) + "</h3>" +
+          '<p class="sub">' + esc(p.board) + " · " + esc(p.version) + "</p></div>" +
+          '<div class="badges">' +
+            '<span class="badge">' + esc(p.motor.protocol) + "</span>" +
+            '<span class="badge">' + (p.motor.kv ? p.motor.kv + " KV" : "KV —") + "</span>" +
+            '<span class="badge">' + (p.motor.poles ? p.motor.poles + " poles" : "poles —") + "</span>" +
+          "</div></div>" +
+        '<div class="az-metrics">' +
+          '<div class="az-metric"><div class="lab">Board</div><div class="val sm">' + esc(p.board) + "</div></div>" +
+          '<div class="az-metric"><div class="lab">Firmware</div><div class="val sm">' + esc(p.version) + "</div></div>" +
+          '<div class="az-metric"><div class="lab">Motor PWM</div><div class="val">' + esc(p.motor.protocol) + "</div></div>" +
+          '<div class="az-metric"><div class="lab">Idle</div><div class="val">' + (p.motor.idle || "—") + "</div></div>" +
+        "</div>" +
+        '<div class="az-block"><h4>PID snapshot</h4><div class="az-pidgrid">' +
+          [["roll", "Roll 橫滾"], ["pitch", "Pitch 俯仰"], ["yaw", "Yaw 偏航"]].map(function (ax) {
+            return '<div class="az-pidcard"><div class="axis">' + ax[1] + "</div>" + pidBars(p.pids[ax[0]]) + "</div>";
+          }).join("") +
+        "</div></div>" +
+        '<div class="az-block"><h4>Filter / Rates 摘要</h4>' +
+        board(
+          '<div class="az-cell head"></div><div class="az-cell head name">數值</div>' +
+          row("Gyro LPF1", [p.filters.gyro_lpf1 + " Hz"], true) +
+          row("Dterm LPF1", [p.filters.dterm_lpf1 + " Hz"], true) +
+          row("Dyn notch", [p.filters.dyn_notch_min + "–" + p.filters.dyn_notch_max], false) +
+          row("Roll RC / Super", [p.rates.roll_rate + " / " + p.rates.roll_srate], false) +
+          row("Pitch RC / Super", [p.rates.pitch_rate + " / " + p.rates.pitch_srate], false) +
+          row("Yaw RC / Super", [p.rates.yaw_rate + " / " + p.rates.yaw_srate], false)
+        ) + "</div>"
+      );
+    }
+
+    var html = '<div class="az-cell head"></div>';
+    configs.forEach(function (c, i) {
+      html += '<div class="az-cell head name" style="color:' + COLORS[i % COLORS.length] + '">' + esc(c.name) + "</div>";
+    });
+    html += row("板子", configs.map(function (c) { return c.parsed.board; }));
+    html += row("韌體", configs.map(function (c) { return c.parsed.version; }));
+    html += row("協議", configs.map(function (c) { return c.parsed.motor.protocol; }));
+    html += row("KV", configs.map(function (c) { return c.parsed.motor.kv || "—"; }), true, true);
+    html += row("極數", configs.map(function (c) { return c.parsed.motor.poles || "—"; }), true);
+    html += row("Idle", configs.map(function (c) { return c.parsed.motor.idle || "—"; }), true);
+    return '<div class="az-block"><h4>機隊對照</h4>' + board(html) + "</div>";
+  }
+
+  var live = {
+    session: null,
+    timer: null,
+    running: false,
+    ticking: false,
+    tickN: 0,
+    attitude: { roll: 0, pitch: 0, yaw: 0 },
+    gyro: [0, 0, 0],
+    rc: [],
+    led: { colors: [], leds: [], modes: [] },
+    analog: { vbat: 0, mAh: 0, rssi: 0, amperage: 0 },
+    status: { cycleTime: 0, cpuLoad: 0, armed: false, angleMode: false, horizonMode: false, i2cError: 0, profile: 0, sensors: 0 },
+    boxNames: [],
+    sensorBits: 0,
+    sensorHealth: {},
+    lastGyro: null,
+    lastAcc: null,
+    gyroMoves: 0,
+    accMoves: 0,
+    imuTicks: 0,
+    _acc: null
+  };
+
+  // BF STATUS sensors bit：ACC=0 BARO=1 MAG=2 GPS=3 RANGE=4 GYRO=5 FLOW=6 PITOT=7
+  var SENSOR_DEFS = [
+    { key: "gyro", bit: 5, label: "陀螺儀", short: "GYRO" },
+    { key: "acc", bit: 0, label: "加速度計", short: "ACC" },
+    { key: "baro", bit: 1, label: "氣壓計", short: "BARO" },
+    { key: "mag", bit: 2, label: "磁力計", short: "MAG" },
+    { key: "gps", bit: 3, label: "GPS", short: "GPS" },
+    { key: "sonar", bit: 4, label: "測距", short: "RNG" },
+    { key: "flow", bit: 6, label: "光流", short: "FLOW" },
+    { key: "pitot", bit: 7, label: "空速", short: "PIT" }
+  ];
+
+  var AUTO_BACKUP_KEY = "fc_auto_backup_on";
+  var AUTO_LIVE_KEY = "fc_auto_live_on";
+  var autoBackup = {
+    enabled: false,
+    busy: false,
+    lastPortKey: "",
+    debounceTimer: null
+  };
+  var autoLive = {
+    enabled: true,
+    connecting: false
+  };
+
+  var DEFAULT_COLORS = [
+    [0,0,0],[0,255,255],[0,0,255],[30,0,255],[60,0,255],[90,0,255],[120,0,255],[150,0,255],
+    [180,0,255],[210,0,255],[240,0,255],[270,0,255],[300,0,255],[330,0,255],[0,0,128],[0,0,64]
+  ];
+
+  var ledEdit = {
+    state: null,
+    selectedColor: 2,
+    sourceLabel: ""
+  };
+
+  function cloneLedState(src) {
+    var s = {
+      colors: [],
+      leds: (src && src.leds) ? src.leds.map(function (L) {
+        return {
+          i: L.i, x: L.x, y: L.y, dir: L.dir || "", func: L.func || "C",
+          color: L.color | 0, raw: L.raw
+        };
+      }) : [],
+      modes: (src && src.modes) ? src.modes.slice() : []
+    };
+    for (var i = 0; i < 16; i++) {
+      var found = null;
+      if (src && src.colors) {
+        for (var j = 0; j < src.colors.length; j++) {
+          if (src.colors[j].i === i) { found = src.colors[j]; break; }
+        }
+      }
+      if (found) {
+        s.colors.push({ i: i, h: found.h | 0, s: found.s | 0, v: found.v | 0 });
+      } else {
+        var d = DEFAULT_COLORS[i] || [0, 0, 255];
+        s.colors.push({ i: i, h: d[0], s: d[1], v: d[2] });
+      }
+    }
+    return s;
+  }
+
+  function getSelectedColorObj() {
+    if (!ledEdit.state) return { i: 2, h: 0, s: 0, v: 255 };
+    for (var i = 0; i < ledEdit.state.colors.length; i++) {
+      if (ledEdit.state.colors[i].i === ledEdit.selectedColor) return ledEdit.state.colors[i];
+    }
+    return ledEdit.state.colors[0];
+  }
+
+  var RC_NAMES = ["橫滾 Roll", "俯仰 Pitch", "油門 Throttle", "偏航 Yaw", "AUX1", "AUX2", "AUX3", "AUX4", "AUX5", "AUX6", "AUX7", "AUX8"];
+
+  function hsvToCss(h, sBf, v) {
+    // Betaflight：S=0 最鮮豔，S=255 無彩度
+    var s = 1 - (sBf / 255);
+    var val = v / 255;
+    var c = val * s;
+    var x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+    var m = val - c;
+    var r = 0, g = 0, b = 0;
+    if (h < 60) { r = c; g = x; }
+    else if (h < 120) { r = x; g = c; }
+    else if (h < 180) { g = c; b = x; }
+    else if (h < 240) { g = x; b = c; }
+    else if (h < 300) { r = x; b = c; }
+    else { r = c; b = x; }
+    return "rgb(" + Math.round((r + m) * 255) + "," + Math.round((g + m) * 255) + "," + Math.round((b + m) * 255) + ")";
+  }
+
+  function parseLedFromText(text) {
+    var leds = [];
+    var colors = [];
+    var modes = [];
+    String(text || "").split(/\r?\n/).forEach(function (line) {
+      line = line.trim();
+      var m = line.match(/^led\s+(\d+)\s+(\d+)\s*,\s*(\d+)\s*:\s*([^:]*):\s*([^:]*):\s*(\d+)/i);
+      if (m) {
+        leds.push({ i: +m[1], x: +m[2], y: +m[3], dir: m[4], func: m[5], color: +m[6] });
+        return;
+      }
+      var c = line.match(/^color\s+(\d+)\s+(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/i);
+      if (c) {
+        colors.push({ i: +c[1], h: +c[2], s: +c[3], v: +c[4] });
+        return;
+      }
+      var mc = line.match(/^mode_color\s+(\d+)\s+(\d+)\s+(\d+)/i);
+      if (mc) modes.push({ mode: +mc[1], dir: +mc[2], color: +mc[3] });
+    });
+    return { leds: leds, colors: colors, modes: modes };
+  }
+
+  function unpackLedU32(n) {
+    // Betaflight ledConfig_t 常見位元配置
+    return {
+      x: n & 0x0f,
+      y: (n >> 4) & 0x0f,
+      funcBits: (n >> 8) & 0xff,
+      dirBits: (n >> 16) & 0x3f,
+      color: (n >> 24) & 0x0f
+    };
+  }
+
+  function parseLedFromMsp(colorsPayload, stripPayload) {
+    var colors = [];
+    if (colorsPayload && colorsPayload.length >= 4) {
+      var dv = new DataView(colorsPayload.buffer, colorsPayload.byteOffset, colorsPayload.byteLength);
+      var n = Math.floor(colorsPayload.length / 4);
+      for (var i = 0; i < n; i++) {
+        colors.push({
+          i: i,
+          h: dv.getUint16(i * 4, true),
+          s: dv.getUint8(i * 4 + 2),
+          v: dv.getUint8(i * 4 + 3)
+        });
+      }
+    }
+    var leds = [];
+    if (stripPayload && stripPayload.length >= 4) {
+      var ledCount = Math.floor(Math.max(0, stripPayload.length - 2) / 4);
+      // 末尾可能有 profile bytes；用長度推估
+      if ((stripPayload.length - 2) % 4 === 0) ledCount = (stripPayload.length - 2) / 4;
+      else ledCount = Math.floor(stripPayload.length / 4);
+      var sdv = new DataView(stripPayload.buffer, stripPayload.byteOffset, stripPayload.byteLength);
+      for (var j = 0; j < ledCount; j++) {
+        var raw = sdv.getUint32(j * 4, true);
+        if (!raw) continue;
+        var u = unpackLedU32(raw);
+        leds.push({
+          i: j,
+          x: u.x,
+          y: u.y,
+          dir: "",
+          func: "MSP",
+          color: u.color,
+          raw: raw
+        });
+      }
+    }
+    return { leds: leds, colors: colors, modes: [] };
+  }
+
+  function colorCss(ledState, idx) {
+    var c = (ledState.colors || []).find(function (x) { return x.i === idx; });
+    if (!c) {
+      var defaults = [
+        [0,0,0],[0,255,255],[0,0,255],[30,0,255],[60,0,255],[90,0,255],[120,0,255],[150,0,255],
+        [180,0,255],[210,0,255],[240,0,255],[270,0,255],[300,0,255],[330,0,255],[0,0,128],[0,0,64]
+      ];
+      var d = defaults[idx] || [0, 0, 200];
+      return hsvToCss(d[0], d[1], d[2]);
+    }
+    return hsvToCss(c.h, c.s, c.v);
+  }
+
+  function renderLedVisual(ledState, title, editable) {
+    var map = {};
+    (ledState.leds || []).forEach(function (L) { map[L.x + "," + L.y] = L; });
+    var cells = "";
+    for (var y = 0; y < 16; y++) {
+      for (var x = 0; x < 16; x++) {
+        var L = map[x + "," + y];
+        if (L) {
+          cells += '<div class="az-led-cell on" data-led-i="' + L.i + '" style="--c:' + colorCss(ledState, L.color) + '" title="LED ' + L.i + " · 色" + L.color + '">' + L.i + "</div>";
+        } else {
+          cells += '<div class="az-led-cell"></div>';
+        }
+      }
+    }
+    var swatches = (ledState.colors || []).map(function (c) {
+      var sel = editable && c.i === ledEdit.selectedColor ? " sel" : "";
+      return '<div class="az-swatch' + sel + '" data-color-i="' + c.i + '" style="background:' + hsvToCss(c.h, c.s, c.v) + '" title="color ' + c.i + '">' + c.i + "</div>";
+    }).join("");
+    var rows = (ledState.leds || []).slice().sort(function (a, b) { return a.i - b.i; }).map(function (L) {
+      return "<tr><td>" + L.i + '</td><td><span class="az-led-dot" style="background:' + colorCss(ledState, L.color) + '"></span>色 ' + L.color +
+        "</td><td>" + L.x + "," + L.y + "</td><td>" + esc(L.dir || "—") + "</td><td>" + esc(L.func || "—") + "</td></tr>";
+    }).join("");
+    return (
+      '<div class="az-block"><h4>' + esc(title || "LED 燈條配置") + "</h4>" +
+      (editable ? "" : '<p class="az-live-note">唯讀預覽。</p>') +
+      '<div class="az-live-section-title">色盤 color（點選後可改 HSV）</div><div class="az-color-row" id="ledSwatches">' + swatches + "</div>" +
+      '<div class="az-live-section-title">燈位 led（點燈珠可套用目前色號）</div><div class="az-led-grid" id="ledGrid">' + cells + "</div>" +
+      (rows ? '<div class="az-live-section-title" style="margin-top:14px">明細</div><table class="az-led-table"><thead><tr><th>#</th><th>顏色</th><th>座標</th><th>方向</th><th>功能</th></tr></thead><tbody>' + rows + "</tbody></table>" : "") +
+      "</div>"
+    );
+  }
+
+  function renderLedEditorControls() {
+    var c = getSelectedColorObj();
+    return (
+      '<div class="az-led-edit-panel" id="ledEditPanel">' +
+        '<div style="font-size:13px;font-weight:700;color:var(--az-mute)">編輯色號 <span id="ledSelIdx">' + ledEdit.selectedColor + "</span>（Betaflight HSV：S=0 最鮮豔）</div>" +
+        '<div class="preview" id="ledPreview" style="background:' + hsvToCss(c.h, c.s, c.v) + '"></div>' +
+        '<div class="row"><span>Hue</span><input type="range" id="ledH" min="0" max="359" value="' + c.h + '" /><b id="ledHv">' + c.h + "</b></div>" +
+        '<div class="row"><span>Sat*</span><input type="range" id="ledS" min="0" max="255" value="' + c.s + '" /><b id="ledSv">' + c.s + "</b></div>" +
+        '<div class="row"><span>Val</span><input type="range" id="ledV" min="0" max="255" value="' + c.v + '" /><b id="ledVv">' + c.v + "</b></div>" +
+        '<div class="az-btnrow" style="margin:4px 0 0">' +
+          '<button type="button" class="az-btn main" id="btnLedWrite">寫入飛控</button>' +
+          '<button type="button" class="az-btn" id="btnLedWriteSave">寫入並 save（會重開機）</button>' +
+          '<button type="button" class="az-btn" id="btnLedCopyCli">複製 CLI</button>' +
+          '<button type="button" class="az-btn" id="btnLedReload">從飛控重讀</button>' +
+        "</div>" +
+        '<p class="az-live-note" id="ledWriteMsg">需先在「即時監控」連線飛控，才能寫回。寫入會改色盤與各燈色號；save 才會永久保存。</p>' +
+      "</div>"
+    );
+  }
+
+  function refreshLedEditorDom() {
+    if (!ledEdit.state) return;
+    var root = document.getElementById("ledEditorRoot");
+    if (!root) return;
+    var c = getSelectedColorObj();
+    var prev = document.getElementById("ledPreview");
+    if (prev) prev.style.background = hsvToCss(c.h, c.s, c.v);
+    var idx = document.getElementById("ledSelIdx");
+    if (idx) idx.textContent = String(ledEdit.selectedColor);
+    ["H", "S", "V"].forEach(function (k) {
+      var el = document.getElementById("led" + k);
+      var lab = document.getElementById("led" + k + "v");
+      var val = c[k.toLowerCase()];
+      if (el) el.value = val;
+      if (lab) lab.textContent = String(val);
+    });
+    var sw = document.getElementById("ledSwatches");
+    if (sw) {
+      sw.querySelectorAll(".az-swatch").forEach(function (node) {
+        var i = Number(node.getAttribute("data-color-i"));
+        var col = ledEdit.state.colors.find(function (x) { return x.i === i; });
+        if (col) node.style.background = hsvToCss(col.h, col.s, col.v);
+        node.classList.toggle("sel", i === ledEdit.selectedColor);
+      });
+    }
+    var grid = document.getElementById("ledGrid");
+    if (grid) {
+      ledEdit.state.leds.forEach(function (L) {
+        var cell = grid.querySelector('[data-led-i="' + L.i + '"]');
+        if (cell) {
+          cell.style.setProperty("--c", colorCss(ledEdit.state, L.color));
+          cell.title = "LED " + L.i + " · 色" + L.color;
+        }
+      });
+    }
+  }
+
+  function bindLedEditor() {
+    var panel = document.getElementById("ledEditPanel");
+    if (!panel || !ledEdit.state) return;
+
+    function onSlider() {
+      var c = getSelectedColorObj();
+      c.h = Number(document.getElementById("ledH").value);
+      c.s = Number(document.getElementById("ledS").value);
+      c.v = Number(document.getElementById("ledV").value);
+      refreshLedEditorDom();
+    }
+    ["ledH", "ledS", "ledV"].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.oninput = onSlider;
+    });
+
+    var sw = document.getElementById("ledSwatches");
+    if (sw) {
+      sw.onclick = function (e) {
+        var t = e.target.closest("[data-color-i]");
+        if (!t) return;
+        ledEdit.selectedColor = Number(t.getAttribute("data-color-i"));
+        refreshLedEditorDom();
+      };
+    }
+    var grid = document.getElementById("ledGrid");
+    if (grid) {
+      grid.onclick = function (e) {
+        var t = e.target.closest("[data-led-i]");
+        if (!t) return;
+        var i = Number(t.getAttribute("data-led-i"));
+        for (var n = 0; n < ledEdit.state.leds.length; n++) {
+          if (ledEdit.state.leds[n].i === i) {
+            ledEdit.state.leds[n].color = ledEdit.selectedColor;
+            if (ledEdit.state.leds[n].raw != null) {
+              ledEdit.state.leds[n].raw = (ledEdit.state.leds[n].raw & 0x00ffffff) | ((ledEdit.selectedColor & 0x0f) << 24);
+            }
+            break;
+          }
+        }
+        refreshLedEditorDom();
+      };
+    }
+
+    var writeMsg = document.getElementById("ledWriteMsg");
+    async function doWrite(withSave) {
+      if (!window.FcFullBackup) return;
+      if (!live.session) {
+        alert("請先到「即時監控」按開始連線飛控，再回到 LED 頁寫入。");
+        return;
+      }
+      if (!confirm(withSave
+        ? "將把色盤／燈色寫入飛控並執行 save（飛控會重開機）。確定？"
+        : "將把色盤／燈色寫入飛控（先在記憶體生效；要永久保存需再 save）。確定？")) return;
+      if (writeMsg) writeMsg.textContent = "寫入中…";
+      try {
+        var wasLive = live.running;
+        if (wasLive && live.timer) { clearInterval(live.timer); live.timer = null; }
+        await FcFullBackup.writeLedToFc(live.session, ledEdit.state, !!withSave);
+        live.led = cloneLedState(ledEdit.state);
+        if (writeMsg) {
+          writeMsg.textContent = withSave
+            ? "已寫入並 save。飛控重開機後請重新按「開始即時監控」。"
+            : "已寫入飛控（記憶體）。若要永久保存，再按「寫入並 save」。";
+        }
+        if (withSave) {
+          live.running = false;
+          live.session = null;
+          alert("已寫入並 save。請等飛控重開後，再到即時監控重新連線。");
+        } else if (wasLive) {
+          live.timer = setInterval(function () { liveTick(); }, 120);
+        }
+      } catch (err) {
+        if (writeMsg) writeMsg.textContent = "寫入失敗：" + (err.message || err);
+        alert("寫入飛控失敗：\n" + (err.message || err));
+      }
+    }
+
+    var b1 = document.getElementById("btnLedWrite");
+    var b2 = document.getElementById("btnLedWriteSave");
+    var b3 = document.getElementById("btnLedCopyCli");
+    var b4 = document.getElementById("btnLedReload");
+    if (b1) b1.onclick = function () { doWrite(false); };
+    if (b2) b2.onclick = function () { doWrite(true); };
+    if (b3) {
+      b3.onclick = function () {
+        var cli = FcFullBackup.ledStateToCli(ledEdit.state);
+        navigator.clipboard.writeText(cli).then(function () {
+          if (writeMsg) writeMsg.textContent = "CLI 已複製。可貼到 Configurator CLI 執行。";
+        }).catch(function () {
+          prompt("複製以下 CLI：", cli);
+        });
+      };
+    }
+    if (b4) {
+      b4.onclick = async function () {
+        if (!live.session) {
+          alert("請先即時監控連線");
+          return;
+        }
+        await fetchLiveLed();
+        ledEdit.state = cloneLedState(live.led);
+        ledEdit.sourceLabel = "飛控即時";
+        render();
+      };
+    }
+  }
+
+  function renderLedTab() {
+    var html = '<div class="az-guide"><div class="tagline">LED Strip · 可寫回</div><h4>自由設定 LED 顏色</h4>' +
+      "<p>1. 即時監控連線飛控並讀取 LED　2. 點色盤改 HSV，點燈珠套色　3.「寫入飛控」或「寫入並 save」。</p>" +
+      "<p>也可「複製 CLI」貼到 Betaflight Configurator。</p></div>";
+
+    if (!ledEdit.state) {
+      if (live.led && (live.led.leds.length || live.led.colors.length)) {
+        ledEdit.state = cloneLedState(live.led);
+        ledEdit.sourceLabel = "飛控即時";
+      } else if (configs.length) {
+        for (var i = 0; i < configs.length; i++) {
+          var parsed = parseLedFromText(configs[i].content);
+          if (parsed.leds.length || parsed.colors.length) {
+            ledEdit.state = cloneLedState(parsed);
+            ledEdit.sourceLabel = configs[i].name;
+            break;
+          }
+        }
+      }
+      if (!ledEdit.state) {
+        ledEdit.state = cloneLedState({ leds: [], colors: [] });
+        ledEdit.sourceLabel = "空白色盤（請先連線讀取燈位）";
+      }
+    }
+
+    html += renderLedEditorControls();
+    html += renderLedVisual(ledEdit.state, "編輯中 · " + ledEdit.sourceLabel, true);
+    return html;
+  }
+
+  function sensorIsPresent(def) {
+    var present = !!(live.sensorBits & (1 << def.bit));
+    // 幾乎所有飛控都有 GYRO／ACC；bit 未標但已讀到 IMU 仍視為有
+    if (!present && def.key === "gyro" && (live.lastGyro || live.imuTicks > 0)) present = true;
+    if (!present && def.key === "acc" && (live._acc || live.imuTicks > 0)) present = true;
+    return present;
+  }
+
+  function sensorStatusClass(def) {
+    if (!live.running) return "off";
+    if (!sensorIsPresent(def)) return "off";
+    // 有感測器且已開始收到封包 → 正常（轉動時該圖示會 pulse）
+    if (def.key === "gyro") {
+      if ((live.imuTicks || 0) >= 1) return live.gyroMoves > 0 ? "ok pulse" : "ok";
+      return "wait";
+    }
+    if (def.key === "acc") {
+      if ((live.imuTicks || 0) >= 1) return live.accMoves > 0 ? "ok pulse" : "ok";
+      return "wait";
+    }
+    return "ok";
+  }
+
+  function sensorStatusText(def) {
+    if (!live.running) return "未連線";
+    if (!sensorIsPresent(def)) return "未偵測";
+    if (def.key === "gyro" || def.key === "acc") {
+      if ((live.imuTicks || 0) < 1) return "讀取中…";
+      return "正常";
+    }
+    return "已偵測";
+  }
+
+  function renderSensorStripHtml() {
+    return SENSOR_DEFS.map(function (def) {
+      var cls = sensorStatusClass(def);
+      return '<div class="az-sensor ' + cls + '" title="' + esc(def.label) + '">' +
+        '<div class="ico">' + esc(def.short) + "</div>" +
+        "<div><div>" + esc(def.label) + '</div><div class="st">' + sensorStatusText(def) + "</div></div></div>";
+    }).join("");
+  }
+
+  function updateSensorStrips() {
+    ["sensorStripHero", "sensorStripLive"].forEach(function (id) {
+      var node = document.getElementById(id);
+      if (node) node.innerHTML = renderSensorStripHtml();
+    });
+  }
+
+  function renderLiveShell() {
+    return (
+      '<div class="az-live" id="liveRoot">' +
+        '<div class="az-live-top">' +
+          '<div class="msg" id="liveMsg">插上飛控後應自動連線；傳感器列會顯示是否正常，陀螺儀／地平儀會跟著動。</div>' +
+          '<div class="az-btnrow" style="margin:0">' +
+            '<button type="button" class="az-btn main" id="btnLiveStart">' + (live.running ? "停止" : "開始即時監控") + "</button>" +
+            '<button type="button" class="az-btn" id="btnAccCal" title="機體放平靜置後執行">水平校正</button>' +
+            '<button type="button" class="az-btn" id="btnLiveLed">重新讀取 LED</button>' +
+          "</div>" +
+        "</div>" +
+        '<div class="az-sensor-live"><div class="ttl">傳感器狀態</div><div class="az-sensors" id="sensorStripLive"></div></div>' +
+        '<div class="az-live-section-title">飛行資訊</div>' +
+        '<div class="az-metrics" id="flightInfo">' +
+          '<div class="az-metric"><div class="lab">電池電壓</div><div class="val" id="fiVbat">—</div></div>' +
+          '<div class="az-metric"><div class="lab">電流</div><div class="val" id="fiAmp">—</div></div>' +
+          '<div class="az-metric"><div class="lab">已用電量</div><div class="val" id="fiMah">—</div></div>' +
+          '<div class="az-metric"><div class="lab">RSSI</div><div class="val" id="fiRssi">—</div></div>' +
+          '<div class="az-metric"><div class="lab">解鎖狀態</div><div class="val sm" id="fiArm">—</div></div>' +
+          '<div class="az-metric"><div class="lab">飛行模式</div><div class="val sm" id="fiMode">—</div></div>' +
+          '<div class="az-metric"><div class="lab">迴圈時間</div><div class="val" id="fiCycle">—</div></div>' +
+          '<div class="az-metric"><div class="lab">CPU 負載</div><div class="val" id="fiCpu">—</div></div>' +
+        "</div>" +
+        '<p class="az-live-note" id="fiCalHint">水平校正：螺旋槳取下、機體放在水平面、完全靜止後按「水平校正」（加速度計）。完成前勿移動。</p>' +
+        '<div class="az-live-section-title">姿態／陀螺儀</div>' +
+        '<div class="az-live-grid">' +
+          '<div>' +
+            '<div class="az-horizon-wrap">' +
+              '<div class="az-horizon" id="liveHorizon"></div>' +
+              '<div class="az-horizon-mark"></div>' +
+              '<svg class="az-craft" id="liveCraft" viewBox="0 0 120 120" aria-hidden="true">' +
+                '<circle cx="60" cy="60" r="10" fill="#ffbb2a"/>' +
+                '<rect x="52" y="18" width="16" height="34" rx="4" fill="#e8eef4"/>' +
+                '<rect x="52" y="68" width="16" height="34" rx="4" fill="#e8eef4"/>' +
+                '<rect x="18" y="52" width="34" height="16" rx="4" fill="#e8eef4"/>' +
+                '<rect x="68" y="52" width="34" height="16" rx="4" fill="#e8eef4"/>' +
+              "</svg>" +
+            "</div>" +
+            '<div class="az-live-nums">' +
+              '<div class="az-live-num"><div class="lab">橫滾</div><div class="val" id="liveRoll">0.0°</div></div>' +
+              '<div class="az-live-num"><div class="lab">俯仰</div><div class="val" id="livePitch">0.0°</div></div>' +
+              '<div class="az-live-num"><div class="lab">航向</div><div class="val" id="liveYaw">0°</div></div>' +
+            "</div>" +
+          "</div>" +
+          '<div class="az-gyro-bars" id="liveGyroBars">' +
+            [["橫滾角速度", "°/s"], ["俯仰角速度", "°/s"], ["偏航角速度", "°/s"]].map(function (lab, i) {
+              return '<div class="az-gyro-row"><div class="hd"><span>' + lab[0] + '</span><b id="gyroVal' + i + '">0.0 ' + lab[1] + "</b></div>" +
+                '<div class="az-gyro-track"><i id="gyroBar' + i + '"></i></div></div>';
+            }).join("") +
+          "</div>" +
+        "</div>" +
+        '<div class="az-live-section-title">遙控器通道</div>' +
+        '<div class="az-stick-box">' +
+          '<div><div class="az-stick" id="stickYawThr"><div class="cross-h"></div><div class="cross-v"></div><div class="knob" id="knobLeft"></div></div><div class="cap">左桿 · 偏航／油門</div></div>' +
+          '<div><div class="az-stick" id="stickRollPitch"><div class="cross-h"></div><div class="cross-v"></div><div class="knob" id="knobRight"></div></div><div class="cap">右桿 · 橫滾／俯仰</div></div>' +
+        "</div>" +
+        '<div class="az-rc-list" id="liveRcList"></div>' +
+        '<div class="az-live-section-title">LED（連線時可讀）</div>' +
+        '<div id="liveLedBox">' + (live.led.leds.length ? renderLedVisual(live.led, "飛控 LED") : '<p class="az-live-note">按「重新讀取 LED」或開始監控後自動讀取。</p>') + "</div>" +
+        '<p class="az-live-note">請關閉 Configurator。通道順序預設 AETR（橫滾／俯仰／油門／偏航）；若你的 map 不同，數值仍正確，名稱可能對調。</p>' +
+      "</div>"
+    );
+  }
+
+  function updateLiveDom() {
+    var a = live.attitude;
+    var horizon = document.getElementById("liveHorizon");
+    var craft = document.getElementById("liveCraft");
+    if (horizon) horizon.style.transform = "rotate(" + (-a.roll) + "deg) translateY(" + (a.pitch * 1.2) + "%)";
+    if (craft) craft.style.transform = "translate(-50%, -50%) rotate(" + a.roll + "deg)";
+    var elR = document.getElementById("liveRoll");
+    var elP = document.getElementById("livePitch");
+    var elY = document.getElementById("liveYaw");
+    if (elR) elR.textContent = a.roll.toFixed(1) + "°";
+    if (elP) elP.textContent = a.pitch.toFixed(1) + "°";
+    if (elY) elY.textContent = Math.round(a.yaw) + "°";
+
+    var an = live.analog || {};
+    var st = live.status || {};
+    var setTxt = function (id, t) { var n = document.getElementById(id); if (n) n.textContent = t; };
+    setTxt("fiVbat", an.vbat ? an.vbat.toFixed(2) + " V" : "—");
+    setTxt("fiAmp", (an.amperage != null ? an.amperage.toFixed(2) + " A" : "—"));
+    setTxt("fiMah", (an.mAh != null ? an.mAh + " mAh" : "—"));
+    setTxt("fiRssi", an.rssi != null ? String(an.rssi) : "—");
+    setTxt("fiArm", st.armed ? "已解鎖 ARM" : "未解鎖");
+    var mode = st.armed ? "ACRO" : "—";
+    if (st.angleMode) mode = "ANGLE";
+    else if (st.horizonMode) mode = "HORIZON";
+    if (!st.armed && !st.angleMode && !st.horizonMode) mode = "DISARM";
+    setTxt("fiMode", mode + (st.profile != null ? " · P" + st.profile : ""));
+    setTxt("fiCycle", st.cycleTime ? st.cycleTime + " µs" : "—");
+    setTxt("fiCpu", st.cpuLoad != null ? st.cpuLoad + " %" : "—");
+    var armEl = document.getElementById("fiArm");
+    if (armEl) armEl.style.color = st.armed ? "#b42318" : "#0f7a4d";
+
+    // 傳感器跳動偵測（轉動時圖示會 pulse）
+    var g = live.gyro || [0, 0, 0];
+    if (live.lastGyro) {
+      var gd = Math.abs(g[0] - live.lastGyro[0]) + Math.abs(g[1] - live.lastGyro[1]) + Math.abs(g[2] - live.lastGyro[2]);
+      if (gd > 0.35) live.gyroMoves = Math.min(40, live.gyroMoves + 1);
+      else if (live.gyroMoves > 0) live.gyroMoves = Math.max(0, live.gyroMoves - 1);
+    }
+    live.lastGyro = g.slice();
+    var accSum = (live._acc && live._acc.length) ? (Math.abs(live._acc[0]) + Math.abs(live._acc[1]) + Math.abs(live._acc[2])) : 0;
+    if (live.lastAcc != null) {
+      if (Math.abs(accSum - live.lastAcc) > 20) live.accMoves = Math.min(40, live.accMoves + 1);
+      else if (live.accMoves > 0) live.accMoves = Math.max(0, live.accMoves - 1);
+    }
+    live.lastAcc = accSum;
+    updateSensorStrips();
+
+    for (var i = 0; i < 3; i++) {
+      var gv = live.gyro[i] || 0;
+      var vb = document.getElementById("gyroVal" + i);
+      var bar = document.getElementById("gyroBar" + i);
+      if (vb) vb.textContent = gv.toFixed(1) + " °/s";
+      if (bar) {
+        // 靜置雜訊也能看到微動；大力轉動會接近滿幅
+        var w = Math.min(50, Math.abs(gv) / 3.5);
+        bar.style.width = Math.max(w, Math.abs(gv) > 0.05 ? 1.2 : 0) + "%";
+        bar.classList.toggle("neg", gv < 0);
+      }
+    }
+
+    var ch = live.rc || [];
+    function pwmPct(v) {
+      return Math.max(0, Math.min(100, ((v - 1000) / 1000) * 100));
+    }
+    function stickPos(v) {
+      return Math.max(8, Math.min(92, ((v - 1000) / 1000) * 84 + 8));
+    }
+    var knL = document.getElementById("knobLeft");
+    var knR = document.getElementById("knobRight");
+    // AETR: 0 roll, 1 pitch, 2 throttle, 3 yaw
+    if (knL && ch.length >= 4) {
+      knL.style.left = stickPos(ch[3]) + "%";
+      knL.style.top = (100 - stickPos(ch[2])) + "%";
+    }
+    if (knR && ch.length >= 2) {
+      knR.style.left = stickPos(ch[0]) + "%";
+      knR.style.top = (100 - stickPos(ch[1])) + "%";
+    }
+    var list = document.getElementById("liveRcList");
+    if (list) {
+      list.innerHTML = ch.map(function (v, idx) {
+        var name = RC_NAMES[idx] || ("CH" + (idx + 1));
+        return '<div class="az-rc-row"><div class="name">' + esc(name) + "<small>CH" + (idx + 1) + "</small></div>" +
+          '<div class="az-rc-bar"><div class="mid"></div><div class="fill" style="width:' + pwmPct(v) + '%"></div></div>' +
+          '<div class="pwm">' + v + "</div></div>";
+      }).join("") || '<p class="az-live-note">尚無通道資料</p>';
+    }
+  }
+
+  async function fetchLiveLed() {
+    if (!live.session || !window.FcFullBackup) return;
+    try {
+      var colors = await live.session.msp(FcFullBackup.MSP.LED_COLORS, null, 2500);
+      var strip = await live.session.msp(FcFullBackup.MSP.LED_STRIP_CONFIG, null, 2500);
+      live.led = parseLedFromMsp(colors, strip);
+      var box = document.getElementById("liveLedBox");
+      if (box) box.innerHTML = renderLedVisual(live.led, "飛控 LED", false);
+      // 同步給 LED 編輯頁
+      ledEdit.state = cloneLedState(live.led);
+      ledEdit.sourceLabel = "飛控即時";
+    } catch (e) {
+      var box2 = document.getElementById("liveLedBox");
+      if (box2) box2.innerHTML = '<p class="az-live-note">LED 讀取失敗：' + esc(e.message || e) + "（部分板子未開 LED_STRIP）</p>";
+    }
+  }
+
+  async function liveTick() {
+    if (!live.session || !live.running || !window.FcFullBackup) return;
+    if (live.ticking) return;
+    live.ticking = true;
+    live.tickN = (live.tickN || 0) + 1;
+    try {
+      // 優先姿態／陀螺：插上就要立刻有反應
+      var att = await live.session.msp(FcFullBackup.MSP.ATTITUDE, null, 500);
+      var parsedA = FcFullBackup.parseAttitude(att);
+      if (parsedA) live.attitude = parsedA;
+      var imu = await live.session.msp(FcFullBackup.MSP.RAW_IMU, null, 500);
+      var parsedI = FcFullBackup.parseRawImu(imu);
+      if (parsedI) {
+        live.gyro = parsedI.gyro;
+        live._acc = parsedI.acc;
+        live.imuTicks = (live.imuTicks || 0) + 1;
+      }
+      // 傳感器 bitmask：每 3 幀抓一次
+      if (live.tickN % 3 === 1) {
+        try {
+          var stPayload = await live.session.msp(FcFullBackup.MSP.STATUS_EX, null, 500);
+          var ps = FcFullBackup.parseStatusEx(stPayload);
+          if (ps) {
+            live.status = ps;
+            live.sensorBits = ps.sensors || 0;
+          }
+        } catch (e2) {
+          try {
+            var st2 = await live.session.msp(FcFullBackup.MSP.STATUS, null, 500);
+            var ps2 = FcFullBackup.parseStatusEx(st2);
+            if (ps2) {
+              live.status = ps2;
+              live.sensorBits = ps2.sensors || 0;
+            }
+          } catch (e3) {}
+        }
+      }
+      // RC／類比：較慢，避免拖慢陀螺
+      if (live.tickN % 2 === 0) {
+        try {
+          var rc = await live.session.msp(FcFullBackup.MSP.RC, null, 500);
+          live.rc = FcFullBackup.parseRc(rc);
+        } catch (eRc) {}
+      }
+      if (live.tickN % 5 === 0) {
+        try {
+          var analog = await live.session.msp(FcFullBackup.MSP.ANALOG, null, 500);
+          var pa = FcFullBackup.parseAnalog(analog);
+          if (pa) live.analog = pa;
+        } catch (e1) {}
+      }
+      updateLiveDom();
+    } catch (e) {
+      var msg = document.getElementById("liveMsg");
+      if (msg) msg.textContent = "讀取中斷：" + (e.message || e);
+    } finally {
+      live.ticking = false;
+    }
+  }
+
+  async function stopLive() {
+    live.running = false;
+    if (live.timer) { clearInterval(live.timer); live.timer = null; }
+    if (live.session) {
+      try { await live.session.close(); } catch (e) {}
+      live.session = null;
+    }
+    live.gyroMoves = 0;
+    live.accMoves = 0;
+    live.imuTicks = 0;
+    live.sensorBits = 0;
+    live.ticking = false;
+    live.tickN = 0;
+    live.lastGyro = null;
+    live.lastAcc = null;
+    live._acc = null;
+    var btn = document.getElementById("btnLiveStart");
+    if (btn) btn.textContent = "開始即時監控";
+    var msg = document.getElementById("liveMsg");
+    if (msg) msg.textContent = "已停止。插上飛控或再按開始即可。";
+    updateSensorStrips();
+  }
+
+  async function startLive(existingPort) {
+    if (!window.FcFullBackup) throw new Error("模組未載入");
+    if (live.running || autoLive.connecting) return;
+    autoLive.connecting = true;
+    try {
+      if (live.session) {
+        try { await live.session.close(); } catch (e) {}
+        live.session = null;
+      }
+      var msg = document.getElementById("liveMsg");
+      if (msg) msg.textContent = "連接中…";
+      setStatus("飛控連線中…");
+      if (existingPort) {
+        live.session = await FcFullBackup.openLiveSessionFromPort(existingPort, function (m) {
+          if (msg) msg.textContent = m;
+        });
+      } else {
+        live.session = await FcFullBackup.openLiveSession(function (m) {
+          if (msg) msg.textContent = m;
+        });
+      }
+      live.running = true;
+      live.gyroMoves = 0;
+      live.accMoves = 0;
+      live.imuTicks = 0;
+      live.ticking = false;
+      live.tickN = 0;
+      live.lastGyro = null;
+      live.lastAcc = null;
+      live._acc = null;
+      var btn = document.getElementById("btnLiveStart");
+      if (btn) btn.textContent = "停止";
+      if (tab !== "live") {
+        tab = "live";
+        document.querySelectorAll(".az-seg button").forEach(function (b) {
+          b.classList.toggle("on", b.getAttribute("data-tab") === "live");
+        });
+        render();
+      }
+      // 先跑幾幀姿態／陀螺，再補 LED（避免一插上畫面沒反應）
+      await liveTick();
+      await liveTick();
+      live.timer = setInterval(function () { liveTick(); }, 80);
+      fetchLiveLed().catch(function () {});
+      if (msg) msg.textContent = "即時監控中 — 轉動飛控，地平儀／陀螺儀應跟著動；上方傳感器變綠＝正常";
+      setStatus("即時監控已啟動");
+      updateSensorStrips();
+    } finally {
+      autoLive.connecting = false;
+    }
+  }
+
+  function portKey(port) {
+    try {
+      var info = port.getInfo ? port.getInfo() : {};
+      return String(info.usbVendorId || "") + ":" + String(info.usbProductId || "") + ":" + String(info.bluetoothServiceClassId || "usb");
+    } catch (e) {
+      return "port";
+    }
+  }
+
+  async function maybeUploadCloud(backup) {
+    if (!window.FcCloud) return "";
+    var s = FcCloud.loadSettings();
+    if (!s.autoUpload || !s.url) return "";
+    try {
+      var r = await FcCloud.uploadBackup(backup, s, setStatus);
+      return "已上傳雲端（" + (r.backup_id || "ok") + "）";
+    } catch (err) {
+      setStatus("雲端上傳失敗：" + (err.message || err), true);
+      return "雲端上傳失敗";
+    }
+  }
+
+  function setupCloudPanel() {
+    if (!window.FcCloud) return;
+    var s = FcCloud.loadSettings();
+    var url = document.getElementById("cloudUrl");
+    var token = document.getElementById("cloudToken");
+    var did = document.getElementById("cloudDroneId");
+    var dname = document.getElementById("cloudDroneName");
+    var up = document.getElementById("cloudUploader");
+    var auto = document.getElementById("chkCloudAuto");
+    var label = document.getElementById("cloudAutoLabel");
+    if (url) url.value = s.url;
+    if (token) token.value = s.token;
+    if (did) did.value = s.droneId;
+    if (dname) dname.value = s.droneName;
+    if (up) up.value = s.uploader;
+    if (auto) auto.checked = !!s.autoUpload;
+    if (label) label.classList.toggle("on", !!s.autoUpload);
+
+    function readForm() {
+      return {
+        url: url ? url.value.trim() : "",
+        token: token ? token.value.trim() : "",
+        droneId: did ? did.value.trim() : "",
+        droneName: dname ? dname.value.trim() : "",
+        uploader: up ? up.value.trim() : "",
+        autoUpload: !!(auto && auto.checked)
+      };
+    }
+
+    var btnSave = document.getElementById("btnCloudSave");
+    var btnPing = document.getElementById("btnCloudPing");
+    if (btnSave) {
+      btnSave.onclick = function () {
+        var next = readForm();
+        FcCloud.saveSettings(next);
+        if (label) label.classList.toggle("on", next.autoUpload);
+        setStatus("雲端設定已儲存");
+      };
+    }
+    if (auto) {
+      auto.addEventListener("change", function () {
+        if (label) label.classList.toggle("on", !!auto.checked);
+      });
+    }
+    if (btnPing) {
+      btnPing.onclick = async function () {
+        try {
+          var next = readForm();
+          FcCloud.saveSettings(next);
+          await FcCloud.ping(next);
+          setStatus("雲端連線成功");
+        } catch (err) {
+          setStatus("雲端連線失敗：" + (err.message || err), true);
+        }
+      };
+    }
+  }
+
+  async function refreshAuthUi() {
+    var box = document.getElementById("authBox");
+    var state = document.getElementById("authState");
+    var hint = document.getElementById("autoBackupHint");
+    if (!("serial" in navigator)) {
+      if (box) box.className = "az-auth-box need";
+      if (state) state.textContent = "此瀏覽器不支援 Web Serial";
+      return [];
+    }
+    var ports = [];
+    try { ports = await navigator.serial.getPorts(); } catch (e) { ports = []; }
+    var n = ports ? ports.length : 0;
+    if (n > 0) {
+      if (box) box.className = "az-auth-box ready";
+      if (state) state.textContent = "已授權 · 本分頁開著即可背景自動（插上即連）";
+      if (hint) hint.innerHTML = "授權已完成。請保持此分頁開啟、關閉 Configurator。插上飛控會自動即時監控（傳感器／陀螺儀）。兩個勾都開時以即時監控優先，備份請用上方按鈕手動。";
+    } else {
+      if (box) box.className = "az-auth-box need";
+      if (state) state.textContent = "尚未授權 · 需點一次（瀏覽器安全限制）";
+      if (hint) hint.innerHTML = "Chrome／Edge 規定：序列埠<strong>第一次</strong>一定要手動點授權，無法在完全沒點過的情況下背景偷連。點過之後，本分頁開著就能插上全自動。";
+    }
+    return ports || [];
+  }
+
+  async function onFcPlugged(port) {
+    if (!port) return;
+    if (autoBackup.busy || autoLive.connecting) return;
+    // 延遲讓 USB 枚舉完成
+    await new Promise(function (r) { setTimeout(r, 600); });
+    refreshAuthUi();
+
+    // 兩個都勾時：優先即時監控（傳感器／陀螺要立刻有反應），不中斷去備份
+    if (autoLive.enabled && !live.running) {
+      try {
+        await startLive(port);
+        if (autoBackup.enabled) {
+          setStatus("即時監控已自動啟動（備份請按「完整備份到本機」，避免搶埠口）");
+        }
+        return;
+      } catch (err) {
+        setStatus("自動即時監控失敗：" + usbErrorMessage(err), true);
+      }
+    }
+
+    if (autoBackup.enabled && !autoLive.enabled && window.FcFullBackup && !autoBackup.busy) {
+      autoBackup.busy = true;
+      try {
+        setStatus("偵測到飛控，自動完整備份中…");
+        var backup = await FcFullBackup.runOnPort(port, setStatus);
+        await FcFullBackup.saveLocal(backup, setStatus);
+        var dump = (backup.cli && (backup.cli["dump all"] || backup.cli["diff all"])) || "";
+        if (dump && countSets(dump) >= 3) addConfig("自動備份 · " + backup.createdLocal, dump);
+        await maybeUploadCloud(backup);
+        setStatus("自動備份完成");
+        await refreshBackupList();
+      } catch (err) {
+        setStatus("自動備份失敗：" + usbErrorMessage(err), true);
+      } finally {
+        autoBackup.busy = false;
+      }
+    }
+  }
+
+  function setupPlugDetection() {
+    if (!("serial" in navigator)) return;
+    var chkLive = document.getElementById("chkAutoLive");
+    var chkBak = document.getElementById("chkAutoBackup");
+    var labelLive = document.getElementById("autoLiveLabel");
+    var labelBak = document.getElementById("autoBackupLabel");
+    var btnAuth = document.getElementById("btnAuthPort");
+
+    try {
+      autoLive.enabled = localStorage.getItem(AUTO_LIVE_KEY) !== "0";
+      autoBackup.enabled = localStorage.getItem(AUTO_BACKUP_KEY) === "1";
+    } catch (e) {}
+    if (chkLive) chkLive.checked = !!autoLive.enabled;
+    if (chkBak) chkBak.checked = !!autoBackup.enabled;
+    if (labelLive) labelLive.classList.toggle("on", !!autoLive.enabled);
+    if (labelBak) labelBak.classList.toggle("on", !!autoBackup.enabled);
+
+    if (chkLive) {
+      chkLive.addEventListener("change", function () {
+        autoLive.enabled = !!chkLive.checked;
+        try { localStorage.setItem(AUTO_LIVE_KEY, autoLive.enabled ? "1" : "0"); } catch (e) {}
+        if (labelLive) labelLive.classList.toggle("on", autoLive.enabled);
+      });
+    }
+    if (chkBak) {
+      chkBak.addEventListener("change", function () {
+        autoBackup.enabled = !!chkBak.checked;
+        try { localStorage.setItem(AUTO_BACKUP_KEY, autoBackup.enabled ? "1" : "0"); } catch (e) {}
+        if (labelBak) labelBak.classList.toggle("on", autoBackup.enabled);
+        if (autoBackup.enabled && autoLive.enabled) {
+          setStatus("兩個都開時以即時監控優先；備份請用「完整備份到本機」");
+        }
+      });
+    }
+    if (btnAuth) {
+      btnAuth.addEventListener("click", async function () {
+        try {
+          var port = await navigator.serial.requestPort();
+          setStatus("已授權。之後只要本分頁開著，插上即自動連線。");
+          await refreshAuthUi();
+          await onFcPlugged(port);
+        } catch (err) {
+          setStatus("授權取消或失敗：" + usbErrorMessage(err), true);
+        }
+      });
+    }
+
+    navigator.serial.addEventListener("connect", function (ev) {
+      var port = ev.port || ev.target;
+      if (autoBackup.debounceTimer) clearTimeout(autoBackup.debounceTimer);
+      autoBackup.debounceTimer = setTimeout(function () {
+        onFcPlugged(port);
+      }, 400);
+    });
+    navigator.serial.addEventListener("disconnect", function () {
+      if (live.running) {
+        stopLive();
+        setStatus("飛控已拔除 — 再插上會自動連（本分頁需開著）");
+      }
+      refreshAuthUi();
+    });
+
+    // 頁面開啟：已授權就顯示「背景自動」；若飛控已插上則立刻連
+    refreshAuthUi().then(function (ports) {
+      if (ports && ports.length && (autoLive.enabled || autoBackup.enabled)) {
+        onFcPlugged(ports[0]);
+      }
+    });
+  }
+
+  function bindLiveButtons() {
+    var start = document.getElementById("btnLiveStart");
+    var ledBtn = document.getElementById("btnLiveLed");
+    var calBtn = document.getElementById("btnAccCal");
+    if (start) {
+      start.onclick = async function () {
+        try {
+          if (live.running) await stopLive();
+          else await startLive();
+        } catch (err) {
+          alert("即時監控失敗：\n" + (err.message || err));
+          await stopLive();
+        }
+      };
+    }
+    if (ledBtn) {
+      ledBtn.onclick = async function () {
+        if (!live.session) {
+          alert("請先按「開始即時監控」連接飛控");
+          return;
+        }
+        await fetchLiveLed();
+      };
+    }
+    if (calBtn) {
+      calBtn.onclick = async function () {
+        if (!live.session || !window.FcFullBackup) {
+          alert("請先按「開始即時監控」連接飛控");
+          return;
+        }
+        if (!confirm("水平校正（加速度計）\n\n1. 取下螺旋槳\n2. 機體放在水平桌面\n3. 完全不要碰\n\n確定開始？")) return;
+        calBtn.disabled = true;
+        var hint = document.getElementById("fiCalHint");
+        var msg = document.getElementById("liveMsg");
+        if (hint) hint.textContent = "校正中，請保持機體靜止約 3–5 秒…";
+        if (msg) msg.textContent = "正在水平校正…";
+        try {
+          await FcFullBackup.calibrateAcc(live.session);
+          if (hint) hint.textContent = "水平校正已送出。若蜂鳴器有提示音表示完成；地平儀應接近 0°／0°。";
+          if (msg) msg.textContent = "水平校正完成";
+        } catch (err) {
+          alert("水平校正失敗：\n" + (err.message || err));
+        } finally {
+          calBtn.disabled = false;
+        }
+      };
+    }
+  }
+
+  function renderGuide() {
+    return (
+      '<div class="az-guide">' +
+        '<div class="tagline">完整備份會讀什麼</div>' +
+        "<h4>盡可能讀取飛控上所有可匯出資訊</h4>" +
+        "<ul>" +
+          "<li><b>CLI</b>：含 <code>led</code>／<code>color</code>／<code>mode_color</code>、<code>dump all</code> 等。</li>" +
+          "<li><b>即時監控</b>：地平儀、陀螺儀角速度、遙控通道、LED 色盤與燈位。</li>" +
+          "<li><b>黑盒子</b>：板載 Dataflash 可下載；SD 卡需讀卡機。</li>" +
+        "</ul>" +
+      "</div>" +
+      '<div class="az-gloss">' +
+        "<details open><summary>P／I／D／F 是什麼？</summary><div class=\"body\">" +
+          "<p><b>P</b> 反應速度；<b>I</b> 抗外力穩定；<b>D</b> 抑制震盪；<b>F</b> 前饋跟手感。</p>" +
+        "</div></details>" +
+        "<details><summary>LED 功能字母</summary><div class=\"body\">" +
+          "<p><b>C</b>顏色 <b>F</b>飛行姿態 <b>A</b>解鎖 <b>W</b>警告（低壓） <b>I</b>方向燈 等。本隊尾燈常用射手色＋W。</p>" +
+        "</div></details>" +
+      "</div>"
+    );
+  }
+
+  function renderPanel() {
+    if (tab === "guide" || tab === "live" || tab === "led") {
+      el.empty.hidden = true;
+      el.panel.hidden = false;
+      if (tab === "guide") el.panel.innerHTML = renderGuide();
+      else if (tab === "live") {
+        el.panel.innerHTML = renderLiveShell();
+        updateSensorStrips();
+        updateLiveDom();
+        bindLiveButtons();
+      } else {
+        el.panel.innerHTML = renderLedTab();
+        bindLedEditor();
+      }
+      return;
+    }
+    if (!configs.length) { el.panel.innerHTML = ""; return; }
+    if (tab === "overview") {
+      el.panel.innerHTML = renderOverview();
+      return;
+    }
+
+    var html = '<div class="az-cell head"></div>';
+    configs.forEach(function (c, i) {
+      html += '<div class="az-cell head name" style="color:' + COLORS[i % COLORS.length] + '">' + esc(c.name) + "</div>";
+    });
+
+    if (tab === "pid") {
+      [["roll", "Roll 橫滾"], ["pitch", "Pitch 俯仰"], ["yaw", "Yaw 偏航"]].forEach(function (ax) {
+        html += section(ax[1]);
+        ["p", "i", "d", "f"].forEach(function (k) {
+          html += row(k.toUpperCase(), configs.map(function (c) { return c.parsed.pids[ax[0]][k]; }), true, true);
+        });
+      });
+    } else if (tab === "filter") {
+      [
+        ["gyro_lpf1", "Gyro LPF1"], ["gyro_lpf2", "Gyro LPF2"],
+        ["dterm_lpf1", "D LPF1"], ["dterm_lpf2", "D LPF2"],
+        ["dyn_notch_min", "陷波 min"], ["dyn_notch_max", "陷波 max"]
+      ].forEach(function (f) {
+        html += row(f[1], configs.map(function (c) { return c.parsed.filters[f[0]]; }), true, true);
+      });
+    } else if (tab === "rates") {
+      [
+        ["roll_rate", "Roll RC"], ["pitch_rate", "Pitch RC"], ["yaw_rate", "Yaw RC"],
+        ["roll_srate", "Roll Super"], ["pitch_srate", "Pitch Super"], ["yaw_srate", "Yaw Super"]
+      ].forEach(function (r) {
+        html += row(r[1], configs.map(function (c) { return c.parsed.rates[r[0]]; }), true, true);
+      });
+    }
+
+    el.panel.innerHTML = board(html);
+  }
+
+  function render() {
+    var n = configs.length;
+    el.count.textContent = n + " SESSION" + (n === 1 ? "" : "S");
+    if (tab === "guide" || tab === "live" || tab === "led") {
+      el.empty.hidden = true;
+      el.panel.hidden = false;
+    } else {
+      el.empty.hidden = n > 0;
+      el.panel.hidden = n === 0;
+    }
+    el.loaded.hidden = n === 0;
+    el.chips.innerHTML = configs.map(function (c, i) {
+      return '<div class="az-item"><span class="dot" style="background:' + COLORS[i % COLORS.length] +
+        ';box-shadow:0 0 0 3px ' + COLORS[i % COLORS.length] + '33"></span><div class="meta"><strong>' +
+        esc(c.name) + "</strong><span>" + esc(c.parsed.board) + " · " + esc(c.parsed.version) +
+        "</span></div>" +
+        '<button type="button" data-rm="' + i + '" aria-label="移除">×</button></div>';
+    }).join("");
+    renderPanel();
+  }
+
+  async function refreshBackupList() {
+    if (!window.FcFullBackup || !el.backupList) return;
+    try {
+      var rows = await FcFullBackup.list();
+      if (!rows.length) {
+        el.backupWrap.hidden = true;
+        el.backupList.innerHTML = "";
+        return;
+      }
+      el.backupWrap.hidden = false;
+      el.backupList.innerHTML = rows.slice(0, 8).map(function (b) {
+        var bb = b.blackbox && b.blackbox.bytes
+          ? ("黑盒子 " + Math.round(b.blackbox.bytes / 1024) + " KB")
+          : (b.blackbox && b.blackbox.note ? "無黑盒子資料" : "黑盒子 —");
+        var meta = (b.meta && b.meta.cliCommands ? b.meta.cliCommands + " CLI" : "") +
+          (b.meta && b.meta.mspOk != null ? " · " + b.meta.mspOk + " MSP" : "");
+        return '<div class="az-item"><span class="dot" style="background:#0477a8"></span><div class="meta"><strong>' +
+          esc(b.createdLocal || b.id) + "</strong><span>" + esc(meta + " · " + bb) +
+          "</span></div></div>";
+      }).join("");
+    } catch (e) {
+      console.warn(e);
+    }
+  }
+
+  function addConfig(name, text) {
+    name = (name || "").trim();
+    text = (text || "").trim();
+    if (!name || !text) { alert("請填名稱與 CLI dump"); return; }
+    configs.push(parseConfig(text, name));
+    save();
+    render();
+  }
+
+  el.add.addEventListener("click", function () {
+    addConfig(el.name.value, el.text.value);
+    el.name.value = "";
+    el.text.value = "";
+  });
+
+  el.chips.addEventListener("click", function (e) {
+    var btn = e.target.closest("[data-rm]");
+    if (!btn) return;
+    configs.splice(Number(btn.getAttribute("data-rm")), 1);
+    save();
+    render();
+  });
+
+  document.querySelector(".az-seg").addEventListener("click", function (e) {
+    var btn = e.target.closest("[data-tab]");
+    if (!btn) return;
+    var next = btn.getAttribute("data-tab");
+    if (tab === "live" && next !== "live" && live.running) {
+      // 離開即時頁時保持連線亦可；若要省電可停止：stopLive();
+    }
+    tab = next;
+    document.querySelectorAll(".az-seg button").forEach(function (b) {
+      b.classList.toggle("on", b === btn);
+    });
+    render();
+  });
+
+  el.clr.addEventListener("click", function () {
+    if (!configs.length) return;
+    if (!confirm("確定清除全部？")) return;
+    configs = [];
+    localStorage.removeItem(KEY);
+    localStorage.removeItem("betaflight_configs");
+    render();
+  });
+
+  el.exp.addEventListener("click", function () {
+    if (!configs.length) { alert("目前沒有配置可匯出"); return; }
+    var blob = new Blob([JSON.stringify(configs, null, 2)], { type: "application/json" });
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "betaflight-configs.json";
+    a.click();
+    URL.revokeObjectURL(a.href);
+  });
+
+  el.file.addEventListener("change", function () {
+    var file = el.file.files && el.file.files[0];
+    el.file.value = "";
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function () {
+      var text = String(reader.result || "");
+      var trimmed = text.trim();
+      if (!trimmed) {
+        alert("檔案是空的");
+        return;
+      }
+      // JSON 比較包
+      if (trimmed.charAt(0) === "[" || trimmed.charAt(0) === "{") {
+        try {
+          var data = JSON.parse(trimmed);
+          if (Array.isArray(data)) {
+            configs = configs.concat(data);
+            save();
+            render();
+            alert("已匯入 " + data.length + " 組比較配置");
+            return;
+          }
+          if (data && data.content) {
+            addConfig(data.name || file.name, data.content);
+            alert("已匯入 1 組配置");
+            return;
+          }
+        } catch (e) {
+          // 不是 JSON，改當 CLI dump
+        }
+      }
+      // Betaflight dump／diff／參數 txt（如 220参数.txt）
+      var looksDump =
+        /Betaflight/i.test(text) ||
+        /\bset\s+\w+\s*=/.test(text) ||
+        /\bbatch\s+start\b/i.test(text) ||
+        /\bdump\b/i.test(text) ||
+        /\bled\s+\d+/i.test(text);
+      if (!looksDump) {
+        alert("無法辨識檔案。請匯入 Betaflight dump／diff 的 .txt，或本頁匯出的 JSON。");
+        return;
+      }
+      var base = (file.name || "參數檔").replace(/\.(txt|cli|json)$/i, "");
+      addConfig(base, text);
+      // 若含 LED，載入編輯器
+      var ledParsed = parseLedFromText(text);
+      if (ledParsed.leds.length || ledParsed.colors.length) {
+        ledEdit.state = cloneLedState(ledParsed);
+        ledEdit.sourceLabel = base;
+      }
+      alert("已匯入參數檔：「" + base + "」\n可到總覽／PID／LED 查看。");
+    };
+    reader.readAsText(file);
+  });
+
+  function sleep(ms) {
+    return new Promise(function (r) { setTimeout(r, ms); });
+  }
+
+  function looksLikeCli(buf) {
+    return /Entering CLI/i.test(buf) || /(^|\n)#\s*$/m.test(buf);
+  }
+
+  function dumpComplete(buf) {
+    if (/#\s*end\b/i.test(buf) || /batch end/i.test(buf)) return true;
+    var sets = (buf.match(/\bset\s+\w+\s*=/g) || []).length;
+    // 大量 set 後又回到 # 提示字元
+    if (sets >= 15 && /(^|\n)#\s*$/m.test(buf)) return true;
+    return false;
+  }
+
+  function countSets(buf) {
+    return (buf.match(/\bset\s+\w+\s*=/g) || []).length;
+  }
+
+  async function readFromFC(onProgress) {
+    if (!("serial" in navigator)) {
+      throw new Error("此瀏覽器不支援 Web Serial。請改用 Chrome 或 Edge。");
+    }
+    if (!window.isSecureContext) {
+      throw new Error("目前不是安全來源。請用 http://127.0.0.1:4173/ 開啟，不要雙擊 HTML（file://）。");
+    }
+
+    onProgress && onProgress("請在彈窗選取飛控埠口（STM／USB Serial／COM）…");
+    var port = await navigator.serial.requestPort();
+
+    onProgress && onProgress("開啟序列埠…");
+    try {
+      await port.open({ baudRate: 115200, bufferSize: 65536 });
+    } catch (err) {
+      var openMsg = err && err.message ? err.message : String(err);
+      if (/already|NetworkError|Failed to open|Access denied|占用/i.test(openMsg) || err.name === "NetworkError") {
+        throw new Error("埠口被占用。請關閉 Betaflight Configurator／其他分頁後，拔插 USB 再試。");
+      }
+      throw new Error("無法開啟埠口：" + openMsg);
+    }
+
+    var encoder = new TextEncoder();
+    var decoder = new TextDecoder();
+    var writer = port.writable.getWriter();
+    var reader = port.readable.getReader();
+    var buffer = "";
+    var pumping = true;
+    var pumpError = null;
+
+    // 單一背景讀取迴圈，避免 Promise.race 造成 read() 重入鎖死
+    var pump = (async function () {
+      try {
+        while (pumping) {
+          var chunk = await reader.read();
+          if (chunk.done) break;
+          if (chunk.value) buffer += decoder.decode(chunk.value, { stream: true });
+        }
+      } catch (e) {
+        pumpError = e;
+      }
+    })();
+
+    function snapshot() { return buffer; }
+    function take() {
+      var out = buffer;
+      buffer = "";
+      return out;
+    }
+
+    async function waitFor(pred, totalMs) {
+      var deadline = Date.now() + totalMs;
+      var lastLen = -1;
+      var idleSince = Date.now();
+      while (Date.now() < deadline) {
+        if (pumpError) throw pumpError;
+        var nowBuf = snapshot();
+        if (pred(nowBuf)) return nowBuf;
+        if (nowBuf.length !== lastLen) {
+          lastLen = nowBuf.length;
+          idleSince = Date.now();
+        } else if (Date.now() - idleSince > 800 && pred(nowBuf, true)) {
+          return nowBuf;
+        }
+        await sleep(40);
+      }
+      return snapshot();
+    }
+
+    var dump = "";
+    try {
+      onProgress && onProgress("進入 CLI…");
+      await writer.write(encoder.encode("\r\n"));
+      await sleep(250);
+      take(); // 丟棄雜訊
+
+      var ready = false;
+      for (var attempt = 0; attempt < 4; attempt++) {
+        await writer.write(encoder.encode("#"));
+        await sleep(100);
+        var cli = await waitFor(looksLikeCli, 2000);
+        if (looksLikeCli(cli)) { ready = true; break; }
+        await writer.write(encoder.encode("\r\n"));
+        await sleep(120);
+      }
+      if (!ready) {
+        throw new Error("進不了 CLI。請確認：1) 已關閉 Configurator 2) USB 插穩 3) 彈窗有選對 COM 埠");
+      }
+      take();
+
+      onProgress && onProgress("執行 dump all（約需數秒）…");
+      await writer.write(encoder.encode("dump all\r\n"));
+      dump = await waitFor(function (b, idle) {
+        if (dumpComplete(b)) return true;
+        if (idle && countSets(b) >= 20) return true;
+        return false;
+      }, 28000);
+
+      if (countSets(dump) < 5) {
+        onProgress && onProgress("dump 偏少，改試 diff all…");
+        take();
+        await writer.write(encoder.encode("diff all\r\n"));
+        var diff = await waitFor(function (b, idle) {
+          if (dumpComplete(b)) return true;
+          if (idle && countSets(b) >= 8) return true;
+          return false;
+        }, 15000);
+        if (countSets(diff) > countSets(dump)) dump = diff;
+      }
+
+      if (countSets(dump) < 5) {
+        throw new Error("有連上但幾乎沒讀到設定（" + countSets(dump) + " 筆）。請拔插 USB、關閉 Configurator 後重試。");
+      }
+
+      try {
+        await writer.write(encoder.encode("exit noreboot\r\n"));
+        await sleep(150);
+      } catch (e) {}
+    } finally {
+      pumping = false;
+      try { await reader.cancel(); } catch (e) {}
+      try { await pump; } catch (e) {}
+      try { reader.releaseLock(); } catch (e) {}
+      try { writer.releaseLock(); } catch (e) {}
+      try { await port.close(); } catch (e) {}
+    }
+    return dump;
+  }
+
+  function usbErrorMessage(err) {
+    var msg = err && err.message ? err.message : String(err);
+    if (err && err.name === "NotFoundError") {
+      return "已取消，或清單是空的。請插上飛控後再按；選 USB Serial／STM／COM 埠。";
+    }
+    if (err && err.name === "SecurityError") {
+      return "瀏覽器擋住序列埠權限，請允許並用 http://127.0.0.1 開啟。";
+    }
+    return msg;
+  }
+
+  el.usb.addEventListener("click", async function () {
+    el.usb.disabled = true;
+    if (el.full) el.full.disabled = true;
+    setStatus("準備讀取 dump…");
+    try {
+      var text = await readFromFC(setStatus);
+      if (!text.trim()) throw new Error("沒有讀到內容");
+      var autoName = "飛控 · " + new Date().toLocaleString("zh-TW");
+      addConfig(autoName, text);
+      setStatus("dump 已加入比較");
+      setTimeout(function () { setStatus(""); }, 2800);
+    } catch (err) {
+      var msg = usbErrorMessage(err);
+      setStatus("失敗：" + msg, true);
+      alert("無法讀取飛控\n\n" + msg);
+    } finally {
+      el.usb.disabled = false;
+      if (el.full) el.full.disabled = false;
+    }
+  });
+
+  if (el.full) {
+    el.full.addEventListener("click", async function () {
+      if (!window.FcFullBackup) {
+        alert("備份模組未載入，請強制重新整理頁面");
+        return;
+      }
+      el.full.disabled = true;
+      el.usb.disabled = true;
+      setStatus("開始完整備份（可能需要 1–3 分鐘）…");
+      try {
+        var backup = await FcFullBackup.run(setStatus);
+        await FcFullBackup.saveLocal(backup, setStatus);
+
+        var dump = (backup.cli && (backup.cli["dump all"] || backup.cli["diff all"])) || "";
+        if (dump && countSets(dump) >= 3) {
+          addConfig("完整備份 · " + backup.createdLocal, dump);
+        }
+
+        var cloudMsg = await maybeUploadCloud(backup);
+        var bbMsg = backup.blackbox && backup.blackbox.bytes
+          ? ("；黑盒子 " + backup.blackbox.bytes + " bytes 已下載")
+          : (backup.blackbox && backup.blackbox.note ? "；" + backup.blackbox.note : "");
+        setStatus(
+          "完整備份完成：CLI " + (backup.meta.cliCommands || 0) +
+          " 項、MSP 成功 " + (backup.meta.mspOk || 0) + " 項" + bbMsg +
+          "。已存本機" + (cloudMsg ? "；" + cloudMsg : "。")
+        );
+        await refreshBackupList();
+      } catch (err) {
+        var msg = usbErrorMessage(err);
+        setStatus("完整備份失敗：" + msg, true);
+        alert("完整備份失敗\n\n" + msg + "\n\n請關閉 Configurator 後重試。SD 卡黑盒子需另外用讀卡機／官方工具。");
+      } finally {
+        el.full.disabled = false;
+        el.usb.disabled = false;
+      }
+    });
+  }
+
+  (function initLeds() {
+    var serialOk = "serial" in navigator;
+    var secureOk = !!window.isSecureContext;
+    var ledS = document.getElementById("ledSerial");
+    var ledC = document.getElementById("ledSecure");
+    if (ledS) {
+      ledS.classList.toggle("on", serialOk);
+      ledS.classList.toggle("off", !serialOk);
+    }
+    if (ledC) {
+      ledC.classList.toggle("on", secureOk);
+      ledC.classList.toggle("off", !secureOk);
+    }
+    if (!serialOk) {
+      el.usb.disabled = true;
+      if (el.full) el.full.disabled = true;
+      setStatus("請改用 Chrome／Edge 才能 USB 讀取", true);
+    } else if (!secureOk) {
+      el.usb.disabled = true;
+      if (el.full) el.full.disabled = true;
+      setStatus("請用 http://127.0.0.1:4173/betaflight-analyzer.html 開啟（不要用 file://）", true);
+    }
+  })();
+
+  load();
+  render();
+  refreshBackupList();
+  updateSensorStrips();
+  setupPlugDetection();
+  setupCloudPanel();
+})();
+</script>
+</body>
+</html>
