@@ -120,9 +120,34 @@
 .az-status {
   font-size: 12.5px; color: var(--az-accent); margin: 0 0 12px; min-height: 1.2em;
   padding: 8px 10px; border-radius: 8px; background: rgba(4,119,168,.06);
+  border: 1px solid rgba(4,119,168,.18);
 }
 .az-status:empty { display: none; }
-.az-status.err { color: var(--bad); background: var(--bad-soft); }
+.az-status.err { color: var(--bad); background: var(--bad-soft); border-color: rgba(185,28,28,.25); }
+.az-status.busy {
+  color: #0c4a6e; background: #e0f2fe; border-color: #7dd3fc;
+  font-weight: 700;
+}
+.az-status.ok {
+  color: #166534; background: #dcfce7; border-color: #86efac;
+  font-weight: 700;
+}
+
+/* 讀取／備份：畫面上方固定提示，避免側欄捲到看不見 */
+.az-toast {
+  position: fixed; left: 50%; top: calc(var(--header-h, 56px) + 10px);
+  transform: translateX(-50%) translateY(-12px);
+  z-index: 1200; max-width: min(560px, calc(100vw - 24px));
+  padding: 12px 16px; border-radius: 12px;
+  font-size: 14px; font-weight: 700; line-height: 1.45;
+  color: #0c4a6e; background: #e0f2fe; border: 1px solid #38bdf8;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, .18);
+  opacity: 0; pointer-events: none; transition: opacity .18s ease, transform .18s ease;
+}
+.az-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
+.az-toast.err { color: #991b1b; background: #fee2e2; border-color: #f87171; }
+.az-toast.ok { color: #166534; background: #dcfce7; border-color: #4ade80; }
+.az-toast .az-toast-sub { display: block; margin-top: 4px; font-size: 12px; font-weight: 600; opacity: .85; }
 
 .az-loaded { margin-top: 4px; padding-top: 12px; border-top: 1px solid var(--az-line); }
 .az-loaded h3 {
@@ -733,6 +758,7 @@
         <div class="az-btnrow">
           <button type="button" class="az-btn" id="btnUsb" title="只抓 dump 供右側比較">只讀 dump</button>
         </div>
+        <p class="az-status" id="statusNear" aria-live="polite" hidden></p>
         <label class="az-switch az-autobackup" id="autoBackupLabel">
           <input type="checkbox" id="chkAutoBackup" />
           <span>插上自動備份</span>
@@ -844,8 +870,9 @@
   </div>
 </footer>
 <button type="button" id="back-top" aria-label="回到頂部">↑</button>
+<div class="az-toast" id="azToast" role="status" aria-live="assertive"></div>
 <script src="assets/site.js?v=9"></script>
-<script src="assets/fc-full-backup.js?v=7"></script>
+<script src="assets/fc-full-backup.js?v=8"></script>
 <script src="assets/fc-cloud.js?v=2"></script>
 <script>
 (function () {
@@ -865,6 +892,8 @@
     clr: document.getElementById("btnClear"),
     file: document.getElementById("fileImport"),
     status: document.getElementById("status"),
+    statusNear: document.getElementById("statusNear"),
+    toast: document.getElementById("azToast"),
     chips: document.getElementById("chipList"),
     loaded: document.getElementById("loadedWrap"),
     backupWrap: document.getElementById("backupWrap"),
@@ -874,9 +903,71 @@
     count: document.getElementById("countLabel")
   };
 
-  function setStatus(msg, isErr) {
-    el.status.textContent = msg || "";
-    el.status.classList.toggle("err", !!isErr && !!msg);
+  var statusToastTimer = null;
+  var statusBusy = false;
+
+  function paintStatusNode(node, msg, kind) {
+    if (!node) return;
+    if (!msg) {
+      node.textContent = "";
+      node.hidden = true;
+      node.classList.remove("err", "busy", "ok");
+      return;
+    }
+    node.hidden = false;
+    node.textContent = msg;
+    node.classList.toggle("err", kind === "err");
+    node.classList.toggle("busy", kind === "busy");
+    node.classList.toggle("ok", kind === "ok");
+  }
+
+  function showToast(msg, kind, sticky) {
+    if (!el.toast) return;
+    if (statusToastTimer) { clearTimeout(statusToastTimer); statusToastTimer = null; }
+    if (!msg) {
+      el.toast.classList.remove("show", "err", "ok");
+      el.toast.textContent = "";
+      return;
+    }
+    el.toast.classList.remove("err", "ok");
+    if (kind === "err") el.toast.classList.add("err");
+    if (kind === "ok") el.toast.classList.add("ok");
+    el.toast.textContent = msg;
+    el.toast.classList.add("show");
+    if (!sticky) {
+      statusToastTimer = setTimeout(function () {
+        el.toast.classList.remove("show");
+      }, kind === "err" ? 6000 : 4200);
+    }
+  }
+
+  /** kind: busy | ok | err | "" ；busy 時上方 toast 常駐直到結束 */
+  function setStatus(msg, isErr, kind) {
+    var k = kind || (isErr ? "err" : (statusBusy ? "busy" : (msg ? "ok" : "")));
+    if (kind === "busy" || (statusBusy && !isErr && kind !== "ok" && kind !== "err")) k = "busy";
+    if (isErr) k = "err";
+    paintStatusNode(el.status, msg, k);
+    paintStatusNode(el.statusNear, msg, k);
+    if (msg) {
+      showToast(msg, k === "busy" ? "" : k, k === "busy");
+      try {
+        if (el.statusNear && el.statusNear.scrollIntoView) {
+          el.statusNear.scrollIntoView({ block: "nearest", behavior: "smooth" });
+        }
+      } catch (eScroll) {}
+    } else if (!statusBusy) {
+      showToast("");
+    }
+  }
+
+  function beginBusy(msg) {
+    statusBusy = true;
+    setStatus(msg || "處理中…", false, "busy");
+  }
+
+  function endBusy(msg, isErr) {
+    statusBusy = false;
+    setStatus(msg || "", !!isErr, isErr ? "err" : "ok");
   }
 
   function getValue(lines, key) {
@@ -2312,17 +2403,20 @@
 
     if (autoBackup.enabled && !autoLive.enabled && window.FcFullBackup && !autoBackup.busy) {
       autoBackup.busy = true;
+      beginBusy("偵測到飛控，自動完整備份中…");
       try {
-        setStatus("偵測到飛控，自動完整備份中…");
-        var backup = await FcFullBackup.runOnPort(port, setStatus);
-        await FcFullBackup.saveLocal(backup, setStatus);
+        var backup = await FcFullBackup.runOnPort(port, function (m) { setStatus(m, false, "busy"); });
+        await FcFullBackup.saveLocal(backup, function (m) { setStatus(m, false, "busy"); });
         var dump = (backup.cli && (backup.cli["dump all"] || backup.cli["diff all"])) || "";
         if (dump && countSets(dump) >= 3) addConfig("自動備份 · " + backup.createdLocal, dump);
         await maybeUploadCloud(backup);
-        setStatus("自動備份完成");
+        var autoMsg = "自動備份完成 · " + (backup.createdLocal || "");
+        endBusy(autoMsg, false);
         await refreshBackupList();
+        alert("自動備份成功\n\n" + autoMsg + "\nCLI " + (backup.meta.cliCommands || 0) + " 項、MSP " + (backup.meta.mspOk || 0) + " 項");
       } catch (err) {
-        setStatus("自動備份失敗：" + usbErrorMessage(err), true);
+        endBusy("自動備份失敗：" + usbErrorMessage(err), true);
+        alert("自動備份失敗\n\n" + usbErrorMessage(err));
       } finally {
         autoBackup.busy = false;
       }
@@ -2844,19 +2938,22 @@
   }
 
   el.usb.addEventListener("click", async function () {
+    if (!confirm("只讀 dump（供右側比較）\n\n請關閉 Betaflight Configurator，並確認飛控已插上。\n繼續？")) return;
     el.usb.disabled = true;
     if (el.full) el.full.disabled = true;
-    setStatus("準備讀取 dump…");
+    beginBusy("準備讀取 dump…");
     try {
-      var text = await readFromFC(setStatus);
+      var text = await readFromFC(function (m) { setStatus(m, false, "busy"); });
       if (!text.trim()) throw new Error("沒有讀到內容");
       var autoName = "飛控 · " + new Date().toLocaleString("zh-TW");
       addConfig(autoName, text);
-      setStatus("dump 已加入比較");
-      setTimeout(function () { setStatus(""); }, 2800);
+      var sets = countSets(text);
+      var okMsg = "dump 讀取完成：「" + autoName + "」已加入比較（約 " + sets + " 項 set）";
+      endBusy(okMsg, false);
+      alert("讀取成功\n\n" + okMsg);
     } catch (err) {
       var msg = usbErrorMessage(err);
-      setStatus("失敗：" + msg, true);
+      endBusy("失敗：" + msg, true);
       alert("無法讀取飛控\n\n" + msg);
     } finally {
       el.usb.disabled = false;
@@ -2870,12 +2967,13 @@
         alert("備份模組未載入，請強制重新整理頁面");
         return;
       }
+      if (!confirm("完整備份到本機（約 1–3 分鐘）\n\n會讀 CLI＋MSP，並下載檔案。\n請關閉 Configurator／先停即時監控。\n繼續？")) return;
       el.full.disabled = true;
       el.usb.disabled = true;
-      setStatus("開始完整備份（可能需要 1–3 分鐘）…");
+      beginBusy("開始完整備份（可能需要 1–3 分鐘）…");
       try {
-        var backup = await FcFullBackup.run(setStatus);
-        await FcFullBackup.saveLocal(backup, setStatus);
+        var backup = await FcFullBackup.run(function (m) { setStatus(m, false, "busy"); });
+        await FcFullBackup.saveLocal(backup, function (m) { setStatus(m, false, "busy"); });
 
         var dump = (backup.cli && (backup.cli["dump all"] || backup.cli["diff all"])) || "";
         if (dump && countSets(dump) >= 3) {
@@ -2886,15 +2984,16 @@
         var bbMsg = backup.blackbox && backup.blackbox.bytes
           ? ("；黑盒子 " + backup.blackbox.bytes + " bytes 已下載")
           : (backup.blackbox && backup.blackbox.note ? "；" + backup.blackbox.note : "");
-        setStatus(
+        var doneMsg =
           "完整備份完成：CLI " + (backup.meta.cliCommands || 0) +
           " 項、MSP 成功 " + (backup.meta.mspOk || 0) + " 項" + bbMsg +
-          "。已存本機" + (cloudMsg ? "；" + cloudMsg : "。")
-        );
+          "。已存本機" + (cloudMsg ? "；" + cloudMsg : "。");
+        endBusy(doneMsg, false);
         await refreshBackupList();
+        alert("備份成功\n\n" + doneMsg);
       } catch (err) {
         var msg = usbErrorMessage(err);
-        setStatus("完整備份失敗：" + msg, true);
+        endBusy("完整備份失敗：" + msg, true);
         alert("完整備份失敗\n\n" + msg + "\n\n請關閉 Configurator 後重試。SD 卡黑盒子需另外用讀卡機／官方工具。");
       } finally {
         el.full.disabled = false;
