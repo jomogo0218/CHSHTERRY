@@ -483,6 +483,69 @@
 .az-led-edit-panel .preview {
   width: 100%; height: 36px; border-radius: 8px; border: 1px solid var(--az-line);
 }
+.az-soccer-led {
+  background: #fff; border: 1px solid var(--az-line); border-radius: 12px;
+  padding: 16px; margin: 0 0 16px;
+}
+.az-soccer-led h4 { margin: 0 0 6px; font-size: 1.05rem; }
+.az-soccer-led .lead-mini {
+  margin: 0 0 14px; font-size: 13px; color: var(--az-mute); line-height: 1.45;
+}
+.az-soccer-grid {
+  display: grid; gap: 14px;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 860px) {
+  .az-soccer-grid { grid-template-columns: 1.1fr 1fr; align-items: start; }
+}
+.az-soccer-craft {
+  position: relative; width: 100%; max-width: 320px; margin: 0 auto;
+  aspect-ratio: 1; border-radius: 50%;
+  background: radial-gradient(circle at 50% 45%, #1e293b, #0f172a 70%);
+  border: 2px solid #334155;
+}
+.az-soccer-craft .ring-dot, .az-soccer-craft .tail-dot {
+  position: absolute; width: 14px; height: 14px; margin: -7px 0 0 -7px;
+  border-radius: 50%; border: 1px solid rgba(255,255,255,.35);
+  box-shadow: 0 0 0 2px rgba(0,0,0,.25);
+}
+.az-soccer-craft .tail-bar {
+  position: absolute; left: 50%; bottom: 6%; transform: translateX(-50%);
+  display: flex; gap: 5px; padding: 6px 8px; border-radius: 8px;
+  background: rgba(15,23,42,.55);
+}
+.az-soccer-craft .tail-bar i {
+  width: 12px; height: 12px; border-radius: 3px; border: 1px solid rgba(255,255,255,.3);
+}
+.az-soccer-craft .label-ring, .az-soccer-craft .label-tail {
+  position: absolute; font-size: 11px; font-weight: 700; color: #94a3b8;
+  font-family: var(--font-ui);
+}
+.az-soccer-craft .label-ring { left: 50%; top: 42%; transform: translate(-50%, -50%); text-align: center; }
+.az-soccer-craft .label-tail { left: 50%; bottom: 18%; transform: translateX(-50%); }
+.az-stick-panel {
+  border: 1px solid var(--az-line); border-radius: 10px; padding: 12px; margin: 0 0 10px;
+  background: #f7fafc;
+}
+.az-stick-panel .hp {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin: 0 0 8px;
+  font-size: 13px; font-weight: 800;
+}
+.az-stick-panel .hp small { font-weight: 650; color: var(--az-mute); }
+.az-pos-row { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 10px; }
+.az-pos-row button {
+  appearance: none; cursor: pointer; border: 1px solid var(--az-line); background: #fff;
+  border-radius: 8px; padding: 7px 10px; font: inherit; font-size: 12.5px; font-weight: 700;
+  color: var(--az-mute);
+}
+.az-pos-row button.on { background: var(--az-accent); border-color: var(--az-accent); color: #fff; }
+.az-color-presets { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 8px; }
+.az-color-presets button {
+  width: 28px; height: 28px; border-radius: 8px; border: 2px solid #fff;
+  box-shadow: 0 0 0 1px var(--az-line); cursor: pointer; padding: 0;
+}
+.az-color-presets button.on { box-shadow: 0 0 0 2px var(--az-accent); }
+.az-soccer-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
 .az-section-block {
   margin: 0 0 14px; padding: 0 0 14px;
   border-bottom: 1px solid var(--az-line);
@@ -1032,6 +1095,32 @@
     sourceLabel: ""
   };
 
+  // 足球機 22 燈：環 16 + 尾 6；雙撥桿（AUX）各控一組
+  // BF HSV：S=0 最鮮豔
+  var SOCCER_PRESETS = [
+    { id: "red", name: "紅", h: 0, s: 0, v: 255, css: "#e11d48" },
+    { id: "blue", name: "藍", h: 240, s: 0, v: 255, css: "#2563eb" },
+    { id: "yellow", name: "黃", h: 60, s: 0, v: 255, css: "#eab308" },
+    { id: "cyan", name: "青", h: 180, s: 0, v: 255, css: "#06b6d4" },
+    { id: "green", name: "綠", h: 120, s: 0, v: 255, css: "#16a34a" },
+    { id: "orange", name: "橙", h: 30, s: 0, v: 255, css: "#f97316" },
+    { id: "magenta", name: "紫紅", h: 300, s: 0, v: 255, css: "#d946ef" },
+    { id: "white", name: "白", h: 0, s: 255, v: 255, css: "#f8fafc" }
+  ];
+  var soccerLed = {
+    auxRing: 1,   // AUX2（CH6）— 0=AUX1
+    auxTail: 2,   // AUX3（CH7）
+    ringPos: 0,   // 撥桿位置 0=低 1=高
+    tailPos: 0,
+    ring: [SOCCER_PRESETS[0], SOCCER_PRESETS[1]],   // 低／高
+    tail: [SOCCER_PRESETS[2], SOCCER_PRESETS[3]],
+    followRc: true,
+    autoHotWrite: false, // USB 連線時 AUX 變動 → MSP 熱寫色（飛行中請用遙控 Lua）
+    hotWriting: false,
+    lastHotKey: "",
+    brightness: 40
+  };
+
   function cloneLedState(src) {
     var s = {
       colors: [],
@@ -1369,31 +1458,368 @@
     }
   }
 
-  function renderLedTab() {
-    var html = '<div class="az-guide"><div class="tagline">LED Strip · 可寫回</div><h4>自由設定 LED 顏色</h4>' +
-      "<p>1. 即時監控連線飛控並讀取 LED　2. 點色盤改 HSV，點燈珠套色　3.「寫入飛控」或「寫入並 save」。</p>" +
-      "<p>也可「複製 CLI」貼到 Betaflight Configurator。</p></div>";
+  function soccerCss(p) {
+    return "hsl(" + p.h + " " + (p.s > 200 ? 8 : 92) + "% " + Math.round((p.v / 255) * 52 + 28) + "%)";
+  }
 
-    if (!ledEdit.state) {
-      if (live.led && (live.led.leds.length || live.led.colors.length)) {
-        ledEdit.state = cloneLedState(live.led);
-        ledEdit.sourceLabel = "飛控即時";
-      } else if (configs.length) {
-        for (var i = 0; i < configs.length; i++) {
-          var parsed = parseLedFromText(configs[i].content);
-          if (parsed.leds.length || parsed.colors.length) {
-            ledEdit.state = cloneLedState(parsed);
-            ledEdit.sourceLabel = configs[i].name;
-            break;
-          }
-        }
+  function buildSoccerLayout(ringColorIdx, tailColorIdx) {
+    var leds = [];
+    var cx = 7;
+    var cy = 6;
+    var r = 5;
+    for (var i = 0; i < 16; i++) {
+      var ang = (Math.PI * 2 * i) / 16 - Math.PI / 2;
+      var x = Math.round(cx + Math.cos(ang) * r);
+      var y = Math.round(cy + Math.sin(ang) * r);
+      if (x < 0) x = 0;
+      if (x > 15) x = 15;
+      if (y < 0) y = 0;
+      if (y > 15) y = 15;
+      leds.push({ i: i, x: x, y: y, dir: "", func: "CW", color: ringColorIdx, raw: null });
+    }
+    var tailXs = [5, 6, 7, 8, 9, 10];
+    for (var t = 0; t < 6; t++) {
+      leds.push({ i: 16 + t, x: tailXs[t], y: 14, dir: "S", func: "C", color: tailColorIdx, raw: null });
+    }
+    return leds;
+  }
+
+  function buildSoccerLedState() {
+    // 環燈固定色號 1、尾燈固定色號 3 → 飛行中只需 MSP 改這兩格 HSV，不必重寫 22 顆 led
+    var ring = soccerLed.ring[soccerLed.ringPos] || soccerLed.ring[0];
+    var tail = soccerLed.tail[soccerLed.tailPos] || soccerLed.tail[0];
+    var ringLo = soccerLed.ring[0] || ring;
+    var ringHi = soccerLed.ring[1] || ring;
+    var tailLo = soccerLed.tail[0] || tail;
+    var tailHi = soccerLed.tail[1] || tail;
+    var colors = [];
+    for (var i = 0; i < 16; i++) colors.push({ i: i, h: 0, s: 255, v: 0 });
+    colors[0] = { i: 0, h: 0, s: 255, v: 0 };
+    colors[1] = { i: 1, h: ring.h, s: ring.s, v: ring.v };
+    colors[2] = { i: 2, h: ringHi.h, s: ringHi.s, v: ringHi.v }; // 備註用（高位預覽）
+    colors[3] = { i: 3, h: tail.h, s: tail.s, v: tail.v };
+    colors[4] = { i: 4, h: tailHi.h, s: tailHi.s, v: tailHi.v };
+    // 順便把「未選」那一檔也寫進備註槽，方便 CLI 對照
+    if (soccerLed.ringPos === 0) colors[2] = { i: 2, h: ringHi.h, s: ringHi.s, v: ringHi.v };
+    else colors[2] = { i: 2, h: ringLo.h, s: ringLo.s, v: ringLo.v };
+    if (soccerLed.tailPos === 0) colors[4] = { i: 4, h: tailHi.h, s: tailHi.s, v: tailHi.v };
+    else colors[4] = { i: 4, h: tailLo.h, s: tailLo.s, v: tailLo.v };
+    return {
+      colors: colors,
+      leds: buildSoccerLayout(1, 3),
+      modes: []
+    };
+  }
+
+  /** USB 連線時：只熱寫色盤（環色1／尾色3），讓雙 AUX 即時生效 */
+  async function soccerHotWriteColors() {
+    if (!soccerLed.autoHotWrite || !live.session || soccerLed.hotWriting) return;
+    var key = soccerLed.ringPos + ":" + soccerLed.tailPos + ":" +
+      (soccerLed.ring[0] && soccerLed.ring[0].id) + (soccerLed.ring[1] && soccerLed.ring[1].id) +
+      (soccerLed.tail[0] && soccerLed.tail[0].id) + (soccerLed.tail[1] && soccerLed.tail[1].id);
+    if (key === soccerLed.lastHotKey) return;
+    soccerLed.hotWriting = true;
+    try {
+      soccerApplyToEditor();
+      await FcFullBackup.writeLedColors(live.session, ledEdit.state.colors);
+      soccerLed.lastHotKey = key;
+      var msg = document.getElementById("soccerLedMsg");
+      if (msg) {
+        msg.textContent = "熱寫已套用 · 環" + (soccerLed.ringPos ? "高" : "低") +
+          "／尾" + (soccerLed.tailPos ? "高" : "低") + "（僅記憶體；要永久請 save）";
       }
-      if (!ledEdit.state) {
-        ledEdit.state = cloneLedState({ leds: [], colors: [] });
-        ledEdit.sourceLabel = "空白色盤（請先連線讀取燈位）";
-      }
+    } catch (err) {
+      var msg2 = document.getElementById("soccerLedMsg");
+      if (msg2) msg2.textContent = "熱寫失敗：" + (err.message || err);
+    } finally {
+      soccerLed.hotWriting = false;
+    }
+  }
+
+  function soccerApplyToEditor() {
+    ledEdit.state = cloneLedState(buildSoccerLedState());
+    ledEdit.sourceLabel = "足球雙撥桿 · 環" + (soccerLed.ringPos ? "高" : "低") + "／尾" + (soccerLed.tailPos ? "高" : "低");
+    ledEdit.selectedColor = soccerLed.ringPos === 0 ? 1 : 2;
+  }
+
+  function soccerSyncFromRc() {
+    if (!soccerLed.followRc || !live.rc || live.rc.length < 6) return false;
+    var ringCh = 4 + (soccerLed.auxRing | 0); // AUX1 = index 4
+    var tailCh = 4 + (soccerLed.auxTail | 0);
+    var rv = live.rc[ringCh];
+    var tv = live.rc[tailCh];
+    var changed = false;
+    if (rv != null) {
+      var rp = rv >= 1500 ? 1 : 0;
+      if (rp !== soccerLed.ringPos) { soccerLed.ringPos = rp; changed = true; }
+    }
+    if (tv != null) {
+      var tp = tv >= 1500 ? 1 : 0;
+      if (tp !== soccerLed.tailPos) { soccerLed.tailPos = tp; changed = true; }
+    }
+    return changed;
+  }
+
+  function soccerCliText() {
+    var state = buildSoccerLedState();
+    var ringAuxName = "AUX" + ((soccerLed.auxRing | 0) + 1);
+    var tailAuxName = "AUX" + ((soccerLed.auxTail | 0) + 1);
+    var lines = [];
+    lines.push("# 嘉華足球機 · 22 LED（環16＋尾6）雙撥桿設定");
+    lines.push("# 環燈 ← " + ringAuxName + "　尾燈 ← " + tailAuxName);
+    lines.push("# 低位(<1500)／高位(≥1500) 各一色；寫入前請用工作台選好撥桿位置");
+    lines.push("feature LED_STRIP");
+    lines.push("set ledstrip_brightness = " + (soccerLed.brightness || 40));
+    lines.push("set ledstrip_visual_beeper = ON");
+    lines.push("");
+    state.colors.forEach(function (c) {
+      if (c.i <= 4) lines.push("color " + c.i + " " + c.h + "," + c.s + "," + c.v);
+    });
+    lines.push("");
+    state.leds.forEach(function (L) {
+      var dir = L.dir || "";
+      lines.push("led " + L.i + " " + L.x + "," + L.y + ":" + dir + ":" + (L.func || "C") + ":" + L.color);
+    });
+    lines.push("");
+    lines.push("# —— 飛行中雙 AUX 獨立改色（可改「我們的代碼」，不是改 BF 原廠）——");
+    lines.push("# 原廠 BF：單一路 LED，Modes 無法讓兩個 AUX 各改一組燈珠。");
+    lines.push("# 解法：環固定 color 1、尾固定 color 3；AUX 變動時用 MSP 只改這兩格 HSV。");
+    lines.push("#   A) USB＋本頁「AUX 變動自動熱寫」");
+    lines.push("#   B) 遙控 EdgeTX 腳本 assets/soccer-led-dual-aux.lua（ELRS／CRSF MSP）");
+    lines.push("# 建議通道：ARM＝AUX1；環＝" + ringAuxName + "；尾＝" + tailAuxName);
+    lines.push("save");
+    return lines.join("\n");
+  }
+
+  function renderSoccerLedPanel() {
+    var ring = soccerLed.ring[soccerLed.ringPos];
+    var tail = soccerLed.tail[soccerLed.tailPos];
+    var dots = "";
+    for (var i = 0; i < 16; i++) {
+      var ang = (Math.PI * 2 * i) / 16 - Math.PI / 2;
+      var left = 50 + Math.cos(ang) * 38;
+      var top = 48 + Math.sin(ang) * 38;
+      dots += '<span class="ring-dot" style="left:' + left + "%;top:" + top + "%;background:" + soccerCss(ring) + '" title="環燈 ' + (i + 1) + '"></span>';
+    }
+    var tails = "";
+    for (var t = 0; t < 6; t++) {
+      tails += '<i style="background:' + soccerCss(tail) + '" title="尾燈 ' + (t + 1) + '"></i>';
+    }
+    function presetBtns(group, pos) {
+      var cur = soccerLed[group][pos];
+      return SOCCER_PRESETS.map(function (p) {
+        var on = cur && cur.h === p.h && cur.s === p.s && cur.v === p.v ? " on" : "";
+        return '<button type="button" class="' + on + '" data-soccer-preset="' + group + "-" + pos + "-" + p.id + '" style="background:' + p.css + '" title="' + p.name + '"></button>';
+      }).join("");
+    }
+    function posBtns(group) {
+      var pos = soccerLed[group === "ring" ? "ringPos" : "tailPos"];
+      return (
+        '<div class="az-pos-row">' +
+          '<button type="button" class="' + (pos === 0 ? "on" : "") + '" data-soccer-pos="' + group + '-0">撥桿低位</button>' +
+          '<button type="button" class="' + (pos === 1 ? "on" : "") + '" data-soccer-pos="' + group + '-1">撥桿高位</button>' +
+        "</div>"
+      );
+    }
+    var auxOpts = [0, 1, 2, 3].map(function (n) {
+      return { v: n, lab: "AUX" + (n + 1) + "（CH" + (n + 5) + "）" };
+    });
+    function auxSelect(id, val) {
+      return (
+        '<select id="' + id + '">' +
+        auxOpts.map(function (o) {
+          return '<option value="' + o.v + '"' + (val === o.v ? " selected" : "") + ">" + o.lab + "</option>";
+        }).join("") +
+        "</select>"
+      );
+    }
+    return (
+      '<div class="az-soccer-led" id="soccerLedPanel">' +
+        "<h4>足球機 · 雙撥桿 LED（22 顆）</h4>" +
+        '<p class="lead-mini">環燈 16 ← 一撥桿　｜　尾燈 6 ← 另一撥桿。燈珠固定色號環=1／尾=3；改色＝MSP 熱寫 HSV。USB 可開「自動熱寫」；飛行中請用 EdgeTX 腳本 <code>soccer-led-dual-aux.lua</code>。</p>' +
+        '<div class="az-soccer-grid">' +
+          '<div>' +
+            '<div class="az-soccer-craft" aria-hidden="true">' +
+              dots +
+              '<div class="label-ring">環燈 16<br><span style="color:' + soccerCss(ring) + '">●</span></div>' +
+              '<div class="label-tail">尾燈 6</div>' +
+              '<div class="tail-bar">' + tails + "</div>" +
+            "</div>" +
+          "</div>" +
+          "<div>" +
+            '<div class="az-stick-panel">' +
+              '<div class="hp">環燈撥桿<small>控制 0–15</small></div>' +
+              '<label class="az-field" style="margin:0 0 8px"><span style="text-transform:none;letter-spacing:0">通道</span>' + auxSelect("soccerAuxRing", soccerLed.auxRing) + "</label>" +
+              posBtns("ring") +
+              '<div style="font-size:12px;font-weight:700;color:var(--az-mute);margin:0 0 6px">低位顏色</div>' +
+              '<div class="az-color-presets">' + presetBtns("ring", 0) + "</div>" +
+              '<div style="font-size:12px;font-weight:700;color:var(--az-mute);margin:0 0 6px">高位顏色</div>' +
+              '<div class="az-color-presets">' + presetBtns("ring", 1) + "</div>" +
+            "</div>" +
+            '<div class="az-stick-panel">' +
+              '<div class="hp">尾燈撥桿<small>控制 16–21</small></div>' +
+              '<label class="az-field" style="margin:0 0 8px"><span style="text-transform:none;letter-spacing:0">通道</span>' + auxSelect("soccerAuxTail", soccerLed.auxTail) + "</label>" +
+              posBtns("tail") +
+              '<div style="font-size:12px;font-weight:700;color:var(--az-mute);margin:0 0 6px">低位顏色（一般識別）</div>' +
+              '<div class="az-color-presets">' + presetBtns("tail", 0) + "</div>" +
+              '<div style="font-size:12px;font-weight:700;color:var(--az-mute);margin:0 0 6px">高位顏色（射手＝對方隊色）</div>' +
+              '<div class="az-color-presets">' + presetBtns("tail", 1) + "</div>" +
+            "</div>" +
+            '<div class="az-btnrow" style="margin:0 0 8px">' +
+              '<button type="button" class="az-btn" data-soccer-quick="team-red">紅隊預設</button>' +
+              '<button type="button" class="az-btn" data-soccer-quick="team-blue">藍隊預設</button>' +
+              '<button type="button" class="az-btn" data-soccer-quick="striker">射手尾燈</button>' +
+            "</div>" +
+            '<label class="az-switch"><input type="checkbox" id="soccerFollowRc"' + (soccerLed.followRc ? " checked" : "") + " /><span>跟隨遙控 AUX 預覽撥桿位置</span></label>" +
+            '<label class="az-switch"><input type="checkbox" id="soccerAutoHot"' + (soccerLed.autoHotWrite ? " checked" : "") + " /><span>USB 連線時 AUX 變動自動熱寫色（雙 AUX 即時獨立）</span></label>" +
+            '<div class="az-soccer-actions">' +
+              '<button type="button" class="az-btn main" id="btnSoccerApply">套用到編輯區</button>' +
+              '<button type="button" class="az-btn main" id="btnSoccerWrite">寫入飛控（目前撥桿色）</button>' +
+              '<button type="button" class="az-btn" id="btnSoccerWriteSave">寫入並 save</button>' +
+              '<button type="button" class="az-btn" id="btnSoccerCli">複製 CLI</button>' +
+              '<a class="az-btn" href="assets/soccer-led-dual-aux.lua" download>下載飛行腳本 Lua</a>' +
+            "</div>" +
+            '<p class="az-live-note" id="soccerLedMsg">環燈 CW（隊色＋低壓紅閃）、尾燈 C。原廠 BF 不能雙 AUX 熱切；我們用 MSP 熱寫 color1／color3 繞過——USB 勾自動熱寫，或遙控裝 Lua。</p>' +
+          "</div>" +
+        "</div>" +
+      "</div>"
+    );
+  }
+
+  function bindSoccerLedPanel() {
+    var root = document.getElementById("soccerLedPanel");
+    if (!root) return;
+
+    function refresh() {
+      soccerApplyToEditor();
+      render();
     }
 
+    var ar = document.getElementById("soccerAuxRing");
+    var at = document.getElementById("soccerAuxTail");
+    if (ar) ar.onchange = function () { soccerLed.auxRing = Number(ar.value); };
+    if (at) at.onchange = function () { soccerLed.auxTail = Number(at.value); };
+    var fol = document.getElementById("soccerFollowRc");
+    if (fol) fol.onchange = function () { soccerLed.followRc = !!fol.checked; };
+    var ah = document.getElementById("soccerAutoHot");
+    if (ah) ah.onchange = function () {
+      soccerLed.autoHotWrite = !!ah.checked;
+      soccerLed.lastHotKey = "";
+      if (soccerLed.autoHotWrite) soccerHotWriteColors();
+    };
+
+    root.onclick = function (e) {
+      var pos = e.target.closest("[data-soccer-pos]");
+      if (pos) {
+        var p = pos.getAttribute("data-soccer-pos").split("-");
+        if (p[0] === "ring") soccerLed.ringPos = Number(p[1]);
+        if (p[0] === "tail") soccerLed.tailPos = Number(p[1]);
+        refresh();
+        return;
+      }
+      var pr = e.target.closest("[data-soccer-preset]");
+      if (pr) {
+        var parts = pr.getAttribute("data-soccer-preset").split("-");
+        var group = parts[0];
+        var idx = Number(parts[1]);
+        var id = parts.slice(2).join("-");
+        var preset = null;
+        for (var i = 0; i < SOCCER_PRESETS.length; i++) {
+          if (SOCCER_PRESETS[i].id === id) { preset = SOCCER_PRESETS[i]; break; }
+        }
+        if (preset && soccerLed[group]) {
+          soccerLed[group][idx] = { id: preset.id, name: preset.name, h: preset.h, s: preset.s, v: preset.v, css: preset.css };
+          refresh();
+        }
+        return;
+      }
+      var q = e.target.closest("[data-soccer-quick]");
+      if (q) {
+        var key = q.getAttribute("data-soccer-quick");
+        if (key === "team-red") {
+          soccerLed.ring = [SOCCER_PRESETS[0], SOCCER_PRESETS[0]];
+          soccerLed.tail = [SOCCER_PRESETS[2], SOCCER_PRESETS[1]]; // 黃識別／藍射手
+          soccerLed.ringPos = 0; soccerLed.tailPos = 0;
+        } else if (key === "team-blue") {
+          soccerLed.ring = [SOCCER_PRESETS[1], SOCCER_PRESETS[1]];
+          soccerLed.tail = [SOCCER_PRESETS[2], SOCCER_PRESETS[0]]; // 黃識別／紅射手
+          soccerLed.ringPos = 0; soccerLed.tailPos = 0;
+        } else if (key === "striker") {
+          soccerLed.tailPos = 1;
+        }
+        refresh();
+      }
+    };
+
+    var msg = document.getElementById("soccerLedMsg");
+    var btnA = document.getElementById("btnSoccerApply");
+    if (btnA) btnA.onclick = function () {
+      soccerApplyToEditor();
+      if (msg) msg.textContent = "已套用到下方編輯區（" + ledEdit.sourceLabel + "）";
+      render();
+    };
+
+    async function soccerWrite(withSave) {
+      soccerApplyToEditor();
+      if (!live.session) {
+        alert("請先到「即時監控」連線飛控，再寫入 LED。");
+        return;
+      }
+      if (!confirm(withSave ? "寫入 22 燈並 save（會重開機）？" : "寫入目前雙撥桿顏色到飛控？")) return;
+      if (msg) msg.textContent = "寫入中…";
+      try {
+        var wasLive = live.running;
+        if (wasLive && live.timer) { clearInterval(live.timer); live.timer = null; }
+        await FcFullBackup.writeLedToFc(live.session, ledEdit.state, !!withSave);
+        // 亮度
+        try {
+          await live.session.enterCli();
+          await live.session.cliCommand("set ledstrip_brightness = " + (soccerLed.brightness || 40), 3000);
+          await live.session.cliCommand("set ledstrip_visual_beeper = ON", 2000);
+          if (withSave) await live.session.cliCommand("save", 8000);
+          else await live.session.writeText("exit noreboot\r\n");
+        } catch (eCli) {}
+        live.led = cloneLedState(ledEdit.state);
+        if (msg) msg.textContent = withSave ? "已寫入並 save。請重連即時監控。" : "已寫入飛控（記憶體）。要永久保存請再按 save。";
+        if (withSave) {
+          live.running = false;
+          live.session = null;
+        } else if (wasLive) {
+          live.timer = setInterval(function () { liveTick(); }, 120);
+        }
+        render();
+      } catch (err) {
+        if (msg) msg.textContent = "寫入失敗：" + (err.message || err);
+        alert("寫入失敗：\n" + (err.message || err));
+      }
+    }
+    var bW = document.getElementById("btnSoccerWrite");
+    var bS = document.getElementById("btnSoccerWriteSave");
+    var bC = document.getElementById("btnSoccerCli");
+    if (bW) bW.onclick = function () { soccerWrite(false); };
+    if (bS) bS.onclick = function () { soccerWrite(true); };
+    if (bC) {
+      bC.onclick = function () {
+        var cli = soccerCliText();
+        navigator.clipboard.writeText(cli).then(function () {
+          if (msg) msg.textContent = "CLI 已複製（含 22 燈＋雙撥桿說明）";
+        }).catch(function () { prompt("CLI：", cli); });
+      };
+    }
+  }
+
+  function renderLedTab() {
+    soccerSyncFromRc();
+    var html = '<div class="az-guide"><div class="tagline">LED Strip · 足球機 22 燈</div><h4>環燈 16 ＋ 尾燈 6 · 雙撥桿</h4>' +
+      "<p>上方專用工作台：一個 AUX 控環燈、一個 AUX 控尾燈。下方仍可微調色盤／單顆燈珠。</p></div>";
+
+    html += renderSoccerLedPanel();
+
+    if (!ledEdit.state || !(ledEdit.state.leds && ledEdit.state.leds.length)) {
+      soccerApplyToEditor();
+    }
+
+    html += '<div class="az-live-section-title">進階微調</div>';
     html += renderLedEditorControls();
     html += renderLedVisual(ledEdit.state, "編輯中 · " + ledEdit.sourceLabel, true);
     return html;
@@ -1670,6 +2096,13 @@
         } catch (e1) {}
       }
       updateLiveDom();
+      // LED：跟隨 AUX 預覽；可選自動 MSP 熱寫（雙 AUX 即時獨立）
+      if (tab === "led" && soccerLed.followRc && soccerSyncFromRc()) {
+        soccerApplyToEditor();
+        var panel = document.getElementById("soccerLedPanel");
+        if (panel) render();
+        if (soccerLed.autoHotWrite) soccerHotWriteColors();
+      }
     } catch (e) {
       var msg = document.getElementById("liveMsg");
       if (msg) msg.textContent = "讀取中斷：" + (e.message || e);
@@ -2050,6 +2483,7 @@
       } else {
         el.panel.innerHTML = renderLedTab();
         bindLedEditor();
+        bindSoccerLedPanel();
       }
       return;
     }

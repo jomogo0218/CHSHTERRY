@@ -94,6 +94,8 @@
     </div>
     <div class="toc-group">
       <span class="toc-group-label">接線</span>
+      <a href="#led-dual-aux">雙撥桿</a>
+      <a href="#led-dual-aux-code">可改代碼？</a>
       <a href="#led-wiring">一路 LED 解法</a>
       <a class="go" href="飛控硬體.html">飛控接線 →</a>
     </div>
@@ -201,6 +203,25 @@ save</pre>
     <li>若主辦要求旗帶，改掛到新射手機。</li>
   </ul>
 
+  <h2 id="led-dual-aux">雙撥桿設定（環 16 ＋ 尾 6）</h2>
+  <div class="note info">
+    <p>本隊燈鏈：<b>0–15 環燈</b>、<b>16–21 尾燈</b>（共 22）。環固定色號 <b>1</b>、尾固定色號 <b>3</b>；兩個 AUX 各選低／高位顏色。</p>
+    <p>請開 <a href="../betaflight-analyzer.html">配置分析 → LED</a> 的「足球機 · 雙撥桿 LED」：選通道、選顏色、寫入飛控。紅／藍隊與射手尾燈有一鍵預設。</p>
+  </div>
+
+  <h2 id="led-dual-aux-code">可以改代碼嗎？可以——改我們的，不是改 BF 原廠</h2>
+  <p>原廠 Betaflight：一般飛控<strong>一路 LED</strong>，Modes／LED Profile <strong>無法</strong>讓兩個 AUX 在飛行中各改一組燈珠。這不是網頁寫錯，是韌體設計。</p>
+  <p>我們的繞過方式（已寫進分析器＋遙控腳本）：</p>
+  <ol>
+    <li><b>賽前寫入結構</b>：環燈 <code>CW:1</code>、尾燈 <code>C:3</code>（22 顆 layout 一次即可）。</li>
+    <li><b>飛行中只改色盤</b>：AUX 變動 → <code>MSP_SET_LED_COLORS</code> 更新 color 1／3 的 HSV → 兩組燈即時獨立變色。</li>
+    <li><b>USB</b>：分析器勾「AUX 變動自動熱寫」。</li>
+    <li><b>空中</b>：遙控裝 <a href="../assets/soccer-led-dual-aux.lua" download>soccer-led-dual-aux.lua</a>（EdgeTX＋ELRS／CRSF），撥桿就送 MSP。</li>
+  </ol>
+  <div class="note" style="margin-top:8px">
+    <b>不建議：</b>改 Betaflight 韌體加「分組 AUX」（維護成本高）。有餘力再考慮雙路硬體。
+  </div>
+
   <h2 id="led-wiring">技術現實：一般飛控只有一路 LED</h2>
   <p>環／尾若並聯或整條同色，就無法同時有隊色＋識別色。解法由易到難：</p>
   <div class="wide">
@@ -209,14 +230,14 @@ save</pre>
     <tbody>
       <tr><td>1</td><td><b>專用射手機</b></td><td>1 台固定射手尾燈色；換射手＝換人／換機</td><td>全隊建議</td></tr>
       <tr><td>2</td><td><b>燈鏈分段</b></td><td>環＋尾串成一條 WS2812；燈珠編號分色（0–15 隊色、16–21 尾燈）</td><td>一路 LED</td></tr>
-      <tr><td>3</td><td><b>AUX／撥桿切色</b></td><td>預存一般／射手兩套，落地遙控切</td><td>timeout 換射手</td></tr>
-      <tr><td>4</td><td><b>尾燈硬體開關</b></td><td>飛控只驅環燈；尾燈獨立撥色</td><td>不會分段時</td></tr>
-      <tr><td>5</td><td><b>雙路輸出</b></td><td>少數板有 LED2 或外掛控制器</td><td>一般飛控沒有</td></tr>
+      <tr><td>3</td><td><b>MSP 雙 AUX 熱寫</b></td><td>分析器自動熱寫，或遙控 Lua 飛行中改 color 1／3</td><td>要空中獨立切色</td></tr>
+      <tr><td>4</td><td><b>落地再寫入</b></td><td>timeout 換射手：尾燈打高位再 USB／CLI 寫一次</td><td>無 Lua 時</td></tr>
+      <tr><td>5</td><td><b>尾燈硬體開關／雙路</b></td><td>外掛或少數板 LED2</td><td>一般飛控沒有</td></tr>
     </tbody>
   </table>
   </div>
   <div class="note" style="margin-top:12px">
-    <b>小隊建議：</b>檢錄 5 機至少 1 台射手機＋其餘分段燈色；有餘力再加 AUX 切色。
+    <b>小隊建議：</b>檢錄 5 機至少 1 台射手機＋其餘分段燈色；要空中雙 AUX 就裝 Lua。
     <a href="https://betaflight.com/docs/wiki/guides/current/LED-Strip-Functionality" target="_blank" rel="noopener">Betaflight LED Strip</a>
   </div>
 </main>
