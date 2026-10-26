@@ -759,10 +759,7 @@
           <button type="button" class="az-btn" id="btnUsb" title="只抓 dump 供右側比較">只讀 dump</button>
         </div>
         <p class="az-status" id="statusNear" aria-live="polite" hidden></p>
-        <label class="az-switch az-autobackup" id="autoBackupLabel">
-          <input type="checkbox" id="chkAutoBackup" />
-          <span>插上自動備份</span>
-        </label>
+        <p class="az-hint-mini">備份改為手動：需要時再按上方按鈕（不會插上就自動備份）。</p>
         <div class="az-loaded" id="backupWrap" hidden>
           <h3>本機備份</h3>
           <div id="backupList"></div>
@@ -1162,18 +1159,14 @@
     { key: "pitot", bit: 7, label: "空速", short: "PIT" }
   ];
 
-  var AUTO_BACKUP_KEY = "fc_auto_backup_on";
   var AUTO_LIVE_KEY = "fc_auto_live_on";
-  var autoBackup = {
-    enabled: false,
-    busy: false,
-    lastPortKey: "",
-    debounceTimer: null
-  };
+  var plugDebounceTimer = null;
   var autoLive = {
     enabled: true,
     connecting: false
   };
+  // 清除舊版「插上自動備份」偏好（已改為手動）
+  try { localStorage.removeItem("fc_auto_backup_on"); } catch (eClrBak) {}
 
   var DEFAULT_COLORS = [
     [0,0,0],[0,255,255],[0,0,255],[30,0,255],[60,0,255],[90,0,255],[120,0,255],[150,0,255],
@@ -2372,53 +2365,28 @@
     if (n > 0) {
       if (box) box.className = "az-auth-box ready";
       if (state) state.textContent = "已授權 · 本分頁開著即可背景自動（插上即連）";
-      if (hint) hint.innerHTML = "授權已完成。請保持此分頁開啟、關閉 Configurator。插上飛控會自動即時監控（傳感器／陀螺儀）。兩個勾都開時以即時監控優先，備份請用上方按鈕手動。";
+      if (hint) hint.innerHTML = "授權已完成。請保持此分頁開啟、關閉 Configurator。插上飛控會自動即時監控；備份請自行按「完整備份到本機」或「只讀 dump」。";
     } else {
       if (box) box.className = "az-auth-box need";
       if (state) state.textContent = "尚未授權 · 需點一次（瀏覽器安全限制）";
-      if (hint) hint.innerHTML = "Chrome／Edge 規定：序列埠<strong>第一次</strong>一定要手動點授權，無法在完全沒點過的情況下背景偷連。點過之後，本分頁開著就能插上全自動。";
+      if (hint) hint.innerHTML = "Chrome／Edge 規定：序列埠<strong>第一次</strong>一定要手動點授權。點過之後，本分頁開著就能插上自動即時監控；備份仍須手動按按鈕。";
     }
     return ports || [];
   }
 
   async function onFcPlugged(port) {
     if (!port) return;
-    if (autoBackup.busy || autoLive.connecting) return;
+    if (autoLive.connecting) return;
     // 延遲讓 USB 枚舉完成
     await new Promise(function (r) { setTimeout(r, 600); });
     refreshAuthUi();
 
-    // 兩個都勾時：優先即時監控（傳感器／陀螺要立刻有反應），不中斷去備份
+    // 插上只自動即時監控；備份一律手動按按鈕
     if (autoLive.enabled && !live.running) {
       try {
         await startLive(port);
-        if (autoBackup.enabled) {
-          setStatus("即時監控已自動啟動（備份請按「完整備份到本機」，避免搶埠口）");
-        }
-        return;
       } catch (err) {
         setStatus("自動即時監控失敗：" + usbErrorMessage(err), true);
-      }
-    }
-
-    if (autoBackup.enabled && !autoLive.enabled && window.FcFullBackup && !autoBackup.busy) {
-      autoBackup.busy = true;
-      beginBusy("偵測到飛控，自動完整備份中…");
-      try {
-        var backup = await FcFullBackup.runOnPort(port, function (m) { setStatus(m, false, "busy"); });
-        await FcFullBackup.saveLocal(backup, function (m) { setStatus(m, false, "busy"); });
-        var dump = (backup.cli && (backup.cli["dump all"] || backup.cli["diff all"])) || "";
-        if (dump && countSets(dump) >= 3) addConfig("自動備份 · " + backup.createdLocal, dump);
-        await maybeUploadCloud(backup);
-        var autoMsg = "自動備份完成 · " + (backup.createdLocal || "");
-        endBusy(autoMsg, false);
-        await refreshBackupList();
-        alert("自動備份成功\n\n" + autoMsg + "\nCLI " + (backup.meta.cliCommands || 0) + " 項、MSP " + (backup.meta.mspOk || 0) + " 項");
-      } catch (err) {
-        endBusy("自動備份失敗：" + usbErrorMessage(err), true);
-        alert("自動備份失敗\n\n" + usbErrorMessage(err));
-      } finally {
-        autoBackup.busy = false;
       }
     }
   }
@@ -2426,19 +2394,14 @@
   function setupPlugDetection() {
     if (!("serial" in navigator)) return;
     var chkLive = document.getElementById("chkAutoLive");
-    var chkBak = document.getElementById("chkAutoBackup");
     var labelLive = document.getElementById("autoLiveLabel");
-    var labelBak = document.getElementById("autoBackupLabel");
     var btnAuth = document.getElementById("btnAuthPort");
 
     try {
       autoLive.enabled = localStorage.getItem(AUTO_LIVE_KEY) !== "0";
-      autoBackup.enabled = localStorage.getItem(AUTO_BACKUP_KEY) === "1";
     } catch (e) {}
     if (chkLive) chkLive.checked = !!autoLive.enabled;
-    if (chkBak) chkBak.checked = !!autoBackup.enabled;
     if (labelLive) labelLive.classList.toggle("on", !!autoLive.enabled);
-    if (labelBak) labelBak.classList.toggle("on", !!autoBackup.enabled);
 
     if (chkLive) {
       chkLive.addEventListener("change", function () {
@@ -2447,21 +2410,11 @@
         if (labelLive) labelLive.classList.toggle("on", autoLive.enabled);
       });
     }
-    if (chkBak) {
-      chkBak.addEventListener("change", function () {
-        autoBackup.enabled = !!chkBak.checked;
-        try { localStorage.setItem(AUTO_BACKUP_KEY, autoBackup.enabled ? "1" : "0"); } catch (e) {}
-        if (labelBak) labelBak.classList.toggle("on", autoBackup.enabled);
-        if (autoBackup.enabled && autoLive.enabled) {
-          setStatus("兩個都開時以即時監控優先；備份請用「完整備份到本機」");
-        }
-      });
-    }
     if (btnAuth) {
       btnAuth.addEventListener("click", async function () {
         try {
           var port = await navigator.serial.requestPort();
-          setStatus("已授權。之後只要本分頁開著，插上即自動連線。");
+          setStatus("已授權。之後只要本分頁開著，插上即自動即時監控；備份請手動按按鈕。");
           await refreshAuthUi();
           await onFcPlugged(port);
         } catch (err) {
@@ -2472,8 +2425,8 @@
 
     navigator.serial.addEventListener("connect", function (ev) {
       var port = ev.port || ev.target;
-      if (autoBackup.debounceTimer) clearTimeout(autoBackup.debounceTimer);
-      autoBackup.debounceTimer = setTimeout(function () {
+      if (plugDebounceTimer) clearTimeout(plugDebounceTimer);
+      plugDebounceTimer = setTimeout(function () {
         onFcPlugged(port);
       }, 400);
     });
@@ -2485,9 +2438,9 @@
       refreshAuthUi();
     });
 
-    // 頁面開啟：已授權就顯示「背景自動」；若飛控已插上則立刻連
+    // 頁面開啟：若已授權且飛控已插上 → 自動即時監控
     refreshAuthUi().then(function (ports) {
-      if (ports && ports.length && (autoLive.enabled || autoBackup.enabled)) {
+      if (ports && ports.length && autoLive.enabled) {
         onFcPlugged(ports[0]);
       }
     });
